@@ -18,20 +18,19 @@
     /*<span class="text-blue-300 text-mono"> &#60;body&#62; </span>*/
     let avsnitt1 = [
         'I dette kurset skal vi lære de grunnleggende kunnskapene for å kunne lage vår egen nettside!',
-        'Lag en ny mappe i OneDrive-en din som du kaller "Webutvikling", som skal ligger i Basic-mappen. Åpne mappen i VSCode ved å klikke <span class="italic">file -> open folder</span>. ',
-        'Inne i VSCode lager vi først en ny fil ved å klikke file->new file. Du burde du få opp en tom fil:',
-        'Husk å skrive logg underveis i kurset. Noter deg ting du har lært, ting du lurer på, hvilke utfordringer du har hatt osv; og legg jevnlig inn skjermbilder fra både kode og nettside.',
+        'Husk å skrive logg underveis i kurset. Noter deg ting du har lært, ting du lurer på, hvilke utfordringer du har hatt osv; og legg jevnlig inn skjermbilder fra både kode og nettside. Alltid gøy (og nyttig) og se progresjonen sin!',
+        'Lag en ny mappe et fornuftig sted og gi den navnet "webutvikling". Åpne mappen i VSCode ved å klikke <span class="italic">file -> open folder</span>. ',
         'Inne i Visual Studio Code skal vi installere en liten plugin. Trykk på de knappen med de fire boksene i menyen på venstresiden. <img src="'+img1+'" /> ',
         'Deretter søker du på "Live Server" og installerer den øverste av søkeresultatene som burde se slik ut: <img src="'+img2+ '" />',
         'og voila! Vi er klare for å begynne å kode litt. ',
     ]
     let avsnitt2 = [
         'Inne i VSCode lager vi først en ny fil ved å klikke file->new file. Du burde du få opp en tom fil: <img src="' + img3 +' " />',
-        'Klikk cmd+s eller file->save for å lagre filen, og gi den navnet <span class="italic">index.html</span>. De fleste nettside-filer kan du kalle hva du vil, men forsiden din må alltid hete <span class="italic">index.html</span>. ',
+        'Klikk cmd+s (ctrl+s på windows) eller file->save for å lagre filen, og gi den navnet <span class="italic">index.html</span>. De fleste nettside-filer kan du kalle hva du vil, men forsiden din må alltid hete <span class="italic">index.html</span>. ',
         'For å komme litt raskt igang kan vi få hjelp av VSCode til å lage grunnstrukturen til HTML-filen vår. Lag et utropstegn og trykk <span class="italic">enter</span>. Da skal følgende kode dukke opp automagisk; eventuelt kan du bare kopiere den herfra. ',
         'Her var det mye rart på en gang! Det viktigste å legge merke til enn så lenge er at koden er delt opp i en <span class="italic">head</span> og en <span class="italic">body</span>. <span class="italic">head</span> innholder litt forskjellig metadata for nettsiden din, men <span class="italic">body</span> er hovedattraksjonen. Alt innhold som skal vises på nettsiden skal legges mellom <span class="text-blue-300 text-mono">&#60;body&#62;</span> og <span class="text-blue-300 text-mono">&#60;/body&#62;</span>.',
         'La oss prøve å legge til litt tekst i bodyen vår. Skriv <span class="text-blue-300 text-mono">&#60;p&#62;Hei, verden!&#60;/p&#62;</span> mellom body-tagene. <span class="italic">p</span> står for paragraph og forteller nettleseren at vi skal legge inn vanlig tekst.',
-        'For å se hvordan nettsiden blir seende ut, klikker du på Go Live her nede til høyre i VSCode. <img src="' + img6 + '" />',
+        'For å se hvordan nettsiden blir seende ut, klikker du på Go Live nede til høyre i VSCode. <img src="' + img6 + '" />',
         'Da åpner nettleseren seg og viser oss hvordan nettsiden egentlig ser ut. <img src="' + img7 + '" />',
         'Wow! Gratulerer med å ha laget din første nettside! Den er ikke så veldig innholdsrik enda, så la oss se litt nærmere på hvordan vi kan legge til litt mer innhold.'
     ]
@@ -41,19 +40,19 @@
         'Selv om vi stort sett kommer til å skrive all koden vår i <span class="italic">body</span>, så er det enkelt ting vi gjør i <span class="italic">head</span>, f.eks. å bestemme teksten som skal stå på fanen til nettsiden i browseren din. Det gjør vi med <span class="text-blue-300 text-mono"> &#60;title&#62; </span> tag`n. Prøv å endre tittelen på siden din til f.eks. <span class="text-blue-300 text-mono"> &#60;title&#62; Min første nettside &#60;&#47;title&#62; </span> og observer at teksten i fanen endrer seg. <img src="' + img8 + '" />', 
         'La oss gå tilbake til <span class="text-blue-300 text-mono"> &#60;body&#62; </span> for å legge inn litt mer innhold. I tillegg til å ha vanlig tekst med p-tagen, la oss lage en overskrift. ',
         'For å legge inn et bilde bruker vi <span class="italic">img</span> tag`n. Img er litt spesiell fordi man trenger ikke både start-tag og slutt-tag. La oss teste det med et stoisk bilde av Ned Stark. Merk at vi har lagt inn en <span class="italic">src</span> inne i img-tagen der vi setter URL-en til bildet.',
-        'Du kan endre størrelse på bilde ved å legge til en width-attributt og en height-attributt som sier gir bredde og høyde i antall piksler. ',
+        'Du kan endre størrelse på bilde ved å legge til en width-attributt og en height-attributt som bestemmer bredde og høyde på bildet i antall piksler. ',
         'Det finnes veldig mange html-tags man kan lære seg å bruke. Så på tide med en liten utforskningsoppgave!',
         '<a href="https://www.w3schools.com/html/default.asp"><span class="text-[#f81ce5]"> W3Schools</span></a> er en fin ressurs å bruke for å lære mer om HTML.'
     ]
     let avsnitt4 = [
         'Enn så lenge er ikke nettsiden vår veldig fargerik. For å å kunne gi nettsiden vår litt mer styling må vi innføre enda et markeringsspråk; CSS (Cascading Style Sheet). ',
-        'Lag en ny fil i prosjektet ditt i VSCode og gi den navnet <span class="italic">style.css</span>. Deretter kopierer du følgende linje med kode og limer inn i <span class="text-blue-300 text-mono"><head></span> delen av html-filen din: ',
+        'Lag en ny fil i prosjektet ditt i VSCode og gi den navnet <span class="italic">style.css</span>. Deretter kopierer du følgende linje med kode og limer inn i <span class="text-blue-300 text-mono">&#60;head&#62;</span> delen av html-filen din: ',
         'CSS har litt annen syntaks enn HTML. I CSS har ikke rekkefølgen i koden noe å si, og kodene skrives på en litt annen måte.',
         'CSS handler om å beskrive de HTML-elementene vi allerede har lagt inn på nettsiden. La oss ta utgangspunkt i at jeg har en p-tag med tekst som jeg ønsker å gi litt farge. Da skriver jeg følgende i CSS-filen min: ',
         'Hvis jeg også skal gi styling til overskriften min, starter jeg bare en ny linje i CSS-filen og skriver:',
         'Hvis du ikke har en p-tag eller en h1-tag i HTML-filen, vil ikke CSS-koden gjøre noe. Det er fordi CSS handler om å beskrive HTML-elementer. ',
         'Et annet eksempel på noe vi kan gjøre med CSS, er å endre bakgrunnsfargen på nettsiden sin. Da kan vi gi følgende styling til body-taggen vår: ',
-        'I tillegg til å skrive farger med navn, som f.eks. red eller blue, kan vi bruke hex-koder. Hex-koder er en måte å beskrive farger på som datamaskiner forstår. De består av 6 tegn, der de tre første beskriver hvor mye rødt det er i fargen, de to neste hvor mye grønt det er i fargen, og de to siste hvor mye blått det er i fargen. Hvis vi ønsker å lage en mørk bakgrunnsfarge kan vi f.eks. bruke #000000, som er en farge uten noe rødt, grønt eller blått i seg. Hvis vi ønsker en hvit bakgrunnsfarge kan vi bruke #ffffff, som er en farge med fullt rødt, grønt og blått. ',
+        'I tillegg til å skrive farger med navn, som f.eks. red eller blue, kan vi bruke hex-koder. Hex-koder er en måte å beskrive farger på som datamaskiner forstår. De består av 6 tegn, der de to første beskriver hvor mye rødt det er i fargen, de to neste hvor mye grønt det er i fargen, og de to siste hvor mye blått det er i fargen. Hvis vi ønsker å lage en mørk bakgrunnsfarge kan vi f.eks. bruke #000000, som er en farge uten noe rødt, grønt eller blått i seg. Hvis vi ønsker en hvit bakgrunnsfarge kan vi bruke #ffffff, som er en farge med fullt rødt, grønt og blått. ',
         ''
     ]
     let avsnitt5 = [
@@ -226,11 +225,10 @@
         </header>
         <section class="flex flex-col py-5">
             <Avsnitt text={avsnitt1[0]} />
-            
+            <Avsnitt text={avsnitt1[1]} />
         </section>
         <section id="sectionOne" class="py-10">
             <Overskrift text='Setup' />
-            <Avsnitt text={avsnitt1[1]} />
             <Avsnitt text={avsnitt1[2]} />
             <Avsnitt text={avsnitt1[3]} />
             <Avsnitt text={avsnitt1[4]} />
