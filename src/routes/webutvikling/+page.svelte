@@ -16,9 +16,11 @@
     let img7 = "https://webkurs.w3spaces.com/tut_img/hei_verden.PNG";
     let img8 = "https://webkurs.w3spaces.com/tut_img/title.png";
     /*<span class="text-blue-300 text-mono"> &#60;body&#62; </span>*/
-    let avsnitt1 = [
+    let avsnitt0 = [
         'I dette kurset skal vi lære de grunnleggende kunnskapene for å kunne lage vår egen nettside!',
-        'Husk å skrive logg underveis i kurset. Noter deg ting du har lært, ting du lurer på, hvilke utfordringer du har hatt osv; og legg jevnlig inn skjermbilder fra både kode og nettside. Alltid gøy (og nyttig) og se progresjonen sin!',
+        'Husk å skrive logg underveis i kurset. Noter deg ting du har lært, ting du lurer på, hvilke utfordringer du har hatt osv; og legg jevnlig inn skjermbilder fra både kode og nettside. Alltid gøy (og nyttig) og se progresjonen sin!'
+    ]
+    let avsnitt1 = [
         'Lag en ny mappe et fornuftig sted og gi den navnet "webutvikling". Åpne mappen i VSCode ved å klikke <span class="italic">file -> open folder</span>. ',
         'Inne i Visual Studio Code skal vi installere en liten plugin. Trykk på de knappen med de fire boksene i menyen på venstresiden. <img src="'+img1+'" /> ',
         'Deretter søker du på "Live Server" og installerer den øverste av søkeresultatene som burde se slik ut: <img src="'+img2+ '" />',
@@ -224,15 +226,15 @@
             <span class="font-mono text-fuchsia-200">©Sondre Stai 2023</span>
         </header>
         <section class="flex flex-col py-5">
-            <Avsnitt text={avsnitt1[0]} />
-            <Avsnitt text={avsnitt1[1]} />
+            <Avsnitt text={avsnitt0[0]} />
+            <Avsnitt text={avsnitt0[1]} />
         </section>
         <section id="sectionOne" class="py-10">
             <Overskrift text='Setup' />
+            <Avsnitt text={avsnitt1[0]} />
+            <Avsnitt text={avsnitt1[1]} />
             <Avsnitt text={avsnitt1[2]} />
             <Avsnitt text={avsnitt1[3]} />
-            <Avsnitt text={avsnitt1[4]} />
-            <Avsnitt text={avsnitt1[5]} />
         </section>
         <section id="sectionTwo" class="pb-10 py-10">
             <Overskrift text='Din første nettside' />
