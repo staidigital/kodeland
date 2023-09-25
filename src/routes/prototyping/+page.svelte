@@ -7,24 +7,34 @@
     import Definition from "$lib/components/definition.svelte";   
     import Task from "$lib/components/task.svelte"; 
     import TaskFormatted from "$lib/components/taskFormatted.svelte";
-    let img1 = "https://webkurs.w3spaces.com/tut_img/extensions_button.PNG";
-    let img2 = "https://webkurs.w3spaces.com/tut_img/live_server.png";
-    let img3 = "https://webkurs.w3spaces.com/tut_img/new_file.png";
+    let img1 = "https://prototypebilder.w3spaces.com/img/uxdesign.png";
+    let img2 = "https://prototypebilder.w3spaces.com/img/uidesign.png";
+    let img3 = "https://prototypebilder.w3spaces.com/img/lessismore.png";
     let img4 = "https://webkurs.w3spaces.com/tut_img/html_structure.PNG";
     let img5 = "https://webkurs.w3spaces.com/tut_img/first_paragraph.PNG";
     let img6 = "https://webkurs.w3spaces.com/tut_img/go_live2.PNG";
     let img7 = "https://webkurs.w3spaces.com/tut_img/hei_verden.PNG";
     let img8 = "https://webkurs.w3spaces.com/tut_img/title.png";
     /*<span class="text-blue-300 text-mono"> &#60;body&#62; </span>*/
+    let avsnitt0 = [
+        'I dette kurset skal vi lære de grunnleggende kunnskapene som er relevante når man designer en prototype av en nettside!',
+        'Husk å skrive logg underveis i kurset. Noter deg ting du har lært, ting du lurer på, hvilke utfordringer du har hatt osv; og legg jevnlig inn bilder av trådskissen og skjermbilder av Adobe XD-designet. Alltid gøy (og nyttig) og se progresjonen sin!',
+        ]   
+
     let avsnitt1 = [
-        'I dette kurset skal vi lære de grunnleggende kunnskapene for å kunne lage vår egen nettside!',
-        'Husk å skrive logg underveis i kurset. Noter deg ting du har lært, ting du lurer på, hvilke utfordringer du har hatt osv; og legg jevnlig inn skjermbilder fra både kode og nettside. Alltid gøy (og nyttig) og se progresjonen sin!',
-        'Lag en ny mappe et fornuftig sted og gi den navnet "webutvikling". Åpne mappen i VSCode ved å klikke <span class="italic">file -> open folder</span>. ',
-        'Inne i Visual Studio Code skal vi installere en liten plugin. Trykk på de knappen med de fire boksene i menyen på venstresiden. <img src="'+img1+'" /> ',
-        'Deretter søker du på "Live Server" og installerer den øverste av søkeresultatene som burde se slik ut: <img src="'+img2+ '" />',
-        'og voila! Vi er klare for å begynne å kode litt. ',
-    ]
+        'UX står for User Experience. En UX-designer bruker tid på å teste produktet til brukerne, finne løsninger som gjør produktet funksjonell og har som mål at brukeropplevelsen av produktet er så bra som mulig.',
+        
+        '<img src="' + img1 + '" />',
+        'UI står for User Interface. En UI-designer bruker tid på det visuelle aspektet av produktet. Alt av layout, typografi, designet på knappene, fargepalett er viktig. Med UI vil vi at designet av nettsiden skal være så intuitiv og stilrik at det blir enkelt for en bruker å navigere rundt, i tillegg til at den styrker merkevaret ved å være stilren og elegant.',
+        '<img src="' + img2 + '" />',
+        ]
     let avsnitt2 = [
+        'En prototype er den enkleste mulige utgaven av et produkt. Man lager prototyper for å kunne teste ideen mot brukere før man lager det faktiske produktet.',
+        'Alt av apper, software, teknologiske enheter og nettsider som du er på har gått gjennom en prototyp-prosess.',    
+        'Det viktigste å tenke på når man lager en prototype er <span class="italic">funksjonalitet</span> og simpel UI. ',
+        'Mange vil synes at det er fristende å begynne å designe en nettside med en gang, ved å gå rett inn i et design-verktøy. Andre vil kanskje gå direkte til programmeringen av nettsiden. I de aller fleste tilfeller anbefales det å først lage en trådskisse!',
+        'Tidsbesparing: For det første er det tidsbesparende å starte med trådskisse. Mange bruker lang tid på å designe en nettside på ',
+        'Fleksibilitet: ',
         'Inne i VSCode lager vi først en ny fil ved å klikke file->new file. Du burde du få opp en tom fil: <img src="' + img3 +' " />',
         'Klikk cmd+s (ctrl+s på windows) eller file->save for å lagre filen, og gi den navnet <span class="italic">index.html</span>. De fleste nettside-filer kan du kalle hva du vil, men forsiden din må alltid hete <span class="italic">index.html</span>. ',
         'For å komme litt raskt igang kan vi få hjelp av VSCode til å lage grunnstrukturen til HTML-filen vår. Lag et utropstegn og trykk <span class="italic">enter</span>. Da skal følgende kode dukke opp automagisk; eventuelt kan du bare kopiere den herfra. ',
@@ -208,9 +218,9 @@
         {/if}
         {#if menuOpen || screenSize > 1024}
         <div class="menu flex flex-col flex-start p-10 justify-between lg:fixed">
-            <Menulink text='Setup' link='#sectionOne' />
-            <Menulink text='Din første nettside' link='#sectionTwo' />
-            <Menulink text='HTML Basics' link='#sectionThree' />
+            <Menulink text='UI og UX' link='#sectionOne' />
+            <Menulink text='Prototyping' link='#sectionTwo' />
+            <Menulink text='Starte med Blyant og Papir' link='#sectionThree' />
             <Menulink text='CSS Basics' link='#sectionFour' />
             <Menulink text='Id og class' link='#sectionFive' />
             <Menulink text='Div-elementet' link='#sectionSix' />
@@ -224,18 +234,27 @@
             <span class="font-mono text-fuchsia-200">©Jens Berg-Jensen 2023</span>
         </header>
         <section class="flex flex-col py-5">
+            <Avsnitt text={avsnitt0[0]} />
+            <Avsnitt text={avsnitt0[1]} />
+        </section>
+        <section id="sectionOne" class="flex flex-col py-5">
+            <Overskrift text="UI og UX" />
             <Avsnitt text={avsnitt1[0]} />
             <Avsnitt text={avsnitt1[1]} />
-        </section>
-        <section id="sectionOne" class="py-10">
-            <Overskrift text='Setup' />
             <Avsnitt text={avsnitt1[2]} />
             <Avsnitt text={avsnitt1[3]} />
-            <Avsnitt text={avsnitt1[4]} />
-            <Avsnitt text={avsnitt1[5]} />
+
         </section>
-        <section id="sectionTwo" class="pb-10 py-10">
-            <Overskrift text='Din første nettside' />
+
+        <section id="sectionTwo" class="py-10">
+            <Overskrift text='Prototyping' />
+            <Avsnitt text={avsnitt2[0]} />
+            <Avsnitt text={avsnitt2[1]} />
+            <Avsnitt text={avsnitt2[2]} />
+            <Avsnitt text={avsnitt2[3]} />
+        </section>
+        <section id="sectionThree" class="pb-10 py-10">
+            <Overskrift text='Start med en blyant og et papir' />
             <Avsnitt text={avsnitt2[0]} />
             <Avsnitt text={avsnitt2[1]} />
             <Avsnitt text={avsnitt2[2]} />
@@ -247,7 +266,7 @@
             <Avsnitt text={avsnitt2[6]} />
             <Avsnitt text={avsnitt2[7]} />
         </section>
-        <section id="sectionThree" class="pb-10 py-10">
+        <section id="sectionFour" class="pb-10 py-10">
             <Overskrift text='HTML Basics' />
             <Avsnitt text={avsnitt3[0]} />
             <Avsnitt text={avsnitt3[1]} />
@@ -263,7 +282,7 @@
             <Task tasks={task1} description="Bruk Internett og egen testing for å finne ut av hva følgende html-tags gjør:" />
             <Avsnitt text={avsnitt3[7]} />
         </section>
-        <section id="sectionFour" class="pb-10 py-10">
+        <section id="sectionFive" class="pb-10 py-10">
             <Overskrift text='CSS Basics' />
             <Avsnitt text={avsnitt4[0]} />
             <Avsnitt text={avsnitt4[1]} />
@@ -280,7 +299,7 @@
             <Avsnitt text={avsnitt4[7]} />
             <Task description="Bruk Internett og egen testing for å finne ut av hva følgende css-properties gjør:" tasks={task2} />
         </section>
-        <section id="sectionFive" class="pb-10 py-10">
+        <section id="sectionSix" class="pb-10 py-10">
             <Overskrift text='Id og class' />
             <Avsnitt text={avsnitt5[0]} />
             <Avsnitt text={avsnitt5[1]} />
@@ -293,7 +312,7 @@
             <Avsnitt text={avsnitt5[5]} />
             <CodeSnippet code={code13} language="css" />
         </section>
-        <section id="sectionSix" class="pb-10 py-10">
+        <section id="sectionSeven" class="pb-10 py-10">
             <Overskrift text='Div-elementet' />
             <Avsnitt text={avsnitt6[0]} />
             <Avsnitt text={avsnitt6[1]} />
@@ -303,7 +322,7 @@
             <Avsnitt text={avsnitt6[3]} />
             <Avsnitt text={avsnitt6[4]} />
         </section>
-        <section id="sectionSeven" class="pb-10 py-10">
+        <section id="sectionEight" class="pb-10 py-10">
             <Overskrift text='Flexbox' />
             <Avsnitt text={avsnitt7[0]} />
             <div class="flex flex-row justify-evenly my-5">
