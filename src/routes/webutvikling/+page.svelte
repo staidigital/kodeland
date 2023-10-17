@@ -12,8 +12,6 @@
     let img3 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/new_file.png";
     let img4 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/html_structure.PNG";
     let img5 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/first_paragraph.PNG";
-    let img6 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/go_live2.PNG";
-    let img7 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/hei_verden.PNG";
     let img8 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/title.png";
     /*<span class="text-blue-300 text-mono"> &#60;body&#62; </span>*/
     let avsnitt0 = [
@@ -32,8 +30,8 @@
         'For å komme litt raskt igang kan vi få hjelp av VSCode til å lage grunnstrukturen til HTML-filen vår. Lag et utropstegn og trykk <span class="italic">enter</span>. Da skal følgende kode dukke opp automagisk; eventuelt kan du bare kopiere den herfra. ',
         'Her var det mye rart på en gang! Det viktigste å legge merke til enn så lenge er at koden er delt opp i en <span class="italic">head</span> og en <span class="italic">body</span>. <span class="italic">head</span> innholder litt forskjellig metadata for nettsiden din, men <span class="italic">body</span> er hovedattraksjonen. Alt innhold som skal vises på nettsiden skal legges mellom <span class="text-blue-300 text-mono">&#60;body&#62;</span> og <span class="text-blue-300 text-mono">&#60;/body&#62;</span>.',
         'La oss prøve å legge til litt tekst i bodyen vår. Skriv <span class="text-blue-300 text-mono">&#60;p&#62;Hei, verden!&#60;/p&#62;</span> mellom body-tagene. <span class="italic">p</span> står for paragraph og forteller nettleseren at vi skal legge inn vanlig tekst.',
-        'For å se hvordan nettsiden blir seende ut, klikker du på Go Live nede til høyre i VSCode. <img src="' + img6 + '" />',
-        'Da åpner nettleseren seg og viser oss hvordan nettsiden egentlig ser ut. <img src="' + img7 + '" />',
+        'For å se hvordan nettsiden blir seende ut, klikker du på Go Live nede til høyre i VSCode.',
+        'Da åpner nettleseren seg og viser oss hvordan nettsiden egentlig ser ut.',
         'Wow! Gratulerer med å ha laget din første nettside! Den er ikke så veldig innholdsrik enda, så la oss se litt nærmere på hvordan vi kan legge til litt mer innhold.'
     ]
     let avsnitt3 = [
