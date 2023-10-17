@@ -7,14 +7,14 @@
     import Definition from "$lib/components/definition.svelte";   
     import Task from "$lib/components/task.svelte"; 
     import TaskFormatted from "$lib/components/taskFormatted.svelte";
-    let img1 = "https://webkurs.w3spaces.com/tut_img/extensions_button.PNG";
-    let img2 = "https://webkurs.w3spaces.com/tut_img/live_server.png";
-    let img3 = "https://webkurs.w3spaces.com/tut_img/new_file.png";
-    let img4 = "https://webkurs.w3spaces.com/tut_img/html_structure.PNG";
-    let img5 = "https://webkurs.w3spaces.com/tut_img/first_paragraph.PNG";
-    let img6 = "https://webkurs.w3spaces.com/tut_img/go_live2.PNG";
-    let img7 = "https://webkurs.w3spaces.com/tut_img/hei_verden.PNG";
-    let img8 = "https://webkurs.w3spaces.com/tut_img/title.png";
+    let img1 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/extensions_button.PNG";
+    let img2 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/live_server.png";
+    let img3 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/new_file.png";
+    let img4 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/html_structure.PNG";
+    let img5 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/first_paragraph.PNG";
+    let img6 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/go_live2.PNG";
+    let img7 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/hei_verden.PNG";
+    let img8 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/title.png";
     /*<span class="text-blue-300 text-mono"> &#60;body&#62; </span>*/
     let avsnitt0 = [
         'I dette kurset skal vi lære de grunnleggende kunnskapene for å kunne lage vår egen nettside!',
