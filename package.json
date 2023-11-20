@@ -25,6 +25,6 @@
 	"type": "module",
 	"dependencies": {
 		"@vercel/analytics": "^1.0.2",
-		"firebase": "^10.2.0"
+		"firebase": "^10.6.0"
 	}
 }

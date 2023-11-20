@@ -1,4 +1,27 @@
-<script>
+<script> 
+
+
+    import { initializeApp } from "firebase/app";
+    import { firebaseConfig } from "$lib/firebaseConfig";
+    import { getFirestore, collection, getDocs, doc, setDoc} from "firebase/firestore/lite";
+
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function getNames(a){
+        const namesCol = collection(a, "users");
+        const nameSnapshot = await getDocs(namesCol);
+        const nameList = nameSnapshot.docs.map(doc => doc.data());
+        return nameList;
+    }
+
+    getNames(db).then((data) => {
+        data.forEach((element) => {
+            console.log("God morgen, " + element.password + "!")
+        });
+    });
+
     import "../../app.css";
     import Avsnitt from "../../lib/components/avsnitt.svelte";
     import Overskrift from "../../lib/components/overskrift.svelte";
@@ -7,40 +30,31 @@
     import Definition from "$lib/components/definition.svelte";   
     import Task from "$lib/components/task.svelte"; 
     import TaskFormatted from "$lib/components/taskFormatted.svelte";
-    let img1 = "https://prototypebilder.w3spaces.com/img/uxdesign.png";
-    let img2 = "https://prototypebilder.w3spaces.com/img/uidesign.png";
-    let img3 = "https://prototypebilder.w3spaces.com/img/lessismore.png";
-    let img4 = "https://webkurs.w3spaces.com/tut_img/html_structure.PNG";
-    let img5 = "https://webkurs.w3spaces.com/tut_img/first_paragraph.PNG";
-    let img6 = "https://webkurs.w3spaces.com/tut_img/go_live2.PNG";
-    let img7 = "https://webkurs.w3spaces.com/tut_img/hei_verden.PNG";
-    let img8 = "https://webkurs.w3spaces.com/tut_img/title.png";
+    let img1 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/extensions_button.PNG";
+    let img2 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/live_server.png";
+    let img3 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/new_file.png";
+    let img4 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/html_structure.PNG";
+    let img5 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/first_paragraph.PNG";
+    let img8 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/title.png";
     /*<span class="text-blue-300 text-mono"> &#60;body&#62; </span>*/
     let avsnitt0 = [
-        'I dette kurset skal vi lære grunnleggende nettsideprototyping ved hjelp av prototype-verktøyet Figma.',
-        'Husk å skrive logg underveis i kurset. Noter deg ting du har lært, ting du lurer på, hvilke utfordringer du har hatt osv; og legg jevnlig inn bilder av skjermbilder av Figma-designet. Alltid gøy (og nyttig) og se progresjonen sin!',
-        ]   
-
+        'I dette kurset skal vi lære de grunnleggende kunnskapene for å kunne lage vår egen nettside!',
+        'Husk å skrive logg underveis i kurset. Noter deg ting du har lært, ting du lurer på, hvilke utfordringer du har hatt osv; og legg jevnlig inn skjermbilder fra både kode og nettside. Alltid gøy (og nyttig) og se progresjonen sin!'
+    ]
     let avsnitt1 = [
-        'Vi ',
-        '',
-        '',
-        '',
-        ]
+        'Lag en ny mappe et fornuftig sted og gi den navnet "webutvikling". Åpne mappen i VSCode ved å klikke <span class="italic">file -> open folder</span>. ',
+        'Inne i Visual Studio Code skal vi installere en liten plugin. Trykk på de knappen med de fire boksene i menyen på venstresiden. <img src="'+img1+'" /> ',
+        'Deretter søker du på "Live Server" og installerer den øverste av søkeresultatene som burde se slik ut: <img src="'+img2+ '" />',
+        'og voila! Vi er klare for å begynne å kode litt. ',
+    ]
     let avsnitt2 = [
-        'En prototype er den enkleste mulige utgaven av et produkt. Man lager prototyper for å kunne teste ideen mot brukere før man lager det faktiske produktet.',
-        'Alt av apper, software, teknologiske enheter og nettsider som du er på har gått gjennom en prototyp-prosess.',    
-        'Det viktigste å tenke på når man lager en prototype er <span class="italic">funksjonalitet</span> og simpel UI. ',
-        'Mange vil synes at det er fristende å begynne å designe en nettside med en gang, ved å gå rett inn i et design-verktøy. Andre vil kanskje gå direkte til programmeringen av nettsiden. I de aller fleste tilfeller anbefales det å først lage en trådskisse!',
-        'Tidsbesparing: For det første er det tidsbesparende å starte med trådskisse. Mange bruker lang tid på å designe en nettside på ',
-        'Fleksibilitet: ',
         'Inne i VSCode lager vi først en ny fil ved å klikke file->new file. Du burde du få opp en tom fil: <img src="' + img3 +' " />',
         'Klikk cmd+s (ctrl+s på windows) eller file->save for å lagre filen, og gi den navnet <span class="italic">index.html</span>. De fleste nettside-filer kan du kalle hva du vil, men forsiden din må alltid hete <span class="italic">index.html</span>. ',
         'For å komme litt raskt igang kan vi få hjelp av VSCode til å lage grunnstrukturen til HTML-filen vår. Lag et utropstegn og trykk <span class="italic">enter</span>. Da skal følgende kode dukke opp automagisk; eventuelt kan du bare kopiere den herfra. ',
         'Her var det mye rart på en gang! Det viktigste å legge merke til enn så lenge er at koden er delt opp i en <span class="italic">head</span> og en <span class="italic">body</span>. <span class="italic">head</span> innholder litt forskjellig metadata for nettsiden din, men <span class="italic">body</span> er hovedattraksjonen. Alt innhold som skal vises på nettsiden skal legges mellom <span class="text-blue-300 text-mono">&#60;body&#62;</span> og <span class="text-blue-300 text-mono">&#60;/body&#62;</span>.',
         'La oss prøve å legge til litt tekst i bodyen vår. Skriv <span class="text-blue-300 text-mono">&#60;p&#62;Hei, verden!&#60;/p&#62;</span> mellom body-tagene. <span class="italic">p</span> står for paragraph og forteller nettleseren at vi skal legge inn vanlig tekst.',
-        'For å se hvordan nettsiden blir seende ut, klikker du på Go Live nede til høyre i VSCode. <img src="' + img6 + '" />',
-        'Da åpner nettleseren seg og viser oss hvordan nettsiden egentlig ser ut. <img src="' + img7 + '" />',
+        'For å se hvordan nettsiden blir seende ut, klikker du på Go Live nede til høyre i VSCode.',
+        'Da åpner nettleseren seg og viser oss hvordan nettsiden egentlig ser ut.',
         'Wow! Gratulerer med å ha laget din første nettside! Den er ikke så veldig innholdsrik enda, så la oss se litt nærmere på hvordan vi kan legge til litt mer innhold.'
     ]
     let avsnitt3 = [
@@ -203,6 +217,7 @@
     let menuOpen = false;
     let screenSize;
 </script>
+
 <svelte:window bind:innerWidth={screenSize} />
 <main class="flex lg:flex-row flex-col bg-slate-900">
     <div class="lg:w-1/5 w-screen bg-slate-700 lg:pt-40">
@@ -217,9 +232,9 @@
         {/if}
         {#if menuOpen || screenSize > 1024}
         <div class="menu flex flex-col flex-start p-10 justify-between lg:fixed">
-            <Menulink text='UI og UX' link='#sectionOne' />
-            <Menulink text='Prototyping' link='#sectionTwo' />
-            <Menulink text='Starte med Blyant og Papir' link='#sectionThree' />
+            <Menulink text='Setup' link='#sectionOne' />
+            <Menulink text='Din første nettside' link='#sectionTwo' />
+            <Menulink text='HTML Basics' link='#sectionThree' />
             <Menulink text='CSS Basics' link='#sectionFour' />
             <Menulink text='Id og class' link='#sectionFive' />
             <Menulink text='Div-elementet' link='#sectionSix' />
@@ -229,31 +244,22 @@
     </div>
     <div class="lg:px-40 px-5 lg:w-4/5 w-screen">
         <header class="flex flex-col justify-center lg:pt-40 pt-5">
-            <span class="text-3xl font-mono text-fuchsia-300">Prototyping og</span>
+            <span class="text-3xl font-mono text-fuchsia-300">Python 101</span>
             <span class="font-mono text-fuchsia-200">©Jens Berg-Jensen 2023</span>
         </header>
         <section class="flex flex-col py-5">
             <Avsnitt text={avsnitt0[0]} />
             <Avsnitt text={avsnitt0[1]} />
         </section>
-        <section id="sectionOne" class="flex flex-col py-5">
-            <Overskrift text="UI og UX" />
+        <section id="sectionOne" class="py-10">
+            <Overskrift text='Setup' />
             <Avsnitt text={avsnitt1[0]} />
             <Avsnitt text={avsnitt1[1]} />
             <Avsnitt text={avsnitt1[2]} />
             <Avsnitt text={avsnitt1[3]} />
-
         </section>
-
-        <section id="sectionTwo" class="py-10">
-            <Overskrift text='Prototyping' />
-            <Avsnitt text={avsnitt2[0]} />
-            <Avsnitt text={avsnitt2[1]} />
-            <Avsnitt text={avsnitt2[2]} />
-            <Avsnitt text={avsnitt2[3]} />
-        </section>
-        <section id="sectionThree" class="pb-10 py-10">
-            <Overskrift text='Start med en blyant og et papir' />
+        <section id="sectionTwo" class="pb-10 py-10">
+            <Overskrift text='Din første nettside' />
             <Avsnitt text={avsnitt2[0]} />
             <Avsnitt text={avsnitt2[1]} />
             <Avsnitt text={avsnitt2[2]} />
@@ -265,7 +271,7 @@
             <Avsnitt text={avsnitt2[6]} />
             <Avsnitt text={avsnitt2[7]} />
         </section>
-        <section id="sectionFour" class="pb-10 py-10">
+        <section id="sectionThree" class="pb-10 py-10">
             <Overskrift text='HTML Basics' />
             <Avsnitt text={avsnitt3[0]} />
             <Avsnitt text={avsnitt3[1]} />
@@ -281,7 +287,7 @@
             <Task tasks={task1} description="Bruk Internett og egen testing for å finne ut av hva følgende html-tags gjør:" />
             <Avsnitt text={avsnitt3[7]} />
         </section>
-        <section id="sectionFive" class="pb-10 py-10">
+        <section id="sectionFour" class="pb-10 py-10">
             <Overskrift text='CSS Basics' />
             <Avsnitt text={avsnitt4[0]} />
             <Avsnitt text={avsnitt4[1]} />
@@ -298,7 +304,7 @@
             <Avsnitt text={avsnitt4[7]} />
             <Task description="Bruk Internett og egen testing for å finne ut av hva følgende css-properties gjør:" tasks={task2} />
         </section>
-        <section id="sectionSix" class="pb-10 py-10">
+        <section id="sectionFive" class="pb-10 py-10">
             <Overskrift text='Id og class' />
             <Avsnitt text={avsnitt5[0]} />
             <Avsnitt text={avsnitt5[1]} />
@@ -311,7 +317,7 @@
             <Avsnitt text={avsnitt5[5]} />
             <CodeSnippet code={code13} language="css" />
         </section>
-        <section id="sectionSeven" class="pb-10 py-10">
+        <section id="sectionSix" class="pb-10 py-10">
             <Overskrift text='Div-elementet' />
             <Avsnitt text={avsnitt6[0]} />
             <Avsnitt text={avsnitt6[1]} />
@@ -321,7 +327,7 @@
             <Avsnitt text={avsnitt6[3]} />
             <Avsnitt text={avsnitt6[4]} />
         </section>
-        <section id="sectionEight" class="pb-10 py-10">
+        <section id="sectionSeven" class="pb-10 py-10">
             <Overskrift text='Flexbox' />
             <Avsnitt text={avsnitt7[0]} />
             <div class="flex flex-row justify-evenly my-5">
