@@ -101,8 +101,8 @@
         '    <h1>Min første overskrift</h1>',
         '    <p>Hei, verden!</p>',
         '</body>'].join('\n');
-    let code4 = ['<img src="https://webkurs.w3spaces.com/tut_img/game_of_thrones_ned_stark_hbo.jpg" />'].join('\n');
-    let code5 = ['<img width="200" src="https://webkurs.w3spaces.com/tut_img/game_of_thrones_ned_stark_hbo.jpg" />'].join('\n');
+    let code4 = ['<img src="https://webkurshosting.w3spaces.com/kodeland-webutvikling/nedstark.png" />'].join('\n');
+    let code5 = ['<img width="200" src="https://webkurshosting.w3spaces.com/kodeland-webutvikling/nedstark.png" />'].join('\n');
     let code6 = '<link rel="stylesheet" href="style.css">';
     let code7 = ['p {',
         '    color: red;',
