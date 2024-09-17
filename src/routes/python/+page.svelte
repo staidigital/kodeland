@@ -1,5 +1,5 @@
 <script> 
-
+    // importing important functions from firebase
     import { initializeApp } from "firebase/app";
     import { firebaseConfig } from "$lib/firebaseConfig";
     // @ts-ignore
@@ -18,7 +18,7 @@
     const coursesCollectionRef = collection(db, 'courses');
 
     // Svelte store to hold the courses data
-    const courses = writable([{}, {}]);
+    const courses = writable([]);
 
     const fetchCourses = async () => {
         const querySnapshot = await getDocs(coursesCollectionRef);
@@ -31,7 +31,6 @@
     };
     onMount(fetchCourses);
     export { courses };
-
     /*
     async function getNames(a){
         const namesCol = collection(a, "users");
@@ -80,14 +79,19 @@
     <div class="lg:px-40 px-5 lg:w-4/5 w-screen">
         <header class="flex flex-col justify-center lg:pt-40 pt-5">
             <span class="text-3xl font-mono text-fuchsia-300">
-                {$courses[1].title}
+                {$courses[1]?.title}
             </span>
-            <span class="font-mono text-fuchsia-200">{$courses[1].description}</span>
+            <span class="font-mono text-fuchsia-200">
+                {$courses[1]?.description}
+            </span>
         </header>
     </div>
-    <div>
+
+    <div class="blog-post">
+        
     </div>
 </main>
+
 <style>
     :global(a){
         color: #ff79c6;

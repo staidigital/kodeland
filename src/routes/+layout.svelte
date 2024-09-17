@@ -9,6 +9,7 @@
     <a href="/">Hjem</a>
     <a href="/webutvikling">Webutvikling</a>
     <a href="/python">Python</a>
+
 </nav>
 <slot />
 
@@ -23,4 +24,5 @@
     nav a:hover {
         @apply text-fuchsia-300;
     }
+    
 </style>
