@@ -7,12 +7,10 @@
     import Definition from "$lib/components/definition.svelte";   
     import Task from "$lib/components/task.svelte"; 
     import TaskFormatted from "$lib/components/taskFormatted.svelte";
-    let img1 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/extensions_button.PNG";
-    let img2 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/live_server.png";
-    let img3 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/new_file.png";
-    let img4 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/html_structure.PNG";
-    let img5 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/first_paragraph.PNG";
-    let img8 = "https://webkurshosting.w3spaces.com/kodeland-webutvikling/title.png";
+    import img1 from "$lib/img/extensions_button.png";
+    import img2 from '$lib/img/live_server.png';
+    import img3 from '$lib/img/new_file.png';
+    import img8 from '$lib/img/title.png';
     /*<span class="text-blue-300 text-mono"> &#60;body&#62; </span>*/
     let avsnitt0 = [
         'I dette kurset skal vi lære de grunnleggende kunnskapene for å kunne lage vår egen nettside!',
@@ -221,7 +219,7 @@
     <div class="lg:px-40 px-5 lg:w-4/5 w-screen">
         <header class="flex flex-col justify-center lg:pt-40 pt-5">
             <span class="text-3xl font-mono text-fuchsia-300">Webutvikling 101</span>
-            <span class="font-mono text-fuchsia-200">©Sondre Stai 2023</span>
+            <span class="font-mono text-fuchsia-200">©Sondre Stai 2025</span>
         </header>
         <section class="flex flex-col py-5">
             <Avsnitt text={avsnitt0[0]} />
