@@ -1,24 +1,36 @@
 <script>
-  export let number = 1;                // Oppgave number
-  export let title = '';                // Optional: custom task title
-  export let description = '';          // Optional: task instruction text
-  export let code = '';                 // Optional: code snippet to copy
-  $: description = description.replace(/`([^`]+)`/g, '<code class="bg-slate-800 text-green-300 px-1 rounded font-mono text-sm">$1</code>');
+  import LiveHTMLPreview from './LiveHTMLPreview.svelte';
 
+  export let number;
+  export let title;
+  export let description;
+  export let solution;
+
+  let showSolution = false;
+
+  function renderInlineCode(str) {
+    const escaped = str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    return escaped.replace(/`([^`]+)`/g, '<code class="bg-slate-800 text-green-300 px-1 rounded font-mono text-sm">$1</code>');
+  }
 </script>
 
-<div class="mb-8">
-  <h3 class="text-lg font-semibold text-white">
-    {title || `Oppgave ${number}`}
-  </h3>
+<div class="border border-slate-700 rounded p-4 space-y-2 bg-slate-800">
+  <div class="font-bold text-fuchsia-400">Oppgave {number}: {title}</div>
+  <p class="text-slate-100">{@html renderInlineCode(description)}</p>
 
-  {#if description}
-    <p class="text-slate-300 leading-relaxed">{@html description}</p>
-  {/if}
+  {#if solution}
+    <button
+      class="text-sm text-white font-mono bg-fuchsia-600 hover:bg-fuchsia-700 px-3 py-1 rounded"
+      on:click={() => showSolution = !showSolution}
+    >
+      {showSolution ? 'Skjul løsning' : 'Vis løsning'}
+    </button>
 
-  {#if code}
-    <div class="bg-slate-900 border border-slate-700 rounded p-4 overflow-x-auto text-green-300 font-mono text-sm">
-      <pre>{code}</pre>
-    </div>
+    {#if showSolution}
+      <LiveHTMLPreview html={solution.code} js={solution.script} />
+    {/if}
   {/if}
 </div>

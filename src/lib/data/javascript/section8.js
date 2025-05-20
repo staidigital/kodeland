@@ -23,10 +23,11 @@ export default [
       },
       {
         type: "code",
-        language: "javascript",
-        code: `let button = document.getElementById("myButton");
+        language: "html",
+        code: `<button id="myButton">Klikk meg</button>`,
+        script: `let button = document.getElementById("myButton");
 button.addEventListener("click", function() {
-    console.log("Knappen ble klikket!");
+  console.log("Knappen ble klikket!");
 });`
       },
       {
@@ -39,15 +40,14 @@ button.addEventListener("click", function() {
       },
       {
         type: "code",
-        language: "javascript",
-        code: `let box = document.getElementById("myBox");
-
+        language: "html",
+        code: `<div id="myBox" style="width:200px; height:200px; background:white; border:1px solid black;"></div>`,
+        script: `let box = document.getElementById("myBox");
 box.addEventListener("mouseover", function() {
-    box.style.backgroundColor = "lightblue";
+  box.style.backgroundColor = "lightblue";
 });
-
 box.addEventListener("mouseout", function() {
-    box.style.backgroundColor = "white";
+  box.style.backgroundColor = "white";
 });`
       },
       {
@@ -66,9 +66,12 @@ box.addEventListener("mouseout", function() {
       },
       {
         type: "code",
-        language: "javascript",
-        code: `document.addEventListener("mousemove", function(event) {
-    console.log("X-koordinat: " + event.clientX + ", Y-koordinat: " + event.clientY);
+        language: "html",
+        code: `<div style="height: 200px; border: 1px solid black;">Flytt musen her</div>
+<p id="coords">X: 0, Y: 0</p>`,
+        script: `document.addEventListener("mousemove", function(event) {
+  document.getElementById("coords").textContent =
+    "X: " + event.clientX + ", Y: " + event.clientY;
 });`
       }
     ]
@@ -84,38 +87,18 @@ box.addEventListener("mouseout", function() {
       {
         type: "code",
         language: "html",
-        code: `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mouse Events</title>
-    <style>
-        #mouseArea {
-            width: 300px;
-            height: 300px;
-            background-color: lightgray;
-            text-align: center;
-            line-height: 300px;
-        }
-    </style>
-</head>
-<body>
-    <div id="mouseArea">Flytt musen her</div>
-    <p id="coordinates">X: 0, Y: 0</p>
+        code: `<div id="mouseArea" style="width: 300px; height: 300px; background-color: lightgray; text-align: center; line-height: 300px;">
+  Flytt musen her
+</div>
+<p id="coordinates">X: 0, Y: 0</p>`,
+        script: `let mouseArea = document.getElementById("mouseArea");
+let coordinates = document.getElementById("coordinates");
 
-    <script>
-        let mouseArea = document.getElementById("mouseArea");
-        let coordinates = document.getElementById("coordinates");
-
-        mouseArea.addEventListener("mousemove", function(event) {
-            let x = event.clientX;
-            let y = event.clientY;
-            coordinates.textContent = "X: " + x + ", Y: " + y;
-        });
-    </script>
-</body>
-</html>`
+mouseArea.addEventListener("mousemove", function(event) {
+  let x = event.clientX;
+  let y = event.clientY;
+  coordinates.textContent = "X: " + x + ", Y: " + y;
+});`
       }
     ]
   },

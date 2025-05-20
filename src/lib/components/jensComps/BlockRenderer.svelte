@@ -30,8 +30,8 @@
   {#if block.language === 'javascript'}
     <InteractiveSnippet code={block.code} />
   {:else if block.language === 'html'}
-  <CodeSnippet code={block.code} preview={false} />
-  <LiveHTMLPreview html={block.code} js={block.script ?? ""} />
+    <CodeSnippet code={block.code} preview={false} />
+    <LiveHTMLPreview html={block.code} js={block.script ?? ""} />
   {:else}
     <CodeSnippet code={block.code} preview={true} />
   {/if}
@@ -41,6 +41,6 @@
     number={block.number}
     title={block.title}
     description={block.description}
-    code={block.code}
-  />
+    solution={block.solution}
+/>
 {/if}
