@@ -2,7 +2,7 @@
     import "../app.css";
 </script>
 
-<main>
+<main >
     <span class="text-3xl font-mono text-fuchsia-300">Under utvikling</span>
 </main>
 

@@ -84,6 +84,7 @@
             <span class="font-mono text-fuchsia-200">
                 {$courses[1]?.description}
             </span>
+            
         </header>
     </div>
 
