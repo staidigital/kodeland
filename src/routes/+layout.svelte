@@ -8,6 +8,7 @@
 <nav class="flex justify-start h-10 items-center bg-gray-950">
     <a href="/">Hjem</a>
     <a href="/webutvikling">Webutvikling</a>
+    <a href="/javascript">JavaScript</a>
     <!-- <a href="/prototyping">Prototyping</a>-->
 </nav>
 <slot />
