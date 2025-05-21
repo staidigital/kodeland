@@ -1,9 +1,10 @@
 <script>
   import BlockParagraph from "$lib/components/jensComps/blocks/BlockParagraph.svelte";
-  import CodeSnippet from "$lib/components/codeSnippet.svelte";
+  import BlockCode from "$lib/components/jensComps/blocks/BlockCode.svelte";
   import BlockInteractive from "$lib/components/jensComps/blocks/BlockInteractive.svelte";
   import BlockTask from "$lib/components/jensComps/blocks/BlockTask.svelte";
   import BlockHTMLPreview from "$lib/components/jensComps/blocks/BlockHTMLPreview.svelte";
+  import BlockSandbox from "$lib/components/jensComps/blocks/BlockSandbox.svelte";
   import { renderInlineMarkup } from '$lib/utils/markup.js';
 
   export let block;
@@ -23,10 +24,10 @@
   {#if block.language === 'javascript'}
     <BlockInteractive code={block.code} />
   {:else if block.language === 'html'}
-    <CodeSnippet code={block.code} preview={false} />
-    <BlockHTMLPreview html={block.code} js={block.script ?? ""} />
+  <BlockCode code={block.code} language={block.language} preview={false} />
+  <BlockHTMLPreview html={block.code} js={block.script ?? ""} />
   {:else}
-    <CodeSnippet code={block.code} preview={true} />
+  <BlockCode code={block.code} language={block.language} preview={true} />
   {/if}
 
 {:else if block.type === 'task'}
@@ -36,4 +37,7 @@
     description={block.description}
     solution={block.solution}
 />
+
+{:else if block.type === 'sandbox'}
+  <BlockSandbox />
 {/if}

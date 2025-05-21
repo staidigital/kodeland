@@ -11,6 +11,8 @@ const sectionImports = {
   part7: () => import("$lib/data/javascript/section7.js"),
   part8: () => import("$lib/data/javascript/section8.js"),
   part9: () => import("$lib/data/javascript/section9.js"),
+  part10: () => import("$lib/data/javascript/section10.js"),
+
 };
 
 export async function load({ params }) {

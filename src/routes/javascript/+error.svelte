@@ -2,7 +2,7 @@
   export let error;
 
   // Extract with safe defaults
-  const status = error?.status || 500;
+  const status = error?.status || 404;
   const message = error?.message || 'Ukjent feil';
 </script>
 

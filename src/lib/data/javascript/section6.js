@@ -20,7 +20,7 @@ export default [
       {
         type: "code",
         language: "html",
-        code: `<!DOCTYPE html>
+        code: `\<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">

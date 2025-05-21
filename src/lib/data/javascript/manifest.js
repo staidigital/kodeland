@@ -67,5 +67,11 @@ export default [
     id: 'part9',
     title: 'Del 9: Bonusoppgaver',
     links: []
+  },
+  {
+    id: 'part10',
+    title: 'Del 10: JavaScript Sandbox',
+    links: []
   }
+
 ];
