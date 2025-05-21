@@ -1,3 +1,4 @@
+import { error } from '@sveltejs/kit';
 import manifest from '$lib/data/javascript/manifest.js';
 
 const sectionImports = {
@@ -16,13 +17,8 @@ export async function load({ params }) {
   const currentId = params.part;
   const index = manifest.findIndex((entry) => entry.id === currentId);
 
-  if (index === -1) {
-    return {
-      sections: [],
-      partNum: '',
-      prevPart: '',
-      nextPart: '',
-    };
+  if (index === -1 || !sectionImports[currentId]) {
+    throw error(404, `Del '${currentId}' finnes ikke.`);
   }
 
   const loadSection = sectionImports[currentId];

@@ -1,22 +1,22 @@
 <script>
   import { page } from '$app/stores';
-  import manifest from '$lib/data/javascript/manifest.js';
-  export const sections = []
+  export let sections = []; // key prop passed from layout
 </script>
 
 <aside class="lg:w-1/5 w-full bg-slate-700 lg:pt-40 sticky top-0 h-screen overflow-y-auto">
   <div class="p-8">
     <div class="text-xl font-bold text-white mb-8 tracking-wide">
-      <a href="/javascript" class="hover:text-fuchsia-400 transition">JavaScript 101</a>
+      <slot name="title"><span class="hover:text-fuchsia-400 transition">Kurs</span></slot>
     </div>
 
-    {#each manifest as part}
+    {#each sections as part}
       <div class="mb-6">
         <a
           href={`/javascript/${part.id}`}
           class={`text-sm font-semibold uppercase tracking-wide mb-2 block transition
             ${$page.url.pathname === `/javascript/${part.id}` ? 'text-yellow-400' : 'text-slate-200 hover:text-fuchsia-400'}`}
         >
+        <!-- Change javascript with dynamic ${courseId} when using other course-->
           {part.title}
         </a>
 
