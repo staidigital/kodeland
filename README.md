@@ -147,3 +147,4 @@ npm run build    # Bygger for produksjon
 
 Lag kurs. Del kunnskap. Ha det gøy!
 
+.
