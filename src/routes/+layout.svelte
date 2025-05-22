@@ -9,6 +9,8 @@
     <a href="/">Hjem</a>
     <a href="/webutvikling">Webutvikling</a>
     <a href="/javascript">Javascript</a>
+    <a href="/sql">SQL</a>
+
 </nav>
 <slot />
 
