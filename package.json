@@ -10,10 +10,11 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^2.0.0",
+		"@sveltejs/adapter-auto": "^2.1.1",
 		"@sveltejs/kit": "^1.20.4",
 		"@tailwindcss/typography": "^0.5.9",
 		"autoprefixer": "^10.4.15",
+		"mdsvex": "^0.12.6",
 		"postcss": "^8.4.28",
 		"svelte": "^4.0.5",
 		"svelte-check": "^3.4.3",
@@ -31,7 +32,6 @@
 		"@codemirror/theme-one-dark": "^6.1.2",
 		"@codemirror/view": "^6.36.8",
 		"@vercel/analytics": "^1.0.2",
-		"mdsvex": "^0.11.0",
 		"svelte-codemirror-editor": "^1.4.1"
 	}
 }

@@ -1,4 +1,4 @@
-<script> 
+<!-- <script> 
     // importing important functions from firebase
     import { initializeApp } from "firebase/app";
     import { firebaseConfig } from "$lib/firebaseConfig";
@@ -108,3 +108,4 @@
         @apply bg-blue-500;
     }
 </style>
+ -->
