@@ -4,20 +4,38 @@ export function renderInlineMarkup(str = '') {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 
-  const withCode = escaped.replace(/`([^`]+)`/g,
-    '<code class="bg-slate-800 text-green-300 px-1 rounded font-mono text-sm">$1</code>');
+  let html = escaped
+    .replace(/`([^`]+)`/g, '<code class="bg-slate-800 text-green-300 px-1 rounded font-mono text-sm">$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong class="text-white font-semibold">$1</strong>')
+    .replace(/_([^_]+)_/g, '<em class="italic text-slate-200">$1</em>')
+    .replace(/~~([^~]+)~~/g, '<span class="line-through text-slate-400">$1</span>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="underline text-fuchsia-400 hover:text-fuchsia-300" target="_blank" rel="noopener noreferrer">$1</a>')
 
-  const withBold = withCode.replace(/\*\*([^*]+)\*\*/g,
-    '<strong class="text-white font-semibold">$1</strong>');
+    // 👇 Ny: inline-bilde
+    .replace(/\[img:([^\]]+)\]/g, '<img src="/images/$1" class="inline-block w-6 mx-1 align-middle" alt="" />');
 
-  const withItalic = withBold.replace(/_([^_]+)_/g,
-    '<em class="italic text-slate-200">$1</em>');
+  // Enkel liste-parser
+  const lines = html.split('\n');
+  const converted = [];
+  let inList = false;
 
-  const withStrike = withItalic.replace(/~~([^~]+)~~/g,
-    '<span class="line-through text-slate-400">$1</span>');
+  for (const line of lines) {
+    if (line.trim().startsWith('* ')) {
+      if (!inList) {
+        converted.push('<ul class="list-disc list-inside mb-2">');
+        inList = true;
+      }
+      converted.push(`<li>${line.trim().substring(2)}</li>`);
+    } else {
+      if (inList) {
+        converted.push('</ul>');
+        inList = false;
+      }
+      converted.push(line);
+    }
+  }
 
-  const withLinks = withStrike.replace(/\[([^\]]+)\]\(([^)]+)\)/g,
-    '<a href="$2" class="underline text-fuchsia-400 hover:text-fuchsia-300" target="_blank" rel="noopener noreferrer">$1</a>');
+  if (inList) converted.push('</ul>');
 
-  return withLinks;
+  return converted.join('\n');
 }

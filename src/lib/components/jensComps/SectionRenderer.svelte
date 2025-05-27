@@ -14,7 +14,9 @@
 
 {#each sections ?? [] as section}
   <article id={section.id} class="py-8 border-t border-slate-700 space-y-6">
-    <Overskrift text={section.title} />
+    {#if section.title}
+      <Overskrift text={section.title} />
+    {/if}
     {#each section.blocks ?? [] as block}
       <BlockRenderer {block} />
     {/each}

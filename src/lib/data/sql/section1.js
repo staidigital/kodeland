@@ -6,9 +6,16 @@ export default [
     title: "",
     blocks: [
       {
-        type: 'paragraph',
-        text: 'Velkommen til kurset i **SQL** – språket som brukes for å jobbe med data i databaser! I dette kurset skal du arbeide med en serie av leksjoner og oppgaver designet for å effektivt lære SQL i nettleseren.'
-      },
+        type: 'textwithimage',
+        component: 'BlockTextWithImage',
+        props: {
+          image: '/images/sql/sql-logo.png',
+          alt: 'SQL-logo',
+          text: 'Velkommen til kurset i `SQL` – språket som brukes for å jobbe med data i databaser! I dette kurset skal du arbeide med en serie av leksjoner og oppgaver designet for å effektivt lære SQL i nettleseren.',
+          position: 'right',
+          width: 'w-64'
+        }
+      }
     ]
   },
   // 🔹 Hva er SQL
@@ -20,10 +27,36 @@ export default [
         type: 'paragraph', 
         text: 'SQL, eller Structured Query Languages, er et språk designet for å hente ut, manipulere og endre på data fra en **relasjonell database**. SQL er en trygg og skalerbar måte å lagre data, og brukes av millioner av nettsider og apper i verden.' 
       },
+      
       {
         type: 'paragraph', 
         text: 'Kjente SQL-databaser inkluderer SQL-lite, MySQL, PostGres, Oracle, Microsoft SQL, som alle støtter SQL-standarden som du skal lære i dette kurset.' 
       },
+      {
+        type: 'image',
+        component: 'BlockImage',
+        props: {
+          images: [
+             {
+              src: '/images/sql/postgresql-logo.png',
+              alt: 'PostgreSQL',
+              caption: 'PostgreSQL - populær, litt avansert og "open source".'
+            },
+            {
+              src: '/images/sql/mysql-logo.png',
+              alt: 'MySQL',
+              caption: 'MySQL - populær, enkel og "open source"'
+            },
+            {
+              src: '/images/sql/microsoftsql-logo.png',
+              alt: 'Microsoftsql-logo',
+              caption: 'Microsoft SQL Server - bedriftenes løsning'
+            }
+          ]
+        }
+      },
+
+
     ]
   },
   {

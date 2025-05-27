@@ -8,6 +8,8 @@
   import { renderInlineMarkup } from '$lib/utils/markup.js';
   import SqlPlaygroundPokemon from '$lib/components/jensComps/sql/SqlPlaygroundPokemon.svelte';
   import PokemonTablePreview from '$lib/components/jensComps/sql/TablePreview.svelte';
+  import BlockTextWithImage from "$lib/components/jensComps/blocks/BlockTextWithImage.svelte";
+  import BlockImage from '$lib/components/jensComps/blocks/BlockImage.svelte';
 
   export let block;
 </script>
@@ -49,5 +51,13 @@
 {:else if block.type === 'custom' && block.component === 'PokemonTablePreview'}
   <PokemonTablePreview />
 
+
+{:else if block.type === 'image' && block.component === 'BlockImage'}
+  <BlockImage {...block.props} />
+
+{:else if block.type === 'textwithimage'}
+  {#if block.component === 'BlockTextWithImage'}
+    <BlockTextWithImage {...block.props} />
+  {/if}
 {/if}
 
