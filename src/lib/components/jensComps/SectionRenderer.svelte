@@ -12,10 +12,10 @@
   <h1 class="text-3xl font-mono text-fuchsia-300">{courseTitle}</h1>
 </header>
 
-{#each sections as section}
+{#each sections ?? [] as section}
   <article id={section.id} class="py-8 border-t border-slate-700 space-y-6">
     <Overskrift text={section.title} />
-    {#each section.blocks as block}
+    {#each section.blocks ?? [] as block}
       <BlockRenderer {block} />
     {/each}
   </article>

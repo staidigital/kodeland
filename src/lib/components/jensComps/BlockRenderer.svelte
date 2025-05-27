@@ -6,6 +6,8 @@
   import BlockHTMLPreview from "$lib/components/jensComps/blocks/BlockHTMLPreview.svelte";
   import BlockSandbox from "$lib/components/jensComps/blocks/BlockSandbox.svelte";
   import { renderInlineMarkup } from '$lib/utils/markup.js';
+  import SqlPlaygroundPokemon from '$lib/components/jensComps/sql/SqlPlaygroundPokemon.svelte';
+  import PokemonTablePreview from '$lib/components/jensComps/sql/TablePreview.svelte';
 
   export let block;
 </script>
@@ -40,4 +42,12 @@
 
 {:else if block.type === 'sandbox'}
   <BlockSandbox />
+
+{:else if block.type === 'custom' && block.component === 'SqlPlaygroundPokemon'}
+  <SqlPlaygroundPokemon />
+
+{:else if block.type === 'custom' && block.component === 'PokemonTablePreview'}
+  <PokemonTablePreview />
+
 {/if}
+
