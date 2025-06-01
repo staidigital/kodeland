@@ -2,42 +2,79 @@
     import "../app.css";
 </script>
 
-<main class="relative flex flex-col items-center justify-start pt-[20vh] h-screen bg-[#1f1f1f] text-center overflow-hidden">
-    <!-- SVG Outline Background -->
+<main class="relative flex flex-col items-center justify-start pt-[12vh] h-screen bg-[#1f1f1f] text-center overflow-hidden">
+    <!-- Stylized Map Background -->
     <svg
-        class="absolute top-0 left-0 w-full h-full z-0 opacity-10 pointer-events-none"
-        viewBox="0 0 800 600"
+        class="absolute top-0 left-0 w-full h-full z-0 opacity-20 pointer-events-none"
+        viewBox="0 0 1200 800"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMidYMid meet"
+        preserveAspectRatio="xMidYMid slice"
     >
-        <path
-            d="M150,300 C100,200 200,100 300,150 C400,200 500,100 600,150 C700,200 650,400 500,450 C350,500 250,400 150,300 Z"
-            stroke="rgba(255, 255, 255, 0.5)"
-            stroke-width="8"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-        />
+        <!-- "Terrain" shapes -->
+        <ellipse cx="300" cy="700" rx="220" ry="60" fill="#a21caf" opacity="0.15"/>
+        <ellipse cx="900" cy="650" rx="180" ry="50" fill="#f0abfc" opacity="0.12"/>
+        <ellipse cx="600" cy="200" rx="300" ry="80" fill="#f472b6" opacity="0.10"/>
+        <!-- "Nodes" -->
+        <circle cx="250" cy="400" r="8" fill="#f472b6" />
+        <circle cx="600" cy="300" r="10" fill="#a21caf" />
+        <circle cx="950" cy="500" r="7" fill="#f0abfc" />
+        <circle cx="800" cy="200" r="6" fill="#f472b6" />
+        <!-- "Routes" -->
+        <polyline points="250,400 600,300 950,500" stroke="#f0abfc" stroke-width="3" fill="none" opacity="0.5" />
+        <polyline points="600,300 800,200" stroke="#a21caf" stroke-width="2" fill="none" opacity="0.4" />
+        <!-- "Mountains" -->
+        <polygon points="180,700 220,630 260,700" fill="#a21caf" opacity="0.25"/>
+        <polygon points="320,700 370,620 420,700" fill="#f472b6" opacity="0.18"/>
+        <polygon points="850,700 900,640 950,700" fill="#f0abfc" opacity="0.18"/>
     </svg>
 
-    <!-- Main Heading and Links -->
-    <h1 class="text-[15vw] font-extrabold text-fuchsia-300 mb-12 tracking-wide leading-none text-center z-10 relative">
-        Kodeland
-    </h1>
+    <!-- Floating Island for Heading -->
+    <div class="relative z-10 flex flex-col items-center">
+        <svg width="420" height="80" viewBox="0 0 420 80" class="mx-auto mb-[-2.5rem]">
+            <ellipse cx="210" cy="60" rx="200" ry="18" fill="#a21caf" opacity="0.25"/>
+            <ellipse cx="210" cy="70" rx="170" ry="10" fill="#f0abfc" opacity="0.18"/>
+        </svg>
+        <h1 class="text-[11vw] font-extrabold text-fuchsia-300 mb-2 tracking-wide leading-none text-center drop-shadow-lg">
+            Kodeland
+        </h1>
+        <p class="text-fuchsia-100 text-xl mb-8 font-mono tracking-wide">
+            Landet for kode, kreativitet og læring
+        </p>
+    </div>
 
-    <div class="flex flex-col gap-4 text-lg z-10 relative">
-        <a href="/javascript" class="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-6 py-4 rounded text-center font-mono text-xl transition">
-            JavaScript-kurset
-        </a>
-        <a href="/webutvikling" class="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-6 py-4 rounded text-center font-mono text-xl transition">
-            Webutvikling
-        </a>
+    <!-- Signpost-style Links -->
+    <div class="flex flex-col gap-6 z-10 relative items-center">
+        <div class="flex flex-row gap-8">
+            <a href="/javascript" class="relative bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-5 rounded-lg font-mono text-2xl shadow-lg transition border-4 border-fuchsia-300 rotate-[-3deg] hover:scale-105">
+                <span class="block">🪧 JavaScript-kurset</span>
+            </a>
+            <a href="/webutvikling" class="relative bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-5 rounded-lg font-mono text-2xl shadow-lg transition border-4 border-fuchsia-300 rotate-[2deg] hover:scale-105">
+                <span class="block">🪧 Webutvikling</span>
+            </a>
+            <a href="/sql" class="relative bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-5 rounded-lg font-mono text-2xl shadow-lg transition border-4 border-fuchsia-300 rotate-[4deg] hover:scale-105">
+                <span class="block">🪧 SQL</span>
+            </a>
+        </div>
+        <span class="text-fuchsia-200 text-base mt-4 opacity-80">Velg en rute og start reisen!</span>
     </div>
 </main>
 
 <style>
     :global(body) {
         margin: 0;
+        background: #1f1f1f;
+    }
+    h1 {
+        text-shadow: 0 4px 32px #a21caf55, 0 1px 0 #fff2;
+    }
+    /* Optional: subtle floating animation for nodes */
+    @keyframes float {
+        0% { transform: translateY(0);}
+        50% { transform: translateY(-8px);}
+        100% { transform: translateY(0);}
+    }
+    svg circle, svg ellipse, svg polygon {
+        animation: float 5s ease-in-out infinite;
     }
 </style>
