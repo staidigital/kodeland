@@ -1,17 +1,17 @@
-<script>
+<script lang="ts">
   import Highlight from 'svelte-highlight';
   import agate from 'svelte-highlight/styles/agate';
   import xml from 'svelte-highlight/languages/xml';
   import css from 'svelte-highlight/languages/css';
   import javascript from 'svelte-highlight/languages/javascript';
 
-  export let code = '';
-  export let language = 'javascript';
-  export let preview = false;
+  export let code: string = '';
+  export let language: string = 'javascript';
+  export let preview: boolean = false;
 
-  let show = false;
+  let show: boolean = false;
 
-  const languages = {
+  const languages: Record<string, any> = {
     html: xml,
     xml,
     css,
@@ -30,12 +30,12 @@
   <Highlight language={hlLang} {code} />
 
   {#if preview}
-    <div
+    <button
       on:click={() => (show = !show)}
       class="flex cursor-pointer flex-col justify-center items-center bg-slate-700 hover:bg-red-900 p-2"
     >
       <span class="text-fuchsia-200 font-mono">Forhåndsvisning</span>
-    </div>
+    </button>
 
     {#if show}
       <div class="container bg-slate-100 pb-10">

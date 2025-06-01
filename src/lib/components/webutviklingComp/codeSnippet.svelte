@@ -1,24 +1,24 @@
-<script>
+<script lang="ts">
     import Highlight from "svelte-highlight";
     import xml from "svelte-highlight/languages/xml";
     import css from "svelte-highlight/languages/css";
     import agate from "svelte-highlight/styles/agate";
-    export let preview = false;
-    export let code;
-    export let language = "xml";
-    $:language = language.toLowerCase();
+    export let preview: boolean = false;
+    export let code: string;
+    export let language: string = "xml";
 
-    let show = false;
+    let show: boolean = false;
+    const lowerLang = () => language.toLowerCase();
 </script>
 
 <svelte:head>
     {@html agate}
 </svelte:head>
 <div class="py-10">
-    {#if language == "xml"}
+    {#if lowerLang() == "xml"}
     <Highlight language={xml} {code} />
     {/if}
-    {#if language == "css"}
+    {#if lowerLang() == "css"}
     <Highlight language={css} {code} />
     {/if}
     {#if preview}

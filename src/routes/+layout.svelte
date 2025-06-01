@@ -1,29 +1,13 @@
 <script>
     import "../app.css";
-    import { dev } from '$app/environment';
-    import { inject } from '@vercel/analytics';
-
-    inject({ mode: dev ? 'development' : 'production' });
+    let { children } = $props();
 </script>
+
 <nav class="flex justify-start h-10 items-center bg-gray-950">
-    <a href="/">Hjem</a>
-    <a href="/webutvikling">Webutvikling</a>
-    <a href="/javascript">Javascript</a>
-    <a href="/sql">SQL</a>
-
+    <a href="/" class="mx-4 no-underline text-base font-normal text-white hover:text-fuchsia-300 transition-colors">Hjem</a>
+    <a href="/webutvikling" class="mx-4 no-underline text-base font-normal text-white hover:text-fuchsia-300 transition-colors">Webutvikling</a>
+    <a href="/javascript" class="mx-4 no-underline text-base font-normal text-white hover:text-fuchsia-300 transition-colors">Javascript</a>
+    <a href="/sql" class="mx-4 no-underline text-base font-normal text-white hover:text-fuchsia-300 transition-colors">SQL</a>
 </nav>
-<slot />
 
-<style>
-    nav a {
-        margin: 0 1rem;
-        text-decoration: none;
-        font-size: 1rem;
-        font-weight: 350;
-        color: #fff;
-    }
-    nav a:hover {
-        @apply text-fuchsia-300;
-    }
-    
-</style>
+{@render children()}

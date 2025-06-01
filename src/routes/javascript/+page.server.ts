@@ -2,5 +2,5 @@
 import { redirect } from '@sveltejs/kit';
 
 export function load() {
-  throw redirect(307, '/javascript/part1');
+    throw redirect(307, '/javascript/part1');
 }

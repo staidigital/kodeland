@@ -1,28 +1,28 @@
-<script>
+<script lang="ts">
     import "../../app.css";
-    import Avsnitt from "../../lib/components/avsnitt.svelte";
-    import Overskrift from "../../lib/components/overskrift.svelte";
-    import Menulink from "../../lib/components/menulink.svelte";
-    import CodeSnippet from "../../lib/components/codeSnippet.svelte";
-    import Definition from "../../lib/components/avsnitt.svelte";
-    import Task from "../../lib/components/task.svelte";
-    import TaskFormatted from "../../lib/components/taskFormatted.svelte";
-    import img1 from "../../lib/img/extensions_button.png";
+    import Avsnitt from "$lib/components/webutviklingComp/avsnitt.svelte";
+    import Overskrift from "$lib/components/webutviklingComp/overskrift.svelte";
+    import Menulink from "$lib/components/webutviklingComp/menulink.svelte";
+    import CodeSnippet from "$lib/components/webutviklingComp/codeSnippet.svelte";
+    import Definition from "$lib/components/webutviklingComp/definition.svelte";   
+    import Task from "$lib/components/webutviklingComp/task.svelte"; 
+    import TaskFormatted from "$lib/components/webutviklingComp/taskFormatted.svelte";
+    import img1 from "$lib/img/extensions_button.png";
     import img2 from '$lib/img/live_server.png';
-    import img3 from '$lib/img/new_file.png';S
+    import img3 from '$lib/img/new_file.png';
     import img8 from '$lib/img/title.png';
     /*<span class="text-blue-300 text-mono"> &#60;body&#62; </span>*/
-    let avsnitt0 = [
+    let avsnitt0: string[] = [
         'I dette kurset skal vi lære de grunnleggende kunnskapene for å kunne lage vår egen nettside!',
         'Husk å skrive logg underveis i kurset. Noter deg ting du har lært, ting du lurer på, hvilke utfordringer du har hatt osv; og legg jevnlig inn skjermbilder fra både kode og nettside. Alltid gøy (og nyttig) og se progresjonen sin!'
-    ]
-    let avsnitt1 = [
+    ];
+    let avsnitt1: string[] = [
         'Lag en ny mappe et fornuftig sted og gi den navnet "webutvikling". Åpne mappen i VSCode ved å klikke <span class="italic">file -> open folder</span>. ',
         'Inne i Visual Studio Code skal vi installere en liten plugin. Trykk på de knappen med de fire boksene i menyen på venstresiden. <img src="'+img1+'" /> ',
         'Deretter søker du på "Live Server" og installerer den øverste av søkeresultatene som burde se slik ut: <img src="'+img2+ '" />',
         'og voila! Vi er klare for å begynne å kode litt. ',
-    ]
-    let avsnitt2 = [
+    ];
+    let avsnitt2: string[] = [
         'Inne i VSCode lager vi først en ny fil ved å klikke file->new file. Du burde du få opp en tom fil: <img src="' + img3 +' " />',
         'Klikk cmd+s (ctrl+s på windows) eller file->save for å lagre filen, og gi den navnet <span class="italic">index.html</span>. De fleste nettside-filer kan du kalle hva du vil, men forsiden din må alltid hete <span class="italic">index.html</span>. ',
         'For å komme litt raskt igang kan vi få hjelp av VSCode til å lage grunnstrukturen til HTML-filen vår. Lag et utropstegn og trykk <span class="italic">enter</span>. Da skal følgende kode dukke opp automagisk; eventuelt kan du bare kopiere den herfra. ',
@@ -31,8 +31,8 @@
         'For å se hvordan nettsiden blir seende ut, klikker du på Go Live nede til høyre i VSCode.',
         'Da åpner nettleseren seg og viser oss hvordan nettsiden egentlig ser ut.',
         'Wow! Gratulerer med å ha laget din første nettside! Den er ikke så veldig innholdsrik enda, så la oss se litt nærmere på hvordan vi kan legge til litt mer innhold.'
-    ]
-    let avsnitt3 = [
+    ];
+    let avsnitt3: string[] = [
         'Datamaskiner er dumme dyr, og trenger at vi skriver ting på helt spesielle måter for at de skal forstå hva vi mener. HTML står for HyperText Markup Language, og er et markeringsspråk vi bruker for å lage den grunnleggende strukturen for en nettside. ',
         'La oss ta en rask titt på koden vi lagde i stad. Den første linja, <span class="text-blue-300 text-mono"> &#60;!DOCTYPE html&#62; </span>, forteller nettleseren at dette er en HTML-fil. De forskjellige kodene vi bruker i HTML kaller vi for <span class="italic">tags</span>. For eksempel da vi skrev <span class="text-blue-300 text-mono">&#60;p&#62;Hei, verden!&#60;/p&#62;</span> brukte vi <span class="italic">p</span>-taggen. Legg merke til at vi nesten alltid har både en start-tag og en slutt-tag; disse ser nesten like ut bortsett fra at en slutt-tag har en skråstrek i seg.',
         'Selv om vi stort sett kommer til å skrive all koden vår i <span class="italic">body</span>, så er det enkelt ting vi gjør i <span class="italic">head</span>, f.eks. å bestemme teksten som skal stå på fanen til nettsiden i browseren din. Det gjør vi med <span class="text-blue-300 text-mono"> &#60;title&#62; </span> tag`n. Prøv å endre tittelen på siden din til f.eks. <span class="text-blue-300 text-mono"> &#60;title&#62; Min første nettside &#60;&#47;title&#62; </span> og observer at teksten i fanen endrer seg. <img src="' + img8 + '" />', 
@@ -41,19 +41,19 @@
         'Du kan endre størrelse på bilde ved å legge til en width-attributt og en height-attributt som bestemmer bredde og høyde på bildet i antall piksler. ',
         'Det finnes veldig mange html-tags man kan lære seg å bruke. Så på tide med en liten utforskningsoppgave!',
         '<a href="https://www.w3schools.com/html/default.asp"><span class="text-[#f81ce5]"> W3Schools</span></a> er en fin ressurs å bruke for å lære mer om HTML.'
-    ]
-    let avsnitt4 = [
+    ];
+    let avsnitt4: string[] = [
         'Enn så lenge er ikke nettsiden vår veldig fargerik. For å å kunne gi nettsiden vår litt mer styling må vi innføre enda et markeringsspråk; CSS (Cascading Style Sheet). ',
         'Lag en ny fil i prosjektet ditt i VSCode og gi den navnet <span class="italic">style.css</span>. Deretter kopierer du følgende linje med kode og limer inn i <span class="text-blue-300 text-mono">&#60;head&#62;</span> delen av html-filen din: ',
         'CSS har litt annen syntaks enn HTML. I CSS har ikke rekkefølgen i koden noe å si, og kodene skrives på en litt annen måte.',
         'CSS handler om å beskrive de HTML-elementene vi allerede har lagt inn på nettsiden. La oss ta utgangspunkt i at jeg har en p-tag med tekst som jeg ønsker å gi litt farge. Da skriver jeg følgende i CSS-filen min: ',
-        'Hvis jeg også skal gi styling til overskriften min, starter jeg bare en ny linje i CSS-filen og skriver:',
+        'Hvis jeg også skal gi styling til overskriden min, starter jeg bare en ny linje i CSS-filen og skriver:',
         'Hvis du ikke har en p-tag eller en h1-tag i HTML-filen, vil ikke CSS-koden gjøre noe. Det er fordi CSS handler om å beskrive HTML-elementer. ',
         'Et annet eksempel på noe vi kan gjøre med CSS, er å endre bakgrunnsfargen på nettsiden sin. Da kan vi gi følgende styling til body-taggen vår: ',
         'I tillegg til å skrive farger med navn, som f.eks. red eller blue, kan vi bruke hex-koder. Hex-koder er en måte å beskrive farger på som datamaskiner forstår. De består av 6 tegn, der de to første beskriver hvor mye rødt det er i fargen, de to neste hvor mye grønt det er i fargen, og de to siste hvor mye blått det er i fargen. Hvis vi ønsker å lage en mørk bakgrunnsfarge kan vi f.eks. bruke #000000, som er en farge uten noe rødt, grønt eller blått i seg. Hvis vi ønsker en hvit bakgrunnsfarge kan vi bruke #ffffff, som er en farge med fullt rødt, grønt og blått. ',
         ''
-    ]
-    let avsnitt5 = [
+    ];
+    let avsnitt5: string[] = [
         '<span class="italic>Id</span og <span class="italic">class</span> er to attributter vi kan legge til HTML-elementer for å kunne referere til dem i CSS. Id er unikt for hvert element, mens class kan brukes på flere elementer. ',
         'La oss si et jeg har tre p-tag`er som jeg ønsker å gi litt forskjellig styling. Da kan jeg legge til en id-attributt på hver av dem, og gi dem hver sin farge i CSS. Prøv å skrive inn følgende HTML på nettsiden din: ',
         'Og denne CSS-en:',
@@ -62,14 +62,14 @@
         'Og følgende i CSS:',
         ''
     ];
-    let avsnitt6 = [
+    let avsnitt6: string[] = [
         '<span class="text-blue-300 text-mono"> &#60;div&#62; </span>-tagen er en av de mest brukte HTML-tagene. Div brukes til å dele inn nettsider i mindre deler, og blir veldig viktig når vi etterhvert har lyst til å plassere innholdet vårt på spesifikke steder på nettsiden.',
         'Hvis du prøver å legge inn en div-tag i HTML-filen din, vil du se at den ikke gjør noe. Det er fordi div ikke har noen spesiell styling i seg. Det er bare en tom boks som vi kan legge innhold i. Som et eksempel kan vi lage en div med en rød bakgrunn og hvit tekst. ',
         '',
         '',
         ''
     ];
-    let avsnitt7 = [
+    let avsnitt7: string[] = [
         'Når vi legger inn forskjellige tags i HTML-koden vår, så legger de seg under hverandre på nettsiden vår. Men hva hvis jeg ønsker å plassere noen divs ved siden av hverandre slik som dette:',
         'Eller hva med denne nettsiden? Den har en litt smalere seksjon på venstresiden for menyen, og en større seksjon til høyre for selve innholdet. ',
         'Når du har gjort deg ferdig med flexbox froggy, kan du prøve å gjenskape disse layoutene (og gjerne legge inn noe innhold også).',
@@ -189,15 +189,15 @@
         }
     ];
 
-    let menuOpen = false;
-    let screenSize;
+    let menuOpen: boolean = false;
+    let screenSize: number = 0;
 </script>
 <svelte:window bind:innerWidth={screenSize} />
 <main class="flex lg:flex-row flex-col bg-slate-900">
     <div class="lg:w-1/5 w-screen bg-slate-700 lg:pt-40">
         {#if screenSize < 1024}
-        <div class= "w-screen h-20 flex justify-end">
-            <button on:click={() => {menuOpen = !menuOpen;}} class="p-4 w-20 h-full flex flex-col justify-between">
+        <div class="w-screen h-20 flex justify-end">
+            <button aria-label="Åpne eller lukk meny" on:click={() => {menuOpen = !menuOpen;}} class="p-4 w-20 h-full flex flex-col justify-between">
                 <div class="w-full h-1.5 bg-slate-200 "></div>
                 <div class="w-full h-1.5 bg-slate-200 "></div>
                 <div class="w-full h-1.5 bg-slate-200 "></div>
@@ -219,7 +219,6 @@
     <div class="lg:px-40 px-5 lg:w-4/5 w-screen">
         <header class="flex flex-col justify-center lg:pt-40 pt-5">
             <span class="text-3xl font-mono text-fuchsia-300">Webutvikling 101</span>
-            <span class="font-mono text-fuchsia-200">©Sondre Stai 2025</span>
         </header>
         <section class="flex flex-col py-5">
             <Avsnitt text={avsnitt0[0]} />
@@ -267,7 +266,7 @@
             <Avsnitt text={avsnitt4[1]} />
             <CodeSnippet code={code6} />
             <Avsnitt text={avsnitt4[2]} />
-            <Definition term="Syntaks" definition="Syntaks betyr måten man skriver koden på. F.eks. at man bruker < og > tegn i HTML. Forskjellige kodespråk har ofte forskjellig syntaks. " />
+            <Definition term="Syntaks" definition="Syntaks betyr måten man skriver koden på. F.eks. at man bruker < and > tegn i HTML. Forskjellige kodespråk har ofte forskjellig syntaks. " />
             <Avsnitt text={avsnitt4[3]} />
             <CodeSnippet code={code7} language="css"/> 
             <Avsnitt text={avsnitt4[4]} />
@@ -352,18 +351,3 @@
     </div>
 
 </main>
-
-<style>
-    :global(a){
-        color: #ff79c6;
-    }
-    :global(body){
-        @apply bg-slate-900;
-    }
-    .boks{
-        width: 100px;
-        height: 100px;
-        margin: 10px;
-        @apply bg-blue-500;
-    }
-</style>

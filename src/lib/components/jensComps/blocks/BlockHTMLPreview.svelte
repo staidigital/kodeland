@@ -1,73 +1,74 @@
-<script>
+<script lang="ts">
   import { onMount, tick } from 'svelte';
   // @ts-ignore
   import CodeMirror from 'svelte-codemirror-editor';
   import { javascript } from '@codemirror/lang-javascript';
   import { oneDark } from '@codemirror/theme-one-dark';
 
-  export let html = "";
-  export let js = "";
+  export let html: string = "";
+  export let js: string = "";
 
-  let iframeRef;
-  let currentScript = js;
-  let currentHeight = 0;
+  let iframeRef: HTMLIFrameElement | null = null;
+  let currentScript: string = js;
+  let currentHeight: number = 0;
 
-  const iframeId = `iframe-${Math.random().toString(36).slice(2, 9)}`;
+  const iframeId: string = `iframe-${Math.random().toString(36).slice(2, 9)}`;
 
-  function updateIframe() {
-    if (!iframeRef) return;
-    const doc = iframeRef.contentDocument || iframeRef.contentWindow.document;
-    doc.open();
-    doc.write(`
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <style>
-            html, body {
-              margin: 0;
-              padding: 0;
-              font-family: sans-serif;
-            }
-          </style>
-        </head>
-        <body>
-          ${html}
-          <script>
-            (function() {
-              ${currentScript}
-            })();
-            function sendHeight() {
-              const height = Math.min(document.body.scrollHeight, 800);
-              parent.postMessage({ type: 'resize-iframe', id: '${iframeId}', height }, '*');
-            }
-            window.addEventListener('load', sendHeight);
-            setTimeout(sendHeight, 100);
-            setTimeout(sendHeight, 300);
-          <\/script>
-        </body>
-      </html>
-    `);
-    doc.close();
+  function updateIframe(): void {
+      if (!iframeRef) return;
+      const doc = iframeRef.contentDocument || iframeRef.contentWindow?.document;
+      if (!doc) return;
+      doc.open();
+      doc.write(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <style>
+          html, body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+          }
+        </style>
+      </head>
+      <body>
+        ${html}
+        <script>
+          (function() {
+            ${currentScript}
+          })();
+          function sendHeight() {
+            const height = Math.min(document.body.scrollHeight, 800);
+            parent.postMessage({ type: 'resize-iframe', id: '${iframeId}', height }, '*');
+          }
+          window.addEventListener('load', sendHeight);
+          setTimeout(sendHeight, 100);
+          setTimeout(sendHeight, 300);
+        <\/script>
+      </body>
+    </html>
+  `);
+      doc.close();
   }
 
-  function handleResize(event) {
-    if (
-      event?.data?.type === 'resize-iframe' &&
-      event?.data?.id === iframeId
-    ) {
-    const newHeight = Math.max(event.data.height + 36, 120); // 24px buffer
-      if (Math.abs(newHeight - currentHeight) > 5) {
-        iframeRef.style.height = newHeight + 'px';
-        currentHeight = newHeight;
+  function handleResize(event: MessageEvent): void {
+      if (
+          event?.data?.type === 'resize-iframe' &&
+          event?.data?.id === iframeId
+      ) {
+          const newHeight = Math.max(event.data.height + 36, 120); // 24px buffer
+          if (Math.abs(newHeight - currentHeight) > 5 && iframeRef) {
+              iframeRef.style.height = newHeight + 'px';
+              currentHeight = newHeight;
+          }
       }
-    }
   }
 
   onMount(async () => {
-    await tick();
-    setTimeout(() => {
-      updateIframe();
-    }, 50);
+      await tick();
+      setTimeout(() => {
+          updateIframe();
+      }, 50);
   });
 </script>
 
@@ -77,12 +78,12 @@
   <!-- Live Preview -->
   <div class="lg:w-[40%] w-full space-y-2 min-w-0">
     <div class="text-sm font-mono text-fuchsia-300">Live Preview:</div>
-    <iframe
+    <iframe title="test"
       class="w-full border border-slate-700 rounded bg-white"
       bind:this={iframeRef}
       sandbox="allow-scripts allow-same-origin"
       style="height: 200px; transition: height 0.2s ease"
-    />
+    ></iframe>
   </div>
 
   <!-- Editable JS + Save button -->
