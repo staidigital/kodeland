@@ -193,19 +193,21 @@
     let screenSize: number = 0;
 </script>
 <svelte:window bind:innerWidth={screenSize} />
-<main class="flex lg:flex-row flex-col bg-slate-900">
-    <div class="lg:w-1/5 w-screen bg-slate-700 lg:pt-40">
+<main class="flex lg:flex-row flex-col min-h-screen bg-gradient-to-br from-slate-900 via-slate-950 to-fuchsia-950">
+    <!-- Sidebar/Menu -->
+    <aside class="lg:w-1/5 w-full bg-slate-800/90 lg:pt-32 shadow-xl z-20">
         {#if screenSize < 1024}
-        <div class="w-screen h-20 flex justify-end">
+        <div class="w-full h-20 flex justify-end bg-slate-900/80 border-b border-fuchsia-900">
             <button aria-label="Åpne eller lukk meny" on:click={() => {menuOpen = !menuOpen;}} class="p-4 w-20 h-full flex flex-col justify-between">
-                <div class="w-full h-1.5 bg-slate-200 "></div>
-                <div class="w-full h-1.5 bg-slate-200 "></div>
-                <div class="w-full h-1.5 bg-slate-200 "></div>
+                <div class="w-full h-1.5 bg-fuchsia-300 rounded"></div>
+                <div class="w-full h-1.5 bg-fuchsia-300 rounded"></div>
+                <div class="w-full h-1.5 bg-fuchsia-300 rounded"></div>
             </button>
         </div>
         {/if}
         {#if menuOpen || screenSize > 1024}
-        <div class="menu flex flex-col flex-start p-10 justify-between lg:fixed">
+        <nav class="menu flex flex-col gap-4 p-8 lg:fixed">
+            <span class="text-fuchsia-300 font-bold text-lg mb-2 tracking-wide">Innhold</span>
             <Menulink text='Setup' link='#sectionOne' />
             <Menulink text='Din første nettside' link='#sectionTwo' />
             <Menulink text='HTML Basics' link='#sectionThree' />
@@ -213,141 +215,170 @@
             <Menulink text='Id og class' link='#sectionFive' />
             <Menulink text='Div-elementet' link='#sectionSix' />
             <Menulink text='Flexbox' link='#sectionSeven' />
-        </div>
+        </nav>
         {/if}
-    </div>
-    <div class="lg:px-40 px-5 lg:w-4/5 w-screen">
-        <header class="flex flex-col justify-center lg:pt-40 pt-5">
-            <span class="text-3xl font-mono text-fuchsia-300">Webutvikling 101</span>
+    </aside>
+    <!-- Main Content -->
+    <section class="lg:px-24 px-4 py-8 lg:w-4/5 w-full flex flex-col gap-12">
+        <header class="flex flex-col items-center justify-center pt-8 pb-4">
+            <span class="text-4xl font-extrabold text-fuchsia-300 drop-shadow-lg tracking-wide mb-2">Webutvikling 101</span>
+            <span class="text-fuchsia-100 text-lg font-mono text-center max-w-2xl">Lær å lage din egen nettside fra bunnen av – steg for steg!</span>
         </header>
-        <section class="flex flex-col py-5">
+        <section class="flex flex-col gap-2 bg-slate-800/80 rounded-xl shadow-lg p-6 border border-fuchsia-900">
             <Avsnitt text={avsnitt0[0]} />
             <Avsnitt text={avsnitt0[1]} />
         </section>
-        <section id="sectionOne" class="py-10">
+        <section id="sectionOne" class="bg-slate-800/80 rounded-xl shadow-lg p-6 border border-fuchsia-900">
             <Overskrift text='Setup' />
-            <Avsnitt text={avsnitt1[0]} />
-            <Avsnitt text={avsnitt1[1]} />
-            <Avsnitt text={avsnitt1[2]} />
-            <Avsnitt text={avsnitt1[3]} />
+            <div class="flex flex-col gap-2">
+                <Avsnitt text={avsnitt1[0]} />
+                <Avsnitt text={avsnitt1[1]} />
+                <Avsnitt text={avsnitt1[2]} />
+                <Avsnitt text={avsnitt1[3]} />
+            </div>
         </section>
-        <section id="sectionTwo" class="pb-10 py-10">
+        <section id="sectionTwo" class="bg-slate-800/80 rounded-xl shadow-lg p-6 border border-fuchsia-900">
             <Overskrift text='Din første nettside' />
-            <Avsnitt text={avsnitt2[0]} />
-            <Avsnitt text={avsnitt2[1]} />
-            <Avsnitt text={avsnitt2[2]} />
-            <CodeSnippet code={code1} />
-            <Avsnitt text={avsnitt2[3]} />
-            <Avsnitt text={avsnitt2[4]} />
-            <CodeSnippet code={code2} preview={true} />
-            <Avsnitt text={avsnitt2[5]} />
-            <Avsnitt text={avsnitt2[6]} />
-            <Avsnitt text={avsnitt2[7]} />
+            <div class="flex flex-col gap-2">
+                <Avsnitt text={avsnitt2[0]} />
+                <Avsnitt text={avsnitt2[1]} />
+                <Avsnitt text={avsnitt2[2]} />
+                <CodeSnippet code={code1} />
+                <Avsnitt text={avsnitt2[3]} />
+                <Avsnitt text={avsnitt2[4]} />
+                <CodeSnippet code={code2} preview={true} />
+                <Avsnitt text={avsnitt2[5]} />
+                <Avsnitt text={avsnitt2[6]} />
+                <Avsnitt text={avsnitt2[7]} />
+            </div>
         </section>
-        <section id="sectionThree" class="pb-10 py-10">
+        <section id="sectionThree" class="bg-slate-800/80 rounded-xl shadow-lg p-6 border border-fuchsia-900">
             <Overskrift text='HTML Basics' />
-            <Avsnitt text={avsnitt3[0]} />
-            <Avsnitt text={avsnitt3[1]} />
-            <Avsnitt text={avsnitt3[2]} />
-            <Avsnitt text={avsnitt3[3]} />
-            <CodeSnippet code={code3} preview={true} />
-            <Avsnitt text={avsnitt3[4]} />
-            <CodeSnippet code={code4} preview={true} />
-            <Definition term="Attributt" definition="En attributt er en egenskap som kan legges til en HTML-tag for å endre hvordan den oppfører seg. For eksempel kan vi legge til en src-attributt på img-taggen for å fortelle nettleseren hvor den skal hente bildet fra." />
-            <Avsnitt text={avsnitt3[5]} />
-            <CodeSnippet code={code5} preview={true} />
-            <Avsnitt text={avsnitt3[6]} />
-            <Task tasks={task1} description="Bruk Internett og egen testing for å finne ut av hva følgende html-tags gjør:" />
-            <Avsnitt text={avsnitt3[7]} />
+            <div class="flex flex-col gap-2">
+                <Avsnitt text={avsnitt3[0]} />
+                <Avsnitt text={avsnitt3[1]} />
+                <Avsnitt text={avsnitt3[2]} />
+                <Avsnitt text={avsnitt3[3]} />
+                <CodeSnippet code={code3} preview={true} />
+                <Avsnitt text={avsnitt3[4]} />
+                <CodeSnippet code={code4} preview={true} />
+                <Definition term="Attributt" definition="En attributt er en egenskap som kan legges til en HTML-tag for å endre hvordan den oppfører seg. For eksempel kan vi legge til en src-attributt på img-taggen for å fortelle nettleseren hvor den skal hente bildet fra." />
+                <Avsnitt text={avsnitt3[5]} />
+                <CodeSnippet code={code5} preview={true} />
+                <Avsnitt text={avsnitt3[6]} />
+                <Task tasks={task1} description="Bruk Internett og egen testing for å finne ut av hva følgende html-tags gjør:" />
+                <Avsnitt text={avsnitt3[7]} />
+            </div>
         </section>
-        <section id="sectionFour" class="pb-10 py-10">
+        <section id="sectionFour" class="bg-slate-800/80 rounded-xl shadow-lg p-6 border border-fuchsia-900">
             <Overskrift text='CSS Basics' />
-            <Avsnitt text={avsnitt4[0]} />
-            <Avsnitt text={avsnitt4[1]} />
-            <CodeSnippet code={code6} />
-            <Avsnitt text={avsnitt4[2]} />
-            <Definition term="Syntaks" definition="Syntaks betyr måten man skriver koden på. F.eks. at man bruker < and > tegn i HTML. Forskjellige kodespråk har ofte forskjellig syntaks. " />
-            <Avsnitt text={avsnitt4[3]} />
-            <CodeSnippet code={code7} language="css"/> 
-            <Avsnitt text={avsnitt4[4]} />
-            <CodeSnippet code={code7 + '\n' + code8} language="css" />
-            <Avsnitt text={avsnitt4[5]} />
-            <Avsnitt text={avsnitt4[6]} />
-            <CodeSnippet code={code9} language="css" />
-            <Avsnitt text={avsnitt4[7]} />
-            <Task description="Bruk Internett og egen testing for å finne ut av hva følgende css-properties gjør:" tasks={task2} />
+            <div class="flex flex-col gap-2">
+                <Avsnitt text={avsnitt4[0]} />
+                <Avsnitt text={avsnitt4[1]} />
+                <CodeSnippet code={code6} />
+                <Avsnitt text={avsnitt4[2]} />
+                <Definition term="Syntaks" definition="Syntaks betyr måten man skriver koden på. F.eks. at man bruker < and > tegn i HTML. Forskjellige kodespråk har ofte forskjellig syntaks. " />
+                <Avsnitt text={avsnitt4[3]} />
+                <CodeSnippet code={code7} language="css"/> 
+                <Avsnitt text={avsnitt4[4]} />
+                <CodeSnippet code={code7 + '\n' + code8} language="css" />
+                <Avsnitt text={avsnitt4[5]} />
+                <Avsnitt text={avsnitt4[6]} />
+                <CodeSnippet code={code9} language="css" />
+                <Avsnitt text={avsnitt4[7]} />
+                <Task description="Bruk Internett og egen testing for å finne ut av hva følgende css-properties gjør:" tasks={task2} />
+            </div>
         </section>
-        <section id="sectionFive" class="pb-10 py-10">
+        <section id="sectionFive" class="bg-slate-800/80 rounded-xl shadow-lg p-6 border border-fuchsia-900">
             <Overskrift text='Id og class' />
-            <Avsnitt text={avsnitt5[0]} />
-            <Avsnitt text={avsnitt5[1]} />
-            <CodeSnippet code={code10} />
-            <Avsnitt text={avsnitt5[2]} />
-            <CodeSnippet code={code11} language="css" />
-            <Avsnitt text={avsnitt5[3]} />
-            <Avsnitt text={avsnitt5[4]} />
-            <CodeSnippet code={code12} />
-            <Avsnitt text={avsnitt5[5]} />
-            <CodeSnippet code={code13} language="css" />
+            <div class="flex flex-col gap-2">
+                <Avsnitt text={avsnitt5[0]} />
+                <Avsnitt text={avsnitt5[1]} />
+                <CodeSnippet code={code10} />
+                <Avsnitt text={avsnitt5[2]} />
+                <CodeSnippet code={code11} language="css" />
+                <Avsnitt text={avsnitt5[3]} />
+                <Avsnitt text={avsnitt5[4]} />
+                <CodeSnippet code={code12} />
+                <Avsnitt text={avsnitt5[5]} />
+                <CodeSnippet code={code13} language="css" />
+            </div>
         </section>
-        <section id="sectionSix" class="pb-10 py-10">
+        <section id="sectionSix" class="bg-slate-800/80 rounded-xl shadow-lg p-6 border border-fuchsia-900">
             <Overskrift text='Div-elementet' />
-            <Avsnitt text={avsnitt6[0]} />
-            <Avsnitt text={avsnitt6[1]} />
-            <CodeSnippet code={code14} />
-            <CodeSnippet code={code15} language="css" />
-            <Avsnitt text={avsnitt6[2]} />
-            <Avsnitt text={avsnitt6[3]} />
-            <Avsnitt text={avsnitt6[4]} />
+            <div class="flex flex-col gap-2">
+                <Avsnitt text={avsnitt6[0]} />
+                <Avsnitt text={avsnitt6[1]} />
+                <CodeSnippet code={code14} />
+                <CodeSnippet code={code15} language="css" />
+                <Avsnitt text={avsnitt6[2]} />
+                <Avsnitt text={avsnitt6[3]} />
+                <Avsnitt text={avsnitt6[4]} />
+            </div>
         </section>
-        <section id="sectionSeven" class="pb-10 py-10">
+        <section id="sectionSeven" class="bg-slate-800/80 rounded-xl shadow-lg p-6 border border-fuchsia-900">
             <Overskrift text='Flexbox' />
-            <Avsnitt text={avsnitt7[0]} />
-            <div class="flex flex-row justify-evenly my-5">
-                <div class="boks"></div>
-                <div class="boks"></div>
-                <div class="boks"></div>
-                <div class="boks"></div>
-            </div>
-            <Avsnitt text={avsnitt7[1]} />
-            <TaskFormatted task='Lær deg å bruke Flex!' description='Jobb deg gjennom <a href="https://flexboxfroggy.com/"><span class="text-[#f81ce5]">Flexbox Froggy</span></a>' />
-            <Avsnitt text={avsnitt7[2]} />
-            <Avsnitt text={avsnitt7[3]} />
-            <div class="flex flex-col h-50 my-5">
-                <div class="w-full h-10 bg-slate-200"></div>
-                <div class="w-full h-40 flex flex-row bg-teal-500">
-                    <div class="w-1/4 bg-slate-400"></div>
-                    <div class="w-3/4 bg-slate-600"></div>
+            <div class="flex flex-col gap-2">
+                <Avsnitt text={avsnitt7[0]} />
+                <div class="flex flex-row justify-evenly my-5">
+                    <div class="boks"></div>
+                    <div class="boks"></div>
+                    <div class="boks"></div>
+                    <div class="boks"></div>
                 </div>
-            </div>
-            <Avsnitt text={avsnitt7[4]} />
-            <div class="flex flex-col my-5">
-                <div class="w-full h-10 bg-slate-200"></div>
-                <div class="w-full h-40 flex flex-row bg-teal-500">
-                    <div class="w-3/4 bg-slate-400"></div>
-                    <div class="w-1/4 bg-slate-600"></div>
-                    <div class="w-1/4 bg-slate-800"></div>
-                </div>
-            </div>
-            <Avsnitt text={avsnitt7[5]} />
-            <div class="flex w-full flex-row h-60 my-5 bg-slate-50">
-                <div class="h-full w-1/2 flex flex-col">
-                    <div class="flex flex-row h-1/2">
-                        <div class="grow h-full bg-teal-300"></div>
-                        <div class="grow h-full bg-teal-500"></div>
-                    </div>
-                    <div class="flex flex-row h-1/2">
-                        <div class="grow h-full bg-teal-700"></div>
-                        <div class="grow h-full bg-teal-900"></div>
+                <Avsnitt text={avsnitt7[1]} />
+                <TaskFormatted task='Lær deg å bruke Flex!' description='Jobb deg gjennom <a href="https://flexboxfroggy.com/"><span class="text-[#f81ce5]">Flexbox Froggy</span></a>' />
+                <Avsnitt text={avsnitt7[2]} />
+                <Avsnitt text={avsnitt7[3]} />
+                <div class="flex flex-col h-50 my-5">
+                    <div class="w-full h-10 bg-slate-200"></div>
+                    <div class="w-full h-40 flex flex-row bg-teal-500">
+                        <div class="w-1/4 bg-slate-400"></div>
+                        <div class="w-3/4 bg-slate-600"></div>
                     </div>
                 </div>
-                <div class="flex flex-col h-full grow">
-                    <div class="w-full h-1/3 bg-teal-300"></div>
-                    <div class="w-full h-1/3 bg-teal-500"></div>
-                    <div class="w-full h-1/3 bg-teal-700"></div>
+                <Avsnitt text={avsnitt7[4]} />
+                <div class="flex flex-col my-5">
+                    <div class="w-full h-10 bg-slate-200"></div>
+                    <div class="w-full h-40 flex flex-row bg-teal-500">
+                        <div class="w-3/4 bg-slate-400"></div>
+                        <div class="w-1/4 bg-slate-600"></div>
+                        <div class="w-1/4 bg-slate-800"></div>
+                    </div>
+                </div>
+                <Avsnitt text={avsnitt7[5]} />
+                <div class="flex w-full flex-row h-60 my-5 bg-slate-50">
+                    <div class="h-full w-1/2 flex flex-col">
+                        <div class="flex flex-row h-1/2">
+                            <div class="grow h-full bg-teal-300"></div>
+                            <div class="grow h-full bg-teal-500"></div>
+                        </div>
+                        <div class="flex flex-row h-1/2">
+                            <div class="grow h-full bg-teal-700"></div>
+                            <div class="grow h-full bg-teal-900"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col h-full grow">
+                        <div class="w-full h-1/3 bg-teal-300"></div>
+                        <div class="w-full h-1/3 bg-teal-500"></div>
+                        <div class="w-full h-1/3 bg-teal-700"></div>
+                    </div>
                 </div>
             </div>
         </section>
-    </div>
-
+    </section>
 </main>
+
+<style>
+    .boks {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #a21caf 60%, #f0abfc 100%);
+        border-radius: 0.75rem;
+        box-shadow: 0 2px 12px #a21caf33;
+        margin: 0 0.5rem;
+    }
+    .menu span {
+        letter-spacing: 0.04em;
+    }
+</style>
