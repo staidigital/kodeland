@@ -4,12 +4,12 @@
     import Overskrift from "../../lib/components/overskrift.svelte";
     import Menulink from "../../lib/components/menulink.svelte";
     import CodeSnippet from "../../lib/components/codeSnippet.svelte";
-    import Definition from "$lib/components/definition.svelte";   
-    import Task from "$lib/components/task.svelte"; 
-    import TaskFormatted from "$lib/components/taskFormatted.svelte";
-    import img1 from "$lib/img/extensions_button.png";
+    import Definition from "../../lib/components/avsnitt.svelte";
+    import Task from "../../lib/components/task.svelte";
+    import TaskFormatted from "../../lib/components/taskFormatted.svelte";
+    import img1 from "../../lib/img/extensions_button.png";
     import img2 from '$lib/img/live_server.png';
-    import img3 from '$lib/img/new_file.png';
+    import img3 from '$lib/img/new_file.png';S
     import img8 from '$lib/img/title.png';
     /*<span class="text-blue-300 text-mono"> &#60;body&#62; </span>*/
     let avsnitt0 = [
