@@ -1,5 +1,5 @@
-<script>
-// @ts-ignore
+<script lang="ts">
+  // @ts-ignore
   import CodeMirror from 'svelte-codemirror-editor';
   import { html as htmlLang } from '@codemirror/lang-html';
   import { css as cssLang } from '@codemirror/lang-css';
@@ -7,17 +7,17 @@
   import { oneDark } from '@codemirror/theme-one-dark';
   import { onMount, tick } from 'svelte';
 
-  let html = '<h1 id="header">Hello!</h1>';
-  let css = 'h1 { color: red; font-family: sans-serif; }';
-  let js = `const message = "Hello from JS!";\nconsole.log(message);`;
+  let html: string = '<h1 id="header">Hello!</h1>';
+  let css: string = 'h1 { color: red; font-family: sans-serif; }';
+  let js: string = `const message = "Hello from JS!";\nconsole.log(message);`;
 
-  let iframeRef;
-  let consoleLogs = [];
-  let lastLogRef;
+  let iframeRef: HTMLIFrameElement | null = null;
+  let consoleLogs: any[] = [];
+  let lastLogRef: HTMLDivElement | null = null;
 
-  const iframeId = `iframe-${Math.random().toString(36).slice(2, 9)}`;
+  const iframeId: string = `iframe-${Math.random().toString(36).slice(2, 9)}`;
 
-  function updateIframe() {
+  function updateIframe(): void {
     const content = `
       <html>
         <head>
@@ -30,7 +30,7 @@
             console.log = function(...args) {
               parent.postMessage({ type: 'log', args }, '*');
               originalLog.apply(console, args);
-            }
+            };
 
             try {
               ${js}
@@ -41,11 +41,11 @@
         </body>
       </html>
     `;
-    iframeRef.srcdoc = content;
+    if (iframeRef) iframeRef.srcdoc = content;
     consoleLogs = [];
   }
 
-  function handleMessage(event) {
+  function handleMessage(event: MessageEvent): void {
     if (event?.data?.type === 'log') {
       consoleLogs = [...consoleLogs, ...event.data.args];
     }
@@ -123,7 +123,11 @@
 
     <div>
       <h3 class="text-fuchsia-400 font-mono mb-2">Web View</h3>
-      <iframe bind:this={iframeRef} sandbox="allow-scripts" class="w-full h-64 bg-white border rounded" />
+      <iframe bind:this={iframeRef} 
+        sandbox="allow-scripts" 
+        class="w-full h-64 bg-white border rounded" 
+        title="Code output preview"
+      ></iframe>
     </div>
   </div>
 </div>

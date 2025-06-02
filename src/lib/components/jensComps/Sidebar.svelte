@@ -1,10 +1,22 @@
-<script>
+<script lang="ts">
   import { page } from '$app/stores';
+  import type { Readable } from 'svelte/store';
 
-  export let sections = []; // passed from layout
-  export let courseId = 'javascript'; // optionally set from parent
-  let screenSize;
-  let menuOpen = false;
+  interface SectionLink {
+    text: string;
+    anchor: string;
+  }
+
+  interface Section {
+    id: string;
+    title: string;
+    links?: SectionLink[];
+  }
+
+  export let sections: Section[] = [];
+  export let courseId: string = 'javascript';
+  let screenSize: number;
+  let menuOpen: boolean = false;
 </script>
 
 <svelte:window bind:innerWidth={screenSize} />
@@ -17,11 +29,13 @@
       <button
         on:click={() => (menuOpen = !menuOpen)}
         class="p-4 w-20 h-full flex flex-col justify-between"
+        aria-label="Toggle navigation menu"
       >
         <div class="w-full h-1.5 bg-slate-200"></div>
         <div class="w-full h-1.5 bg-slate-200"></div>
         <div class="w-full h-1.5 bg-slate-200"></div>
       </button>
+
     </div>
   {/if}
 

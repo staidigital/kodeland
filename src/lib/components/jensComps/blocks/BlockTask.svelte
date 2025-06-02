@@ -1,15 +1,26 @@
-<script>
+<script context="module" lang="ts">
+  export interface Solution {
+      correct?: number;
+      options?: string[];
+      code?: string;
+      script?: string;
+      text?: string;
+    }
+</script>
+<script lang="ts">
+  
+
   import { renderInlineMarkup } from '$lib/utils/markup.js';
   import BlockHtmlPreview from './BlockHTMLPreview.svelte';
 
-  export let number;
-  export let title;
-  export let description;
-  export let solution;
+  export let number: number;
+  export let title: string;
+  export let description: string;
+  export let solution: Solution;
 
-  let selected = null;
-  let answered = false;
-  let showSolution = false;
+  let selected: number | null = null;
+  let answered: boolean = false;
+  let showSolution: boolean = false;
 </script>
 
 <div class="border border-slate-700 rounded p-4 bg-slate-800 text-slate-100 space-y-4">

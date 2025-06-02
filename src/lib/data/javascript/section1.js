@@ -5,15 +5,15 @@ export default [
   // 🔹 INTRODUCTION
   {
     id: "sectionOne",
-    title: "",
+    title: "Variabler",
     blocks: [
       {
         type: 'paragraph',
-        text: 'I JavaScript (og i programmering generelt) bruker vi variabler for å lagre informasjon som vi kan bruke senere. Det kan være et tall, et ord eller andre typer data.'
+        text: 'I JavaScript (og i programmering generelt) bruker vi **variabler** for å lagre ting vi vil bruke senere. Det kan være et tall, et navn eller noe annet vi trenger i koden vår.'
       },
       {
         type: 'paragraph',
-        text: 'Vi kan definere variabler på tre hovedmåter i JavaScript: `var`, `let` og `const`.'
+        text: 'For å lage en variabel i JavaScript, kan vi bruke tre ord: `var`, `let` og `const`. De gjør nesten det samme, men det er noen forskjeller på hvordan og når vi bør bruke dem.'
       }
     ]
   },
@@ -24,21 +24,26 @@ export default [
     title: "1. Det `var` en gang",
     blocks: [
       {
-        type: 'list',
-        items: [
-          '`var` er den eldste måten å deklarere variabler på i JavaScript og ble mye brukt før 2015',
-          'En variabel deklarert med `var` kan endres (reassignes) senere.',
-          '`var` har funksjonsscope, noe som betyr at den kan brukes overalt innenfor funksjonen den er deklarert i.'
-        ]
+        type: 'paragraph',
+        text: '`var` er den gamle måten å lage variabler på i JavaScript. Før 2015 brukte mange `var`, men i dag bruker vi heller `let` eller `const`'
+      },
+      { type:'paragraph',
+        text:'Når du lager en variabel med `var`, kan du endre verdien senere. I JavaScript skriver vi ting til **terminalen** med `console.log()`'
       },
       {
         type: 'code',
         language: 'javascript',
-        code: `var name = "John";
-console.log(name);  // Output: John
-name = "Jane";
-console.log(name);  // Output: Jane`
-      }
+        code: `var name = "Jens";
+console.log(name);
+name = "Faizan"; //nå er variabelen endret
+console.log(name);`
+      },
+
+      {
+        type: 'paragraph',
+        text: 'En viktig ting med `var` er at den har **funksjonsscope**. Det betyr at hvis du lager `var` inne i en funksjon, kan du bruke den overalt inne i funksjonen - men ikke utenfor.'
+      },
+      
     ]
   },
 
@@ -48,20 +53,48 @@ console.log(name);  // Output: Jane`
     title: "2. Den nye måten: `let`",
     blocks: [
       {
-        type: 'list',
-        items: [
-          '`let` ble introdusert i en nyere versjon av JavaScript (ES6/ES2015)',
-          'En variabel deklarert med let kan også endres, men den kan bare brukes i den spesifikke blokken (f.eks. en if-setning) den er laget i.',
-          '`var` har funksjonsscope, noe som betyr at den kan brukes overalt innenfor funksjonen den er deklarert i.'
-        ]
+        type: 'paragraph',
+        text: '`let` kom i 2015 med en ny versjon av javascript (ES6), og den brukes mye i dag.'
+      },
+      {
+        type: 'paragraph',
+        text: 'Akkurat som med `var`, kan du lage en variabel med `let` og du kan endre verdien senere:'
       },
       {
         type: 'code',
         language: 'javascript',
         code: `let alder = 30;
-console.log(alder);  // Output: 30
+console.log(alder);
 alder = 31;
-console.log(alder);  // Output: 31`
+console.log(alder);`
+      },
+      {
+        type: 'paragraph',
+        text: '**Men her er forskjellen:**'
+      },
+      {
+        type: 'paragraph',
+        text: 'Variabler laget med `let` kan bare brukes inne i **blokken** der de er laget. En blokk er for eksempel noe som er inni krøllparanteser `{}` – som en `if`-setning, en `for`-løkke eller en funksjon.'
+      },
+      {
+        type: 'code',
+        language: 'javascript',
+        code: `if (true) {
+  let melding = "Hei!";
+  console.log(melding); // funker
+}
+console.log(melding); // funker ikke – "melding" finnes ikke utenfor blokka`
+      },
+      {
+        type: 'paragraph',
+        text: '**Forskjellen på `var` og `let`:**'
+      },
+      {
+        type: 'list',
+        items: [
+          '`var` virker i hele funksjonen den er laget i (funksjonsscope).',
+          '`let` virker bare inne i den blokken den er laget i (blokkscope).'
+        ]
       }
     ]
   },
@@ -69,8 +102,19 @@ console.log(alder);  // Output: 31`
   // 🔹 CONST
   {
     id: "sectionFour",
-    title: "3. Når noe er konstant: `const`",
+    title: "3. Når noe ikke skal endres: `const`",
     blocks: [
+      {
+        type:'paragraph',
+        text: 'Hvis du vil lage en variabel som ikke kan endres, bruker du `const`.'
+      },
+      {
+        type:'code',
+        language:'javascript',
+        code: `const navn = "Anna";
+navn = "Per"; // Feil! Vi kan ikke endre en const`
+      },
+      {},
       {
         type: 'list',
         items: [

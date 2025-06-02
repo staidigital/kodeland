@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import BlockParagraph from "$lib/components/jensComps/blocks/BlockParagraph.svelte";
   import BlockCode from "$lib/components/jensComps/blocks/BlockCode.svelte";
   import BlockInteractive from "$lib/components/jensComps/blocks/BlockInteractive.svelte";
@@ -11,7 +11,7 @@
   import BlockTextWithImage from "$lib/components/jensComps/blocks/BlockTextWithImage.svelte";
   import BlockImage from '$lib/components/jensComps/blocks/BlockImage.svelte';
 
-  export let block;
+  export let block: Record<string, any>;
 </script>
 
 {#if block.type === 'paragraph'}
@@ -28,10 +28,10 @@
   {#if block.language === 'javascript'}
     <BlockInteractive code={block.code} />
   {:else if block.language === 'html'}
-  <BlockCode code={block.code} language={block.language} preview={false} />
-  <BlockHTMLPreview html={block.code} js={block.script ?? ""} />
+    <BlockCode code={block.code} language={block.language} preview={false} />
+    <BlockHTMLPreview html={block.code} js={block.script ?? ""} />
   {:else}
-  <BlockCode code={block.code} language={block.language} preview={true} />
+    <BlockCode code={block.code} language={block.language} preview={true} />
   {/if}
 
 {:else if block.type === 'task'}
@@ -40,7 +40,7 @@
     title={block.title}
     description={block.description}
     solution={block.solution}
-/>
+  />
 
 {:else if block.type === 'sandbox'}
   <BlockSandbox />
@@ -51,7 +51,6 @@
 {:else if block.type === 'custom' && block.component === 'PokemonTablePreview'}
   <PokemonTablePreview />
 
-
 {:else if block.type === 'image' && block.component === 'BlockImage'}
   <BlockImage {...block.props} />
 
@@ -60,4 +59,3 @@
     <BlockTextWithImage {...block.props} />
   {/if}
 {/if}
-

@@ -1,6 +1,7 @@
-<script>
-  export let text = '';
+<script lang="ts">
   import { renderInlineMarkup } from '$lib/utils/markup.js';
+
+  export let text: string = '';
 
   $: parsedText = renderInlineMarkup(text);
 </script>

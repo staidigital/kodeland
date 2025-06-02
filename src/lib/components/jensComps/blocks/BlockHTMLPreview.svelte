@@ -15,60 +15,57 @@
   const iframeId: string = `iframe-${Math.random().toString(36).slice(2, 9)}`;
 
   function updateIframe(): void {
-      if (!iframeRef) return;
-      const doc = iframeRef.contentDocument || iframeRef.contentWindow?.document;
-      if (!doc) return;
-      doc.open();
-      doc.write(`
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <style>
-          html, body {
-            margin: 0;
-            padding: 0;
-            font-family: sans-serif;
-          }
-        </style>
-      </head>
-      <body>
-        ${html}
-        <script>
-          (function() {
-            ${currentScript}
-          })();
-          function sendHeight() {
-            const height = Math.min(document.body.scrollHeight, 800);
-            parent.postMessage({ type: 'resize-iframe', id: '${iframeId}', height }, '*');
-          }
-          window.addEventListener('load', sendHeight);
-          setTimeout(sendHeight, 100);
-          setTimeout(sendHeight, 300);
-        <\/script>
-      </body>
-    </html>
-  `);
-      doc.close();
+    if (!iframeRef) return;
+    const doc = iframeRef.contentDocument || iframeRef.contentWindow?.document;
+    if (!doc) return;
+    doc.open();
+    doc.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            html, body {
+              margin: 0;
+              padding: 0;
+              font-family: sans-serif;
+            }
+          </style>
+        </head>
+        <body>
+          ${html}
+          <script>
+            (function() {
+              ${currentScript}
+            })();
+            function sendHeight() {
+              const height = Math.min(document.body.scrollHeight, 800);
+              parent.postMessage({ type: 'resize-iframe', id: '${iframeId}', height }, '*');
+            }
+            window.addEventListener('load', sendHeight);
+            setTimeout(sendHeight, 100);
+            setTimeout(sendHeight, 300);
+          <\/script>
+        </body>
+      </html>
+    `);
+    doc.close();
   }
 
   function handleResize(event: MessageEvent): void {
-      if (
-          event?.data?.type === 'resize-iframe' &&
-          event?.data?.id === iframeId
-      ) {
-          const newHeight = Math.max(event.data.height + 36, 120); // 24px buffer
-          if (Math.abs(newHeight - currentHeight) > 5 && iframeRef) {
-              iframeRef.style.height = newHeight + 'px';
-              currentHeight = newHeight;
-          }
+    if (event?.data?.type === 'resize-iframe' && event?.data?.id === iframeId) {
+      const newHeight = Math.max(event.data.height + 36, 120);
+      if (Math.abs(newHeight - currentHeight) > 5 && iframeRef) {
+        iframeRef.style.height = newHeight + 'px';
+        currentHeight = newHeight;
       }
+    }
   }
 
   onMount(async () => {
-      await tick();
-      setTimeout(() => {
-          updateIframe();
-      }, 50);
+    await tick();
+    setTimeout(() => {
+      updateIframe();
+    }, 50);
   });
 </script>
 
