@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { renderInlineMarkup } from '$lib/utils/markup.js';
+  import { renderInlineMarkup } from '$lib/utils/markup';
 
   export let image: string;
   export let alt: string = '';

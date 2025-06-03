@@ -3,6 +3,7 @@ import { error } from '@sveltejs/kit';
 import manifest from '$lib/data/javascript/manifest.js';
 
 const sectionImports: Record<string, () => Promise<any>> = {
+    part0: () => import("$lib/data/javascript/section0.js"),
     part1: () => import("$lib/data/javascript/section1.js"),
     part2: () => import("$lib/data/javascript/section2.js"),
     part3: () => import("$lib/data/javascript/section3.js"),

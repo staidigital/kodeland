@@ -7,10 +7,9 @@
       text?: string;
     }
 </script>
-<script lang="ts">
-  
 
-  import { renderInlineMarkup } from '$lib/utils/markup.js';
+<script lang="ts">
+  import { renderInlineMarkup } from '$lib/utils/markup';
   import BlockHtmlPreview from './BlockHTMLPreview.svelte';
 
   export let number: number;
@@ -24,11 +23,11 @@
 </script>
 
 <div class="border border-slate-700 rounded p-4 bg-slate-800 text-slate-100 space-y-4">
-  <div class="font-bold text-fuchsia-400 text-lg">
+  <div class="font-bold markup-text text-fuchsia-400 text-lg">
     Oppgave {number}: {@html renderInlineMarkup(title)}
   </div>
 
-  <div class="leading-relaxed text-sm whitespace-pre-line">
+  <div class="markup-textleading-relaxed whitespace-pre-line">
     {@html renderInlineMarkup(description)}
   </div>
 
@@ -36,7 +35,7 @@
     <div class="space-y-2">
       {#each solution.options as option, index}
         <button
-          class="block w-full text-left px-4 py-2 rounded transition font-mono text-sm border
+          class="block w-full markup-text text-left cursor-pointer px-4 py-2 rounded transition font-mono text-sm border
             {answered
               ? index === solution.correct
                 ? 'bg-green-700 text-white border-green-500'
@@ -51,7 +50,7 @@
             }
           }}
         >
-          {option}
+         {@html renderInlineMarkup(option)}
         </button>
       {/each}
     </div>
@@ -77,7 +76,7 @@
     </button>
 
     {#if showSolution}
-      <div class="bg-slate-700 rounded p-3 mt-2 font-mono text-sm text-green-300 whitespace-pre-wrap">
+      <div class="bg-slate-700 markup-text rounded p-3 mt-2 font-mono text-sm text-green-300 whitespace-pre-wrap">
         {@html renderInlineMarkup(solution.text)}
       </div>
     {/if}

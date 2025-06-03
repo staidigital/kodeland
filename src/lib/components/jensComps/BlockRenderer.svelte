@@ -5,7 +5,7 @@
   import BlockTask from "$lib/components/jensComps/blocks/BlockTask.svelte";
   import BlockHTMLPreview from "$lib/components/jensComps/blocks/BlockHTMLPreview.svelte";
   import BlockSandbox from "$lib/components/jensComps/blocks/BlockSandbox.svelte";
-  import { renderInlineMarkup } from '$lib/utils/markup.js';
+  import { renderInlineMarkup } from '$lib/utils/markup';
   import SqlPlaygroundPokemon from '$lib/components/jensComps/sql/SqlPlaygroundPokemon.svelte';
   import PokemonTablePreview from '$lib/components/jensComps/sql/TablePreview.svelte';
   import BlockTextWithImage from "$lib/components/jensComps/blocks/BlockTextWithImage.svelte";
@@ -15,7 +15,7 @@
 </script>
 
 {#if block.type === 'paragraph'}
-  <BlockParagraph text={block.text} />
+  <BlockParagraph text={block.text} subtitle={block.subtitle} />
 
 {:else if block.type === 'list'}
   <ul class="list-disc list-inside text-slate-100 leading-relaxed mb-4">
@@ -23,16 +23,20 @@
       <li>{@html renderInlineMarkup(item)}</li>
     {/each}
   </ul>
-
 {:else if block.type === 'code'}
-  {#if block.language === 'javascript'}
+  {#if block.language === 'javascript' && block.interactive !== false}
     <BlockInteractive code={block.code} />
-  {:else if block.language === 'html'}
-    <BlockCode code={block.code} language={block.language} preview={false} />
-    <BlockHTMLPreview html={block.code} js={block.script ?? ""} />
   {:else}
-    <BlockCode code={block.code} language={block.language} preview={true} />
+    <BlockCode
+      code={block.code}
+      language={block.language}
+      preview={block.preview ?? true}
+    />
+    {#if block.preview === true && block.language === 'html'}
+      <BlockHTMLPreview html={block.code} js={block.script ?? ""} />
+    {/if}
   {/if}
+
 
 {:else if block.type === 'task'}
   <BlockTask

@@ -1,5 +1,14 @@
 export default [
   {
+    id: 'part0',
+    title: 'Hvor skriver man javascript-kode',
+    links: [
+      {text: 'Javascript linket til HTML', anchor: ''},
+      {text: 'Node', anchor: '#sectionNode'}
+    ]
+  },
+
+  {
     id: 'part1',
     title: 'Del 1: Variabler',
     links: [

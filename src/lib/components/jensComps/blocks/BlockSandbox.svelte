@@ -1,5 +1,4 @@
 <script lang="ts">
-  // @ts-ignore
   import CodeMirror from 'svelte-codemirror-editor';
   import { html as htmlLang } from '@codemirror/lang-html';
   import { css as cssLang } from '@codemirror/lang-css';

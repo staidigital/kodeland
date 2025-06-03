@@ -8,7 +8,16 @@
         <span slot="title"><a href="/javascript">JavaScript 101</a></span>
     </Sidebar>
 
-    <section class="lg:px-40 px-5 lg:w-4/5 w-full pb-40">
+    <section class="lg:px-30 px-5 lg:w-4/5 w-full pb-40">
         <slot />
     </section>
 </main>
+<style>
+  .markup-text code,
+  .markup-text strong,
+  .markup-text em {
+    font-size: inherit;
+    font-weight: inherit;
+    font-style: inherit;
+  }
+</style>

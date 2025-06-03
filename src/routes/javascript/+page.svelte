@@ -4,6 +4,7 @@
     import CodeSnippet from "$lib/components/webutviklingComp/codeSnippet.svelte";
     import Task from "$lib/components/webutviklingComp/task.svelte";
     import manifest from "$lib/data/javascript/manifest.js";
+    import section0 from "$lib/data/javascript/section0.js";
     import section1 from "$lib/data/javascript/section1.js";
     import section2 from "$lib/data/javascript/section2.js";
     import section3 from "$lib/data/javascript/section3.js";
@@ -31,6 +32,7 @@
     const manifestTyped: ManifestEntry[] = manifest;
     // sections is an array of SectionBlock[] (from each section file)
     const sections: SectionBlock[][] = [
+        section0,
         section1, section2, section3, section4, section5,
         section6, section7, section8, section9, section10
     ];
@@ -52,7 +54,7 @@
 
     {#each sections as sectionArr, i}
         {#each sectionArr as section}
-            <section id={"section" + (i + 1)} class="w-full max-w-3xl bg-slate-800 rounded-lg p-6 mb-8 shadow">
+            <section id={"section" + (i+1)} class="w-full max-w-3xl bg-slate-800 rounded-lg p-6 mb-8 shadow">
                 <Overskrift text={section.title} />
                 {#if section.blocks}
                     {#each section.blocks as block}

@@ -3,10 +3,16 @@
     src: string;
     alt: string;
     caption?: string;
+    fullWidth?: boolean;
+    width?: string;         // Eks: "200px", "50%", "auto"
+    align?: 'left' | 'center' | 'right';  // Justering
+    rounded?: boolean;      // Skal bildet ha avrundede hjørner?
+    shadow?: boolean;       // Skal bildet ha skygge?
+    border?: boolean;
   }
+
 </script>
 <script lang="ts">
-
   export let images: ImageItem[] = [];
 </script>
 
@@ -17,12 +23,24 @@
   class:md:grid-cols-3={images.length >= 3}
 >
   {#each images as image}
-    <div class="flex flex-col items-center text-center">
+    <div
+      class={`flex flex-col items-center text-center ${
+        image.align === 'left'
+          ? 'items-start text-left'
+          : image.align === 'right'
+          ? 'items-end text-right'
+          : 'items-center text-center'
+      }`}
+    >
       <img
         src={image.src}
         alt={image.alt}
-        class="rounded shadow h-auto object-contain w-20 sm:w-24 md:w-32 lg:w-40"
+        class={`object-contain h-auto 
+        ${image.rounded !== false ? 'rounded' : ''} 
+        ${image.shadow !== false ? 'shadow' : ''}`}
+        style={`width: ${image.width ?? (image.fullWidth ? '100%' : 'auto')};`}
       />
+
       {#if image.caption}
         <div class="text-sm text-slate-400 italic mt-2">
           {image.caption}

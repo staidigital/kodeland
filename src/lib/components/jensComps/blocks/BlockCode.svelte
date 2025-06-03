@@ -9,7 +9,7 @@
   export let language: string = 'javascript';
   export let preview: boolean = false;
 
-  let show: boolean = false;
+  let show = false;
 
   const languages: Record<string, any> = {
     html: xml,
@@ -26,19 +26,21 @@
   {@html agate}
 </svelte:head>
 
-<div class="py-10">
+<div class="py-2">
   <Highlight language={hlLang} {code} />
 
-  {#if preview}
+  {#if preview === true}
     <button
       on:click={() => (show = !show)}
-      class="flex cursor-pointer flex-col justify-center items-center bg-slate-700 hover:bg-red-900 p-2"
+      class="flex cursor-pointer flex-col justify-center items-center bg-slate-700 hover:bg-red-900 p-2 mt-4"
     >
-      <span class="text-fuchsia-200 font-mono">Forhåndsvisning</span>
+      <span class="text-fuchsia-200 font-mono">
+        {show ? 'Skjul forhåndsvisning' : 'Vis forhåndsvisning'}
+      </span>
     </button>
 
     {#if show}
-      <div class="container bg-slate-100 pb-10">
+      <div class="container bg-slate-100 pb-10 mt-4">
         <div class="prose prose-lg">{@html code}</div>
       </div>
     {/if}

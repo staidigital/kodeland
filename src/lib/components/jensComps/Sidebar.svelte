@@ -1,6 +1,5 @@
 <script lang="ts">
   import { page } from '$app/stores';
-  import type { Readable } from 'svelte/store';
 
   interface SectionLink {
     text: string;
