@@ -20,7 +20,7 @@
     type ManifestEntry = {
         id: string;
         title: string;
-        links: { text: string; anchor: string }[];
+        links?: { text: string; anchor: string }[];
     };
     type SectionBlock = {
         id: string;

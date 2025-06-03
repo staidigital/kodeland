@@ -85,7 +85,7 @@ export default [
     ]
   },
   { 
-    id: "sectionTwo",
+    id: "sectionNode",
     title: "2. JavaScript i terminalen med Node.js",
     blocks: [
       {

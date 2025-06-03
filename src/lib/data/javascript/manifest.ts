@@ -1,7 +1,9 @@
-export default [
+import type {Section} from '$lib/types/course';
+
+export const jsCourseSections: Section[] = [
   {
     id: 'part0',
-    title: 'Hvor skriver man javascript-kode',
+    title: 'Setup',
     links: [
       {text: 'Javascript linket til HTML', anchor: ''},
       {text: 'Node', anchor: '#sectionNode'}
@@ -84,3 +86,5 @@ export default [
   }
 
 ];
+
+export default jsCourseSections;
