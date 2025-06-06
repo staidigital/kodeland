@@ -5,8 +5,7 @@
 </script>
 
 <main class="flex lg:flex-row flex-col bg-slate-900 text-slate-100">
-  <Sidebar sections={jsCourseSections as Section[]}>
-    <span slot="title"><a href="/javascript">JavaScript 101</a></span>
+  <Sidebar title="JavaScript 101" sections={jsCourseSections as Section[]}>
   </Sidebar>
 
   <section class="lg:px-30 px-5 lg:w-4/5 w-full pb-40">

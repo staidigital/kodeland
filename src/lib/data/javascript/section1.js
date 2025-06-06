@@ -157,7 +157,7 @@ console.log(country);`
   // 📝 TASKS
   {
   id: "sectionVarLetConstQuiz",
-  title: "Flervalgsoppgaver - teori",
+  title: "Flervalgsoppgaver - variabler",
   blocks: [
     {
       type: 'paragraph',
@@ -214,46 +214,12 @@ console.log(country);`
   },
 {
   id: "sectionTasks",
-  title: 'Programmeringsoppgaver – i nettleseren!',
+  title: 'Programmeringsoppgaver – gjør dem i Visual Studio Code!',
   blocks: [
     {
       type: 'paragraph',
-      text: '🛠️ For å gjøre disse oppgavene, skal du lage din egen HTML-fil på maskinen din. Åpne Visual Studio Code og lag en ny fil som du kaller `oppgaver.html`.'
+      text: 'Usikker på hvordan du helst bør skrive og lagre din egen javascript kode? Trykk på [denne lenken](/javascript/part0/) for å se hvordan knytte en `js`-fil til en `HTML`-fil.'
     },
-    {
-      type: 'paragraph',
-      text: '🧪 Inne i `oppgaver.html` lager du et `<script>`-område der du kan skrive JavaScript. Det ser slik ut:'
-    },
-    {
-      type: 'code',
-      language: 'html',
-      preview: 'false',
-      code:
-`<!DOCTYPE html>
-<html>
-  <head>
-    <title>Mine JS-oppgaver</title>
-  </head>
-  <body>
-    <script>
-      // Her skal du skrive koden til oppgavene
-    </script>
-  </body>
-</html>`
-    },
-    {
-      type: 'paragraph',
-      text: '🖥️ Når du åpner denne fila i nettleseren (f.eks. Chrome), kan du bruke ^^nettleserkonsollen^^ for å se hva som skjer. Høyreklikk og velg **"Inspiser"** → gå til **"Console"-fanen**.'
-    },
-    {
-      type: 'paragraph',
-      text: '📝 Skriv koden din inne i `<script>`-taggen. Bruk `console.log()` for å skrive ut informasjon og teste hva koden gjør.'
-    },
-    {
-      type: 'paragraph',
-      text: '🚀 Klar? Bla ned til oppgavene og prøv selv! Husk at du kan kommentere med `// Oppgave 1`, `// Oppgave 2`, osv. for å holde orden.'
-    },
-
     // Oppgavene
     {
       type: 'task',

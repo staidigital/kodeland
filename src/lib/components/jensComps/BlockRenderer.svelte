@@ -44,6 +44,7 @@
     title={block.title}
     description={block.description}
     solution={block.solution}
+    code={block.code}
   />
 
 {:else if block.type === 'sandbox'}
