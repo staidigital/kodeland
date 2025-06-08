@@ -111,8 +111,8 @@ export default [
     {
       "type": "task",
       "number": 1,
-      "title": "Oppgave 1: Endre overskrift med knappetrykk",
-      "description": "Lag et HTML-dokument med en overskrift (h1) og en knapp. Bruk JavaScript til å endre teksten i overskriften når knappen klikkes.",
+      "title": "Endre overskrift med knappetrykk",
+      "description": "Lag et HTML-dokument med en overskrift `h1` og en knapp. Bruk JavaScript til å endre teksten i overskriften når knappen klikkes.",
       "solution": {
         "code": "<h1 id=\"header\">Original tekst</h1>\n<button id=\"changeText\">Endre tekst</button>\n\n<script>\n  let button = document.getElementById(\"changeText\");\n  let header = document.getElementById(\"header\");\n\n  button.addEventListener(\"click\", function() {\n    header.textContent = \"Ny overskrift!\";\n  });\n</script>"
       }
@@ -120,7 +120,7 @@ export default [
     {
       "type": "task",
       "number": 2,
-      "title": "Oppgave 2: Endre farge på et element",
+      "title": "Endre farge på et element",
       "description": "Lag et element med tekst (f.eks. et `<p>`-element), og bruk JavaScript til å endre fargen på teksten når du klikker på en knapp.",
       "solution": {
         "code": "<p id=\"text\">Dette er en tekst.</p>\n<button id=\"changeColor\">Bytt farge</button>\n\n<script>\n  let button = document.getElementById(\"changeColor\");\n  let text = document.getElementById(\"text\");\n\n  button.addEventListener(\"click\", function() {\n    text.style.color = \"blue\";\n  });\n</script>"
@@ -129,7 +129,7 @@ export default [
     {
       "type": "task",
       "number": 3,
-      "title": "Oppgave 3: Skjul et element",
+      "title": "Skjul et element",
       "description": "Lag et element med tekst og en knapp. Når knappen trykkes, skal teksten forsvinne.",
       "solution": {
         "code": "<p id=\"text\">Dette skal skjules.</p>\n<button id=\"hide\">Skjul tekst</button>\n\n<script>\n  let button = document.getElementById(\"hide\");\n  let text = document.getElementById(\"text\");\n\n  button.addEventListener(\"click\", function() {\n    text.style.display = \"none\";\n  });\n</script>"
@@ -138,7 +138,7 @@ export default [
     {
       "type": "task",
       "number": 4,
-      "title": "Oppgave 4: Toggle knappetekst",
+      "title": "Toggle knappetekst",
       "description": "Lag en knapp som bytter mellom to tekster hver gang du klikker på den (f.eks. «Start» og «Stopp»).",
       "solution": {
         "code": "<button id=\"toggle\">Start</button>\n\n<script>\n  let button = document.getElementById(\"toggle\");\n\n  button.addEventListener(\"click\", function() {\n    if (button.textContent === \"Start\") {\n      button.textContent = \"Stopp\";\n    } else {\n      button.textContent = \"Start\";\n    }\n  });\n</script>"
@@ -158,13 +158,13 @@ export default [
       {
         type: "task",
         number: 1,
-        title: "Oppgave 1: Endre overskrift med knappetrykk",
+        title: "Endre overskrift med knappetrykk",
         description: "Lag et HTML-dokument med en overskrift (h1) og en knapp. Bruk JavaScript til å endre teksten i overskriften når knappen klikkes."
       },
       {
         type: "task",
         number: 2,
-        title: "Oppgave 2: Endre farge på et element",
+        title: "Endre farge på et element",
         description: "Legg til et element med tekst og bruk JavaScript til å endre fargen på teksten når en knapp trykkes."
       },
       {

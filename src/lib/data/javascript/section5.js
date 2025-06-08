@@ -217,7 +217,7 @@ export default [
     {
       "type": "task",
       "number": 1,
-      "title": "Oppgave 1: En enkel funksjon",
+      "title": "En enkel funksjon",
       "description": "Lag en funksjon `sayHello`, som skriver ut \"Hei, verden!\" når den kalles. Kall funksjonen for å se resultatet.",
       "solution": {
         "code": "function sayHello() {\n  console.log(\"Hei, verden!\");\n}\n\nsayHello();"
@@ -226,7 +226,7 @@ export default [
     {
       "type": "task",
       "number": 2,
-      "title": "Oppgave 2: Funksjon med parameter",
+      "title": "Funksjon med parameter",
       "description": "Lag en funksjon `greetPerson`, som tar et navn som parameter og skriver ut \"Hei, [navn]!\". Kall funksjonen med ditt eget navn.",
       "solution": {
         "code": "function greetPerson(name) {\n  console.log(\"Hei, \" + name + \"!\");\n}\n\ngreetPerson(\"Ola\");"
@@ -235,7 +235,7 @@ export default [
     {
       "type": "task",
       "number": 3,
-      "title": "Oppgave 3: Returnere verdier",
+      "title": "Returnere verdier",
       "description": "Skriv en funksjon `multiply` som tar to tall som parametere og returnerer produktet av dem. Lagre resultatet i en variabel og skriv det ut.",
       "solution": {
         "code": "function multiply(a, b) {\n  return a * b;\n}\n\nlet result = multiply(4, 6);\nconsole.log(result);"
@@ -243,8 +243,8 @@ export default [
     },
     {
       "type": "task",
-      "number": 5,
-      "title": "Oppgave 5: Funksjon som bruker en annen funksjon",
+      "number": 4,
+      "title": "Funksjon som bruker en annen funksjon",
       "description": "Lag en funksjon `double`, som returnerer det dobbelte av tallet som sendes inn. Lag deretter en annen funksjon `printDouble` som tar et tall, bruker `double` og skriver ut resultatet.",
       "solution": {
         "code": "function double(x) {\n  return x * 2;\n}\n\nfunction printDouble(number) {\n  let result = double(number);\n  console.log(\"Doblet verdi: \" + result);\n}\n\nprintDouble(7);"
@@ -252,8 +252,8 @@ export default [
     },
     {
   "type": "task",
-  "number": 4,
-  "title": "Oppgave 4: Funksjoner og lister",
+  "number": 5,
+  "title": "Funksjoner og lister",
   "description": "Lag en funksjon `greetAll`, som tar inn en liste med navn og gjør følgende:\n\n🔹 Gå gjennom listen med en løkke\n🔹 Skriv ut en personlig melding: `Hei, [navn]! Velkommen!`\n🔹 Tell hvor mange navn det er og skriv ut: `Det var X personer i listen.`\n\n✨ **Ekstra utfordring:**\nHvis et navn har mer enn 4 bokstaver, skriv også ut:\n`[navn], du har et langt navn!`",
   "solution": {
     "code": "function greetAll(names) {\n  for (let i = 0; i < names.length; i++) {\n    let name = names[i];\n    console.log(\"Hei, \" + name + \"! Velkommen!\");\n\n    if (name.length > 4) {\n      console.log(name + \", du har et langt navn!\");\n    }\n  }\n\n  console.log(\"Det var \" + names.length + \" personer i listen.\");\n}\n\nlet nameList = [\"Ola\", \"Mia\", \"Sebastian\", \"Lise\", \"Henrik\"];\ngreetAll(nameList);"
@@ -261,8 +261,8 @@ export default [
 },
 {
   "type": "task",
-  "number": 5,
-  "title": "Oppgave 5: Bruk forEach til å hilse på alle",
+  "number": 6,
+  "title": "Bruk forEach til å hilse på alle",
   "description": "Lag en liste med navn, og bruk `forEach` til å skrive ut en hilsen til hvert navn. Hilsningen skal være: \"Hei, [navn]!\". \n\n**Ekstra utfordring**: Hvis navnet starter med bokstaven `A`, skriv også: \"[navn] – navnet ditt starter med A!\"",
   "code": "let personer = [\"Anna\", \"Jonas\", \"Ali\", \"Emma\", \"Amir\"];\n\n// Skriv forEach her",
   "solution": {

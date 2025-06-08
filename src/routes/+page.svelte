@@ -2,7 +2,7 @@
     import "../app.css";
 </script>
 
-<main class="relative flex flex-col items-center justify-start pt-[12vh] h-screen bg-[#1f1f1f] text-center overflow-hidden">
+<main class="relative flex flex-col items-center justify-start pt-[12vh] h-screen bg-[#1f1f1f] text-center overflow-hidden px-4 sm:px-6">
     <!-- Stylized Map Background -->
     <svg
         class="absolute top-0 left-0 w-full h-full z-0 opacity-20 pointer-events-none"
@@ -31,32 +31,32 @@
 
     <!-- Floating Island for Heading -->
     <div class="relative z-10 flex flex-col items-center">
-        <svg width="420" height="80" viewBox="0 0 420 80" class="mx-auto mb-[-2.5rem]">
+        <svg width="320" height="60" viewBox="0 0 420 80" class="mx-auto mb-[-2.5rem] sm:w-[420px] sm:h-[80px]">
             <ellipse cx="210" cy="60" rx="200" ry="18" fill="#a21caf" opacity="0.25"/>
             <ellipse cx="210" cy="70" rx="170" ry="10" fill="#f0abfc" opacity="0.18"/>
         </svg>
-        <h1 class="text-[11vw] font-extrabold text-fuchsia-300 mb-2 tracking-wide leading-none text-center drop-shadow-lg">
+        <h1 class="text-[16vw] sm:text-[11vw] font-extrabold text-fuchsia-300 mb-2 tracking-wide leading-none text-center drop-shadow-lg">
             Kodeland
         </h1>
-        <p class="text-fuchsia-100 text-xl mb-8 font-mono tracking-wide">
+        <p class="text-fuchsia-100 text-lg sm:text-xl mb-6 sm:mb-8 font-mono tracking-wide">
             Landet for kode, kreativitet og læring
         </p>
     </div>
 
     <!-- Signpost-style Links -->
-    <div class="flex flex-col gap-6 z-10 relative items-center">
-        <div class="flex flex-row gap-8">
-            <a href="/javascript" class="relative bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-5 rounded-lg font-mono text-2xl shadow-lg transition border-4 border-fuchsia-300 rotate-[-3deg] hover:scale-105">
-                <span class="block">🪧 JavaScript-kurset</span>
+    <div class="flex flex-col gap-6 z-10 relative items-center w-full">
+        <div class="flex flex-col sm:flex-row gap-4 sm:gap-8 w-full justify-center items-center">
+            <a href="/javascript" class="w-full sm:w-auto text-center bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-6 py-4 sm:px-8 sm:py-5 rounded-lg font-mono text-xl sm:text-2xl shadow-lg transition border-4 border-fuchsia-300 rotate-[-2deg] hover:scale-105">
+                🪧 JavaScript-kurset
             </a>
-            <a href="/webutvikling" class="relative bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-5 rounded-lg font-mono text-2xl shadow-lg transition border-4 border-fuchsia-300 rotate-[2deg] hover:scale-105">
-                <span class="block">🪧 Webutvikling</span>
+            <a href="/webutvikling" class="w-full sm:w-auto text-center bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-6 py-4 sm:px-8 sm:py-5 rounded-lg font-mono text-xl sm:text-2xl shadow-lg transition border-4 border-fuchsia-300 rotate-[1deg] hover:scale-105">
+                🪧 Webutvikling
             </a>
-            <a href="/sql" class="relative bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-8 py-5 rounded-lg font-mono text-2xl shadow-lg transition border-4 border-fuchsia-300 rotate-[4deg] hover:scale-105">
-                <span class="block">🪧 SQL</span>
+            <a href="/sql" class="w-full sm:w-auto text-center bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-6 py-4 sm:px-8 sm:py-5 rounded-lg font-mono text-xl sm:text-2xl shadow-lg transition border-4 border-fuchsia-300 rotate-[3deg] hover:scale-105">
+                🪧 SQL
             </a>
         </div>
-        <span class="text-fuchsia-200 text-base mt-4 opacity-80">Velg en rute og start reisen!</span>
+        <span class="text-fuchsia-200 text-sm sm:text-base mt-4 opacity-80">Velg en rute og start reisen!</span>
     </div>
 </main>
 
@@ -68,7 +68,6 @@
     h1 {
         text-shadow: 0 4px 32px #a21caf55, 0 1px 0 #fff2;
     }
-    /* Optional: subtle floating animation for nodes */
     @keyframes float {
         0% { transform: translateY(0);}
         50% { transform: translateY(-8px);}
