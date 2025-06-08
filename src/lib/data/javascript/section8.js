@@ -24,10 +24,11 @@ export default [
       {
         type: "code",
         language: "html",
+        preview: true,
         code: `<button id="myButton">Klikk meg</button>`,
         script: `let button = document.getElementById("myButton");
 button.addEventListener("click", function() {
-  console.log("Knappen ble klikket!");
+  console.log("Knappen xble klikket!");
 });`
       },
       {
@@ -40,6 +41,7 @@ button.addEventListener("click", function() {
       },
       {
         type: "code",
+        preview: true,
         language: "html",
         code: `<div id="myBox" style="width:200px; height:200px; background:white; border:1px solid black;"></div>`,
         script: `let box = document.getElementById("myBox");
@@ -66,6 +68,7 @@ box.addEventListener("mouseout", function() {
       },
       {
         type: "code",
+        preview: true,
         language: "html",
         code: `<div style="height: 200px; border: 1px solid black;">Flytt musen her</div>
 <p id="coords">X: 0, Y: 0</p>`,
@@ -87,6 +90,7 @@ box.addEventListener("mouseout", function() {
       {
         type: "code",
         language: "html",
+        preview: true,
         code: `<div id="mouseArea" style="width: 300px; height: 300px; background-color: lightgray; text-align: center; line-height: 300px;">
   Flytt musen her
 </div>

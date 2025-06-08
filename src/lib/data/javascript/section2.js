@@ -40,6 +40,7 @@ export default [
       {
         type: "code",
         language: "javascript",
+        interactive: true,
         code: `let age = 18;
 
 if (age >= 18) {
@@ -69,6 +70,7 @@ if (age >= 18) {
       {
         type: "code",
         language: "javascript",
+        interactive: true,
         code: `let age = 16;
 if (age >= 18) {
   console.log("Du er myndig.");
@@ -98,6 +100,7 @@ if (age >= 18) {
       {
         type: "code",
         language: "javascript",
+        interactive: true,
         code: `let score = 85;
 
 if (score >= 90) {
@@ -133,6 +136,7 @@ if (score >= 90) {
       {
         type: "code",
         language: "javascript",
+        interactive: true,
         code: `let age = 20;
 let hasTicket = true;
 
@@ -147,6 +151,7 @@ if (age >= 18 && hasTicket) {
       {
         type: "code",
         language: "javascript",
+        interactive: true,
         code: `let isWeekend = true;
 let isHoliday = false;
 
@@ -156,7 +161,7 @@ if (isWeekend || isHoliday) {
       },
       {
         type: "paragraph",
-        text: "Her sjekker vi: %%er det helg **eller** ferie?%% Hvis minst én av dem stemmer, får vi fri!"
+        text: "Her sjekker vi: %%er det helg **eller** ferie?%% Hvis minst én av dem stemmer, får vi fri!"  
       },
       {
         type: "paragraph",

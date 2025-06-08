@@ -59,6 +59,7 @@ export default [
     {
       type: "code",
       language: "javascript",
+      interactive: true,
       code: `let age = 30;           // Number: et helt tall
 let pi = 3.14;         // Number: et desimaltall
 
@@ -91,6 +92,7 @@ let notAssigned;       // Undefined: laget variabelen, men ikke gitt den en verd
     {
       "type": "code",
       "language": "javascript",
+      interactive: true,
       "code": "let fruits = [\"Eple\", \"Banan\", \"Appelsin\"];"
     },
     {
@@ -100,6 +102,7 @@ let notAssigned;       // Undefined: laget variabelen, men ikke gitt den en verd
     {
       "type": "code",
       "language": "javascript",
+      interactive: true,
       "code": "let fruits = [\"Eple\", \"Banan\", \"Appelsin\"];\nconsole.log(fruits[0]);  // \"Eple\"\nconsole.log(fruits[2]);  // \"Appelsin\""
     },
     {
@@ -109,6 +112,7 @@ let notAssigned;       // Undefined: laget variabelen, men ikke gitt den en verd
     {
       "type": "code",
       "language": "javascript",
+      interactive: true,
       "code": "let fruits = [\"Eple\", \"Banan\", \"Appelsin\"];\nfruits.push(\"Mango\");\nconsole.log(fruits);"
     },
     {
@@ -118,6 +122,7 @@ let notAssigned;       // Undefined: laget variabelen, men ikke gitt den en verd
     {
       "type": "code",
       "language": "javascript",
+      interactive: true,
       "code": "let fruits = [\"Eple\", \"Banan\", \"Appelsin\"];\nfruits.pop();\nconsole.log(fruits);"
     },
     {
@@ -127,6 +132,7 @@ let notAssigned;       // Undefined: laget variabelen, men ikke gitt den en verd
     {
       "type": "code",
       "language": "javascript",
+      interactive: true,
       "code": "let fruits = [\"Eple\", \"Banan\", \"Appelsin\"];\nconsole.log(fruits.length);"
     },
     {

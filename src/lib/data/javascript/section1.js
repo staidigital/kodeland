@@ -34,6 +34,7 @@ export default [
       {
         type: 'code',
         language: 'javascript',
+        interactive: true,
         code: `var name = "Jens";
 console.log(name);
 name = "Faizan"; //nå er variabelen endret
@@ -46,6 +47,7 @@ console.log(name);`
       {
         type: 'code',
         language: 'javascript',
+        interactive: true,
         code: `if (true) {
   var melding = "Hei!";
 }
@@ -79,6 +81,7 @@ console.log(melding); // funker – selv om den ble laget inni if-blokken`
       {
         type: 'code',
         language: 'javascript',
+        interactive: true,
         code: `let alder = 30;
 console.log(alder);
 alder = 31;
@@ -95,6 +98,7 @@ console.log(alder);`
       {
         type: 'code',
         language: 'javascript',
+        interactive: true,
         code: `if (true) {
   let melding = "Hei!";
   console.log(melding); // funker
@@ -116,6 +120,7 @@ console.log(melding); // funker ikke – "melding" finnes ikke utenfor blokka`
       {
         type:'code',
         language:'javascript',
+        interactive: true,
         code: `const country = "Norway";
 country = "Sweden"; // Feil! Vi kan ikke endre en const
 console.log(country);`
@@ -143,13 +148,6 @@ console.log(country);`
           'Bruk `let` når du vet at verdien skal endres.',
           'Unngå `var` – det kan føre til rare feil og forvirring.'
         ]
-      },
-      {
-        type:'code',
-        language:'javascript',
-        code: `const country = "Norway";
-country = "Sweden"; // Feil! Vi kan ikke endre en const
-console.log(country);`
       }
     ]
   },

@@ -23,18 +23,24 @@
       <li>{@html renderInlineMarkup(item)}</li>
     {/each}
   </ul>
-{:else if block.type === 'code'}
-  {#if block.language === 'javascript' && block.interactive !== false}
+{:else if block.type === 'list-ol'}
+  <ol class="list-decimal list-inside text-slate-100 leading-relaxed mb-4">
+    {#each block.items ?? [] as item}
+      <li>{@html renderInlineMarkup(item)}</li>
+    {/each}
+  </ol>
+  {:else if block.type === 'code'}
+  {#if block.interactive === true && block.language === 'javascript'}
+    {@html `<script>console.log('BlockInteractive vises')</script>`}
     <BlockInteractive code={block.code} />
+
+  {:else if block.preview === true && block.language === 'html'}
+    {@html `<script>console.log('BlockHTMLPreview vises')</script>`}
+    <BlockHTMLPreview html={block.code} js={block.script ?? ""} />
+
   {:else}
-    <BlockCode
-      code={block.code}
-      language={block.language}
-      preview={block.preview ?? true}
-    />
-    {#if block.preview === true && block.language === 'html'}
-      <BlockHTMLPreview html={block.code} js={block.script ?? ""} />
-    {/if}
+    {@html `<script>console.log('Vanlig BlockCode vises')</script>`}
+    <BlockCode code={block.code} language={block.language} preview={block.preview ?? false} />
   {/if}
 
 

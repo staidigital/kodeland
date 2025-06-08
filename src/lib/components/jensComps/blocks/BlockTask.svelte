@@ -73,23 +73,26 @@
           {/each}
         </div>
       {:else if solution?.code}
-        <!-- Løsningsknapp for kode -->
-        <button
-          class="text-sm text-white font-mono bg-fuchsia-600 hover:bg-fuchsia-700 px-3 py-1 rounded"
-          on:click={() => showSolution = !showSolution}
-        >
-          {showSolution ? 'Skjul løsningsforslag' : 'Vis løsningsforslag'}
-        </button>
+  <!-- Løsningsknapp for kode -->
+  <div class="flex justify-end">
+    <button
+      class="text-sm cursor-pointer text-white font-mono bg-slate-700 hover:bg-slate-600 px-2 py-1 rounded"
+      on:click={() => showSolution = !showSolution}
+    >
+      {showSolution ? 'Skjul løsningsforslag' : 'Vis løsningsforslag'}
+    </button>
+  </div>
 
-        {#if showSolution}
-          <div class="mt-4">
-            <BlockCode language="javascript" code={solution.code} />
-          </div>
-        {/if}
+  {#if showSolution}
+    <div class="mt-4">
+      <BlockCode language="javascript" code={solution.code} />
+    </div>
+  {/if}
+
       {:else if solution?.text}
         <!-- Løsningsknapp for tekst -->
         <button
-          class="text-sm text-white font-mono bg-fuchsia-600 hover:bg-fuchsia-700 px-3 py-1 rounded"
+          class="text-sm  text-white font-mono bg-fuchsia-600 hover:bg-fuchsia-700 px-3 py-1 rounded"
           on:click={() => showSolution = !showSolution}
         >
           {showSolution ? 'Skjul løsning' : 'Vis løsning'}

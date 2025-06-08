@@ -24,6 +24,7 @@ export default [
       {
         "type": "code",
         "language": "html",
+        "preview": true,
         "code": "<div class=\"myClass\">F\u00f8rste element</div>\n<div class=\"myClass\">Andre element</div>\n<div class=\"myClass\">Tredje element</div>\n<button id=\"changeColor\">Endre farge</button>",
         "script": "document.getElementById(\"changeColor\").addEventListener(\"click\", () => {\n  let elements = document.getElementsByClassName(\"myClass\");\n  for (let i = 0; i < elements.length; i++) {\n    elements[i].style.color = \"blue\";\n  }\n});"
       },
@@ -38,6 +39,7 @@ export default [
       {
         "type": "code",
         "language": "html",
+        "preview": true,
         "code": "<p>Dette er et avsnitt</p>\n<p>Et annet avsnitt</p>\n<p>Et tredje avsnitt</p>\n<button id=\"changeSize\">Endre st\u00f8rrelse</button>",
         "script": "document.getElementById(\"changeSize\").addEventListener(\"click\", () => {\n  let paragraphs = document.getElementsByTagName(\"p\");\n  for (let i = 0; i < paragraphs.length; i++) {\n    paragraphs[i].style.fontSize = \"18px\";\n  }\n});"
       },
@@ -51,6 +53,8 @@ export default [
       },
       {
         "type": "code",
+        "preview": true,
+
         "language": "html",
         "code": "<div class=\"myClass\">En boks</div>\n<div class=\"myClass\">En annen boks</div>\n<button id=\"styleBoxes\">Legg til stil</button>",
         "script": "document.querySelector(\".myClass\").style.backgroundColor = \"yellow\";\n\ndocument.getElementById(\"styleBoxes\").addEventListener(\"click\", () => {\n  let allElements = document.querySelectorAll(\".myClass\");\n  allElements.forEach(function(el) {\n    el.style.border = \"2px solid red\";\n  });\n});"
@@ -71,6 +75,7 @@ export default [
       },
       {
         "type": "code",
+        "preview": true,
         "language": "html",
         "code": "<div id=\"myElement\">Et viktig element</div>\n<button id=\"styleElement\">Stil element</button>",
         "script": "document.getElementById(\"styleElement\").addEventListener(\"click\", () => {\n  let element = document.getElementById(\"myElement\");\n  element.style.color = \"green\";\n  element.style.backgroundColor = \"lightgrey\";\n});"
@@ -86,6 +91,7 @@ export default [
       {
         "type": "code",
         "language": "html",
+        "preview": true,
         "code": "<style>\n  .highlight {\n    background-color: gold;\n  }\n</style>\n\n<div id=\"myElement\">Et element du kan endre</div>\n<button id=\"toggleClass\">Bytt stil</button>",
         "script": "document.getElementById(\"toggleClass\").addEventListener(\"click\", () => {\n  let element = document.getElementById(\"myElement\");\n  element.classList.toggle(\"highlight\");\n});"
       }

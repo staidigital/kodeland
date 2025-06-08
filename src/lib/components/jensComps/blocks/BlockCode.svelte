@@ -4,6 +4,7 @@
   import xml from 'svelte-highlight/languages/xml';
   import css from 'svelte-highlight/languages/css';
   import javascript from 'svelte-highlight/languages/javascript';
+  import plaintext from 'svelte-highlight/languages/plaintext'; // 👈 riktig import
 
   export let code: string = '';
   export let language: string = 'javascript';
@@ -15,7 +16,9 @@
     html: xml,
     xml,
     css,
-    javascript
+    javascript,
+    plaintext // ingen highlighter, viser som ren tekst
+
   };
 
   $: lang = language?.toLowerCase() || 'javascript';
