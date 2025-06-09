@@ -5,8 +5,9 @@ export default [
     "blocks": [
       {
         "type": "paragraph",
-        "text": "I JavaScript finnes det mange m\u00e5ter \u00e5 hente ut elementer fra HTML-en. Vi kan bruke ulike selectors (velgere) for \u00e5 f\u00e5 tak i elementene vi vil jobbe med, og deretter kan vi dynamisk endre stilene deres ved hjelp av JavaScript."
+        "text": "I JavaScript har vi flere måter å hente ut elementer fra HTML-en. Disse metodene kalles ^^selectors^^ (eller velgere), og de lar oss finne spesifikke elementer vi vil jobbe med. Når vi har valgt et element, kan vi bruke JavaScript til å endre utseendet – for eksempel farger, tekst eller andre stiler."
       }
+
     ]
   },
   {
@@ -14,41 +15,33 @@ export default [
     "title": "1. Flere Selectors",
     "blocks": [
       {
-        "type": "subtitle",
-        "text": "`getElementsByClassName`"
-      },
-      {
         "type": "paragraph",
-        "text": "Denne metoden returnerer en samling av alle elementer som har en gitt klasse. Siden den returnerer en samling (HTMLCollection), m\u00e5 du bruke en l\u00f8kke for \u00e5 endre stil p\u00e5 hvert enkelt element."
+        "subtitle": "`getElementsByClassName`",
+        "text": "Denne metoden returnerer en samling av alle elementer som har en gitt klasse. Siden den returnerer en samling (HTMLCollection), må du bruke en løkke for å endre stil på hvert enkelt element."
       },
       {
         "type": "code",
         "language": "html",
         "preview": true,
-        "code": "<div class=\"myClass\">F\u00f8rste element</div>\n<div class=\"myClass\">Andre element</div>\n<div class=\"myClass\">Tredje element</div>\n<button id=\"changeColor\">Endre farge</button>",
-        "script": "document.getElementById(\"changeColor\").addEventListener(\"click\", () => {\n  let elements = document.getElementsByClassName(\"myClass\");\n  for (let i = 0; i < elements.length; i++) {\n    elements[i].style.color = \"blue\";\n  }\n});"
+        "code": "<div class=\"myClass\">Første element</div>\n<div class=\"myClass\">Andre element</div>\n<div class=\"myClass\">Tredje element</div>",
+        "script": 'let elements = document.getElementsByClassName("myClass");\n\nfor (let i = 0; i < elements.length; i++) {\n  elements[i].style.color = "blue";\n}'
       },
-      {
-        "type": "subtitle",
-        "text": "`getElementsByTagName`"
-      },
+      
       {
         "type": "paragraph",
-        "text": "Denne metoden returnerer en samling av alle elementer med et bestemt HTML-tag. For eksempel kan du velge alle `p`-elementene p\u00e5 en side."
+        "subtitle": "`getElementsByTagName`",
+        "text": "Denne metoden returnerer en samling av alle elementer med et bestemt HTML-tag. For eksempel kan du velge alle `p`-elementene på en side."
       },
       {
         "type": "code",
         "language": "html",
         "preview": true,
-        "code": "<p>Dette er et avsnitt</p>\n<p>Et annet avsnitt</p>\n<p>Et tredje avsnitt</p>\n<button id=\"changeSize\">Endre st\u00f8rrelse</button>",
-        "script": "document.getElementById(\"changeSize\").addEventListener(\"click\", () => {\n  let paragraphs = document.getElementsByTagName(\"p\");\n  for (let i = 0; i < paragraphs.length; i++) {\n    paragraphs[i].style.fontSize = \"18px\";\n  }\n});"
-      },
-      {
-        "type": "subtitle",
-        "text": "`querySelector` og `querySelectorAll`"
+        "code": "<p>Dette er et avsnitt</p>\n<p>Et annet avsnitt</p>\n<p>Et tredje avsnitt</p>",
+        "script": 'let paragraphs = document.getElementsByTagName("p");\n\nfor (let i = 0; i < paragraphs.length; i++) {\n  paragraphs[i].style.fontSize = "18px";\n}'
       },
       {
         "type": "paragraph",
+        "subtitle": "`querySelector` og `querySelectorAll`",
         "text": "`querySelector` returnerer det **f\u00f8rste** elementet som samsvarer med en gitt CSS-selektor, mens `querySelectorAll` returnerer **alle** elementene som samsvarer med selektoren som en NodeList."
       },
       {
@@ -56,8 +49,8 @@ export default [
         "preview": true,
 
         "language": "html",
-        "code": "<div class=\"myClass\">En boks</div>\n<div class=\"myClass\">En annen boks</div>\n<button id=\"styleBoxes\">Legg til stil</button>",
-        "script": "document.querySelector(\".myClass\").style.backgroundColor = \"yellow\";\n\ndocument.getElementById(\"styleBoxes\").addEventListener(\"click\", () => {\n  let allElements = document.querySelectorAll(\".myClass\");\n  allElements.forEach(function(el) {\n    el.style.border = \"2px solid red\";\n  });\n});"
+        "code": "<div class=\"myClass\">En boks</div>\n<div class=\"myClass\">En annen boks</div>",
+        "script": '// Velg det første elementet med klassen "myClass"\nlet element = document.querySelector(".myClass");\nelement.style.backgroundColor = "yellow";\n\n// Velg alle elementer med klassen "myClass"\nlet allElements = document.querySelectorAll(".myClass");\n\nallElements.forEach(function(el) {\n  el.style.border = "2px solid red";\n});'
       }
     ]
   },
@@ -65,27 +58,22 @@ export default [
     "id": "sectionManipCSS",
     "title": "2. Manipulering av CSS med JavaScript",
     "blocks": [
-      {
-        "type": "subtitle",
-        "text": "Endre CSS med `style`-egenskapen"
-      },
+
       {
         "type": "paragraph",
-        "text": "Vi kan bruke `style`-egenskapen i JavaScript til \u00e5 direkte endre CSS-stiler p\u00e5 et element, som for eksempel farge, st\u00f8rrelse, marginer, eller bakgrunn."
+        "subtitle": "Endre CSS med `style`-egenskapen",
+        "text": "Vi kan bruke `style`-egenskapen i JavaScript til å direkte endre CSS-stiler på et element, som for eksempel farge, størrelse, marginer, eller bakgrunn."
       },
       {
         "type": "code",
         "preview": true,
         "language": "html",
-        "code": "<div id=\"myElement\">Et viktig element</div>\n<button id=\"styleElement\">Stil element</button>",
-        "script": "document.getElementById(\"styleElement\").addEventListener(\"click\", () => {\n  let element = document.getElementById(\"myElement\");\n  element.style.color = \"green\";\n  element.style.backgroundColor = \"lightgrey\";\n});"
-      },
-      {
-        "type": "subtitle",
-        "text": "Legge til og fjerne klasser med `classList`"
+        "code": "<div id=\"myElement\">Et viktig element</div>",
+        "script":'let element = document.getElementById("myElement");\nelement.style.color = "green";\nelement.style.backgroundColor = "lightgrey";'
       },
       {
         "type": "paragraph",
+        "subtitle": "Legge til og fjerne klasser med `classList`",
         "text": "`classList` lar deg legge til, fjerne eller toggle (veksle) mellom CSS-klasser p\u00e5 et element. Dette er spesielt nyttig hvis du har forh\u00e5ndsdefinerte CSS-klasser du \u00f8nsker \u00e5 aktivere eller deaktivere."
       },
       {

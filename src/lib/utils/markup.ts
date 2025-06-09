@@ -5,7 +5,7 @@ export function renderInlineMarkup(str: string = ''): string {
     .replace(/>/g, "&gt;");
 
   let html = escaped
-    .replace(/`([^`]+)`/g, '<code class="bg-slate-800 text-green-300 px-1 rounded font-mono text-sm">$1</code>')
+    .replace(/`([^`]+)`/g, '<code class="bg-slate-800 text-green-300 px-1 rounded font-mono ">$1</code>')
     .replace(/\*\*([^*]+)\*\*/g, '<strong class=" font-semibold">$1</strong>')
     .replace(/_([^_]+)_/g, '<em class="italic text-slate-200">$1</em>')
     .replace(/~~([^~]+)~~/g, '<span class="line-through text-slate-400">$1</span>')

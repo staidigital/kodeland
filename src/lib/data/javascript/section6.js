@@ -105,6 +105,62 @@ export default [
     ]
   },
   {
+  "id": "sectionFunctionQuiz",
+  "title": "Flervalgsoppgaver – Funksjoner i JavaScript",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "Her kommer noen spørsmål for å teste deg på det du har lært om funksjoner!"
+    },
+
+    {
+    "type": "task",
+    "number": 1,
+    "title": "Hva gjør getElementById?",
+    "description": "Hva returnerer `document.getElementById(\"minId\")`?",
+    "solution": {
+      "correct": 2,
+      "options": [
+        "En liste over alle elementer med id = \"minId\"",
+        "Det første elementet med klassen \"minId\"",
+        "Et HTML-element med id = \"minId\"",
+        "Alle knapper på siden"
+      ]
+    }
+  },
+  {
+    "type": "task",
+    "number": 2,
+    "title": "Hvordan endrer vi teksten i et element?",
+    "description": "Hvilken JavaScript-kode endrer teksten i et element med id `minTekst`?",
+    "solution": {
+      "correct": 1,
+      "options": [
+        "minTekst.text = \"Hei\"",
+        "document.getElementById(\"minTekst\").textContent = \"Hei\";",
+        "getElement(\"minTekst\").innerText = \"Hei\";",
+        "document.querySelector(\"#minTekst\").id = \"Hei\";"
+      ]
+    }
+  },
+  {
+    "type": "task",
+    "number": 3,
+    "title": "Hva skjer når vi bruker addEventListener?",
+    "description": "Hva gjør denne koden?",
+    "code": "document.getElementById(\"knapp\").addEventListener(\"click\", function() {\n  alert(\"Hei!\");\n});",
+    "solution": {
+      "correct": 2,
+      "options": [
+        "Knappen blir skjult når man klikker på den",
+        "Ingenting skjer – det er en skrivefeil",
+        "Når brukeren klikker på knappen, vises en popup med \"Hei!\"",
+        "Den endrer teksten i knappen"
+      ]
+    }
+  },]
+  },
+  {
   "id": "sectionTasks",
   "title": "Oppgaver",
   "blocks": [
@@ -151,26 +207,4 @@ export default [
   ]
 },
 
-  {
-    id: "sectionTasks",
-    title: "Oppgaver",
-    blocks: [
-      {
-        type: "task",
-        number: 1,
-        title: "Endre overskrift med knappetrykk",
-        description: "Lag et HTML-dokument med en overskrift (h1) og en knapp. Bruk JavaScript til å endre teksten i overskriften når knappen klikkes."
-      },
-      {
-        type: "task",
-        number: 2,
-        title: "Endre farge på et element",
-        description: "Legg til et element med tekst og bruk JavaScript til å endre fargen på teksten når en knapp trykkes."
-      },
-      {
-        type: "paragraph",
-        text: "Disse oppgavene gir deg grunnleggende innsikt i hvordan du kan manipulere DOM og bruke getElementById for å interagere med nettsiden."
-      }
-    ]
-  }
 ];
