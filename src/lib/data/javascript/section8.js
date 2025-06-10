@@ -14,12 +14,13 @@ export default [
     title: "1. Mouse Events",
     blocks: [
       {
-        type: "quote",
-        text: "En mouse event er en hendelse som skjer når brukeren gjør noe med musen, som å klikke eller bevege den over et element."
+        type: "paragraph",
+        text: "%%En mouse event er en hendelse som skjer når brukeren gjør noe med musen, som å klikke eller bevege den over et element.%%"
       },
       {
-        type: "subtitle",
-        text: "`click`-hendelsen"
+        type: "paragraph",
+        subtitle: "`click`-hendelsen",
+        text: "`click`-hendelsen oppstår når brukeren klikker på et element."
       },
       {
         type: "code",
@@ -107,25 +108,109 @@ mouseArea.addEventListener("mousemove", function(event) {
     ]
   },
   {
-    id: "sectionTasks",
-    title: "Oppgaver",
-    blocks: [
-      {
-        type: "task",
-        number: 1,
-        title: "Oppgave 1: Vis musekoordinater",
-        description: "Lag en nettside der du viser musekoordinatene når brukeren beveger musen over hele vinduet."
-      },
-      {
-        type: "task",
-        number: 2,
-        title: "Oppgave 2: Endre farge ved museklikk",
-        description: "Lag en nettside med et område (`div`) der bakgrunnsfargen endres hver gang brukeren klikker på området."
-      },
-      {
-        type: "paragraph",
-        text: "Disse oppgavene gir deg grunnleggende forståelse for hvordan du kan bruke mouse events og musekoordinater i JavaScript for å skape interaktivitet på nettsiden din."
+  "id": "sectionMouseEventQuiz",
+  "title": "Flervalgsoppgaver – Mouse Events i JavaScript",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "Her kommer noen spørsmål for å teste deg på det du har lært om mouse events!"
+    },
+
+    {
+      "type": "task",
+      "number": 1,
+      "title": "Hva skjer når du bruker `clientX`?",
+      "description": "Hva returnerer `clientX` når du beveger musen?",
+      "solution": {
+        "correct": 3,
+        "options": [
+          "Y-koordinaten i hele dokumentet",
+          "Musens hastighet",
+          "Om musen er over et element",
+          "X-koordinaten til musen i synlig vindu"
+        ]
       }
-    ]
-  }
+    },
+    {
+      "type": "task",
+      "number": 2,
+      "title": "Hva brukes `addEventListener` til?",
+      "description": "Hva er hovedformålet med `addEventListener` i JavaScript?",
+      "solution": {
+        "correct": 1,
+        "options": [
+          "For å knytte en hendelse til et HTML-element",
+          "For å hente verdier fra input-felter",
+          "For å skrive kommentarer i JavaScript",
+          "For å fjerne HTML fra siden"
+        ]
+      }
+    },
+    {
+      "type": "task",
+      "number": 3,
+      "title": "Hvilken hendelse brukes når du holder musen over et element?",
+      "description": "Hvilket event aktiveres når du holder musepekeren over et HTML-element?",
+      "solution": {
+        "correct": 0,
+        "options": [
+          "`mouseover`",
+          "`click`",
+          "`mouseup`",
+          "`mousemove`"
+        ,]
+      },
+    }]
+  },
+  {
+  id: "sectionTasks",
+  title: "Oppgaver",
+  blocks: [
+    {
+      "type": "task",
+      "number": 1,
+      "title": "Oppgave 1: Vis musekoordinater",
+      "description": "Lag en nettside der du viser musekoordinatene mens brukeren beveger musen over hele vinduet.",
+      "solution": {
+        "code": `<p id="coords">X: 0, Y: 0</p>`,
+        "script": `document.addEventListener("mousemove", function(event) {
+  let x = event.clientX;
+  let y = event.clientY;
+  document.getElementById("coords").textContent = "X: " + x + ", Y: " + y;
+});`
+      }
+    },
+    {
+      "type": "task",
+      "number": 2,
+      "title": "Oppgave 2: Endre farge ved museklikk",
+      "description": "Lag en nettside med et område (`div`) som bytter farge hver gang brukeren klikker på det.",
+      "solution": {
+        "code": `<div id="colorBox" style="width:200px; height:200px; background:lightgray;"></div>`,
+        "script": `let box = document.getElementById("colorBox");
+box.addEventListener("click", function() {
+  box.style.backgroundColor = "lightgreen";
+});`
+      }
+    },
+    {
+      "type": "task",
+      "number": 3,
+      "title": "Oppgave 3: Endre tekst ved `mouseover`",
+      "description": "Lag et avsnitt som endrer tekst når musen holdes over det, og går tilbake når musen fjernes.",
+      "solution": {
+        "code": `<p id="myText">Hold musen over meg!</p>`,
+        "script": `let text = document.getElementById("myText");
+
+text.addEventListener("mouseover", function() {
+  text.textContent = "Hei! 👋";
+});
+
+text.addEventListener("mouseout", function() {
+  text.textContent = "Hold musen over meg!";
+});`
+      }
+    },
+  ]
+  },
 ];

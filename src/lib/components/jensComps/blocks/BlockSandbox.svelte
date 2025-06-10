@@ -13,8 +13,12 @@
   let iframeRef: HTMLIFrameElement | null = null;
   let consoleLogs: any[] = [];
   let lastLogRef: HTMLDivElement | null = null;
-
   const iframeId: string = `iframe-${Math.random().toString(36).slice(2, 9)}`;
+
+  let debounceTimeout: ReturnType<typeof setTimeout>;
+  let showHtml = true;
+  let showCss = true;
+  let showJs = true;
 
   function updateIframe(): void {
     const content = `
@@ -44,6 +48,21 @@
     consoleLogs = [];
   }
 
+  function triggerDebouncedUpdate() {
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => {
+      if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+        (window as any).requestIdleCallback(() => updateIframe());
+      } else {
+        updateIframe();
+      }
+    }, 750);
+  }
+
+  $: html, triggerDebouncedUpdate();
+  $: css, triggerDebouncedUpdate();
+  $: js, triggerDebouncedUpdate();
+
   function handleMessage(event: MessageEvent): void {
     if (event?.data?.type === 'log') {
       consoleLogs = [...consoleLogs, ...event.data.args];
@@ -61,49 +80,60 @@
 <svelte:window on:message={handleMessage} />
 
 <div class="space-y-6">
-  <div class="grid lg:grid-cols-3 gap-4">
-    <div>
-      <div class="text-sm font-mono text-fuchsia-400 mb-1">index.html</div>
-      <CodeMirror
-        bind:value={html}
-        lang={htmlLang()}
-        theme={oneDark}
-        lineWrapping
-        basic
-        class="h-48 border border-slate-700 rounded overflow-hidden"
-      />
+  <div>
+    <div class="flex space-x-2 mb-2">
+      <label class="flex items-center space-x-1">
+        <input type="checkbox" bind:checked={showHtml} />
+        <span class="text-sm font-mono">HTML</span>
+      </label>
+      <label class="flex items-center space-x-1">
+        <input type="checkbox" bind:checked={showCss} />
+        <span class="text-sm font-mono">CSS</span>
+      </label>
+      <label class="flex items-center space-x-1">
+        <input type="checkbox" bind:checked={showJs} />
+        <span class="text-sm font-mono">JS</span>
+      </label>
     </div>
-    <div>
-      <div class="text-sm font-mono text-fuchsia-400 mb-1">style.css</div>
-      <CodeMirror
-        bind:value={css}
-        lang={cssLang()}
-        theme={oneDark}
-        lineWrapping
-        basic
-        class="h-48 border border-slate-700 rounded overflow-hidden"
-      />
-    </div>
-    <div>
-      <div class="text-sm font-mono text-fuchsia-400 mb-1">script.js</div>
-      <CodeMirror
-        bind:value={js}
-        lang={javascript()}
-        theme={oneDark}
-        lineWrapping
-        basic
-        class="h-48 border border-slate-700 rounded overflow-hidden"
-      />
-    </div>
-  </div>
 
-  <div class="pt-4">
-    <button
-      class="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-4 py-2 rounded font-mono"
-      on:click={updateIframe}
-    >
-      Kjør kode
-    </button>
+    <div class="editor-container">
+      {#if showHtml}
+        <div class="resizable-panel">
+          <CodeMirror
+            bind:value={html}
+            lang={htmlLang()}
+            theme={oneDark}
+            lineWrapping
+            basic
+            class="editor-box"
+          />
+        </div>
+      {/if}
+      {#if showCss}
+        <div class="resizable-panel">
+          <CodeMirror
+            bind:value={css}
+            lang={cssLang()}
+            theme={oneDark}
+            lineWrapping
+            basic
+            class="editor-box"
+          />
+        </div>
+      {/if}
+      {#if showJs}
+        <div class="resizable-panel">
+          <CodeMirror
+            bind:value={js}
+            lang={javascript()}
+            theme={oneDark}
+            lineWrapping
+            basic
+            class="editor-box"
+          />
+        </div>
+      {/if}
+    </div>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
@@ -130,3 +160,35 @@
     </div>
   </div>
 </div>
+
+<style>
+  .editor-container {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+  }
+
+  .resizable-panel {
+    resize: horizontal;
+    overflow: auto;
+    min-width: 200px;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #334155;
+    border-radius: 0.5rem;
+    background-color: #1e293b;
+  }
+
+  .editor-box {
+    flex: 1;
+    min-height: 100%;
+  }
+
+  button.selected {
+    background-color: #a21caf;
+    color: white;
+  }
+</style>

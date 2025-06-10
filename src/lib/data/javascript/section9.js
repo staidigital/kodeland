@@ -5,40 +5,40 @@ export default [
     blocks: [
       {
         type: "paragraph",
-        text: "Her er tre bonusoppgaver du kan velge mellom, alle på omtrent samme vanskelighetsgrad som å lage en todo-list-app. Du kan velge hvilken oppgave du vil jobbe med, eller prøve deg på alle tre!"
+        text: "Her får du tre bonusoppgaver å velge mellom. Alle er på omtrent samme vanskelighetsnivå, og lar deg øve på å manipulere DOM, bruke funksjoner og håndtere brukerinput. Du kan velge én eller prøve deg på alle!"
       }
     ]
   },
   {
     id: "sectionTodo",
-    title: "Oppgave 1: Lag en \"Todo-list\"-app",
+    title: "Oppgave 1: Todo-liste",
     blocks: [
       {
         type: "paragraph",
-        text: "Lag en enkel \"todo-list\"-applikasjon der brukeren kan legge til, fjerne og merke av oppgaver som fullført. Dette er en fin måte å øve på dynamisk håndtering av DOM-elementer i JavaScript."
+        text: "Lag en enkel todo-liste der brukeren kan legge til, fjerne og merke oppgaver som fullført."
       },
       {
         type: "list",
         items: [
-          "Brukeren skal kunne skrive inn en oppgave i et tekstfelt og legge til denne i en liste når de klikker på en \"Legg til\"-knapp.",
-          "Hver oppgave skal vises som et eget element i listen med mulighet for å markere den som \"fullført\".",
-          "Det skal være en knapp for å slette en oppgave.",
-          "Oppgavene skal lagres i `localStorage`, slik at listen ikke blir tom når siden lastes inn på nytt."
+          "Skriv en oppgave i et tekstfelt og legg den til med en knapp.",
+          "Vis oppgaver i en liste, og la brukeren markere dem som fullført.",
+          "Lag en knapp for å slette en oppgave.",
+          "Bruk `localStorage` for å lagre oppgavene slik at de bevares ved sideoppdatering."
         ]
       },
       {
         type: "paragraph",
-        text: "**Tips:** Bruk event listeners for å håndtere klikk på knapper. Sørg for å bruke funksjoner for å holde koden ryddig og lett å forstå."
+        text: "**Tips:** Bruk `addEventListener` for å håndtere klikk på knapper. Sørg for å bruke funksjoner for å holde koden ryddig og lett å forstå."
       }
     ]
   },
   {
     id: "sectionDice",
-    title: "Oppgave 2: Lag en \"Terningsimulator\"",
+    title: "Oppgave 2: Terningsimulator",
     blocks: [
       {
         type: "paragraph",
-        text: "Lag en applikasjon der brukeren kan simulere å kaste en terning. Terningen skal kunne ha mellom 4 og 20 sider, og resultatet fra hvert kast skal vises i en liste."
+        text: "Lag en applikasjon der brukeren kan kaste en terning med valgfritt antall sider (f.eks. 4, 6, 10)."
       },
       {
         type: "list",
@@ -57,19 +57,19 @@ export default [
   },
   {
     id: "sectionCalculator",
-    title: "Oppgave 3: Lag en \"Enkel kalkulator\"",
+    title: "Oppgave 3: Enkel kalkulator",
     blocks: [
       {
         type: "paragraph",
-        text: "Lag en enkel kalkulator der brukeren kan legge inn to tall og velge en operasjon (addisjon, subtraksjon, multiplikasjon eller divisjon). Resultatet skal vises når brukeren trykker på \"Beregn\"-knappen."
+        text: "Lag en kalkulator der brukeren kan skrive inn to tall og velge en regneoperasjon (f.eks. +, −, ×, ÷)."
       },
       {
         type: "list",
         items: [
-          "Brukeren skal kunne legge inn to tall i hver sitt tekstfelt.",
-          "Brukeren skal kunne velge hvilken operasjon de vil utføre (addere, subtrahere, multiplisere eller dividere) ved hjelp av en dropdown-meny.",
-          "Resultatet av operasjonen skal vises på skjermen etter at brukeren klikker på \"Beregn\".",
-          "Lag en knapp for å resette kalkulatoren og fjerne tidligere resultat."
+          "To input-felt for tall.",
+          "En dropdown-meny for å velge operasjon.",
+          "En knapp som beregner og viser resultatet.",
+          "En knapp som nullstiller skjema og resultat."
         ]
       },
       {
@@ -84,8 +84,8 @@ export default [
     blocks: [
       {
         type: "paragraph",
-        text: "Alle oppgavene gir deg en god mulighet til å øve på grunnleggende JavaScript, inkludert DOM-manipulering, lagring i `localStorage`, bruk av event listeners, og modulær koding. Hvilken oppgave vil du ta fatt på først?"
+        text: "Disse oppgavene gir deg god trening i JavaScript, inkludert DOM-manipulering, `localStorage`, hendelser og strukturert kode. Hvilken vil du begynne med?"
       }
     ]
-  }
+  },
 ];
