@@ -1,7 +1,7 @@
 export default [
   {
     id: "sectionZero",
-    title: "Setup",
+    title: "",
     blocks: [
       {
         type: "paragraph",

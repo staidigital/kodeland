@@ -1,7 +1,7 @@
 export default [
   {
     id: "sectionIntro",
-    title: "Bonusoppgaver i JavaScript",
+    title: "",
     blocks: [
       {
         type: "paragraph",

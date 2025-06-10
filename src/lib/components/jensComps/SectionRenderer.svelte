@@ -2,7 +2,7 @@
   import Overskrift from '$lib/components/overskrift.svelte';
   import BlockRenderer from '$lib/components/jensComps/BlockRenderer.svelte';
 
-  export let courseTitle: string = 'Course';
+  // export let courseTitle: string = 'Course';
   export let sections: Array<{
     id?: string;
     title?: string;
@@ -10,15 +10,18 @@
   }> = [];
   export let nextPart: string = '';
   export let prevPart: string = '';
+  export let sectionTitle: string = '';
+  
+
 </script>
 
 <header class="flex flex-col justify-center lg:pt-40 pt-10 pb-10">
-  <h1 class="text-3xl font-mono text-fuchsia-300">{courseTitle}</h1>
+  <h1 class="text-3xl font-mono text-fuchsia-300">{sectionTitle}</h1>
 </header>
 
 {#each sections as section}
   <article id={section.id} class="py-8 border-t border-slate-700 space-y-6">
-    {#if section.title}
+    {#if section.title && section.title !== sectionTitle}
       <Overskrift text={section.title} />
     {/if}
     {#each section.blocks as block}

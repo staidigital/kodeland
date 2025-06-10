@@ -1,7 +1,7 @@
 export default [
   {
     id: "sectionIntro",
-    title: "Introduksjon til DOM og getElementById i JavaScript",
+    title: "",
     blocks: [
       {
     "type": "paragraph",

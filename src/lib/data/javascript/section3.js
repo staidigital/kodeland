@@ -1,7 +1,7 @@
 export default [
   {
     id: "intro",
-    title: "Introduksjon til datatyper og lister",
+    title: "",
     blocks: [
       {
         type: 'paragraph',

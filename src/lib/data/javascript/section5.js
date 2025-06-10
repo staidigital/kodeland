@@ -1,7 +1,7 @@
 export default [
   {
   "id": "sectionIntro",
-  "title": "Hva er en funksjon?",
+  "title": "",
   "blocks": [
     {
       "type": "paragraph",

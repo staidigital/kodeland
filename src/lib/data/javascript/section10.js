@@ -1,7 +1,7 @@
 export default [
   {
     id: 'sectionJSSandbox',
-    title: 'JavaScript Sandbox',
+    title: '',
     blocks: [
       {
         type: 'sandbox'

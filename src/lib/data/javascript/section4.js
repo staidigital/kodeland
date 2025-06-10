@@ -1,7 +1,7 @@
 export default [
   {
     id: "sectionIntro",
-    title: "Introduksjon til løkker i JavaScript",
+    title: "",
     blocks: [
       {
         type: "paragraph",

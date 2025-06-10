@@ -1,7 +1,7 @@
 export default [
   {
     "id": "sectionIntro",
-    "title": "Flere Selectors og Manipulering av CSS med JavaScript",
+    "title": "",
     "blocks": [
       {
         "type": "paragraph",

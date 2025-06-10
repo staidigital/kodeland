@@ -19,6 +19,7 @@ const sectionImports: Record<string, () => Promise<any>> = {
 export const load: PageLoad = async ({ params }) => {
     const currentId = params.part;
     const index = manifest.findIndex((entry) => entry.id === currentId);
+    const sectionTitle = manifest[index].title;
 
     if (index === -1 || !sectionImports[currentId]) {
         throw error(404, `Del '${currentId}' finnes ikke.`);
@@ -30,6 +31,7 @@ export const load: PageLoad = async ({ params }) => {
     return {
         sections: sectionModule.default,
         partNum: currentId,
+        sectionTitle,
         prevPart: index > 0 ? `/javascript/${manifest[index - 1].id}` : '',
         nextPart: index < manifest.length - 1 ? `/javascript/${manifest[index + 1].id}` : '',
     };

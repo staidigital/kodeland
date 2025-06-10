@@ -1,7 +1,7 @@
 export default [
   {
     id: "sectionIntro",
-    title: "Introduksjon til Mouse Events og Musekoordinater i JavaScript",
+    title: "",
     blocks: [
       {
         type: "paragraph",
