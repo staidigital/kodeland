@@ -127,9 +127,14 @@
   container.classList.add('dragging');
   const totalWidth = container.offsetWidth;
 
-  const keyToIndex = { showHtml: 0, showCss: 1, showJs: 2 };
-  const leftIdx = keyToIndex[leftKey];
-  const rightIdx = keyToIndex[rightKey];
+  const keyToIndex: Record<'showHtml' | 'showCss' | 'showJs', number> = {
+  showHtml: 0,
+  showCss: 1,
+  showJs: 2,
+  };
+
+  const leftIdx = keyToIndex[leftKey as keyof typeof keyToIndex];
+  const rightIdx = keyToIndex[rightKey as keyof typeof keyToIndex];
 
   function onMouseMove(e: MouseEvent) {
     const dx = e.clientX - startX;
@@ -246,7 +251,7 @@
 {/if}
 
 <!-- Console og Preview -->
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
   <div>
     <h3 class="text-fuchsia-400 font-mono mb-2">Console</h3>
     <div class="bg-black text-green-400 font-mono p-3 h-64 overflow-y-auto rounded border border-slate-600">
@@ -270,17 +275,21 @@
     ></iframe>
   </div>
 </div>
+
 <style>
   .editor-container {
-    display: flex;
-    width: 100%;
-    height: 300px;
-    overflow: hidden;
-    background-color: #1e293b;
-    border-radius: 0.5rem;
-    border: 1px solid #334155;
-  }
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+  height: 300px;
+  overflow-x: auto;
+  background-color: #1e293b;
+  border-radius: 0.5rem;
+  border: 1px solid #334155;
+}
 
+ 
   .editor-panel {
     display: flex;
     flex-direction: column;

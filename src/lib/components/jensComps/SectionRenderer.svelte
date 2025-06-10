@@ -12,16 +12,28 @@
   export let prevPart: string = '';
   export let sectionTitle: string = '';
   
+  function containsSandbox(blocks) {
+    return blocks.some(b => b.type === 'sandbox');
+  }
+
+  function anySandbox(sections) {
+  return sections?.some(section =>
+    section.blocks?.some(block => block.type === 'sandbox')
+  );
+}
 
 </script>
 
-<header class="flex flex-col justify-center lg:pt-40 pt-10 pb-10">
-  <h1 class="text-3xl font-mono text-fuchsia-300">{sectionTitle}</h1>
-</header>
+{#if !anySandbox(sections)}
+  <header class="flex flex-col justify-center lg:pt-40 pt-10 pb-10">
+    <h1 class="text-3xl font-mono text-fuchsia-300">{sectionTitle}</h1>
+  </header>
+{/if}
+
 
 {#each sections as section}
-  <article id={section.id} class="py-8 border-t border-slate-700 space-y-6">
-    {#if section.title && section.title !== sectionTitle}
+  <article id={section.id} class="py-8  space-y-6">
+    {#if section.title && section.title !== sectionTitle && !containsSandbox(section.blocks)}
       <Overskrift text={section.title} />
     {/if}
     {#each section.blocks as block}
@@ -30,6 +42,7 @@
   </article>
 {/each}
 
+{#if !anySandbox(sections)}
 {#if prevPart || nextPart}
   <div class="mt-16 flex justify-between">
     {#if prevPart}
@@ -49,4 +62,5 @@
       </a>
     {/if}
   </div>
+{/if}
 {/if}

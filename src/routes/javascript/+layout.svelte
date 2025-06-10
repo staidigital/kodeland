@@ -8,7 +8,7 @@
   <Sidebar title="JavaScript 101" sections={jsCourseSections as Section[]}>
   </Sidebar>
 
-  <section class="lg:px-30 px-5 lg:w-4/5 w-full pb-40">
+  <section class="lg:px-30 px-5 lg:w-4/5 w-full pb-40 min-h-screen">
     <slot />
   </section>
 </main>

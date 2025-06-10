@@ -20,7 +20,7 @@
 
 <svelte:window bind:innerWidth={screenSize} />
 
-<aside class="lg:w-1/5 w-full bg-slate-800/90 lg:pt-32 shadow-xl z-20">
+<aside class="lg:w-1/5 w-full  text-wrap bg-slate-800/90 lg:pt-32 shadow-xl z-20">
   {#if screenSize < 1024}
     <div class="w-full h-20 flex justify-end bg-slate-900/80 border-b border-fuchsia-900">
       <button

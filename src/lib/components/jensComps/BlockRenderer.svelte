@@ -54,7 +54,11 @@
   />
 
 {:else if block.type === 'sandbox'}
-  <BlockSandbox />
+    <div class="fixed inset-0 top-[8rem] lg:top-20 lg:left-1/5 p-2 sm:p-4 overflow-auto bg-slate-900 text-white z-0">
+      <BlockSandbox />
+    </div>
+
+  
 
 {:else if block.type === 'custom' && block.component === 'SqlPlaygroundPokemon'}
   <SqlPlaygroundPokemon />
