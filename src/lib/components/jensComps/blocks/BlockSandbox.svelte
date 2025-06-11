@@ -13,71 +13,53 @@
   let iframeRef: HTMLIFrameElement | null = null;
   let consoleLogs: any[] = [];
   let lastLogRef: HTMLDivElement | null = null;
-
   let runtimeError: string | null = null;
 
-  
   let showHtml = true;
   let showCss = true;
   let showJs = true;
 
   let widths = [33.3, 33.3, 33.3];
-
+  let isDragging = false;
   const STORAGE_KEY = 'kodeland-sandbox';
 
-  function updateIframe(): void {
-  runtimeError = null;
-
-  const content = `
-    <html>
-      <head>
-        <style>${css}</style>
-      </head>
-      <body>
-        ${html}
-        <script>
-          const originalLog = console.log;
-          const originalError = console.error;
-
-          console.log = function(...args) {
-            parent.postMessage({ type: 'log', args }, '*');
-            originalLog.apply(console, args);
-          };
-
-          console.error = function(...args) {
-            parent.postMessage({ type: 'runtime-error', args }, '*');
-            originalError.apply(console, args);
-          };
-
-          window.onerror = function(message) {
-            parent.postMessage({ type: 'runtime-error', args: [message] }, '*');
-          };
-
-          try {
-            ${js}
-          } catch (e) {
-            console.error("JS-feil:", e.message);
-          }
-        <\/script>
-      </body>
-    </html>
-  `;
-
-  if (iframeRef) iframeRef.srcdoc = content;
-  consoleLogs = [];
-}
-
+  function updateIframe() {
+    runtimeError = null;
+    const content = `
+      <html>
+        <head><style>${css}</style></head>
+        <body>
+          ${html}
+          <script>
+            const originalLog = console.log;
+            const originalError = console.error;
+            console.log = (...args) => {
+              parent.postMessage({ type: 'log', args }, '*');
+              originalLog.apply(console, args);
+            };
+            console.error = (...args) => {
+              parent.postMessage({ type: 'runtime-error', args }, '*');
+              originalError.apply(console, args);
+            };
+            window.onerror = msg => parent.postMessage({ type: 'runtime-error', args: [msg] }, '*');
+            try { ${js} } catch (e) {
+              console.error("JS-feil:", e.message);
+            }
+          <\/script>
+        </body>
+      </html>
+    `;
+    if (iframeRef) iframeRef.srcdoc = content;
+    consoleLogs = [];
+  }
 
   let debounceTimeout: ReturnType<typeof setTimeout>;
-
   function triggerDebouncedUpdate() {
     clearTimeout(debounceTimeout);
     debounceTimeout = setTimeout(() => {
-      if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-        (window as any).requestIdleCallback(() => updateIframe());
-      } else {
-        updateIframe();
-      }
+      typeof window !== 'undefined' && 'requestIdleCallback' in window
+        ? (window as any).requestIdleCallback(() => updateIframe())
+        : updateIframe();
     }, 750);
   }
 
@@ -85,14 +67,9 @@
   $: css, triggerDebouncedUpdate();
   $: js, triggerDebouncedUpdate();
 
-  function handleMessage(event: MessageEvent): void {
-    if (event?.data?.type === 'log') {
-      consoleLogs = [...consoleLogs, ...event.data.args];
-    }
-    if (event?.data?.type === 'runtime-error') {
-      runtimeError = event.data.args?.[0] ?? "Ukjent feil";
-    }
-
+  function handleMessage(event: MessageEvent) {
+    if (event?.data?.type === 'log') consoleLogs = [...consoleLogs, ...event.data.args];
+    if (event?.data?.type === 'runtime-error') runtimeError = event.data.args?.[0] ?? 'Ukjent feil';
   }
 
   function saveCode() {
@@ -100,16 +77,13 @@
   }
 
   function loadCode() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        html = parsed.html ?? html;
-        css = parsed.css ?? css;
-        js = parsed.js ?? js;
-      } catch (e) {
-        console.error("Kunne ikke laste lagret kode:", e);
-      }
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      html = saved.html ?? html;
+      css = saved.css ?? css;
+      js = saved.js ?? js;
+    } catch (e) {
+      console.error("Kunne ikke laste lagret kode:", e);
     }
   }
 
@@ -119,46 +93,45 @@
     js = `const message = "Hello from JS!";\nconsole.log(message);`;
   }
 
-  function startResizeSmart(e: MouseEvent, leftKey: string, rightKey: string) {
-  e.preventDefault();
-  const startX = e.clientX;
-  const startWidths = [...widths];
-  const container = document.querySelector('.editor-container') as HTMLElement;
-  container.classList.add('dragging');
-  const totalWidth = container.offsetWidth;
+  function startResizeSmart(
+    e: MouseEvent,
+    leftKey: 'showHtml' | 'showCss' | 'showJs',
+    rightKey: 'showHtml' | 'showCss' | 'showJs'
+  ) {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startWidths = [...widths];
+    const container = document.querySelector('.editor-container') as HTMLElement;
+    isDragging = true;
+    container.classList.add('dragging');
+    const totalWidth = container.offsetWidth;
 
-  const keyToIndex: Record<'showHtml' | 'showCss' | 'showJs', number> = {
-  showHtml: 0,
-  showCss: 1,
-  showJs: 2,
-  };
+    const keyToIndex = { showHtml: 0, showCss: 1, showJs: 2 };
+    const leftIdx = keyToIndex[leftKey];
+    const rightIdx = keyToIndex[rightKey];
 
-  const leftIdx = keyToIndex[leftKey as keyof typeof keyToIndex];
-  const rightIdx = keyToIndex[rightKey as keyof typeof keyToIndex];
+    function onMouseMove(e: MouseEvent) {
+      const dx = e.clientX - startX;
+      const delta = (dx / totalWidth) * 100;
+      widths[leftIdx] = Math.max(10, startWidths[leftIdx] + delta);
+      widths[rightIdx] = Math.max(10, startWidths[rightIdx] - delta);
+    }
 
-  function onMouseMove(e: MouseEvent) {
-    const dx = e.clientX - startX;
-    const delta = (dx / totalWidth) * 100;
-    widths[leftIdx] = Math.max(10, startWidths[leftIdx] + delta);
-    widths[rightIdx] = Math.max(10, startWidths[rightIdx] - delta);
+    function onMouseUp() {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+      isDragging = false;
+      container.classList.remove('dragging');
+    }
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
   }
-
-  function onMouseUp() {
-    window.removeEventListener('mousemove', onMouseMove);
-    window.removeEventListener('mouseup', onMouseUp);
-    container.classList.remove('dragging');
-  }
-
-  window.addEventListener('mousemove', onMouseMove);
-  window.addEventListener('mouseup', onMouseUp);
-}
 
   $: {
     const visible = [showHtml, showCss, showJs];
     const count = visible.filter(Boolean).length;
-    if (count > 0) {
-      widths = visible.map(shown => shown ? 100 / count : 0);
-    }
+    if (count > 0) widths = visible.map(shown => shown ? 100 / count : 0);
   }
 
   onMount(async () => {
@@ -166,6 +139,9 @@
     updateIframe();
   });
 </script>
+
+<!-- Resten av komponenten (HTML-rendering + CSS-styling) er beholdt som i originalen uten endringer -->
+
 
 <svelte:window on:message={handleMessage} />
 
@@ -208,36 +184,55 @@
   </div>
 </div>
 
-<div class="editor-container">
+<div class="editor-container {isDragging ? 'dragging' : ''}" >
   {#if showHtml}
     <div class="editor-panel" style="width: {widths[0]}%;">
-      <div class="editor-label">HTML</div>
-      <CodeMirror bind:value={html} lang={htmlLang()} theme={oneDark} lineWrapping basic class="editor-box" />
+      <div class="editor-label"> &lt;/&gt; HTML</div>
+      <div class="editor-box">
+      <CodeMirror bind:value={html} lang={htmlLang()} theme={oneDark} lineWrapping basic />
+      </div>
     </div>
   {/if}
 
   {#if showHtml && showCss}
-    <div class="dragbar" on:mousedown={(e) => startResizeSmart(e, 'showHtml', 'showCss')}></div>
+    <div
+      class="dragbar"
+      role="separator"
+      aria-orientation="horizontal"
+      aria-hidden="true"
+      on:mousedown={(e) => startResizeSmart(e, 'showHtml', 'showCss')}
+    ></div>
+
   {/if}
 
   {#if showCss}
     <div class="editor-panel" style="width: {widths[1]}%;">
-      <div class="editor-label">CSS</div>
+      <div class="editor-label"> &#123;&#125; CSS</div>
       <CodeMirror bind:value={css} lang={cssLang()} theme={oneDark} lineWrapping basic class="editor-box" />
     </div>
   {/if}
 
   {#if showCss && showJs}
-    <div class="dragbar" on:mousedown={(e) => startResizeSmart(e, 'showCss', 'showJs')}></div>
+    <div 
+    class="dragbar"
+    role="separator"
+    aria-orientation="horizontal"
+    aria-hidden="true"
+    on:mousedown={(e) => startResizeSmart(e, 'showCss', 'showJs')}>
+    </div>
   {/if}
 
   {#if showHtml && !showCss && showJs}
-    <div class="dragbar" on:mousedown={(e) => startResizeSmart(e, 'showHtml', 'showJs')}></div>
+    <div class="dragbar" 
+    role="separator"
+    aria-orientation="horizontal"
+    aria-hidden="true"
+    on:mousedown={(e) => startResizeSmart(e, 'showHtml', 'showJs')}></div>
   {/if}
 
   {#if showJs}
     <div class="editor-panel" style="width: {widths[2]}%;">
-      <div class="editor-label">JS</div>
+      <div class="editor-label">⚙ JS</div>
       <CodeMirror bind:value={js} lang={javascript()} theme={oneDark} lineWrapping basic class="editor-box" />
     </div>
   {/if}
@@ -298,6 +293,7 @@
     background-color: #1e293b;
   }
 
+
   .editor-box {
     flex: 1;
     min-height: 100%;
@@ -327,6 +323,8 @@
 
 .editor-container.dragging .editor-panel {
   cursor: col-resize;
+  box-shadow: inset 0 0 0 2px #e879f955;
+
 }
 
 .dragbar::after {
@@ -343,6 +341,7 @@
 
   button:focus {
     outline: none;
-    ring: 2px solid #e879f9;
+    box-shadow: 0 0 0 1px #e879f9;
+
   }
 </style>
