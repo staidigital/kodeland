@@ -6,6 +6,10 @@ export default [
       {
         type: "paragraph",
         text: "Lag en ny mappe på et fornuftig sted og gi den navnet **javascript-kurs**. Åpne mappen i VS Code ved å klikke på _File → Open Folder_. Dette er mappen hvor du skal lagre all kode du skriver i løpet av kurset."
+      },
+      {
+        type: "paragraph",
+        text: "Siste økten i kurset skal du forklare to av oppgavene du er mest fornøyd med at du har kodet muntlig til læreren din."
       }
     ]
   },

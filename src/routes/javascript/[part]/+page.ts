@@ -1,6 +1,6 @@
 import type { PageLoad } from './$types';
 import { error } from '@sveltejs/kit';
-import manifest from '$lib/data/javascript/manifest.js';
+import manifest from '$lib/data/javascript/manifest';
 
 const sectionImports: Record<string, () => Promise<any>> = {
     part0: () => import("$lib/data/javascript/section0.js"),
@@ -14,17 +14,18 @@ const sectionImports: Record<string, () => Promise<any>> = {
     part8: () => import("$lib/data/javascript/section8.js"),
     part9: () => import("$lib/data/javascript/section9.js"),
     part10: () => import("$lib/data/javascript/section10.js"),
+
 };
 
 export const load: PageLoad = async ({ params }) => {
     const currentId = params.part;
     const index = manifest.findIndex((entry) => entry.id === currentId);
-    const sectionTitle = manifest[index].title;
-
+    
     if (index === -1 || !sectionImports[currentId]) {
         throw error(404, `Del '${currentId}' finnes ikke.`);
     }
-
+    
+    const sectionTitle = manifest[index].title;
     const loadSection = sectionImports[currentId];
     const sectionModule = await loadSection();
 

@@ -83,8 +83,8 @@ export const jsCourseSections: Section[] = [
     id: 'part10',
     title: 'Del 10: JavaScript Sandbox',
     links: []
-  }
-
+  },
+ 
 ];
 
 export default jsCourseSections;

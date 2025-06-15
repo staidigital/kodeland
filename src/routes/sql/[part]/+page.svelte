@@ -4,7 +4,7 @@
 </script>
 
 <SectionRenderer
-  courseTitle="SQL 101"
+  sectionTitle={data.sectionTitle}
   sections={data.sections}
   nextPart={data.nextPart}
   prevPart={data.prevPart}

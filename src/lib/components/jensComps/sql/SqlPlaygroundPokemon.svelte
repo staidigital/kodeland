@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import initSqlJs from 'sql.js';
   import { onMount } from 'svelte';
   import wasmUrl from 'sql.js/dist/sql-wasm.wasm?url';
@@ -7,51 +7,58 @@
   import { sql } from '@codemirror/lang-sql';
   import { oneDark } from '@codemirror/theme-one-dark';
 
-  let db, SQL, userQuery = 'SELECT * FROM pokemon;';
-  let results = [];
-  let ready = false;
+  interface QueryResults {
+    columns: string[];
+    values: (string | number | null)[][];
+  }
+
+  let db: import('sql.js').Database;
+  let SQL: Awaited<ReturnType<typeof initSqlJs>>;
+  let userQuery: string = 'SELECT * FROM pokemon;';
+  let results: QueryResults[] = [];
+  let ready: boolean = false;
 
   onMount(async () => {
     SQL = await initSqlJs({ locateFile: () => wasmUrl });
     resetDB();
   });
 
-  function resetDB() {
-  db = new SQL.Database();
+  function resetDB(): void {
+    db = new SQL.Database();
 
-  db.run(`CREATE TABLE pokemon (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    pokedex_number INTEGER,
-    name TEXT,
-    type TEXT,
-    hp INTEGER
-  );`);
+    db.run(`CREATE TABLE pokemon (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      pokedex_number INTEGER,
+      name TEXT,
+      type TEXT,
+      hp INTEGER
+    );`);
 
-  db.run(`INSERT INTO pokemon (pokedex_number, name, type, hp) VALUES 
-    (1, 'Bulbasaur', 'Grass', 45),
-    (4, 'Charmander', 'Fire', 39),
-    (7, 'Squirtle', 'Water', 44),
-    (10, 'Caterpie', 'Bug', 45),
-    (13, 'Weedle', 'Poison', 40),
-    (16, 'Pidgey', 'Flying', 40),
-    (25, 'Pikachu', 'Electric', 35),
-    (39, 'Jigglypuff', 'Fairy', 115);`);
+    db.run(`INSERT INTO pokemon (pokedex_number, name, type, hp) VALUES 
+      (1, 'Bulbasaur', 'Grass', 45),
+      (4, 'Charmander', 'Fire', 39),
+      (7, 'Squirtle', 'Water', 44),
+      (10, 'Caterpie', 'Bug', 45),
+      (13, 'Weedle', 'Poison', 40),
+      (16, 'Pidgey', 'Flying', 40),
+      (25, 'Pikachu', 'Electric', 35),
+      (39, 'Jigglypuff', 'Fairy', 115);`);
 
-  results = [];
-  ready = true;
-}
+    results = [];
+    ready = true;
+  }
 
-
-  function runQuery() {
+  function runQuery(): void {
     if (!db) return;
     try {
       const res = db.exec(userQuery);
       results = res;
-    } catch (err) {
+    } catch (err: any) {
       results = [{ columns: ['Feil'], values: [[err.message]] }];
     }
   }
 </script>
+
 
 <CodeMirror
   bind:value={userQuery}
