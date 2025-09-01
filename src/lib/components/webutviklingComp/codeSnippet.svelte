@@ -7,6 +7,9 @@
     export let code: string;
     export let language: string = "xml";
 
+    export let realCode: string | null = null;
+
+
     let show: boolean = false;
     const lowerLang = () => language.toLowerCase();
 </script>
@@ -27,7 +30,7 @@
         </div>
         {#if show}
             <div class="container bg-slate-100 pb-10">
-                <div class="prose prose-lg">{@html code}</div>
+            <div class="prose prose-lg">{@html (realCode ?? code)}</div>
             </div>
         {/if}
     {/if}

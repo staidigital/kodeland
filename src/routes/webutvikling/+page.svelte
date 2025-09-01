@@ -37,7 +37,8 @@
         'La oss ta en rask titt på koden vi lagde i stad. Den første linja, <span class="text-blue-300 text-mono"> &#60;!DOCTYPE html&#62; </span>, forteller nettleseren at dette er en HTML-fil. De forskjellige kodene vi bruker i HTML kaller vi for <span class="italic">tags</span>. For eksempel da vi skrev <span class="text-blue-300 text-mono">&#60;p&#62;Hei, verden!&#60;/p&#62;</span> brukte vi <span class="italic">p</span>-taggen. Legg merke til at vi nesten alltid har både en start-tag og en slutt-tag; disse ser nesten like ut bortsett fra at en slutt-tag har en skråstrek i seg.',
         'Selv om vi stort sett kommer til å skrive all koden vår i <span class="italic">body</span>, så er det enkelt ting vi gjør i <span class="italic">head</span>, f.eks. å bestemme teksten som skal stå på fanen til nettsiden i browseren din. Det gjør vi med <span class="text-blue-300 text-mono"> &#60;title&#62; </span> tag`n. Prøv å endre tittelen på siden din til f.eks. <span class="text-blue-300 text-mono"> &#60;title&#62; Min første nettside &#60;&#47;title&#62; </span> og observer at teksten i fanen endrer seg. <img src="' + img8 + '" />', 
         'La oss gå tilbake til <span class="text-blue-300 text-mono"> &#60;body&#62; </span> for å legge inn litt mer innhold. I tillegg til å ha vanlig tekst med p-tagen, la oss lage en overskrift. ',
-        'For å legge inn et bilde bruker vi <span class="italic">img</span> tag`n. Img er litt spesiell fordi man trenger ikke både start-tag og slutt-tag. La oss teste det med et stoisk bilde av Ned Stark. Merk at vi har lagt inn en <span class="italic">src</span> inne i img-tagen der vi setter URL-en til bildet.',
+        'For å legge inn et bilde bruker vi <span class="italic">img</span> tag`n. Img er litt spesiell fordi man trenger ikke både start-tag og slutt-tag. La oss teste det med et stoisk bilde av Ned Stark.For at du skal kunne bruke dette bildet på din side må du laste ned bildet og legge det i samme mappe som html-filen.',
+        'Merk at vi har lagt inn en <span class="italic">src</span> inne i img-tagen der vi setter URL-en til bildet. ',
         'Du kan endre størrelse på bilde ved å legge til en width-attributt og en height-attributt som bestemmer bredde og høyde på bildet i antall piksler. ',
         'Det finnes veldig mange html-tags man kan lære seg å bruke. Så på tide med en liten utforskningsoppgave!',
         '<a href="https://www.w3schools.com/html/default.asp"><span class="text-[#f81ce5]"> W3Schools</span></a> er en fin ressurs å bruke for å lære mer om HTML.'
@@ -99,7 +100,7 @@
         '    <h1>Min første overskrift</h1>',
         '    <p>Hei, verden!</p>',
         '</body>'].join('\n');
-    let code4 = ['<img src="https://webkurshosting.w3spaces.com/kodeland-webutvikling/nedstark.png" />'].join('\n');
+    let code4 = ['<img src="ned_stark.jpg" />'].join('\n');
     let code5 = ['<img width="200" src="https://webkurshosting.w3spaces.com/kodeland-webutvikling/nedstark.png" />'].join('\n');
     let code6 = '<link rel="stylesheet" href="style.css">';
     let code7 = ['p {',
@@ -261,13 +262,21 @@
                 <Avsnitt text={avsnitt3[3]} />
                 <CodeSnippet code={code3} preview={true} />
                 <Avsnitt text={avsnitt3[4]} />
-                <CodeSnippet code={code4} preview={true} />
-                <Definition term="Attributt" definition="En attributt er en egenskap som kan legges til en HTML-tag for å endre hvordan den oppfører seg. For eksempel kan vi legge til en src-attributt på img-taggen for å fortelle nettleseren hvor den skal hente bildet fra." />
+                <!-- HER passer det å legge inn lenken -->
+                <!-- Manuell forhåndsvisning som faktisk fungerer i SvelteKit -->
+                <div class="flex mt-2 justify-center rounded">
+                    <img src="/images/web/ned_stark.jpg" alt="Ned Stark" class="max-w-xs" />
+                </div>
                 <Avsnitt text={avsnitt3[5]} />
-                <CodeSnippet code={code5} preview={true} />
+                <CodeSnippet code={code4} preview={true}
+                  realCode={'<img src="/images/web/ned_stark.jpg" alt="Ned Stark" />'}/>
+
+                <Definition term="Attributt" definition="En attributt er en egenskap som kan legges til en HTML-tag for å endre hvordan den oppfører seg. For eksempel kan vi legge til en src-attributt på img-taggen for å fortelle nettleseren hvor den skal hente bildet fra." />
                 <Avsnitt text={avsnitt3[6]} />
-                <Task tasks={task1} description="Bruk Internett og egen testing for å finne ut av hva følgende html-tags gjør:" />
+                <CodeSnippet code={code5} preview={true} realCode={' <img src="/images/web/ned_stark.jpg" alt="Ned Stark" width="200"/>'} />
                 <Avsnitt text={avsnitt3[7]} />
+                <Task tasks={task1} description="Bruk Internett og egen testing for å finne ut av hva følgende html-tags gjør:" />
+                <Avsnitt text={avsnitt3[8]} />
             </div>
         </section>
         <section id="sectionFour" class="bg-slate-800/80 rounded-xl shadow-lg p-6 border border-fuchsia-900">
