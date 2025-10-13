@@ -6,6 +6,7 @@
   import BlockHTMLPreview from "$lib/components/jensComps/blocks/BlockHTMLPreview.svelte";
   import BlockSandbox from "$lib/components/jensComps/blocks/BlockSandbox.svelte";
   // import BlockSandboxTest from "$lib/components/jensComps/blocks/BlockSandboxTest.svelte";
+  import BlockTable from "$lib/components/jensComps/blocks/BlockTable.svelte";
 
   import { renderInlineMarkup } from '$lib/utils/markup';
   import SqlPlaygroundPokemon from '$lib/components/jensComps/sql/SqlPlaygroundPokemon.svelte';
@@ -20,13 +21,13 @@
   <BlockParagraph text={block.text} subtitle={block.subtitle} />
 
 {:else if block.type === 'list'}
-  <ul class="list-disc list-inside text-slate-100 leading-relaxed mb-4">
+  <ul class="list-disc list-inside text-slate-100 text-md leading-relaxed mb-4 ml-5">
     {#each block.items ?? [] as item}
       <li>{@html renderInlineMarkup(item)}</li>
     {/each}
   </ul>
 {:else if block.type === 'list-ol'}
-  <ol class="list-decimal list-inside text-slate-100 leading-relaxed mb-4">
+  <ol class="list-decimal list-inside text-slate-100 leading-relaxed  mb-4">
     {#each block.items ?? [] as item}
       <li>{@html renderInlineMarkup(item)}</li>
     {/each}
@@ -75,4 +76,6 @@
   {#if block.component === 'BlockTextWithImage'}
     <BlockTextWithImage {...block.props} />
   {/if}
+{:else if block.type === 'table'}
+  <BlockTable headers={block.headers} rows={block.rows} />
 {/if}

@@ -1,290 +1,388 @@
 export default [
   {
-    id: "intro",
+    id: "sectionIntro",
     title: "",
     blocks: [
       {
-        type: 'paragraph',
-        text: 'Når vi skriver kode, må vi ofte holde orden på ulike typer informasjon. Det kan være tall, tekst eller bare om noe er sant eller usant. Dette kalles for ^^datatyper^^.'
+        type: "paragraph",
+        text: "Til nå har JavaScript-koden din blitt kjørt linje for linje fra topp til bunn. Men hva om vi bare vil kjøre kode  når en betingelse er sann? Da kan vi bruke `if`-setninger:"
       },
       {
-        type: 'paragraph',
-        text: 'Det er viktig å vite hvilken type du bruker – fordi JavaScript behandler ulike typer informasjon på forskjellige måter. '
-      },
-      { type: 'paragraph',
-        text: 'I JavaScript har vi flere slike datatyper. Her er noen vanlige:'
+        type: "paragraph",
+        text: "Tenk på en `if`-setning som å si til datamaskinen:"
       },
       {
-        type: 'list',
+        type:"paragraph",
+        text: '%%"Hvis noe er sant - da skal du gjøre noe"%%'
+      },
+      {
+        type:"paragraph",
+        text: '**For eksempel:**'
+      },
+      {
+        type:"list",
         items: [
-          '`int` – heltall, som for eksempel `10`',
-          '`float` – desimaltall, som `3.14`',
-          '`boolean` – enten `true` (sant) eller `false` (usant)'
+          '**Hvis** brukeren er logget inn - **skriv ut** velkomstmeldingen',
+          '**Hvis** temperaturen er under 0 - **skriv ut** "Det er kaldt!"',
         ]
       },
       {
-        type: 'paragraph',
-        text: 'Det er viktig å vite hvilken datatype du bruker, fordi det hjelper deg å skrive kode som fungerer – og unngå feil som kan være vanskelige å finne.'
-      }
+        type:"paragraph",
+        text: 'Denne sjekken - "er temperaturen under 0" - kalles en ^^betingelse^^. Koden din gjør noe **bare hvis** betingelsen stemmer (er sann).'
+      },
     ]
   },
   
+
   {
-  id: "primitive",
-  title: "Enkle datatyper (primitive types)",
-  blocks: [
-    {
-      type: "paragraph",
-      text: "Nå skal vi se nærmere på de vanligste datatypene i JavaScript. Disse kalles for ^^primitive datatyper^^, og de er byggesteinene for nesten all kode du skriver."
-    },
-    {
-      type: "paragraph",
-      text: "Hver datatype brukes for å representere en bestemt type informasjon, som tall, tekst eller om noe er sant eller usant."
-    },
-    {
-      type: "list",
-      items: [
-        "`Number`: brukes for tall – både heltall (som `5`) og desimaltall (som `3.14`).",
-        "`String`: brukes for tekst – må alltid stå i anførselstegn, som `'Hei'` eller `\"Hallo\"`.",
-        "`Boolean`: brukes når noe bare kan være `true` (sant) eller `false` (usant).",
-        "`Null`: betyr at variabelen er tom med vilje – du har sagt 'denne har ingen verdi nå'.",
-        "`Undefined`: betyr at variabelen er laget, men du har ikke gitt den noen verdi enda.",
-        "`Symbol`: en spesiell type for unike verdier – den brukes mest i mer avansert kode, og du trenger den sjelden som nybegynner."
-      ]
-    },
-    {
-      type: "paragraph",
-      text: "Her er noen eksempler som viser hvordan disse datatypene kan brukes:"
-    },
-    {
-      type: "code",
-      language: "javascript",
-      interactive: true,
-      code: `let age = 30;           // Number: et helt tall
-let pi = 3.14;         // Number: et desimaltall
+    id: "sectionBetingelser",
+    title: "Sammenligningsoperatorer",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "JavaScript kan sammenligne to verdier og gi en Boolean som enten er `true` eller `false`."
+      },
+      {
+        type: "table",
+        headers: ["Navn", "Eksempel på operasjon", "Eksempel som gir `true`"],
+        rows: [
+          ["Lik", "`x == y`", "`3 == 3`"],
+          ["Ikke lik", "`x != y`", "`3 != 4`"],
+          ["Strengt lik", "`x === y`", "`5 === 5`"],
+          ["Strengt ikke lik", "`x !== y`", "`5 !== '5'`"],
+          ["Større enn", "`x > y`", "`10 > 5`"],
+          ["Større enn eller lik", "`x >= y`", "`8 >= 8`"],
+          ["Mindre enn", "`x < y`", "`2 < 5`"],
+          ["Mindre enn eller lik", "`x <= y`", "`6 <= 6`"]
+        ]
+      }
 
-let name = "Ola Nordmann";  // String: tekst med anførselstegn
 
-let isStudent = true;  // Boolean: kan være true eller false
-console.log(typeof isStudent);   // "boolean"
+    ]
+  },
 
-let emptyValue = null; // Null: tom verdi med vilje
-let notAssigned;       // Undefined: laget variabelen, men ikke gitt den en verdi`
-    },
-    {
-      type: "paragraph",
-      text: "💡 Som du ser i eksemplet ovenfor, kan du bruke `typeof` i JavaScript for å finne ut hvilken datatype en verdi har. Prøv f.eks. `console.log(typeof age);`"
-    }
-  ]
-},
-{
-  "id": "arrays",
-  "title": "Arrays (Lister)",
-  "blocks": [
-    {
-      "type": "paragraph",
-      "text": "En ^^array^^ (eller liste) brukes for å lagre flere verdier i én variabel. Det er nyttig når du trenger å jobbe med mange ting av samme type."
-    },
-    {
-      "type": "paragraph",
-      "text": "Vi lager en array med firkantede klammer `[]`, og verdiene skilles med komma."
-    },
-    {
-      "type": "code",
-      "language": "javascript",
-      interactive: true,
-      "code": "let fruits = [\"Eple\", \"Banan\", \"Appelsin\"];"
-    },
-    {
-      "type": "paragraph",
-      "text": "Verdiene i en array har en plassering, eller ^^indeks^^. Den første har plass 0, den andre har plass 1, osv."
-    },
-    {
-      "type": "code",
-      "language": "javascript",
-      interactive: true,
-      "code": "let fruits = [\"Eple\", \"Banan\", \"Appelsin\"];\nconsole.log(fruits[0]);  // \"Eple\"\nconsole.log(fruits[2]);  // \"Appelsin\""
-    },
-    {
-      "type": "paragraph",
-      "text": "Du kan legge til en ny verdi på slutten med `push()`:"
-    },
-    {
-      "type": "code",
-      "language": "javascript",
-      interactive: true,
-      "code": "let fruits = [\"Eple\", \"Banan\", \"Appelsin\"];\nfruits.push(\"Mango\");\nconsole.log(fruits);"
-    },
-    {
-      "type": "paragraph",
-      "text": "Du kan fjerne den siste verdien med `pop()`:"
-    },
-    {
-      "type": "code",
-      "language": "javascript",
-      interactive: true,
-      "code": "let fruits = [\"Eple\", \"Banan\", \"Appelsin\"];\nfruits.pop();\nconsole.log(fruits);"
-    },
-    {
-      "type": "paragraph",
-      "text": "For å finne ut hvor mange verdier det er i listen, bruker vi `length`:"
-    },
-    {
-      "type": "code",
-      "language": "javascript",
-      interactive: true,
-      "code": "let fruits = [\"Eple\", \"Banan\", \"Appelsin\"];\nconsole.log(fruits.length);"
-    },
-    {
-      "type": "paragraph",
-      "text": "💡 Husk: Indeksen starter alltid på 0, ikke 1!"
-    }
-  ]
-},
   {
-  id: "sectionArrayQuiz",
-  title: "Flervalgsoppgaver – arrays og indekser",
+    id: "sectionBasicIf",
+    title: "Grunnleggende if-setning",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "En if-setning sjekker om en betingelse gir sant (`true`). Hvis det stemmer, kjører koden som står inne i ^^blokken^^ - altså mellom klammeparantesene `{...}`."
+      },
+      {
+        type: "code",
+        language: "javascript",
+        interactive: true,
+        code: `let age = 18;
+
+if (age >= 18) {
+  console.log("Du er myndig.");
+}
+console.log("Programmet er ferdigkjørt")`
+      },
+      {
+        type: "paragraph",
+        text: 'I dette eksempelet spør vi: %%Er alderen 18 eller mer?%% Hvis betingelsen er `true` skriver programmet ut meldingen "Du er myndig." Uansett blir meldingen "Programmet er ferdigkjørt" skrevet ut.'
+      },
+      {
+        type: "paragraph",
+        text: "**Prøv selv:** Endre variabelen `age` til et lavere tall - f.eks. 16. Hva skjer da? Blir meldingen skrevet ut?"
+      }
+
+    ]
+  },
+
+  {
+    id: "sectionIfElse",
+    title: "If-else-setning",
+    blocks: [
+       {
+        type: "paragraph",
+        text: 'Hva om vi vil bare kjøre kode dersom en betingelse ikke er sann? Da bruker vi en ^^if-else^^-setning. Det betyr: %%Hvis dette – gjør dette, ellers – gjør dette.%%'
+      },
+      {
+        type: "code",
+        language: "javascript",
+        interactive: true,
+        code: `let age = 16;
+if (age >= 18) {
+  console.log("Du er myndig.");
+} else {
+  console.log("Du er ikke myndig.");
+}`
+      },
+      {
+        type: "paragraph",
+        text: 'Her spør vi: %%Er alderen 18 eller mer?%% Hvis ja, vis "Du er myndig." Hvis ikke, vis "Du er ikke myndig."'
+      },
+      {
+        type: "paragraph",
+        text: "**Prøv selv:** Endre verdien på `age` til et høyere tall. Hva skjer da?"
+      }
+
+    ]
+  },
+  {
+    id: "sectionElseIf",
+    title: "If – else if – else",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "Noen ganger holder det ikke å bare sjekke én ting. Vi vil kanskje sjekke flere ulike muligheter. Da kan vi bruke en kombinasjon av `if`, `else if`, og `else`. Du kan skrive så mange `else if`-setninger som du vil."
+      },
+      {
+        type: "code",
+        language: "javascript",
+        interactive: true,
+        code: `let score = 85;
+
+if (score >= 90) {
+  console.log("Du fikk en A.");
+} else if (score >= 80) {
+  console.log("Du fikk en B.");
+} else {
+  console.log("Du fikk en C eller lavere.");
+}`
+      },
+      {
+        type: "paragraph",
+        text: "Her sjekker vi flere ting, i rekkefølge. Først: %%Er scoren 90 eller mer?%% Hvis ikke, sjekker vi: %%Er scoren 80 eller mer?%% Hvis ingen stemmer, får vi siste alternativ – altså `else`-blokken."
+      },
+      {
+        type: "paragraph",
+        text: "**Tips:** Koden stopper så fort én betingelse er sann – da hopper den over resten."
+      }
+    ]
+  },
+  {
+    id: "sectionConditions",
+    title: "Kombinere betingelser",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "Noen ganger vil vi sjekke flere ting på en gang. Da kan vi kombinere betingelser med `&&` (og) eller `||` (eller)."
+      },
+      {
+        type: "paragraph",
+        text: "`&&` betyr at **begge** betingelsene må være sanne. `||` betyr at **minst én** av dem må være sann."
+      },
+      {
+        type: "code",
+        language: "javascript",
+        interactive: true,
+        code: `let age = 20;
+let hasTicket = true;
+
+if (age >= 18 && hasTicket) {
+  console.log("Du kan gå inn på konserten.");
+}`
+      },
+      {
+        type: "paragraph",
+        text: "Her sjekker vi to ting: %%er personen over 18 **og** har billett?%% Hvis begge stemmer, slipper de inn."
+      },
+      {
+        type: "code",
+        language: "javascript",
+        interactive: true,
+        code: `let isWeekend = true;
+let isHoliday = false;
+
+if (isWeekend || isHoliday) {
+  console.log("Du har fri!");
+}`
+      },
+      {
+        type: "paragraph",
+        text: "Her sjekker vi: %%er det helg **eller** ferie?%% Hvis minst én av dem stemmer, får vi fri!"  
+      },
+      {
+        type: "paragraph",
+        text: "**Prøv selv:** Endre verdiene i eksemplene over for å se hvordan `&&` og `||` fungerer."
+      }
+    ]
+  },
+
+
+  {
+    id: "sectionConditions",
+    title: "Kombinere betingelser",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "Noen ganger vil vi sjekke flere ting på en gang. Da kan vi kombinere betingelser med `&&` (og) eller `||` (eller)."
+      },
+      {
+        type: "paragraph",
+        text: "`&&` betyr at **begge** betingelsene må være sanne. `||` betyr at **minst én** av dem må være sann."
+      },
+      {
+        type: "code",
+        language: "javascript",
+        interactive: true,
+        code: `let age = 20;
+let hasTicket = true;
+
+if (age >= 18 && hasTicket) {
+  console.log("Du kan gå inn på konserten.");
+}`
+      },
+    ]
+  },
+
+
+  
+  {
+  id: "sectionBooleanQuiz",
+  title: "Flervalgsoppgaver – if og booleans",
   blocks: [
     {
       type: 'paragraph',
-      text: 'Her er noen spørsmål for å teste om du forstår hvordan arrays fungerer i JavaScript. Hva tror du skjer?'
+      text: 'Her kommer noen spørsmål for å sjekke om du forstår hvordan `if`-setninger og booleans fungerer. Hva tror du skjer?'
     },
-
-    {
-      type: 'task',
-      number: 1,
-      title: 'Hva skrives ut?',
-      description: 'Hva vil denne koden skrive ut i konsollen?',
-      code: `let animals = ["Hund", "Katt", "Fugl"];
-console.log(animals[1]);`,
-      solution: {
-        correct: 1,
-        options: [
-          `"Hund"`,
-          `"Katt"`,
-          `"Fugl"`,
-          `"undefined"`
-        ]
-      }
-    },
+{
+  type: 'task',
+  number: 1,
+  title: 'Hva skrives ut?',
+  description: 'Hva vil denne koden skrive ut i konsollen?',
+  code: `let age = 15;
+if (age >= 18) {
+  console.log("Du er voksen!");
+}`,
+  solution: {
+    correct: 2,
+    options: [
+      'Du er voksen!',
+      'Du er ikke voksen!',
+      'Ingenting skrives ut'
+    ]
+  }
+},
 
     {
       type: 'task',
       number: 2,
-      title: 'Hva er lengden?',
-      description: 'Hva blir resultatet av denne koden?',
-      code: `let numbers = [1, 2, 3, 4, 5];
-console.log(numbers.length);`,
+      title: 'Hva er resultatet av denne betingelsen?',
+      description: 'Hva blir resultatet av betingelsen `(isWeekend || isHoliday)` når',
       solution: {
-        correct: 2,
+        correct: 0,
         options: [
-          '4',
-          '6',
-          '5',
-          '0'
+          'true',
+          'false',
+          'undefined',
+          'error'
         ]
-      }
+      },
+      code: `let isWeekend = false;
+let isHoliday = true;`
     },
 
     {
       type: 'task',
       number: 3,
-      title: 'Hva skjer når vi bruker `pop()`?',
-      description: 'Hva vil arrayen inneholde etter at vi bruker `pop()`?',
-      code: `let colors = ["Rød", "Grønn", "Blå"];
-colors.pop();`,
+      title: 'Hva er sant om `&&` og `||`?',
+      description: 'Velg det alternativet som er riktig:',
       solution: {
-        correct: 1,
+        correct: 2,
         options: [
-          '["Rød", "Grønn", "Blå"]',
-          '["Rød", "Grønn"]',
-          '["Grønn", "Blå"]',
-          '["Rød", "Blå"]'
-        ]
-      }
-    },
-
-    {
-      type: 'task',
-      number: 4,
-      title: 'Hva er `push()` brukt til?',
-      description: 'Hva gjør `push()` i en array?',
-      solution: {
-        correct: 0,
-        options: [
-          'Legger til et nytt element på slutten',
-          'Fjerner det første elementet',
-          'Sorterer arrayen',
-          'Finner lengden på arrayen'
+          '`&&` betyr "enten eller"',
+          '`||` betyr "begge må være sanne"',
+          '`&&` betyr "begge må være sanne", `||` betyr "minst én må være sann"',
+          'De to symbolene betyr akkurat det samme'
         ]
       }
     }
   ]
-},
+  },
 
-  {
-  id: "arrayTasks",
-  title: "Programmeringsoppgaver – arrays og logikk",
+{
+  id: "sectionTasks",
+  title: "Programmeringsoppgaver – if-setninger og beslutninger",
   blocks: [
     {
-      type: "paragraph",
-      text: "I disse oppgavene øver du på å bruke arrays sammen med if-setninger og variabler. Det gir deg mer kontroll over hvordan du jobber med flere verdier i JavaScript!"
+      type: 'paragraph',
+      text: 'Usikker på hvordan du bør skrive og lagre din egen JavaScript-kode? Trykk på [denne lenken](/javascript/part0/) for å lære hvordan du kobler en `js`-fil til en `html`-fil.'
     },
+
     {
       type: "task",
       number: 1,
-      title: "Skriv ut bestemte frukter",
-      description: "Lag en array `fruits` med minst tre frukter. Skriv ut den første og siste frukten. (Husk at indeksen starter på 0!)",
-      code: `let fruits = ["Eple", "Banan", "Appelsin"];
+      title: "Sjekk tall",
+      description: "Lag en variabel `number`. Skriv en if-setning som sjekker om `number` er større enn 10. Hvis ja, skriv ut 'Større enn 10'. Ellers: '10 eller mindre'.",
+      code: `let number = 12;
 
-// Skriv ut første og siste frukt`,
+// Skriv if-setning her`,
       solution: {
-        code: `let fruits = ["Eple", "Banan", "Appelsin"];
-console.log(fruits[0]);
-console.log(fruits[fruits.length - 1]);`
+        code: `let number = 12;
+if (number > 10) {
+  console.log("Større enn 10");
+} else {
+  console.log("10 eller mindre");
+}`
       }
     },
+
     {
       type: "task",
       number: 2,
-      title: "Sjekk om en liste er tom",
-      description: "Lag en array `messages`. Hvis den ikke inneholder noen meldinger (altså lengden er 0), skriv 'Ingen meldinger'. Hvis den har meldinger, skriv 'Du har nye meldinger'.",
-      code: `let messages = [];
+      title: "Karaktersystem",
+      description: "Lag et program som tar en variabel `poeng` og gir karakter slik:\n90+: A\n80+: B\n70+: C\n60+: D\nUnder 60: F",
+      code: `let poeng = 85;
 
-// Skriv if-setning som sjekker lengden`,
+// Skriv if-else if-else-setning her`,
       solution: {
-        code: `let messages = [];
-
-if (messages.length === 0) {
-  console.log("Ingen meldinger");
+        code: `let poeng = 85;
+if (poeng >= 90) {
+  console.log("A");
+} else if (poeng >= 80) {
+  console.log("B");
+} else if (poeng >= 70) {
+  console.log("C");
+} else if (poeng >= 60) {
+  console.log("D");
 } else {
-  console.log("Du har nye meldinger");
+  console.log("F");
 }`
       }
     },
     {
       type: "task",
       number: 3,
-      title: "Legg til og sjekk hobby",
-      description: "Lag en array `hobbies` med noen interesser. Bruk `push()` til å legge til én ny hobby. Hvis listen har mer enn 3 elementer etterpå, skriv 'Mange interesser!'. Ellers: 'Få interesser.'",
-      code: `let hobbies = ["Gaming", "Musikk"];
+      title: "Enkel innlogging",
+      description: "Lag et program som sjekker om brukernavnet er 'admin' og passordet er '1234'. Hvis begge stemmer, skriv 'Velkommen!'. Ellers: 'Feil brukernavn eller passord'.",
+      code: `let username = "admin";
+let password = "1234";
 
-// Legg til en ny hobby og sjekk antallet`,
+// Skriv if-else-setning her`,
       solution: {
-        code: `let hobbies = ["Gaming", "Musikk"];
-
-hobbies.push("Løping");
-
-if (hobbies.length > 3) {
-  console.log("Mange interesser!");
+        code: `let username = "admin";
+let password = "1234";
+if (username === "admin" && password === "1234") {
+  console.log("Velkommen!");
 } else {
-  console.log("Få interesser.");
+  console.log("Feil brukernavn eller passord");
 }`
       }
     },
     {
+  type: "task",
+  number: 4,
+  title: "Kombinerte betingelser – adgangskontroll",
+  description: "Lag et program som sjekker om en person får tilgang til et område. Personen får bare adgang hvis de er under 18 år **eller** har billett. Lag to variabler: `alder` og `harBillett`. Hvis begge betingelser er oppfylt, skriv 'Adgang tillatt'. Ellers skriv 'Adgang nektet'.",
+  
+  solution: {
+    code: `let alder = 16;
+let harBillett = true;
+if (alder < 18 || harBillett === true) {
+  console.log("Adgang tillatt");
+} else {
+  console.log("Adgang nektet");
+}`
+  }
+},
+{
       type: "task",
-      number: 4,
+      number: 5,
       title: "Bruk array med if og boolean",
       description: "Lag en array `besøkteLand`. Sjekk om 'Japan' er i lista. Hvis ja, skriv 'Du har vært i Japan!'. Hvis ikke, skriv 'Japan mangler fortsatt!'. (Tips: bruk `includes()`.)",
       code: `let besøkteLand = ["Norge", "Sverige", "Danmark"];
@@ -300,11 +398,70 @@ if (besøkteLand.includes("Japan")) {
 }`
       }
     },
-    {
-      type: "paragraph",
-      text: "Disse oppgavene viser hvordan arrays og if-setninger kan kombineres for å lage dynamiske programmer. Det gir deg mulighet til å reagere på data på smarte måter!"
-    }
+
+
+
+
   ]
 }
 
 ];
+
+
+// 
+//     {
+//       type: "task",
+//       number: 2,
+//       title: "Sjekk om en liste er tom",
+//       description: "Lag en array `messages`. Hvis den ikke inneholder noen meldinger (altså lengden er 0), skriv 'Ingen meldinger'. Hvis den har meldinger, skriv 'Du har nye meldinger'.",
+//       code: `let messages = [];
+
+// // Skriv if-setning som sjekker lengden`,
+//       solution: {
+//         code: `let messages = [];
+
+// if (messages.length === 0) {
+//   console.log("Ingen meldinger");
+// } else {
+//   console.log("Du har nye meldinger");
+// }`
+//       }
+//     },
+//     {
+//       type: "task",
+//       number: 3,
+//       title: "Legg til og sjekk hobby",
+//       description: "Lag en array `hobbies` med noen interesser. Bruk `push()` til å legge til én ny hobby. Hvis listen har mer enn 3 elementer etterpå, skriv 'Mange interesser!'. Ellers: 'Få interesser.'",
+//       code: `let hobbies = ["Gaming", "Musikk"];
+
+// // Legg til en ny hobby og sjekk antallet`,
+//       solution: {
+//         code: `let hobbies = ["Gaming", "Musikk"];
+
+// hobbies.push("Løping");
+
+// if (hobbies.length > 3) {
+//   console.log("Mange interesser!");
+// } else {
+//   console.log("Få interesser.");
+// }`
+//       }
+//     },
+//     {
+//       type: "task",
+//       number: 4,
+//       title: "Bruk array med if og boolean",
+//       description: "Lag en array `besøkteLand`. Sjekk om 'Japan' er i lista. Hvis ja, skriv 'Du har vært i Japan!'. Hvis ikke, skriv 'Japan mangler fortsatt!'. (Tips: bruk `includes()`.)",
+//       code: `let besøkteLand = ["Norge", "Sverige", "Danmark"];
+
+// // Sjekk om 'Japan' finnes i listen`,
+//       solution: {
+//         code: `let besøkteLand = ["Norge", "Sverige", "Danmark"];
+
+// if (besøkteLand.includes("Japan")) {
+//   console.log("Du har vært i Japan!");
+// } else {
+//   console.log("Japan mangler fortsatt!");
+// }`
+//       }
+//     },

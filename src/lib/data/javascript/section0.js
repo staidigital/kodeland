@@ -5,7 +5,7 @@ export default [
     blocks: [
       {
         type: "paragraph",
-        text: "Lag en ny mappe på et fornuftig sted og gi den navnet **javascript-kurs**. Åpne mappen i VS Code ved å klikke på _File → Open Folder_. Dette er mappen hvor du skal lagre all kode du skriver i løpet av kurset."
+        text: "Lag en ny mappe på et fornuftig sted og gi den navnet **javascript-kurs**. Åpne mappen i *=VS Code=* ved å klikke på *=File → Open Folder=*. Dette er mappen hvor du skal lagre all kode du skriver i løpet av kurset."
       },
       {
         type: "paragraph",
@@ -40,8 +40,14 @@ export default [
       },
       {
         type: "paragraph",
-        text: "Som du ser, kan man skrive JavaScript direkte inne i en `<script>...</script>`-tag. Men det ryddigste er å lage en egen JavaScript-fil og lenke den til HTML-filen – akkurat som vi gjør med CSS. I JavaScript-filen kan du for eksempel skrive:"
+        text: "Som du ser, kan man skrive JavaScript direkte inne i en `<script>...</script>`-tag. Men det ryddigste er å lage en egen JavaScript-fil og lenke den til HTML-filen – akkurat som vi gjør med CSS."
       },
+      {
+        type: "paragraph",
+        text: "Skriv i JavaScript-filen din:"
+      },
+
+
       {
         type: 'code',
         language: 'javascript',
@@ -62,7 +68,7 @@ export default [
       },
       {
         type: "paragraph",
-        text: "I ^^Visual Studio Code^^ vil dette se slik ut:"
+        text: "I *=VS Code=* vil dette se slik ut:"
       },
       {
         type: "image",
@@ -83,7 +89,7 @@ export default [
       },
      {
       type: "paragraph",
-      text: "Da er alt klart for å skrive JavaScript-kode som kjøres i nettleseren! Nedenfor er det skrevet en guide om hvordan kjøre kode gjennom noe som heter ^^Node.js^^. Det er valgfritt å lære hvordan man bruker. Dersom du vil gå rett på å lære javascript, trykk på denne lenken [Variabler – del 1](/javascript/part1)."
+      text: "Da er alt klart for å skrive JavaScript-kode som kjøres i nettleseren! Nedenfor er det skrevet en guide om hvordan kjøre kode gjennom noe som heter *=Node.js=*. Det er valgfritt å lære hvordan man bruker. Dersom du vil gå rett på å lære javascript, trykk på denne lenken [Variabler – del 1](/javascript/part1)."
     }
 
     ]
@@ -94,11 +100,11 @@ export default [
     blocks: [
       {
         type: "paragraph",
-        text: "^^Node.js^^ er et populært program som lar deg kjøre JavaScript rett fra ^^terminalen^^, uten å bruke en nettleser. Dette brukes mye i profesjonell utvikling – både til små skript og store apper."
+        text: "*=Node.js=* er et populært program som lar deg kjøre JavaScript rett fra ^^terminalen^^, uten å bruke en nettleser. Dette brukes mye i profesjonell utvikling – både til små skript og store apper."
       },
       {
         type: "paragraph",
-        text: "1. Last ned [Node.js fra denne lenken](https://nodejs.org/en/download/package-manager). På den siden finner du flere versjoner – last ned ^^LTS-versjonen^^ (Long-Term Support), siden den er mer stabil og vedlikeholdes lenger."
+        text: "1. Last ned [Node.js fra denne lenken](https://nodejs.org/en/download/package-manager). På den siden finner du flere versjoner – last ned *=LTS-versjonen=* (Long-Term Support), siden den er mer stabil og vedlikeholdes lenger."
       },
       {
         type: "paragraph",

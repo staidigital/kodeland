@@ -20,7 +20,7 @@ export const jsCourseSections: Section[] = [
   },
   {
     id: 'part2',
-    title: 'Del 2: Boolske verdier',
+    title: 'Del 2: Datatyper og lister',
     links: [
       { text: 'Teori', anchor: '' },
       { text: 'Oppgaver', anchor: '#sectionTasks' }
@@ -28,7 +28,7 @@ export const jsCourseSections: Section[] = [
   },
   {
     id: 'part3',
-    title: 'Del 3: Datatyper og lister',
+    title: 'Del 3: Betingelser',
     links: [
       { text: 'Teori', anchor: '' },
       { text: 'Oppgaver', anchor: '#sectionTasks' }

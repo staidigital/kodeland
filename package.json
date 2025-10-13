@@ -28,11 +28,11 @@
 		"@codemirror/state": "^6.5.2",
 		"@codemirror/theme-one-dark": "^6.1.2",
 		"@codemirror/view": "^6.36.8",
-		"svelte-codemirror-editor": "^1.4.1",
 		"@tailwindcss/vite": "^4.1.8",
 		"autoprefixer": "^10.4.21",
 		"mdsvex": "^0.12.6",
 		"sql.js": "^1.13.0",
+		"svelte-codemirror-editor": "^1.4.1",
 		"svelte-highlight": "^7.8.3",
 		"tailwindcss": "^4.1.8"
 	}

@@ -66,7 +66,7 @@
 
 <div class="w-full mb-2 space-y-3">
   <!-- Code editor -->
-  <div class="border border-slate-600 rounded-lg overflow-hidden shadow">
+  <div class="border border-slate-600 rounded-lg overflow-hidden shadow text-base">
     <CodeMirror
       bind:value={currentCode}
       lang={javascript()}

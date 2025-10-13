@@ -8,7 +8,7 @@ export default [
       "text": "En ^^funksjon^^ er en bit kode som vi kan bruke flere ganger. Du kan tenke på det som en liten maskin som gjør noe for deg – når du ber den om det."
     },
     {
-      "type": "quote",
+      "type": "paragraph",
       "text": "🔁 Du skriver funksjonen én gang, og kan bruke den om og om igjen!"
     },
     {
