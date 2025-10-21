@@ -1,7 +1,32 @@
 // section1.js
 
 export default [
-
+  
+  {
+    id: "sectionOne",
+    title: "",
+    blocks: [
+      {
+        type:'paragraph',
+        text:'Det mest grunnleggende konseptet i JavaScript er ^^variabler^^ og ^^datatyper^^. I denne seksjonen ser vi på hva en variabel er og hvorfor vi trenger dem. Den neste seksjonen introduserer de $$5$$ mest kjente datatypene til JavaScript.'
+      },
+      {
+        type: 'extraInfo',
+        icon: 'note',
+        content: [
+          { type: 'text', value: 'Konseptene om datatyper og variabler er de samme i alle programmeringsspråk, uansett om du bruker *=Python=*, *=Java=*, *=C++=*, *=Swift=* eller andre språk.' },
+          { type: 'images', value: [
+              { src: '/images/js/lang/python-logo.png', alt: 'Python' },
+              { src: '/images/js/lang/java.png', alt: 'Java' },
+              { src: '/images/js/lang/clang.png', alt: 'C++' },
+              { src: '/images/js/lang/swift.png', alt: 'Swift' },
+            ]
+          },
+          { type: 'text', value: 'Bare ^^syntaxen^^ er forskjellig! Altså hvordan man skriver ting. Så ved å lære et språk vil du enklere lære andre også!' },
+        ]
+      },
+      ]
+    },
 
   // 🔹 LET
   {
@@ -21,34 +46,19 @@ console.log(melding);`
       },
       {
         type:'paragraph',
-        text:'I konsollen skal du nå få samme melding som når du skrev `console.log("Hello World!")` tidligere. Det er fordi meldingen skrevet i koden ovenfor er en ^^variabel^^.'
+        text:'I konsollen skal du nå få samme melding som når du skrev `console.log("Hello World!")` i Setup-seksjonen. Det er fordi meldingen skrevet i koden ovenfor er en ^^variabel^^.'
       },
       {
         type:'paragraph',
-        text:'En variabel er rett og slett et navn som du gir en verdi, slik at du kan bruke verdien senere. Du kan tenke på en variabel som en etikett du fester på en bestemt verdi, slik at du kan henvise til verdien ved å bruke etiketten. '
+        text:'En variabel er en måte å lagre data slik at du kan bruke det videre i programmet.'
       },
         {
         type:'paragraph',
-        text:'For å deklarere en variabel skriver du kodeordet `let` og deretter variabelnavnet.'
+        text:'For å lage en variabel skriver du kodeordet `let` og deretter variabelnavnet. Deretter gir du en ^^verdi^^ til variabelen.'
       },
       {
         type:'paragraph',
-        text:'Den første linjen sier til JavaScript at `melding` skal assosieres med verdien `Hello World!`'
-      },
-
-      {
-        type: 'code',
-        language: 'javascript',
-        interactive: false,
-        code: `let melding = "Hello World!"`
-      },
-       {
-        type:'paragraph',
-        text:'Den andre linjen gir JavaScript instruksjonen å skrive ut verdien til `melding` og det er akkurat det den gjør.'
-      },
-      {
-        type:'paragraph',
-        text:'Du kan endre på verdien til variabelen ved å ^^re-assigne^^ en annen verdien på denne måten:'
+        text:'Du kan endre på verdien til variabelen ved å ^^re-assigne^^ en annen verdi på denne måten:'
       },
       {
         type: 'code',
@@ -73,38 +83,27 @@ console.log(melding)`
     blocks: [
       {
         type:'paragraph',
-        text: 'JavaScript har noen navn-regler du må kunne for å unngå navngivnings-feil.'
+        text: 'Hovedregelen i JavaScript er at variabelnavn skal være beskrivende. Ellers fins det noen viktige navn-regler man må følge for å ikke få errorer i JavaScript:'
       },
       {
         type:'paragraph',
-        text: 'Variabler kan bare inneholde alfabet-bokstaver, tall og understreker. Så du kan gi navnene `melding`, `melding_1` og `melding_2`'
+        text: '1) Variabler kan bare inneholde bokstaver, tall og understreker. Så du kan gi navnene `melding`, `melding_1` og `melding_2`'
       },
       {
         type:'paragraph',
-        text: 'Første tegnet i variabelnavnet kan ikke være et tall. `melding_1` fungerer, `1_melding` fungerer ikke.`'
+        text: '2) Første tegnet i variabelnavnet kan ikke være et tall. `melding_1` fungerer, `1_melding` fungerer ikke.`'
       },
       {
         type:'paragraph',
-        text: 'Du kan ikke bruke reserverte kodeord, slik som `console` fordi de brukes av JavaScript til å gjøre visse ting. Det fins mange slike kodeord, slik som `if`, `for` og `while` som du skal lære senere.'
+        text: '3) Du kan ikke bruke reserverte kodeord, slik som `if` fordi de allerede brukes av JavaScript til å gjøre visse ting.'
       },
       {
         type:'paragraph',
-        text: 'Variabelnavn er ^^case-sensitive^^ som betyr at `Message`, `MESSAGE` og `message` kan bli brukt til tre forskjellige variabler. Men det så klart lurt å unngå like navn siden det kan forvirre.'
+        text: '4) Variabelnavn er ^^case-sensitive^^ som betyr at `Message`, `MESSAGE` og `message` kan bli brukt til tre forskjellige variabler. Men det så klart lurt å unngå like navn siden det kan forvirre.'
       },
       {
         type:'paragraph',
-        text: 'Noen ganger trenger du mer enn et ord for å deklarere et variabelnavn. Det fins to navn-konvensjoner man kan følge: '
-      },
-      {
-        type:"list",
-        items: [
-          '`camelCase`',
-          '`snake_case`',
-        ]
-      },
-         {
-        type:'paragraph',
-        text: 'Camel case bruker en stor bokstav for første bokstav for etterfølgende ord. For eksempel'
+        text: '5) Noen ganger trenger du mer enn et ord for å deklarere et variabelnavn. Da bruker man `camelCase`-konvensjon. Camel case bruker en stor bokstav for første bokstav for etterfølgende ord. For eksempel'
       },
       {
         type:'code',
@@ -114,17 +113,21 @@ console.log(melding)`
       },
       {
         type:'paragraph',
-        text: 'Snake case bruker en understrek til å separere ordene'
+        text: 'Generelt: '
       },
       {
         type:'code',
         language:'javascript',
         interactive: false,
-        code: `let my_awesome_variable`
-      },
-       {
-        type:'paragraph',
-        text: 'Begge fungerer, men husk å hold deg til kun én av dem for å ikke forvirre.'
+        code: `let navn = "Jens"
+console.log(navn)
+
+// Skal være beskrivende
+// Kan ikke starte med et tall (1name)
+// Kan ikke ha noe mellomrom eller bindestrek (-)
+// Kan ikke være et reservert kodeord 
+// Case-sensitive
+// Bruk camelCase`
       },
     ]
   },
@@ -135,7 +138,7 @@ console.log(melding)`
     blocks: [
       {
         type:'paragraph',
-        text: 'Noen ganger må man lagre verdier som ikke skal endres i variabler.'
+        text: 'I større applikasjoner er det ofte viktig at variabler forblir uendret under kjøringen av koden, for å forhindre bugs.'
       },
       {
         type:'paragraph',
@@ -156,30 +159,11 @@ const MAX_SPEED = 300`
     ]
   },
 
-  // 🔹 Oppsummering
-  {
-    id: "Oppsummering",
-    title: "Enkelt sagt",
-    blocks: [
-      {
-        type:'list',
-        items: [
-          'Generelt er det lurt å bruke `const` fra starten. Når du finner ut at du må endre koden bruk `let`.',
-          'Bruk `let` når du vet at verdien skal endres.',
-          'Følge navngivningskonvensjonene for variabler. Bruk gode variabelnavn! ',
-        ]
-      }
-    ]
-  },
   // 📝 TASKS
 {
   id: "sectionTasks",
-  title: 'Programmeringsoppgaver – gjør dem i Visual Studio Code!',
+  title: 'Programmeringsoppgaver om variabler',
   blocks: [
-    {
-      type: 'paragraph',
-      text: 'Usikker på hvordan du helst bør skrive og lagre din egen javascript kode? Trykk på [denne lenken](/javascript/part0/) for å se hvordan knytte en `js`-fil til en `HTML`-fil.'
-    },
     // Oppgavene
     {
       type: 'task',
@@ -206,10 +190,7 @@ const MAX_SPEED = 300`
       title: "Gjør enkel matte med variabler",
       description: "Lag to variabler, `num1` og `num2`, og gjør noen enkle berekninger med dem. Skriv ut summen, differansen, produktet og kvotienten i konsollen."
     },
-    {
-      type: 'paragraph',
-      text: 'Variabler er en megaviktig del av programmering! Vi skal snart se hvordan bruke det i programmering, men først må vi lære om datatyper !'
-    }
+    
   ]
 }
 

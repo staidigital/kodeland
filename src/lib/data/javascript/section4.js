@@ -5,430 +5,463 @@ export default [
     blocks: [
       {
         type: "paragraph",
-        text: "Når man lager programmer må man often skrive kode som skal kjøres gjentatte ganger. For eksempel tenk deg at du skal skrive en kode som skriver ut tallene fra $$1$$ til $$10$$. Det kan du gjøre ved å skrive `console.log()` 10 ganger:"
+        text: "Til nå har JavaScript-koden din kjørt linje for linje fra topp til bunn. Men hva om vi bare vil kjøre kode når en betingelse er sann? Da kan vi bruke `if`-setninger:"
       },
-      
-    {
-        type: 'code',
-        language: 'javascript',
-        interactive: false,
-        code: `console.log(1);
-console.log(2);
-console.log(3);
-console.log(4);
-console.log(5);
+      {
+        type: "paragraph",
+        text: "Tenk på en `if`-setning som å si til datamaskinen:"
+      },
+      {
+        type:"paragraph",
+        text: '%%"Hvis noe er sant - da skal du gjøre noe"%%'
+      },
+      {
+        type:"paragraph",
+        text: '**For eksempel:**'
+      },
+      {
+        type:"list",
+        items: [
+          '**Hvis** brukeren er logget inn - **skriv ut** velkomstmeldingen',
+          '**Hvis** temperaturen er under 0 - **skriv ut** "Det er kaldt!"',
+        ]
+      },
+      {
+        type:"paragraph",
+        text: 'Denne sjekken - "er temperaturen under 0" - kalles en ^^betingelse^^. Koden din gjør noe **bare hvis** betingelsen stemmer (er sann).'
+      },
+    ]
+  },
+  
 
-//også videre`
-      },
+  {
+    id: "sectionBetingelser",
+    title: "Sammenligningsoperatorer",
+    blocks: [
       {
         type: "paragraph",
-        text: "Dette fungerer, men det finnes bedre måter å skrive kode som skal repeteres. Med en `løkke` kan man kjøre en kode flere ganger helt til en betingelse er møtt."
+        text: "JavaScript kan sammenligne to verdier og gi en Boolean som enten er `true` eller `false`."
       },
       {
-        type: "paragraph",
-        text: "Det finnes to typer løkker i JavaScript, en `for`-løkke og en `while`-løkke."
+        type: "table",
+        headers: ["Navn", "Eksempel på operasjon", "Eksempel som gir `true`"],
+        rows: [
+          ["Lik", "`x == y`", "`3 == 3`"],
+          ["Ikke lik", "`x != y`", "`3 != 4`"],
+          ["Strengt lik", "`x === y`", "`5 === 5`"],
+          ["Strengt ikke lik", "`x !== y`", "`5 !== '5'`"],
+          ["Større enn", "`x > y`", "`10 > 5`"],
+          ["Større enn eller lik", "`x >= y`", "`8 >= 8`"],
+          ["Mindre enn", "`x < y`", "`2 < 5`"],
+          ["Mindre enn eller lik", "`x <= y`", "`6 <= 6`"]
+        ]
       }
+
+
     ]
   },
 
   {
-  id: "sectionForExplained",
-  title: "`For`-løkke",
-  blocks: [
-     {
-      type: "paragraph",
-      text: "Istedenfor å repetere deg selv 10 ganger for å skrive ut tallene fra $$1$$ til $$10$$ kan du heller bruke en `for`-løkke med en enkelt linje med kode i løkken:"
-    },
-    {
-        type: 'code',
-        language: 'javascript',
+    id: "sectionBasicIf",
+    title: "Grunnleggende if-setning",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "En if-setning sjekker om en betingelse gir sant (`true`). Hvis det stemmer, kjører koden som står inne i ^^blokken^^ - altså mellom klammeparantesene `{...}`."
+      },
+      {
+        type: "code",
+        language: "javascript",
         interactive: true,
-        code: `for (let i = 1; i <= 10; i++){
-  console.log(i);
-}`
+        code: `let age = 18;
+
+if (age >= 18) {
+  console.log("Du er myndig.");
+}
+console.log("Programmet er ferdigkjørt")`
       },
-    {
-      type: "paragraph",
-      text: "Etter `for`-ordet skriver vi parenteser `()` som inneholder 3 uttrykk separert med en semikolon `;`"
-    },
-    {
-      type: "list",
-      items: [
-          'En ^^initialisering^^ hvor vi deklarer en variabel som skal brukes i løkken. I eksemplet var det `i = 1`.',
-          'En ^^betingelse^^ hvor variabelen i løkken skal evalueres for en spesifikk betingelse. I eksemplet var det `i <= 10`.',
-          'Et ^^matematisk^^ uttrykk hvor verdien til variabelen enten øker eller synker etter hver iterasjon. ',
-        ]
-    },
-    {
-  type: "paragraph",
-  text: "Etter denne linja kommer selve koden som skal kjøres gjentakende. Vi bruker krøllparenteser `{}` for å lage en kodeblokk som JavaScript skal kjøre så lenge betingelsen er sann (`true`)."
-  },
-    {
-        type: 'code',
-        language: 'javascript',
-        interactive: false,
-        code: `for ([initialisering]; [betingelse]; [matematisk_uttrykk]){
-  // Så lenge betingelsen er sann
-  // Vil denne blokken kjøres gjentakende
-}`
+      {
+        type: "paragraph",
+        text: 'I dette eksempelet spør vi: %%Er alderen 18 eller mer?%% Hvis betingelsen er `true` skriver programmet ut meldingen "Du er myndig." Uansett blir meldingen "Programmet er ferdigkjørt" skrevet ut.'
       },
-       {
-  type: "paragraph",
-  text: "Det matematiske uttrykket kan enten være en økning (`++`) eller synking (`--`). Den kjører etter resten av koden i krøllparantesen er ferdigkjørt."
+      {
+        type: "paragraph",
+        text: "**Prøv selv:** Endre variabelen `age` til et lavere tall - f.eks. 16. Hva skjer da? Blir meldingen skrevet ut?"
+      }
+
+    ]
   },
 
-    {
-        type: 'code',
-        language: 'javascript',
-        interactive: true,
-        code: `for (let x = 10; x >= 1; x--){
-  console.log(x);
-}`
-      },
-    {
-  type: "paragraph",
-  text: "Du kan også bruke operatorer som `+=` eller `-=` slik som vist nedenfor:"
-  },
   {
-        type: 'code',
-        language: 'javascript',
+    id: "sectionIfElse",
+    title: "If-else-setning",
+    blocks: [
+       {
+        type: "paragraph",
+        text: 'Hva om vi vil bare kjøre kode dersom en betingelse ikke er sann? Da bruker vi en ^^if-else^^-setning. Det betyr: %%Hvis dette – gjør dette, ellers – gjør dette.%%'
+      },
+      {
+        type: "code",
+        language: "javascript",
         interactive: true,
-        code: `for (let x = 1; x < 20; x += 3){
-  console.log(x);
+        code: `let age = 16;
+if (age >= 18) {
+  console.log("Du er myndig.");
+} else {
+  console.log("Du er ikke myndig.");
 }`
       },
       {
-  type: "paragraph",
-  text: "Her øker `x` med `3` for hver iterasjon av løkken."
-  },
-  {
-  type: "paragraph",
-  text: "Når løkken er over vil JavaScript gå videre til koden du har under løkken:"
-  },
-  {
-        type: 'code',
-        language: 'javascript',
-        interactive: true,
-        code: `for (let x = 1; x < 2; x++){
-  console.log(x);
-}
-console.log("For-løkken er ferdigkjørt");
-console.log("Fortsett med resten av koden");
-`
+        type: "paragraph",
+        text: 'Her spør vi: %%Er alderen 18 eller mer?%% Hvis ja, vis "Du er myndig." Hvis ikke, vis "Du er ikke myndig."'
       },
-    ]},
+      {
+        type: "paragraph",
+        text: "**Prøv selv:** Endre verdien på `age` til et høyere tall. Hva skjer da?"
+      }
 
-  {
-  id: "sectionForArray",
-  title: "Når skal du bruke `for`-løkke?",
-  blocks: [
-    {
-  type: "paragraph",
-  text: "En `for`-løkke er smart **når du vet hvor mange ganger du skal repetere en kode**."
+    ]
   },
   {
-  type: "paragraph",
-  text: "For eksempel, si at du lager et program som flipper en mynt. Du vil finne ut hvor mange ganger mynten lander på kron etter 10 kast. Da kan du bruke `Math.random()`-metoden:"
-  },
-  {
-      type: "list",
-      items: [
-        "Når tallet er under `0.5` så øker du mynt-telleren.",
-        "Når tallet er over `0.5` så øker du kron-telleren."
-      ]
-    },
-    {
-        type: 'code',
-        language: 'javascript',
-        interactive: true,
-        code: `let mynt = 0;
-let kron = 0;
-for (x = 1; x <= 10; x++){
-  if (Math.random() < 0.5){
-      mynt++;
-  }
-  else{
-      kron++;
-    }
-}
-console.log("Kastet mynten 10 ganger")
-console.log("Antall mynt:", mynt)
-console.log("Kastet kron:", kron)`
+    id: "sectionElseIf",
+    title: "If – else if – else",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "Noen ganger holder det ikke å bare sjekke én ting. Vi vil kanskje sjekke flere ulike muligheter. Da kan vi bruke en kombinasjon av `if`, `else if`, og `else`. Du kan skrive så mange `else if`-setninger som du vil."
       },
-    {
-      "type": "paragraph",
-      "text": "En av de vanligste bruksområdene for en `for`-løkke er å gå gjennom dataen i en `array` - ett for ett element. Her er et eksempel:"
-    },
-    {
-      "type": "code",
-      "language": "javascript",
-      interactive: true,
-      "code": "let fruits = [\"Eple\", \"Banan\", \"Appelsin\"];\n\nfor (let i = 0; i < fruits.length; i++) {\n  console.log(fruits[i]);\n}"
-    },
-    {
-      "type": "paragraph",
-      "text": "Her bruker vi `fruits.length` til å gi oss antall elementer i arrayet. Deretter bruker vi `for`-løkken til å skrive ut hvert element."
-    },
-  ]
-}
-,
-{
-  id: "sectionWhileExplained",
-  title: "While-løkke",
-  blocks: [
-    {
-      type: "paragraph",
-      text: "Vi hadde et eksempel tidligere som telte hvor mange ganger vi får kron eller mynt dersom vi flipper en mynt $$10$$ ganger. Men hva om spørsmålet hadde vært:"
-    },
-    {
-      type:"paragraph",
-      text: '%%"Finn ut hvor mange ganger du må flippe en mynt for å få kron"%%'
-    },
-    {
-      type: "paragraph",
-      text: "Da vet du ikke hvor mange ganger du skal repetere koden! Det er da du må bruke en `while`-løkke istedet"
-    },
-    {
-      type: "paragraph",
-      text: "En ^^while-løkke^^ brukes til å gjenta kjøringen av en kode **så lenge** en betingelse er sann (`true`). Den skrives på følgende måte:"
-    },
-    {
-      type: "code",
-      language: "javascript",
-      interactive: false,
-      code: `while (betingelse) {
-  //kode som skal kjøres
+      {
+        type: "code",
+        language: "javascript",
+        interactive: true,
+        code: `let score = 85;
+
+if (score >= 90) {
+  console.log("Du fikk en A.");
+} else if (score >= 80) {
+  console.log("Du fikk en B.");
+} else {
+  console.log("Du fikk en C eller lavere.");
 }`
-    },
-    {
-      type: "paragraph",
-      text: "Eksempel:"
-    },
-    {
-      type: "code",
-      language: "javascript",
-      interactive: true,
-      code: `let i = 0;
+      },
+      {
+        type: "paragraph",
+        text: "Her sjekker vi flere ting, i rekkefølge. Først: %%Er scoren 90 eller mer?%% Hvis ikke, sjekker vi: %%Er scoren 80 eller mer?%% Hvis ingen stemmer, får vi siste alternativ – altså `else`-blokken."
+      },
+      {
+        type: "paragraph",
+        text: "**Tips:** Koden stopper så fort én betingelse er sann – da hopper den over resten."
+      }
+    ]
+  },
+  {
+    id: "sectionConditions",
+    title: "Kombinere betingelser",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "Noen ganger vil vi sjekke flere ting på en gang. Da kan vi kombinere betingelser med `&&` (og) eller `||` (eller)."
+      },
+      {
+        type: "paragraph",
+        text: "`&&` betyr at **begge** betingelsene må være sanne. `||` betyr at **minst én** av dem må være sann."
+      },
+      {
+        type: "code",
+        language: "javascript",
+        interactive: true,
+        code: `let age = 20;
+let hasTicket = true;
 
-while (i < 5) {
-  console.log("Verdien av i: ", i);
-  i++;
-}
-`
-    },
-    {
-      type: "paragraph",
-      text: "Her vil `while`-løkken fortsette å skrive ut verdien av `i` så lenge `i` er mindre enn $$5$$. For hver gang løkken kjører, så øker `i` med $$1$$. Når `i` er $$5$$ så avsluttes løkken."
-    },
-    {
-      type: "paragraph",
-      text: "Pass på at du legger inn en betingelse som faktisk etterhvert blir `false`. Ellers vil du få en ^^uendelig løkke^^. Eksempel på en uendelig løkke nedenfor:"
-    },
-    {
-      type: "code",
-      language: "javascript",
-      interactive: false,
-      code: `let i = 0;
+if (age >= 18 && hasTicket) {
+  console.log("Du kan gå inn på konserten.");
+}`
+      },
+      {
+        type: "paragraph",
+        text: "Her sjekker vi to ting: %%er personen over 18 **og** har billett?%% Hvis begge stemmer, slipper de inn."
+      },
+      {
+        type: "code",
+        language: "javascript",
+        interactive: true,
+        code: `let isWeekend = true;
+let isHoliday = false;
 
-while (i < 5) {
-  console.log("Verdien av i: ", i);
-}
-`
-    },
-    {
-      type: "paragraph",
-      text: "Siden verdien av `i` aldri endres, vil løkken kjøre for alltid."
-    },
-  ]
-},
+if (isWeekend || isHoliday) {
+  console.log("Du har fri!");
+}`
+      },
+      {
+        type: "paragraph",
+        text: "Her sjekker vi: %%er det helg **eller** ferie?%% Hvis minst én av dem stemmer, får vi fri!"  
+      },
+      {
+        type: "paragraph",
+        text: "**Prøv selv:** Endre verdiene i eksemplene over for å se hvordan `&&` og `||` fungerer."
+      }
+    ]
+  },
 
 
   {
-  id: "sectionWhileWhy",
-  title: "Når skal du bruke `while`-løkke?",
-  blocks: [
-    {
-      type: "paragraph",
-      text: "Det enkleste å tenke er at du bruker `while`-løkke **når du ikke vet hvor mange ganger løkken skal repetere.**"
-    },
-    {
-      type: "paragraph",
-      text: "Slik som eksemplet fra tidligere: "
-    },
-    {
-      type:"paragraph",
-      text: '%%"Finn ut hvor mange ganger du må flippe en mynt for å få kron"%%'
-    },
-    {
-      type: "code",
-      language: "javascript",
-      interactive: true,
-      code: `let flips = 0;
-let erKron = false
+    id: "sectionConditions",
+    title: "Kombinere betingelser",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "Noen ganger vil vi sjekke flere ting på en gang. Da kan vi kombinere betingelser med `&&` (og) eller `||` (eller)."
+      },
+      {
+        type: "paragraph",
+        text: "`&&` betyr at **begge** betingelsene må være sanne. `||` betyr at **minst én** av dem må være sann."
+      },
+      {
+        type: "code",
+        language: "javascript",
+        interactive: true,
+        code: `let age = 20;
+let hasTicket = true;
 
-while (!erKron) {
-  flips++;
-  erKron = Math.random() < 0.5 //returnerer true med 50% sannsynlighet
-}
+if (age >= 18 && hasTicket) {
+  console.log("Du kan gå inn på konserten.");
+}`
+      },
+    ]
+  },
 
-console.log("Det tok ", flips, "flips for å lande på kron.")
-`
-    },
-    {
-      type:"paragraph",
-      text: "Here vil betingelsen `erKron = Math.random() < 0.5` simulere et flipp av en mynt. Når resultatet er `true` betyr det at mynten landet på kron og løkken vil brytes."
-    },
-  ]},
+
   
   {
-  id: "loopQuizShort",
-  title: "Flervalgsoppgaver – løkker i JavaScript",
+  id: "sectionBooleanQuiz",
+  title: "Flervalgsoppgaver – if og booleans",
   blocks: [
     {
-      type: "paragraph",
-      text: "Her er noen korte spørsmål for å teste om du forstår hvordan `for`- og `while`-løkker fungerer."
+      type: 'paragraph',
+      text: 'Her kommer noen spørsmål for å sjekke om du forstår hvordan `if`-setninger og booleans fungerer. Hva tror du skjer?'
     },
+{
+  type: 'task',
+  number: 1,
+  title: 'Hva skrives ut?',
+  description: 'Hva vil denne koden skrive ut i konsollen?',
+  code: `let age = 15;
+if (age >= 18) {
+  console.log("Du er voksen!");
+}`,
+  solution: {
+    correct: 2,
+    options: [
+      'Du er voksen!',
+      'Du er ikke voksen!',
+      'Ingenting skrives ut'
+    ]
+  }
+},
 
     {
-      type: "task",
-      number: 1,
-      title: "Hva skriver denne for-løkken ut?",
-      description: "Hva blir resultatet i konsollen?",
-      code: "for (let i = 0; i < 3; i++) {\n  console.log(i);\n}",
+      type: 'task',
+      number: 2,
+      title: 'Hva er resultatet av denne betingelsen?',
+      description: 'Hva blir resultatet av betingelsen `(isWeekend || isHoliday)` når',
       solution: {
         correct: 0,
         options: [
-          "0 1 2",
-          "1 2 3",
-          "0 1 2 3",
-          "3 2 1 0"
+          'true',
+          'false',
+          'undefined',
+          'error'
         ]
-      }
+      },
+      code: `let isWeekend = false;
+let isHoliday = true;`
     },
 
     {
-      type: "task",
-      number: 2,
-      title: "Hvor mange ganger kjører denne while-løkken?",
-      description: "Hva er antall ganger 'Hei' blir skrevet ut?",
-      code: "let i = 1;\nwhile (i <= 4) {\n  console.log(\"Hei\");\n  i++;\n}",
+      type: 'task',
+      number: 3,
+      title: 'Hva er sant om `&&` og `||`?',
+      description: 'Velg det alternativet som er riktig:',
       solution: {
         correct: 2,
         options: [
-          "0",
-          "3",
-          "4",
-          "5"
+          '`&&` betyr "enten eller"',
+          '`||` betyr "begge må være sanne"',
+          '`&&` betyr "begge må være sanne", `||` betyr "minst én må være sann"',
+          'De to symbolene betyr akkurat det samme'
         ]
       }
-    },
+    }
   ]
-},
-  {
-  id: "loopTasks",
-  title: "Programmeringsoppgaver – løkker",
-  blocks: [
-    {
-      type: "task",
-      number: 1,
-      title: "Tell fra 1 til 10",
-      description: "Lag en `for`-løkke som skriver ut tallene fra 1 til 10.",
-      solution: {
-        code: "for (let i = 1; i <= 10; i++) {\n  console.log(i);\n}"
-      }
-    },
-
-    {
-      "type": "task",
-      "number": 2,
-      "title": "Summér tall fra 1 til 100",
-      "description": "Lag et program som bruker en `while`-løkke for å finne summen av alle tallene fra 1 til 100. Skriv ut summen til slutt.",
-      "solution": {
-        "code": "let sum = 0;\nlet i = 1;\nwhile (i <= 100) {\n  sum += i;\n  i++;\n}\nconsole.log(sum);"
-      }
-    },
-    {
-      "type": "task",
-      "number": 3,
-      "title": "Skriv ut verdier fra en liste",
-      "description": "Lag en array med tre navn. Bruk en `for`-løkke til å skrive ut hvert navn.",
-      "solution": {
-        "code": "let names = [\"Ada\", \"Ola\", \"Kari\"];\nfor (let i = 0; i < names.length; i++) {\n  console.log(names[i]);\n}"
-      }
-    },
-    {
-      "type": "task",
-      "number": 4,
-      "title": "Finn det største tallet",
-      "description": "Lag en array med noen tall. Bruk en `for`-løkke for å finne det største tallet.",
-      "solution": {
-        "code": "let numbers = [3, 7, 2, 9, 5];\nlet max = numbers[0];\nfor (let i = 1; i < numbers.length; i++) {\n  if (numbers[i] > max) {\n    max = numbers[i];\n  }\n}\nconsole.log(\"Største tall:\", max);"
-      }
-    },
-
-  ]
-},
+  },
 
 {
-  id: "tasksLoops",
-  title: "Oppgaver: Løkker",
+  id: "sectionTasks",
+  title: "Programmeringsoppgaver – if-setninger og beslutninger",
   blocks: [
+    {
+      type: 'paragraph',
+      text: 'Usikker på hvordan du bør skrive og lagre din egen JavaScript-kode? Trykk på [denne lenken](/javascript/part0/) for å lære hvordan du kobler en `js`-fil til en `html`-fil.'
+    },
+
     {
       type: "task",
       number: 1,
-      title: "Tell fra 1 til 10",
-      description: "Lag en `for`-løkke som skriver ut tallene fra **1** til **10** i konsollen.",
+      title: "Sjekk tall",
+      description: "Lag en variabel `number`. Skriv en if-setning som sjekker om `number` er større enn 10. Hvis ja, skriv ut 'Større enn 10'. Ellers: '10 eller mindre'.",
+      code: `let number = 12;
+
+// Skriv if-setning her`,
       solution: {
-        code: "for (let i = 1; i <= 10; i++) {\n  console.log(i);\n}"
+        code: `let number = 12;
+if (number > 10) {
+  console.log("Større enn 10");
+} else {
+  console.log("10 eller mindre");
+}`
       }
     },
+
     {
       type: "task",
       number: 2,
-      title: "Skriv ut partall",
-      description: "Bruk en `for`-løkke til å skrive ut alle **partall** mellom **2** og **10**.",
+      title: "Karaktersystem",
+      description: "Lag et program som tar en variabel `poeng` og gir karakter slik:\n90+: A\n80+: B\n70+: C\n60+: D\nUnder 60: F",
+      code: `let poeng = 85;
+
+// Skriv if-else if-else-setning her`,
       solution: {
-        code: "for (let i = 2; i <= 10; i += 2) {\n  console.log(i);\n}"
+        code: `let poeng = 85;
+if (poeng >= 90) {
+  console.log("A");
+} else if (poeng >= 80) {
+  console.log("B");
+} else if (poeng >= 70) {
+  console.log("C");
+} else if (poeng >= 60) {
+  console.log("D");
+} else {
+  console.log("F");
+}`
       }
     },
     {
       type: "task",
       number: 3,
-      title: "Skriv ut navn fra et array",
-      description: "Lag et array med tre navn, og bruk en `for`-løkke til å skrive ut hvert navn i konsollen.",
+      title: "Enkel innlogging",
+      description: "Lag et program som sjekker om brukernavnet er 'admin' og passordet er '1234'. Hvis begge stemmer, skriv 'Velkommen!'. Ellers: 'Feil brukernavn eller passord'.",
+      code: `let username = "admin";
+let password = "1234";
+
+// Skriv if-else-setning her`,
       solution: {
-        code: "let venner = [\"Ali\", \"Sara\", \"Jonas\"];\n\nfor (let i = 0; i < venner.length; i++) {\n  console.log(venner[i]);\n}"
+        code: `let username = "admin";
+let password = "1234";
+if (username === "admin" && password === "1234") {
+  console.log("Velkommen!");
+} else {
+  console.log("Feil brukernavn eller passord");
+}`
       }
     },
     {
-      type: "task",
-      number: 4,
-      title: "Tell med `while`",
-      description: "Lag en `while`-løkke som skriver ut tallene fra **1** til **5**.",
-      solution: {
-        code: "let i = 1;\nwhile (i <= 5) {\n  console.log(i);\n  i++;\n}"
-      }
-    },
-    {
+  type: "task",
+  number: 4,
+  title: "Kombinerte betingelser – adgangskontroll",
+  description: "Lag et program som sjekker om en person får tilgang til et område. Personen får bare adgang hvis de er under 18 år **eller** har billett. Lag to variabler: `alder` og `harBillett`. Hvis begge betingelser er oppfylt, skriv 'Adgang tillatt'. Ellers skriv 'Adgang nektet'.",
+  
+  solution: {
+    code: `let alder = 16;
+let harBillett = true;
+if (alder < 18 || harBillett === true) {
+  console.log("Adgang tillatt");
+} else {
+  console.log("Adgang nektet");
+}`
+  }
+},
+{
       type: "task",
       number: 5,
-      title: "Flip mynten til du får kron",
-      description: "Lag en `while`-løkke som **flipper en mynt** til du får `kron`. Tell hvor mange ganger du måtte flippe.",
+      title: "Bruk array med if og boolean",
+      description: "Lag en array `besøkteLand`. Sjekk om 'Japan' er i lista. Hvis ja, skriv 'Du har vært i Japan!'. Hvis ikke, skriv 'Japan mangler fortsatt!'. (Tips: bruk `includes()`.)",
+      code: `let besøkteLand = ["Norge", "Sverige", "Danmark"];
+
+// Sjekk om 'Japan' finnes i listen`,
       solution: {
-        code: "let flips = 0;\nlet erKron = false;\n\nwhile (!erKron) {\n  flips++;\n  erKron = Math.random() < 0.5;\n}\n\nconsole.log(\"Du fikk kron etter\", flips, \"flips!\");"
+        code: `let besøkteLand = ["Norge", "Sverige", "Danmark"];
+
+if (besøkteLand.includes("Japan")) {
+  console.log("Du har vært i Japan!");
+} else {
+  console.log("Japan mangler fortsatt!");
+}`
       }
-    }, 
-    {
-      type: "task",
-      number: 6,
-      title: "Lag en pyramide av stjerner",
-      description: "Skriv et program som skriver ut en halv pyramide av stjerner (`*`) slik som under:",
-      solution: {
-        code: "// Halv pyramide\nfor (let i = 1; i <= 5; i++) {\n  console.log('*'.repeat(i));\n}\n\n// Omvendt halv pyramide\nfor (let i = 5; i >= 1; i--) {\n  console.log('*'.repeat(i));\n}"
-      }
-    }
+    },
+
+
+
+
   ]
 }
 
+];
 
-]
+
+// 
+//     {
+//       type: "task",
+//       number: 2,
+//       title: "Sjekk om en liste er tom",
+//       description: "Lag en array `messages`. Hvis den ikke inneholder noen meldinger (altså lengden er 0), skriv 'Ingen meldinger'. Hvis den har meldinger, skriv 'Du har nye meldinger'.",
+//       code: `let messages = [];
+
+// // Skriv if-setning som sjekker lengden`,
+//       solution: {
+//         code: `let messages = [];
+
+// if (messages.length === 0) {
+//   console.log("Ingen meldinger");
+// } else {
+//   console.log("Du har nye meldinger");
+// }`
+//       }
+//     },
+//     {
+//       type: "task",
+//       number: 3,
+//       title: "Legg til og sjekk hobby",
+//       description: "Lag en array `hobbies` med noen interesser. Bruk `push()` til å legge til én ny hobby. Hvis listen har mer enn 3 elementer etterpå, skriv 'Mange interesser!'. Ellers: 'Få interesser.'",
+//       code: `let hobbies = ["Gaming", "Musikk"];
+
+// // Legg til en ny hobby og sjekk antallet`,
+//       solution: {
+//         code: `let hobbies = ["Gaming", "Musikk"];
+
+// hobbies.push("Løping");
+
+// if (hobbies.length > 3) {
+//   console.log("Mange interesser!");
+// } else {
+//   console.log("Få interesser.");
+// }`
+//       }
+//     },
+//     {
+//       type: "task",
+//       number: 4,
+//       title: "Bruk array med if og boolean",
+//       description: "Lag en array `besøkteLand`. Sjekk om 'Japan' er i lista. Hvis ja, skriv 'Du har vært i Japan!'. Hvis ikke, skriv 'Japan mangler fortsatt!'. (Tips: bruk `includes()`.)",
+//       code: `let besøkteLand = ["Norge", "Sverige", "Danmark"];
+
+// // Sjekk om 'Japan' finnes i listen`,
+//       solution: {
+//         code: `let besøkteLand = ["Norge", "Sverige", "Danmark"];
+
+// if (besøkteLand.includes("Japan")) {
+//   console.log("Du har vært i Japan!");
+// } else {
+//   console.log("Japan mangler fortsatt!");
+// }`
+//       }
+//     },

@@ -13,5 +13,5 @@
   {#if subtitle}
     <h3 class="markup-text text-slate-200 text-xl mb-2 mt-6">{@html parsedSubtitle}</h3>
   {/if}
-  <p class="markup-text text-slate-200">{@html parsedText}</p>
+  <p class="markup-text text-md text-slate-200">{@html parsedText}</p>
 </div>

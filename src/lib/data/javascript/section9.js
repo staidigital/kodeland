@@ -5,87 +5,212 @@ export default [
     blocks: [
       {
         type: "paragraph",
-        text: "Her får du tre bonusoppgaver å velge mellom. Alle er på omtrent samme vanskelighetsnivå, og lar deg øve på å manipulere DOM, bruke funksjoner og håndtere brukerinput. Du kan velge én eller prøve deg på alle!"
+        text: "I JavaScript kan vi bruke ulike mouse events for å interagere med nettsider på en dynamisk måte. Vanlige hendelser som kan fanges opp er når brukeren klikker, holder musen over et element, eller beveger musen. I tillegg kan vi hente musekoordinatene for å lage mer interaktivt innhold."
       }
     ]
   },
   {
-    id: "sectionTodo",
-    title: "Oppgave 1: Todo-liste",
+    id: "sectionMouseEvents",
+    title: "1. Mouse Events",
     blocks: [
       {
         type: "paragraph",
-        text: "Lag en enkel todo-liste der brukeren kan legge til, fjerne og merke oppgaver som fullført."
+        text: "%%En mouse event er en hendelse som skjer når brukeren gjør noe med musen, som å klikke eller bevege den over et element.%%"
       },
       {
-        type: "list",
-        items: [
-          "Skriv en oppgave i et tekstfelt og legg den til med en knapp.",
-          "Vis oppgaver i en liste, og la brukeren markere dem som fullført.",
-          "Lag en knapp for å slette en oppgave.",
-          "Bruk `localStorage` for å lagre oppgavene slik at de bevares ved sideoppdatering."
+        type: "paragraph",
+        subtitle: "`click`-hendelsen",
+        text: "`click`-hendelsen oppstår når brukeren klikker på et element."
+      },
+      {
+        type: "code",
+        language: "html",
+        preview: true,
+        code: `<button id="myButton">Klikk meg</button>`,
+        script: `let button = document.getElementById("myButton");
+button.addEventListener("click", function() {
+  console.log("Knappen xble klikket!");
+});`
+      },
+      {
+        type: "paragraph",
+        text: "Når brukeren klikker på knappen (`myButton`), skrives \"Knappen ble klikket!\" i konsollen."
+      },
+      {
+        type: "subtitle",
+        text: "`mouseover` og `mouseout`"
+      },
+      {
+        type: "code",
+        preview: true,
+        language: "html",
+        code: `<div id="myBox" style="width:200px; height:200px; background:white; border:1px solid black;"></div>`,
+        script: `let box = document.getElementById("myBox");
+box.addEventListener("mouseover", function() {
+  box.style.backgroundColor = "lightblue";
+});
+box.addEventListener("mouseout", function() {
+  box.style.backgroundColor = "white";
+});`
+      },
+      {
+        type: "paragraph",
+        text: "`mouseover`: Når musen er over elementet, endres bakgrunnsfargen til lys blå. `mouseout`: Når musen forlater elementet, settes bakgrunnsfargen tilbake til hvit."
+      }
+    ]
+  },
+  {
+    id: "sectionCoordinates",
+    title: "2. Musekoordinater",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "Når musen beveger seg over nettsiden, kan vi hente posisjonen til musen med `clientX` og `clientY`. Disse gir deg x- og y-posisjonene til musepekeren i forhold til nettsidens synlige område."
+      },
+      {
+        type: "code",
+        preview: true,
+        language: "html",
+        code: `<div style="height: 200px; border: 1px solid black;">Flytt musen her</div>
+<p id="coords">X: 0, Y: 0</p>`,
+        script: `document.addEventListener("mousemove", function(event) {
+  document.getElementById("coords").textContent =
+    "X: " + event.clientX + ", Y: " + event.clientY;
+});`
+      }
+    ]
+  },
+  {
+    id: "sectionCombine",
+    title: "3. Kombinere musehendelser og musekoordinater",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "Her er et eksempel der vi viser musekoordinatene i sanntid mens brukeren beveger musen over et element."
+      },
+      {
+        type: "code",
+        language: "html",
+        preview: true,
+        code: `<div id="mouseArea" style="width: 300px; height: 300px; background-color: lightgray; text-align: center; line-height: 300px;">
+  Flytt musen her
+</div>
+<p id="coordinates">X: 0, Y: 0</p>`,
+        script: `let mouseArea = document.getElementById("mouseArea");
+let coordinates = document.getElementById("coordinates");
+
+mouseArea.addEventListener("mousemove", function(event) {
+  let x = event.clientX;
+  let y = event.clientY;
+  coordinates.textContent = "X: " + x + ", Y: " + y;
+});`
+      }
+    ]
+  },
+  {
+  "id": "sectionMouseEventQuiz",
+  "title": "Flervalgsoppgaver – Mouse Events i JavaScript",
+  "blocks": [
+    {
+      "type": "paragraph",
+      "text": "Her kommer noen spørsmål for å teste deg på det du har lært om mouse events!"
+    },
+
+    {
+      "type": "task",
+      "number": 1,
+      "title": "Hva skjer når du bruker `clientX`?",
+      "description": "Hva returnerer `clientX` når du beveger musen?",
+      "solution": {
+        "correct": 3,
+        "options": [
+          "Y-koordinaten i hele dokumentet",
+          "Musens hastighet",
+          "Om musen er over et element",
+          "X-koordinaten til musen i synlig vindu"
         ]
-      },
-      {
-        type: "paragraph",
-        text: "**Tips:** Bruk `addEventListener` for å håndtere klikk på knapper. Sørg for å bruke funksjoner for å holde koden ryddig og lett å forstå."
       }
-    ]
-  },
-  {
-    id: "sectionDice",
-    title: "Oppgave 2: Terningsimulator",
-    blocks: [
-      {
-        type: "paragraph",
-        text: "Lag en applikasjon der brukeren kan kaste en terning med valgfritt antall sider (f.eks. 4, 6, 10)."
-      },
-      {
-        type: "list",
-        items: [
-          "Brukeren skal kunne velge hvor mange sider terningen har (4, 6, 8, 10, 12, 20).",
-          "Brukeren skal kunne klikke på en \"Kast terning\"-knapp for å simulere et kast, og resultatet skal vises under knappen.",
-          "Hver gang brukeren kaster terningen, skal resultatet legges til i en liste med alle tidligere kast.",
-          "Legg til en knapp for å slette alle kast og starte på nytt."
+    },
+    {
+      "type": "task",
+      "number": 2,
+      "title": "Hva brukes `addEventListener` til?",
+      "description": "Hva er hovedformålet med `addEventListener` i JavaScript?",
+      "solution": {
+        "correct": 1,
+        "options": [
+          "For å knytte en hendelse til et HTML-element",
+          "For å hente verdier fra input-felter",
+          "For å skrive kommentarer i JavaScript",
+          "For å fjerne HTML fra siden"
         ]
-      },
-      {
-        type: "paragraph",
-        text: "**Tips:** Bruk `Math.random()` for å generere et tilfeldig tall. Sørg for at brukeren kan velge antall sider på terningen før de kaster den."
       }
-    ]
+    },
+    {
+      "type": "task",
+      "number": 3,
+      "title": "Hvilken hendelse brukes når du holder musen over et element?",
+      "description": "Hvilket event aktiveres når du holder musepekeren over et HTML-element?",
+      "solution": {
+        "correct": 0,
+        "options": [
+          "`mouseover`",
+          "`click`",
+          "`mouseup`",
+          "`mousemove`"
+        ,]
+      },
+    }]
   },
   {
-    id: "sectionCalculator",
-    title: "Oppgave 3: Enkel kalkulator",
-    blocks: [
-      {
-        type: "paragraph",
-        text: "Lag en kalkulator der brukeren kan skrive inn to tall og velge en regneoperasjon (f.eks. +, −, ×, ÷)."
-      },
-      {
-        type: "list",
-        items: [
-          "To input-felt for tall.",
-          "En dropdown-meny for å velge operasjon.",
-          "En knapp som beregner og viser resultatet.",
-          "En knapp som nullstiller skjema og resultat."
-        ]
-      },
-      {
-        type: "paragraph",
-        text: "**Tips:** Bruk `parseInt()` eller `parseFloat()` for å konvertere input-feltene til tall. Lag en funksjon for hver operasjon for å gjøre koden din mer oversiktlig."
+  id: "sectionTasks",
+  title: "Oppgaver",
+  blocks: [
+    {
+      "type": "task",
+      "number": 1,
+      "title": "Oppgave 1: Vis musekoordinater",
+      "description": "Lag en nettside der du viser musekoordinatene mens brukeren beveger musen over hele vinduet.",
+      "solution": {
+        "code": `<p id="coords">X: 0, Y: 0</p>`,
+        "script": `document.addEventListener("mousemove", function(event) {
+  let x = event.clientX;
+  let y = event.clientY;
+  document.getElementById("coords").textContent = "X: " + x + ", Y: " + y;
+});`
       }
-    ]
-  },
-  {
-    id: "sectionOutro",
-    title: "",
-    blocks: [
-      {
-        type: "paragraph",
-        text: "Disse oppgavene gir deg god trening i JavaScript, inkludert DOM-manipulering, `localStorage`, hendelser og strukturert kode. Hvilken vil du begynne med?"
+    },
+    {
+      "type": "task",
+      "number": 2,
+      "title": "Oppgave 2: Endre farge ved museklikk",
+      "description": "Lag en nettside med et område (`div`) som bytter farge hver gang brukeren klikker på det.",
+      "solution": {
+        "code": `<div id="colorBox" style="width:200px; height:200px; background:lightgray;"></div>`,
+        "script": `let box = document.getElementById("colorBox");
+box.addEventListener("click", function() {
+  box.style.backgroundColor = "lightgreen";
+});`
       }
-    ]
+    },
+    {
+      "type": "task",
+      "number": 3,
+      "title": "Oppgave 3: Endre tekst ved `mouseover`",
+      "description": "Lag et avsnitt som endrer tekst når musen holdes over det, og går tilbake når musen fjernes.",
+      "solution": {
+        "code": `<p id="myText">Hold musen over meg!</p>`,
+        "script": `let text = document.getElementById("myText");
+
+text.addEventListener("mouseover", function() {
+  text.textContent = "Hei! 👋";
+});
+
+text.addEventListener("mouseout", function() {
+  text.textContent = "Hold musen over meg!";
+});`
+      }
+    },
+  ]
   },
 ];

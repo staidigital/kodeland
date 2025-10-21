@@ -5,6 +5,9 @@
   import BlockTask from "$lib/components/jensComps/blocks/BlockTask.svelte";
   import BlockHTMLPreview from "$lib/components/jensComps/blocks/BlockHTMLPreview.svelte";
   import BlockSandbox from "$lib/components/jensComps/blocks/BlockSandbox.svelte";
+  import BlockSandboxMini from "$lib/components/jensComps/blocks/BlockSandboxMini.svelte";
+  import BlockExtraInfo from "$lib/components/jensComps/blocks/BlockExtraInfo.svelte";
+
   // import BlockSandboxTest from "$lib/components/jensComps/blocks/BlockSandboxTest.svelte";
   import BlockTable from "$lib/components/jensComps/blocks/BlockTable.svelte";
 
@@ -57,15 +60,13 @@
   />
 
 {:else if block.type === 'sandbox'}
-    <div class="fixed inset-0 top-[8rem] lg:top-20 lg:left-1/5 p-2 sm:p-4 overflow-auto bg-slate-900 text-white z-0">
-      <BlockSandbox />
-    </div>
+<BlockSandboxMini {...block} />
 
   
 
 {:else if block.type === 'custom' && block.component === 'SqlPlaygroundPokemon'}
   <SqlPlaygroundPokemon />
-
+a
 {:else if block.type === 'custom' && block.component === 'PokemonTablePreview'}
   <PokemonTablePreview />
 
@@ -78,4 +79,12 @@
   {/if}
 {:else if block.type === 'table'}
   <BlockTable headers={block.headers} rows={block.rows} />
+{:else if block.type === 'extraInfo'}
+  <BlockExtraInfo
+    content={block.content ?? []}
+    icon={block.icon ?? 'info'}
+  />
+
+
+
 {/if}

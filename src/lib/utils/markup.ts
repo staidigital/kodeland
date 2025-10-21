@@ -18,7 +18,7 @@ export function renderInlineMarkup(str: string = ''): string {
     // Inline bilde
     .replace(/\[img:([^\]]+)\]/g, '<img src="/images/$1" class="inline-block w-6 mx-1 align-middle" alt="" />')
     // Ny: Info-boks
-    .replace(/\^\^\^([^\\^]+)\^\^\^/g, '<div class="bg-blue-900 text-blue-200 p-3 rounded text-sm my-2">$1</div>')
+    .replace(/\^\^\^([^\\^]+)\^\^\^/g, '<div class="bg-slate-800/60 border border-slate-600 text-slate-100 p-3 rounded-lg text-md my-3 flex items-start gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 1010 10A10 10 0 0012 2z"/></svg><span>$1</span></div>')
     // Rød tekst
     .replace(/\^\^([^\\^]+)\^\^/g, '<span class="text-red-300 font-semibold">$1</span>')
     // Grønn tekst  

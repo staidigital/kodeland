@@ -1,0 +1,128 @@
+<script lang="ts">
+  import { onMount, tick } from 'svelte';
+  import CodeMirror from 'svelte-codemirror-editor';
+  import { javascript } from '@codemirror/lang-javascript';
+  import { html as htmlLang } from '@codemirror/lang-html';
+  import { oneDark } from '@codemirror/theme-one-dark';
+
+  export let html: string = "";
+  export let js: string = "";
+  export let css: string = "";
+
+  let iframeRef: HTMLIFrameElement | null = null;
+  let currentHtml: string = html;let currentScript: string = js;
+    let currentCss: string = css;
+
+  let currentHeight = 0;
+
+  const iframeId: string = `iframe-${Math.random().toString(36).slice(2, 9)}`;
+
+  function updateIframe(): void {
+    if (!iframeRef) return;
+    const doc = iframeRef.contentDocument || iframeRef.contentWindow?.document;
+    if (!doc) return;
+    doc.open();
+    doc.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <style>
+            html, body {
+              margin: 0;
+              padding: 0;
+              font-family: sans-serif;
+            }
+            ${currentCss}
+          </style>
+        </head>
+        <body>
+          ${currentHtml}
+          <script>
+            (function() {
+              ${currentScript}
+            })();
+            function sendHeight() {
+              const height = Math.min(document.body.scrollHeight, 800);
+              parent.postMessage({ type: 'resize-iframe', id: '${iframeId}', height }, '*');
+            }
+            window.addEventListener('load', sendHeight);
+            setTimeout(sendHeight, 100);
+            setTimeout(sendHeight, 300);
+          <\/script>
+        </body>
+      </html>
+    `);
+    doc.close();
+  }
+
+  function handleResize(event: MessageEvent): void {
+    if (event?.data?.type === 'resize-iframe' && event?.data?.id === iframeId) {
+      const newHeight = Math.max(event.data.height + 36, 120);
+      if (Math.abs(newHeight - currentHeight) > 5 && iframeRef) {
+        iframeRef.style.height = newHeight + 'px';
+        currentHeight = newHeight;
+      }
+    }
+  }
+
+  onMount(async () => {
+    await tick();
+    setTimeout(updateIframe, 50);
+  });
+</script>
+
+<svelte:window on:message={handleResize} />
+
+<div class="flex flex-col lg:flex-row gap-4 my-6 items-start">
+  <!-- Live Preview -->
+  <div class="lg:w-[40%] w-full space-y-2 min-w-0">
+    <div class="text-sm font-mono text-fuchsia-300">Live Preview:</div>
+    <iframe
+      title="preview"
+      class="w-full border border-slate-700 rounded bg-white"
+      bind:this={iframeRef}
+      sandbox="allow-scripts allow-same-origin"
+      style="height: 200px; transition: height 0.2s ease"
+    ></iframe>
+  </div>
+
+  <!-- Editable HTML + JS -->
+  <div class="lg:w-[60%] w-full flex flex-col space-y-3 min-w-0">
+    <div>
+      <div class="text-sm font-mono text-fuchsia-300 mb-1">index.html</div>
+      <div class="h-20 border border-slate-700 rounded-lg overflow-hidden shadow">
+        <CodeMirror
+          bind:value={currentHtml}
+          lang={htmlLang()}
+          theme={oneDark}
+          basic={true}
+          lineWrapping={true}
+          placeholder="Rediger HTML her..."
+        />
+      </div>
+    </div>
+
+    <div>
+      <div class="text-sm font-mono text-fuchsia-300 mb-1">script.js</div>
+      <div class="h-39 border border-slate-700 rounded-lg overflow-hidden shadow">
+        <CodeMirror
+          bind:value={currentScript}
+          lang={javascript()}
+          theme={oneDark}
+          basic={true}
+          lineWrapping={true}
+          placeholder="Rediger JavaScript her..."
+        />
+      </div>
+    </div>
+
+    <div class="pt-1">
+      <button
+        class="bg-fuchsia-600 hover:bg-fuchsia-700 text-white px-4 py-2 rounded font-mono shadow"
+        on:click={updateIframe}
+      >
+        ▶️ Oppdater forhåndsvisning
+      </button>
+    </div>
+  </div>
+</div>

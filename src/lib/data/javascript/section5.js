@@ -1,281 +1,434 @@
 export default [
   {
-  "id": "sectionIntro",
-  "title": "",
-  "blocks": [
+    id: "sectionIntro",
+    title: "",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "Når man lager programmer må man often skrive kode som skal kjøres gjentatte ganger. For eksempel tenk deg at du skal skrive en kode som skriver ut tallene fra $$1$$ til $$10$$. Det kan du gjøre ved å skrive `console.log()` 10 ganger:"
+      },
+      
     {
-      "type": "paragraph",
-      "text": "En ^^funksjon^^ er en bit kode som vi kan bruke flere ganger. Du kan tenke på det som en liten maskin som gjør noe for deg – når du ber den om det."
-    },
-    {
-      "type": "paragraph",
-      "text": "🔁 Du skriver funksjonen én gang, og kan bruke den om og om igjen!"
-    },
-    {
-      "type": "paragraph",
-      "text": "Funksjoner hjelper deg å skrive ryddig og gjenbrukbar kode. Det gjør det lettere å forstå hva programmet gjør."
-    }
-  ]
-},
+        type: 'code',
+        language: 'javascript',
+        interactive: false,
+        code: `console.log(1);
+console.log(2);
+console.log(3);
+console.log(4);
+console.log(5);
+
+//også videre`
+      },
+      {
+        type: "paragraph",
+        text: "Dette fungerer, men det finnes bedre måter å skrive kode som skal repeteres. Med en `løkke` kan man kjøre en kode flere ganger helt til en betingelse er møtt."
+      },
+      {
+        type: "paragraph",
+        text: "Det finnes to typer løkker i JavaScript, en `for`-løkke og en `while`-løkke."
+      }
+    ]
+  },
+
   {
-  "id": "sectionDefineFunction",
-  "title": "1. Lage en funksjon",
-  "blocks": [
-    {
-      "type": "code",
-      "language": "javascript",
-      interactive: true,
-      "code": "function siHei() {\n  console.log(\"Hei, verden!\");\n}"
+  id: "sectionForExplained",
+  title: "`For`-løkke",
+  blocks: [
+     {
+      type: "paragraph",
+      text: "Istedenfor å repetere deg selv 10 ganger for å skrive ut tallene fra $$1$$ til $$10$$ kan du heller bruke en `for`-løkke med en enkelt linje med kode i løkken:"
     },
     {
-      "type": "paragraph",
-      "text": "Her lager vi en funksjon som heter `siHei`. Den gjør én ting: Skriver ut 'Hei, verden!' i konsollen."
+        type: 'code',
+        language: 'javascript',
+        interactive: true,
+        code: `for (let i = 1; i <= 10; i++){
+  console.log(i);
+}`
+      },
+    {
+      type: "paragraph",
+      text: "Etter `for`-ordet skriver vi parenteser `()` som inneholder 3 uttrykk separert med en semikolon `;`"
     },
     {
-      "type": "paragraph",
-      "text": "👉 Men funksjonen gjør ingenting før du **kaller på den**!"
-    }
-  ]
-},
+      type: "list",
+      items: [
+          'En ^^initialisering^^ hvor vi deklarer en variabel som skal brukes i løkken. I eksemplet var det `i = 1`.',
+          'En ^^betingelse^^ hvor variabelen i løkken skal evalueres for en spesifikk betingelse. I eksemplet var det `i <= 10`.',
+          'Et ^^matematisk^^ uttrykk hvor verdien til variabelen enten øker eller synker etter hver iterasjon. ',
+        ]
+    },
+    {
+  type: "paragraph",
+  text: "Etter denne linja kommer selve koden som skal kjøres gjentakende. Vi bruker krøllparenteser `{}` for å lage en kodeblokk som JavaScript skal kjøre så lenge betingelsen er sann (`true`)."
+  },
+    {
+        type: 'code',
+        language: 'javascript',
+        interactive: false,
+        code: `for ([initialisering]; [betingelse]; [matematisk_uttrykk]){
+  // Så lenge betingelsen er sann
+  // Vil denne blokken kjøres gjentakende
+}`
+      },
+       {
+  type: "paragraph",
+  text: "Det matematiske uttrykket kan enten være en økning (`++`) eller synking (`--`). Den kjører etter resten av koden i krøllparantesen er ferdigkjørt."
+  },
+
+    {
+        type: 'code',
+        language: 'javascript',
+        interactive: true,
+        code: `for (let x = 10; x >= 1; x--){
+  console.log(x);
+}`
+      },
+    {
+  type: "paragraph",
+  text: "Du kan også bruke operatorer som `+=` eller `-=` slik som vist nedenfor:"
+  },
   {
-  "id": "sectionCallFunction",
-  "title": "2. Kalle på en funksjon",
-  "blocks": [
-    {
-      "type": "code",
-      "language": "javascript",
-      interactive: true,
-      "code": "function siHei() {\n  console.log(\"Hei, verden!\");\n}\nsiHei();"
-    },
-    {
-      "type": "paragraph",
-      "text": "Nå forteller vi JavaScript: 'Hei! Kjør den funksjonen vi lagde!'"
-    },
-    {
-      "type": "paragraph",
-      "text": "💡 Prøv å skrive inn flere `siHei();` under hverandre – hva skjer?"
-    }
-  ]
-},
-{
-  "id": "sectionParameters",
-  "title": "3. Funksjoner med parametere (input)",
-  "blocks": [
-    {
-      "type": "code",
-      "language": "javascript",
-      interactive: true,
-      "code": "function siHeiTil(navn) {\n  console.log(\"Hei, \" + navn + \"!\");\n}\n\nsiHeiTil(\"Ali\");\nsiHeiTil(\"Maja\");"
-    },
-    {
-      "type": "paragraph",
-      "text": "Vi kan sende med data inn i funksjonen ved å bruke en parameter. Her heter den `navn`."
-    },
-    {
-      "type": "paragraph",
-      "text": "👉 Endre navnene og legg til flere `siHeiTil(...)` under – test gjerne med tall også. Hva skjer?"
-    }
-  ]
+        type: 'code',
+        language: 'javascript',
+        interactive: true,
+        code: `for (let x = 1; x < 20; x += 3){
+  console.log(x);
+}`
+      },
+      {
+  type: "paragraph",
+  text: "Her øker `x` med `3` for hver iterasjon av løkken."
+  },
+  {
+  type: "paragraph",
+  text: "Når løkken er over vil JavaScript gå videre til koden du har under løkken:"
+  },
+  {
+        type: 'code',
+        language: 'javascript',
+        interactive: true,
+        code: `for (let x = 1; x < 2; x++){
+  console.log(x);
 }
-,
-{
-  "id": "sectionReturnValues",
-  "title": "4. Returnere verdier (output)",
-  "blocks": [
+console.log("For-løkken er ferdigkjørt");
+console.log("Fortsett med resten av koden");
+`
+      },
+    ]},
+
+  {
+  id: "sectionForArray",
+  title: "Når skal du bruke `for`-løkke?",
+  blocks: [
     {
-      "type": "code",
-      "language": "javascript",
-      interactive: true,
-      "code": "function gangTo(tall) {\n  return tall * 2;\n}\n\nlet resultat = gangTo(5);\nconsole.log(resultat);"
-    },
-    {
-      "type": "paragraph",
-      "text": "Noen funksjoner gir deg et resultat tilbake – dette kalles å returnere en verdi. Du kan lagre det i en variabel eller bruke det videre i koden."
-    },
-    {
-      "type": "paragraph",
-      "text": "🧠 Prøv å sende inn andre tall og bruk `console.log(gangTo(10));` direkte også."
-    }
-  ]
-}
-,
-{
-  "id": "sectionForEach",
-  "title": "En enklere måte å gå gjennom en liste: forEach",
-  "blocks": [
-    {
-      "type": "paragraph",
-      "text": "`forEach` er en metode du kan bruke på arrays. Den gjør nesten det samme som en `for`-løkke, men på en enklere måte. Den lar deg gjøre noe med hvert element i lista – uten å måtte bruke en teller (`i`)."
-    },
-    {
-      "type": "code",
-      "language": "javascript",
-      interactive: true,
-      "code": "let navn = [\"Mia\", \"Ola\", \"Ahmed\"];\n\nnavn.forEach(function(person) {\n  console.log(\"Hei, \" + person + \"!\");\n});"
-    },
-    {
-      "type": "paragraph",
-      "text": "💡 Forklaring:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "`navn.forEach(...)` betyr: Gå gjennom hvert element i arrayen `navn`.",
-        "Funksjonen inni `forEach` blir kalt én gang for hvert navn.",
-        "`person` er en variabel som automatisk får verdien til det nåværende elementet i lista."
+  type: "paragraph",
+  text: "En `for`-løkke er smart **når du vet hvor mange ganger du skal repetere en kode**."
+  },
+  {
+  type: "paragraph",
+  text: "For eksempel, si at du lager et program som flipper en mynt. Du vil finne ut hvor mange ganger mynten lander på kron etter 10 kast. Da kan du bruke `Math.random()`-metoden:"
+  },
+  {
+      type: "list",
+      items: [
+        "Når tallet er under `0.5` så øker du mynt-telleren.",
+        "Når tallet er over `0.5` så øker du kron-telleren."
       ]
     },
     {
-      "type": "paragraph",
-      "text": "Resultatet er at det skrives ut en personlig hilsen til hver person – akkurat som med en `for`-løkke, men med mindre kode!"
+        type: 'code',
+        language: 'javascript',
+        interactive: true,
+        code: `let mynt = 0;
+let kron = 0;
+for (x = 1; x <= 10; x++){
+  if (Math.random() < 0.5){
+      mynt++;
+  }
+  else{
+      kron++;
     }
-  ]
-},
-{
-  "id": "sectionFunctionExpression",
-  "title": "5. Funksjon som en variabel (funksjonsuttrykk)",
-  "blocks": [
+}
+console.log("Kastet mynten 10 ganger")
+console.log("Antall mynt:", mynt)
+console.log("Kastet kron:", kron)`
+      },
+    {
+      "type": "paragraph",
+      "text": "En av de vanligste bruksområdene for en `for`-løkke er å gå gjennom dataen i en `array` - ett for ett element. Her er et eksempel:"
+    },
     {
       "type": "code",
       "language": "javascript",
       interactive: true,
-      "code": "let siHei = function() {\n  console.log(\"Hei!\");\n};\n\nsiHei();"
+      "code": "let fruits = [\"Eple\", \"Banan\", \"Appelsin\"];\n\nfor (let i = 0; i < fruits.length; i++) {\n  console.log(fruits[i]);\n}"
     },
     {
       "type": "paragraph",
-      "text": "Her lager vi en anonym funksjon (uten navn) og lagrer den i en variabel. Det fungerer på samme måte som en vanlig funksjon!"
+      "text": "Her bruker vi `fruits.length` til å gi oss antall elementer i arrayet. Deretter bruker vi `for`-løkken til å skrive ut hvert element."
+    },
+  ]
+}
+,
+{
+  id: "sectionWhileExplained",
+  title: "While-løkke",
+  blocks: [
+    {
+      type: "paragraph",
+      text: "Vi hadde et eksempel tidligere som telte hvor mange ganger vi får kron eller mynt dersom vi flipper en mynt $$10$$ ganger. Men hva om spørsmålet hadde vært:"
     },
     {
-      "type": "paragraph",
-      "text": "💡 Dette er nyttig når du vil sende funksjoner videre som data – for eksempel til knapper eller når noe skjer på en nettside."
-    }
+      type:"paragraph",
+      text: '%%"Finn ut hvor mange ganger du må flippe en mynt for å få kron"%%'
+    },
+    {
+      type: "paragraph",
+      text: "Da vet du ikke hvor mange ganger du skal repetere koden! Det er da du må bruke en `while`-løkke istedet"
+    },
+    {
+      type: "paragraph",
+      text: "En ^^while-løkke^^ brukes til å gjenta kjøringen av en kode **så lenge** en betingelse er sann (`true`). Den skrives på følgende måte:"
+    },
+    {
+      type: "code",
+      language: "javascript",
+      interactive: false,
+      code: `while (betingelse) {
+  //kode som skal kjøres
+}`
+    },
+    {
+      type: "paragraph",
+      text: "Eksempel:"
+    },
+    {
+      type: "code",
+      language: "javascript",
+      interactive: true,
+      code: `let i = 0;
+
+while (i < 5) {
+  console.log("Verdien av i: ", i);
+  i++;
+}
+`
+    },
+    {
+      type: "paragraph",
+      text: "Her vil `while`-løkken fortsette å skrive ut verdien av `i` så lenge `i` er mindre enn $$5$$. For hver gang løkken kjører, så øker `i` med $$1$$. Når `i` er $$5$$ så avsluttes løkken."
+    },
+    {
+      type: "paragraph",
+      text: "Pass på at du legger inn en betingelse som faktisk etterhvert blir `false`. Ellers vil du få en ^^uendelig løkke^^. Eksempel på en uendelig løkke nedenfor:"
+    },
+    {
+      type: "code",
+      language: "javascript",
+      interactive: false,
+      code: `let i = 0;
+
+while (i < 5) {
+  console.log("Verdien av i: ", i);
+}
+`
+    },
+    {
+      type: "paragraph",
+      text: "Siden verdien av `i` aldri endres, vil løkken kjøre for alltid."
+    },
   ]
 },
-{
-  "id": "sectionFunctionQuiz",
-  "title": "Flervalgsoppgaver – Funksjoner i JavaScript",
-  "blocks": [
+
+
+  {
+  id: "sectionWhileWhy",
+  title: "Når skal du bruke `while`-løkke?",
+  blocks: [
     {
-      "type": "paragraph",
-      "text": "Her kommer noen spørsmål for å teste deg på det du har lært om funksjoner!"
+      type: "paragraph",
+      text: "Det enkleste å tenke er at du bruker `while`-løkke **når du ikke vet hvor mange ganger løkken skal repetere.**"
+    },
+    {
+      type: "paragraph",
+      text: "Slik som eksemplet fra tidligere: "
+    },
+    {
+      type:"paragraph",
+      text: '%%"Finn ut hvor mange ganger du må flippe en mynt for å få kron"%%'
+    },
+    {
+      type: "code",
+      language: "javascript",
+      interactive: true,
+      code: `let flips = 0;
+let erKron = false
+
+while (!erKron) {
+  flips++;
+  erKron = Math.random() < 0.5 //returnerer true med 50% sannsynlighet
+}
+
+console.log("Det tok ", flips, "flips for å lande på kron.")
+`
+    },
+    {
+      type:"paragraph",
+      text: "Here vil betingelsen `erKron = Math.random() < 0.5` simulere et flipp av en mynt. Når resultatet er `true` betyr det at mynten landet på kron og løkken vil brytes."
+    },
+  ]},
+  
+  {
+  id: "loopQuizShort",
+  title: "Flervalgsoppgaver – løkker i JavaScript",
+  blocks: [
+    {
+      type: "paragraph",
+      text: "Her er noen korte spørsmål for å teste om du forstår hvordan `for`- og `while`-løkker fungerer."
     },
 
     {
-      "type": "task",
-      "number": 1,
-      "title": "Hva gjør denne funksjonen?",
-      "description": "Hva skrives ut når vi kjører dette programmet?",
-      "code": "function greet() {\n  console.log(\"Hei!\");\n}\n\ngreet();",
-      "solution": {
-        "correct": 0,
-        "options": [
-          "Hei!",
-          "greet",
-          "Ingenting skjer",
-          "Feilmelding"
+      type: "task",
+      number: 1,
+      title: "Hva skriver denne for-løkken ut?",
+      description: "Hva blir resultatet i konsollen?",
+      code: "for (let i = 0; i < 3; i++) {\n  console.log(i);\n}",
+      solution: {
+        correct: 0,
+        options: [
+          "0 1 2",
+          "1 2 3",
+          "0 1 2 3",
+          "3 2 1 0"
         ]
+      }
+    },
+
+    {
+      type: "task",
+      number: 2,
+      title: "Hvor mange ganger kjører denne while-løkken?",
+      description: "Hva er antall ganger 'Hei' blir skrevet ut?",
+      code: "let i = 1;\nwhile (i <= 4) {\n  console.log(\"Hei\");\n  i++;\n}",
+      solution: {
+        correct: 2,
+        options: [
+          "0",
+          "3",
+          "4",
+          "5"
+        ]
+      }
+    },
+  ]
+},
+  {
+  id: "loopTasks",
+  title: "Programmeringsoppgaver – løkker",
+  blocks: [
+    {
+      type: "task",
+      number: 1,
+      title: "Tell fra 1 til 10",
+      description: "Lag en `for`-løkke som skriver ut tallene fra 1 til 10.",
+      solution: {
+        code: "for (let i = 1; i <= 10; i++) {\n  console.log(i);\n}"
       }
     },
 
     {
       "type": "task",
       "number": 2,
-      "title": "Hva er en parameter?",
-      "description": "Hva er riktig beskrivelse av en parameter i en funksjon?",
+      "title": "Summér tall fra 1 til 100",
+      "description": "Lag et program som bruker en `while`-løkke for å finne summen av alle tallene fra 1 til 100. Skriv ut summen til slutt.",
       "solution": {
-        "correct": 2,
-        "options": [
-          "En funksjon som returnerer noe",
-          "En verdi som alltid er et tall",
-          "En midlertidig variabel som brukes i funksjonen",
-          "Et nytt JavaScript-nøkkelord"
-        ]
-      }
-    },
-
-    {
-      "type": "task",
-      "number": 3,
-      "title": "Hva er forskjellen mellom `return` og `console.log()`?",
-      "description": "Velg det riktige alternativet:",
-      "solution": {
-        "correct": 3,
-        "options": [
-          "`return` skriver til skjermen, `console.log()` gjør det ikke",
-          "`console.log()` stopper funksjonen, `return` gjør ikke det",
-          "De gjør akkurat det samme",
-          "`return` sender verdien tilbake, `console.log()` viser den bare i konsollen"
-        ]
-      }
-    }
-  ]
-},
-{
-  "id": "sectionTasks",
-  "title": "Oppgaver – Funksjoner",
-  "blocks": [
-    {
-      "type": "task",
-      "number": 1,
-      "title": "En enkel funksjon",
-      "description": "Lag en funksjon `sayHello`, som skriver ut \"Hei, verden!\" når den kalles. Kall funksjonen for å se resultatet.",
-      "solution": {
-        "code": "function sayHello() {\n  console.log(\"Hei, verden!\");\n}\n\nsayHello();"
-      }
-    },
-    {
-      "type": "task",
-      "number": 2,
-      "title": "Funksjon med parameter",
-      "description": "Lag en funksjon `greetPerson`, som tar et navn som parameter og skriver ut \"Hei, [navn]!\". Kall funksjonen med ditt eget navn.",
-      "solution": {
-        "code": "function greetPerson(name) {\n  console.log(\"Hei, \" + name + \"!\");\n}\n\ngreetPerson(\"Ola\");"
+        "code": "let sum = 0;\nlet i = 1;\nwhile (i <= 100) {\n  sum += i;\n  i++;\n}\nconsole.log(sum);"
       }
     },
     {
       "type": "task",
       "number": 3,
-      "title": "Returnere verdier",
-      "description": "Skriv en funksjon `multiply` som tar to tall som parametere og returnerer produktet av dem. Lagre resultatet i en variabel og skriv det ut.",
+      "title": "Skriv ut verdier fra en liste",
+      "description": "Lag en array med tre navn. Bruk en `for`-løkke til å skrive ut hvert navn.",
       "solution": {
-        "code": "function multiply(a, b) {\n  return a * b;\n}\n\nlet result = multiply(4, 6);\nconsole.log(result);"
+        "code": "let names = [\"Ada\", \"Ola\", \"Kari\"];\nfor (let i = 0; i < names.length; i++) {\n  console.log(names[i]);\n}"
       }
     },
     {
       "type": "task",
       "number": 4,
-      "title": "Funksjon som bruker en annen funksjon",
-      "description": "Lag en funksjon `double`, som returnerer det dobbelte av tallet som sendes inn. Lag deretter en annen funksjon `printDouble` som tar et tall, bruker `double` og skriver ut resultatet.",
+      "title": "Finn det største tallet",
+      "description": "Lag en array med noen tall. Bruk en `for`-løkke for å finne det største tallet.",
       "solution": {
-        "code": "function double(x) {\n  return x * 2;\n}\n\nfunction printDouble(number) {\n  let result = double(number);\n  console.log(\"Doblet verdi: \" + result);\n}\n\nprintDouble(7);"
+        "code": "let numbers = [3, 7, 2, 9, 5];\nlet max = numbers[0];\nfor (let i = 1; i < numbers.length; i++) {\n  if (numbers[i] > max) {\n    max = numbers[i];\n  }\n}\nconsole.log(\"Største tall:\", max);"
+      }
+    },
+
+  ]
+},
+
+{
+  id: "tasksLoops",
+  title: "Oppgaver: Løkker",
+  blocks: [
+    {
+      type: "task",
+      number: 1,
+      title: "Tell fra 1 til 10",
+      description: "Lag en `for`-løkke som skriver ut tallene fra **1** til **10** i konsollen.",
+      solution: {
+        code: "for (let i = 1; i <= 10; i++) {\n  console.log(i);\n}"
       }
     },
     {
-  "type": "task",
-  "number": 5,
-  "title": "Funksjoner og lister",
-  "description": "Lag en funksjon `greetAll`, som tar inn en liste med navn og gjør følgende:\n\n🔹 Gå gjennom listen med en løkke\n🔹 Skriv ut en personlig melding: `Hei, [navn]! Velkommen!`\n🔹 Tell hvor mange navn det er og skriv ut: `Det var X personer i listen.`\n\n✨ **Ekstra utfordring:**\nHvis et navn har mer enn 4 bokstaver, skriv også ut:\n`[navn], du har et langt navn!`",
-  "solution": {
-    "code": "function greetAll(names) {\n  for (let i = 0; i < names.length; i++) {\n    let name = names[i];\n    console.log(\"Hei, \" + name + \"! Velkommen!\");\n\n    if (name.length > 4) {\n      console.log(name + \", du har et langt navn!\");\n    }\n  }\n\n  console.log(\"Det var \" + names.length + \" personer i listen.\");\n}\n\nlet nameList = [\"Ola\", \"Mia\", \"Sebastian\", \"Lise\", \"Henrik\"];\ngreetAll(nameList);"
-  }
-},
-{
-  "type": "task",
-  "number": 6,
-  "title": "Bruk forEach til å hilse på alle",
-  "description": "Lag en liste med navn, og bruk `forEach` til å skrive ut en hilsen til hvert navn. Hilsningen skal være: \"Hei, [navn]!\". \n\n**Ekstra utfordring**: Hvis navnet starter med bokstaven `A`, skriv også: \"[navn] – navnet ditt starter med A!\"",
-  "code": "let personer = [\"Anna\", \"Jonas\", \"Ali\", \"Emma\", \"Amir\"];\n\n// Skriv forEach her",
-  "solution": {
-    "code": "let personer = [\"Anna\", \"Jonas\", \"Ali\", \"Emma\", \"Amir\"];\n\npersoner.forEach(function(navn) {\n  console.log(\"Hei, \" + navn + \"!\");\n  if (navn.startsWith(\"A\")) {\n    console.log(navn + \" – navnet ditt starter med A!\");\n  }\n});"
-  }
-},
+      type: "task",
+      number: 2,
+      title: "Skriv ut partall",
+      description: "Bruk en `for`-løkke til å skrive ut alle **partall** mellom **2** og **10**.",
+      solution: {
+        code: "for (let i = 2; i <= 10; i += 2) {\n  console.log(i);\n}"
+      }
+    },
     {
-      "type": "paragraph",
-      "text": "Disse oppgavene gir deg øvelse i å skrive, bruke og kombinere funksjoner – noe som gjør koden din mer fleksibel, gjenbrukbar og lett å forstå. 💡"
+      type: "task",
+      number: 3,
+      title: "Skriv ut navn fra et array",
+      description: "Lag et array med tre navn, og bruk en `for`-løkke til å skrive ut hvert navn i konsollen.",
+      solution: {
+        code: "let venner = [\"Ali\", \"Sara\", \"Jonas\"];\n\nfor (let i = 0; i < venner.length; i++) {\n  console.log(venner[i]);\n}"
+      }
+    },
+    {
+      type: "task",
+      number: 4,
+      title: "Tell med `while`",
+      description: "Lag en `while`-løkke som skriver ut tallene fra **1** til **5**.",
+      solution: {
+        code: "let i = 1;\nwhile (i <= 5) {\n  console.log(i);\n  i++;\n}"
+      }
+    },
+    {
+      type: "task",
+      number: 5,
+      title: "Flip mynten til du får kron",
+      description: "Lag en `while`-løkke som **flipper en mynt** til du får `kron`. Tell hvor mange ganger du måtte flippe.",
+      solution: {
+        code: "let flips = 0;\nlet erKron = false;\n\nwhile (!erKron) {\n  flips++;\n  erKron = Math.random() < 0.5;\n}\n\nconsole.log(\"Du fikk kron etter\", flips, \"flips!\");"
+      }
+    }, 
+    {
+      type: "task",
+      number: 6,
+      title: "Lag en pyramide av stjerner",
+      description: "Skriv et program som skriver ut en halv pyramide av stjerner (`*`) slik som under\n\n+ \n++ \n+++ \n++++ \n+++++ \n\nDeretter print ut motsatte pyramiden:\n\n+++++ \n++++ \n+++ \n++ \n+",
+      solution: {
+        code: "// Halv pyramide\nfor (let i = 1; i <= 5; i++) {\n  console.log('+'.repeat(i));\n}\n\n// Omvendt halv pyramide\nfor (let i = 5; i >= 1; i--) {\n  console.log('+'.repeat(i));\n}"
+      }
     }
   ]
 }
-,
-  
-];
 
+
+]

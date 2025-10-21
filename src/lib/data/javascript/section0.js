@@ -13,19 +13,73 @@ export default [
       }
     ]
   },
+
   {
-    id: "sectionOne",
+    id:"sectionOne",
+    title:"Hva er JavaScript og hvordan fungerer det med HTML/CSS?",
+    blocks: [
+      {
+        type: "paragraph",
+        text: "*=HTML=* og *=CSS=* er ^^markeringsspråk^^ som brukes for å strukturere og style nettsider. *=JavaScript=* går forbi det, og gir oss mulighet til å utnytte brukerinput, animere elementer og til og med bygge store web-apper."
+      },
+      {
+        type: "paragraph",
+        text: "Her er et eksempel på samarbeidet mellom HTML, CSS og JavaScript:"
+      },
+//       {
+//         type: "sandbox",
+//         html: `<h1 id="title">Klikk knappen!</h1>
+// <button id="button">Trykk meg</button>`,
+//         js: `const btn = document.getElementById("button");
+// const title = document.getElementById("title");
+// btn.addEventListener("click", () => {
+//   title.textContent = "Du trykket på knappen!";
+//   title.style.color = "tomato";
+// });`
+//       },
+      {
+        type: "code",
+        language: "html",
+        preview: false,
+        code:`<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    h1 {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hello, World!</h1>
+  <button onclick="alert('Button clicked!')">Click me</button>
+</body>
+</html>`
+      },
+      
+      {
+        type: "paragraph",
+        text: "HTML definerer innholdet, `h1`, `button`. CSS styler `h1` grønn. Javascript brukes for å lage en `alert`-melding som dukker opp når knappen trykkes."
+      },
+        {
+        type: "paragraph",
+        text: "La oss se på hvordan vi kan skrive og kjøre JavaScript-kode."
+      },
+    ]
+  },
+  {
+    id: "sectionTwo",
     title: "1. JavaScript koblet til HTML-filer",
     blocks: [
       {
         type: "paragraph",
-        text: "Den vanligste måten å kjøre JavaScript-kode på er å knytte den til en HTML-fil med en `<script>`-tag. Da kan nettleseren din kjøre JavaScript-koden når siden åpnes."
+        text: "Lag en fil som heter `index.html`. Legg inn følgende i filen:"
       },
       {
         type: "code",
         language: "html",
         preview: false,
-        code: `<!-- index.html -->
+        code:`<!-- index.html -->
 <!DOCTYPE html>
 <html>
   <head>
@@ -40,35 +94,62 @@ export default [
       },
       {
         type: "paragraph",
-        text: "Som du ser, kan man skrive JavaScript direkte inne i en `<script>...</script>`-tag. Men det ryddigste er å lage en egen JavaScript-fil og lenke den til HTML-filen – akkurat som vi gjør med CSS."
+        text: "Bruk *=Go Live=* for å åpne HTML-filen i nettleseren din. Høyreklikk på siden og velg *=Inspect=* for å åpne *=Developer Tools=*, velg *=Console=*-taben (i Chrome kan du bruke snarveien *=cmd + option + i=*)."
       },
       {
         type: "paragraph",
-        text: "Skriv i JavaScript-filen din:"
+        text: "Som du ser, kan man skrive JavaScript-kode inne i en `<script>...</script>`-tag direkte i HTML-filen. Men det ryddigste er å lage en egen JavaScript-fil (`main.js`) i samme mappe som HTML-filen, og lenke til den i HTML-filen."
+      },
+
+      
+      {
+        type: "code",
+        language: "html",
+        preview: false,
+        code: `<script src="main.js"></script>`
+      },
+
+      {
+        type: "paragraph",
+        text: "Hvor skal du plassere lenken? Siden nettleseren leser HTML-filen fra topp til bunn, er det lurt å legge lenken nederst i `<body>...</body>`-tagen. Da vil først strukturen og stylingen til nettsiden bli lastet inn, før de interaktive funksjonene til JavaScript."
+      },
+      {
+        type: "code",
+        language: "html",
+        preview: false,
+        code:`<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    h1 {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hello, World!</h1>
+  <script src="main.js"></script>
+</body>
+</html>`
+      },
+      
+      {
+        type: "paragraph",
+        text: "Skriv koden nedenfor i `main.js`-filen og gå inn i konsollen. Her ser du også at med `//` kan man skrive kommentarer i koden, altså kode som ikke blir kjørt. "
       },
 
 
       {
         type: 'code',
         language: 'javascript',
-        code: 'console.log("Hello World!");',
+        code: `// Mitt første program
+console.log("Hello World!");`,
         preview: false,
         interactive: false
       },
       {
         type: "paragraph",
-        text: "For å koble JavaScript-filen til HTML-filen, skriver du `src=\"main.js\"` inne i `<script>`-taggen:"
-      },
-      {
-        type: "code",
-        language: "html",
-        preview: false,
-        code: `<!-- index.html -->
-<script src="main.js"></script>`
-      },
-      {
-        type: "paragraph",
-        text: "I *=VS Code=* vil dette se slik ut:"
+        text: "Nå har du det du trenger for å skrive og kjøre JavaScript-kode. Se bildet nedenfor som inkluderer oppsettet av VSCode og konsollen med JavaScript-output."
       },
       {
         type: "image",
@@ -95,8 +176,9 @@ export default [
     ]
   },
   { 
-    id: "sectionNode",
-    title: "2. JavaScript i terminalen med Node.js",
+    id: "sectionThree",
+    title: "2. JavaScript med Node.js (ikke nødvendig, men trykk her for de som er interessert)",
+    collapsible: "true",
     blocks: [
       {
         type: "paragraph",
@@ -141,7 +223,7 @@ export default [
       },
       {
         type: "paragraph",
-        text: "4. Åpne terminalen i Visual Studio Code ved å klikke _Terminal → New Terminal_."
+        text: "4. Åpne terminalen i Visual Studio Code ved å klikke *=Terminal → New Terminal=*"
       },
       {
         type: "paragraph",

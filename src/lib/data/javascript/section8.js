@@ -1,216 +1,142 @@
 export default [
   {
-    id: "sectionIntro",
-    title: "",
-    blocks: [
+    "id": "sectionIntro",
+    "title": "",
+    "blocks": [
       {
-        type: "paragraph",
-        text: "I JavaScript kan vi bruke ulike mouse events for å interagere med nettsider på en dynamisk måte. Vanlige hendelser som kan fanges opp er når brukeren klikker, holder musen over et element, eller beveger musen. I tillegg kan vi hente musekoordinatene for å lage mer interaktivt innhold."
+        "type": "paragraph",
+        "text": "I JavaScript har vi flere måter å hente ut elementer fra HTML-en. Disse metodene kalles ^^selectors^^ (eller velgere), og de lar oss finne spesifikke elementer vi vil jobbe med. Når vi har valgt et element, kan vi bruke JavaScript til å endre utseendet – for eksempel farger, tekst eller andre stiler."
       }
     ]
   },
   {
-    id: "sectionMouseEvents",
-    title: "1. Mouse Events",
-    blocks: [
+    "id": "sectionIntroToEvents",
+    "title": "Litt om knapper og klikk",
+    "blocks": [
       {
-        type: "paragraph",
-        text: "%%En mouse event er en hendelse som skjer når brukeren gjør noe med musen, som å klikke eller bevege den over et element.%%"
+        "type": "paragraph",
+        "text": "I noen av eksemplene våre bruker vi en **knapp** og litt ny kode som ser slik ut: `button.addEventListener(...)`. Du trenger ikke forstå dette fullt ut enda – vi skal forklare det grundig senere!"
       },
       {
-        type: "paragraph",
-        subtitle: "`click`-hendelsen",
-        text: "`click`-hendelsen oppstår når brukeren klikker på et element."
+        "type": "paragraph",
+        "text": "💡 Akkurat nå kan du bare vite at vi bruker `addEventListener(\"click\", ...)` for å få noe til å skje når brukeren klikker på en knapp. Dette gjør det lettere å teste hvordan JavaScript endrer utseendet på siden."
       },
       {
-        type: "code",
-        language: "html",
-        preview: true,
-        code: `<button id="myButton">Klikk meg</button>`,
-        script: `let button = document.getElementById("myButton");
-button.addEventListener("click", function() {
-  console.log("Knappen xble klikket!");
-});`
-      },
-      {
-        type: "paragraph",
-        text: "Når brukeren klikker på knappen (`myButton`), skrives \"Knappen ble klikket!\" i konsollen."
-      },
-      {
-        type: "subtitle",
-        text: "`mouseover` og `mouseout`"
-      },
-      {
-        type: "code",
-        preview: true,
-        language: "html",
-        code: `<div id="myBox" style="width:200px; height:200px; background:white; border:1px solid black;"></div>`,
-        script: `let box = document.getElementById("myBox");
-box.addEventListener("mouseover", function() {
-  box.style.backgroundColor = "lightblue";
-});
-box.addEventListener("mouseout", function() {
-  box.style.backgroundColor = "white";
-});`
-      },
-      {
-        type: "paragraph",
-        text: "`mouseover`: Når musen er over elementet, endres bakgrunnsfargen til lys blå. `mouseout`: Når musen forlater elementet, settes bakgrunnsfargen tilbake til hvit."
+        "type": "paragraph",
+        "text": "Så ikke stress med detaljene – trykk på knappen, se hva som skjer, og fortsett 😊"
       }
     ]
   },
   {
-    id: "sectionCoordinates",
-    title: "2. Musekoordinater",
-    blocks: [
+    "id": "sectionSelectors",
+    "title": "1. Ulike måter å velge elementer",
+    "blocks": [
       {
-        type: "paragraph",
-        text: "Når musen beveger seg over nettsiden, kan vi hente posisjonen til musen med `clientX` og `clientY`. Disse gir deg x- og y-posisjonene til musepekeren i forhold til nettsidens synlige område."
+        "type": "paragraph",
+        "subtitle": "`getElementsByClassName`",
+        "text": "Brukes for å hente ALLE elementer med et bestemt klassenavn. Du får en liste med elementer, så du må bruke en løkke for å gjøre noe med hvert element."
       },
       {
-        type: "code",
-        preview: true,
-        language: "html",
-        code: `<div style="height: 200px; border: 1px solid black;">Flytt musen her</div>
-<p id="coords">X: 0, Y: 0</p>`,
-        script: `document.addEventListener("mousemove", function(event) {
-  document.getElementById("coords").textContent =
-    "X: " + event.clientX + ", Y: " + event.clientY;
-});`
+        "type": "code",
+        "language": "html",
+        "preview": true,
+        "code": `<div class=\"myClass\">Første</div>\n<div class=\"myClass\">Andre</div>\n<div class=\"myClass\">Tredje</div>\n<button id=\"colorBtn\">Endre farge</button>`,
+        "script": `document.getElementById(\"colorBtn\").addEventListener(\"click\", function() {\n  let elements = document.getElementsByClassName(\"myClass\");\n  for (let i = 0; i < elements.length; i++) {\n    elements[i].style.color = \"blue\";\n  }\n});`
+      },
+      {
+        "type": "paragraph",
+        "subtitle": "`getElementsByTagName`",
+        "text": "Brukes for å hente ALLE elementer med en bestemt HTML-tag (f.eks. `<p>`, `<h1>`, `<div>`). For eksempel kan du hente ut alle `p`-elementene på en side."
+      },
+      {
+        "type": "code",
+        "language": "html",
+        "preview": true,
+        "code": `<p>Avsnitt 1</p>\n<p>Avsnitt 2</p>\n<p>Avsnitt 3</p>\n<button id=\"fontBtn\">Endre skriftstørrelse</button>`,
+        "script": `document.getElementById(\"fontBtn\").addEventListener(\"click\", function() {\n  let paragraphs = document.getElementsByTagName(\"p\");\n  for (let i = 0; i < paragraphs.length; i++) {\n    paragraphs[i].style.fontSize = \"18px\";\n  }\n});`
+      },
+      {
+        "type": "paragraph",
+        "subtitle": "`querySelector` og `querySelectorAll`",
+        "text": "`querySelector` henter det FØRSTE elementet som matcher en CSS-selektor. `querySelectorAll` henter ALLE som matcher, som en liste."
+      },
+      {
+        "type": "code",
+        "language": "html",
+        "preview": true,
+        "code": `<div class=\"myClass\">Boks 1</div>\n<div class=\"myClass\">Boks 2</div>\n<button id=\"styleBtn\">Legg til stil</button>`,
+        "script": `document.getElementById(\"styleBtn\").addEventListener(\"click\", function() {\n  let first = document.querySelector(\".myClass\");\n  first.style.backgroundColor = \"yellow\";\n\n  let all = document.querySelectorAll(\".myClass\");\n  all.forEach(el => {\n    el.style.border = \"2px solid red\";\n  });\n});`
       }
     ]
   },
   {
-    id: "sectionCombine",
-    title: "3. Kombinere musehendelser og musekoordinater",
-    blocks: [
+    "id": "sectionManipCSS",
+    "title": "2. Endre CSS med JavaScript",
+    "blocks": [
       {
-        type: "paragraph",
-        text: "Her er et eksempel der vi viser musekoordinatene i sanntid mens brukeren beveger musen over et element."
+        "type": "paragraph",
+        "subtitle": "Direkte stilendring",
+        "text": "Bruk `element.style` for å endre ting som farge, bakgrunn eller størrelse direkte."
       },
       {
-        type: "code",
-        language: "html",
-        preview: true,
-        code: `<div id="mouseArea" style="width: 300px; height: 300px; background-color: lightgray; text-align: center; line-height: 300px;">
-  Flytt musen her
-</div>
-<p id="coordinates">X: 0, Y: 0</p>`,
-        script: `let mouseArea = document.getElementById("mouseArea");
-let coordinates = document.getElementById("coordinates");
-
-mouseArea.addEventListener("mousemove", function(event) {
-  let x = event.clientX;
-  let y = event.clientY;
-  coordinates.textContent = "X: " + x + ", Y: " + y;
-});`
+        "type": "code",
+        "language": "html",
+        "preview": true,
+        "code": `<div id=\"myElement\">Endre meg</div>\n<button id=\"styleChange\">Endre stil</button>`,
+        "script": `document.getElementById(\"styleChange\").addEventListener(\"click\", function() {\n  let el = document.getElementById(\"myElement\");\n  el.style.color = \"green\";\n  el.style.backgroundColor = \"lightgrey\";\n});`
+      },
+      {
+        "type": "paragraph",
+        "subtitle": "Legge til og fjerne klasser med `classList`",
+        "text": "`classList` lar deg legge til, fjerne eller toggle (veksle) mellom CSS-klasser på et element. Dette er spesielt nyttig hvis du har forhåndsdefinerte CSS-klasser du ønsker å aktivere eller deaktivere."
+      },
+      {
+        "type": "code",
+        "language": "html",
+        "preview": true,
+        "code": `<style>.highlight { background-color: gold; }</style>\n<div id=\"myElement\">Trykk på knappen</div>\n<button id=\"toggleHighlight\">Veksle klasse</button>`,
+        "script": `document.getElementById(\"toggleHighlight\").addEventListener(\"click\", function() {\n  let element = document.getElementById(\"myElement\");\n  element.classList.toggle(\"highlight\");\n});`
       }
     ]
   },
   {
-  "id": "sectionMouseEventQuiz",
-  "title": "Flervalgsoppgaver – Mouse Events i JavaScript",
-  "blocks": [
-    {
-      "type": "paragraph",
-      "text": "Her kommer noen spørsmål for å teste deg på det du har lært om mouse events!"
-    },
-
-    {
-      "type": "task",
-      "number": 1,
-      "title": "Hva skjer når du bruker `clientX`?",
-      "description": "Hva returnerer `clientX` når du beveger musen?",
-      "solution": {
-        "correct": 3,
-        "options": [
-          "Y-koordinaten i hele dokumentet",
-          "Musens hastighet",
-          "Om musen er over et element",
-          "X-koordinaten til musen i synlig vindu"
-        ]
-      }
-    },
-    {
-      "type": "task",
-      "number": 2,
-      "title": "Hva brukes `addEventListener` til?",
-      "description": "Hva er hovedformålet med `addEventListener` i JavaScript?",
-      "solution": {
-        "correct": 1,
-        "options": [
-          "For å knytte en hendelse til et HTML-element",
-          "For å hente verdier fra input-felter",
-          "For å skrive kommentarer i JavaScript",
-          "For å fjerne HTML fra siden"
-        ]
-      }
-    },
-    {
-      "type": "task",
-      "number": 3,
-      "title": "Hvilken hendelse brukes når du holder musen over et element?",
-      "description": "Hvilket event aktiveres når du holder musepekeren over et HTML-element?",
-      "solution": {
-        "correct": 0,
-        "options": [
-          "`mouseover`",
-          "`click`",
-          "`mouseup`",
-          "`mousemove`"
-        ,]
+    "id": "sectionTasks",
+    "title": "Oppgaver",
+    "blocks": [
+      {
+        "type": "task",
+        "number": 1,
+        "title": "Endre stil på flere elementer",
+        "description": "Bruk `getElementsByClassName` for å velge alle elementer med en bestemt klasse, og endre fargen på teksten deres.",
+        "solution": {
+          "code": "<p class=\"text\">Dette er tekst 1.</p>\n<p class=\"text\">Dette er tekst 2.</p>\n<p class=\"text\">Dette er tekst 3.</p>\n<button id=\"changeColorButton\">Endre farge</button>",
+          "script": "let button = document.getElementById(\"changeColorButton\");\nlet paragraphs = document.getElementsByClassName(\"text\");\n\nbutton.addEventListener(\"click\", function() {\n  for (let i = 0; i < paragraphs.length; i++) {\n    paragraphs[i].style.color = \"blue\";\n  }\n});"
+        }
       },
-    }]
-  },
-  {
-  id: "sectionTasks",
-  title: "Oppgaver",
-  blocks: [
-    {
-      "type": "task",
-      "number": 1,
-      "title": "Oppgave 1: Vis musekoordinater",
-      "description": "Lag en nettside der du viser musekoordinatene mens brukeren beveger musen over hele vinduet.",
-      "solution": {
-        "code": `<p id="coords">X: 0, Y: 0</p>`,
-        "script": `document.addEventListener("mousemove", function(event) {
-  let x = event.clientX;
-  let y = event.clientY;
-  document.getElementById("coords").textContent = "X: " + x + ", Y: " + y;
-});`
+      {
+        "type": "task",
+        "number": 2,
+        "title": "Bruk `querySelectorAll` til å velge elementer",
+        "description": "Bruk `querySelectorAll` for å velge alle `div`-elementer, og legg til en rød kant rundt dem når en knapp trykkes.",
+        "solution": {
+          "code": "<div class=\"box\">Boks 1</div>\n<div class=\"box\">Boks 2</div>\n<div class=\"box\">Boks 3</div>\n<button id=\"addBorderButton\">Legg til kant</button>",
+          "script": "let button = document.getElementById(\"addBorderButton\");\nlet boxes = document.querySelectorAll(\".box\");\n\nbutton.addEventListener(\"click\", function() {\n  boxes.forEach(function(box) {\n    box.style.border = \"2px solid red\";\n  });\n});"
+        }
+      },
+      {
+        "type": "task",
+        "number": 3,
+        "title": "Endre klasser med `classList`",
+        "description": "Bruk `classList` til å veksle en klasse som endrer bakgrunnsfargen på et element.",
+        "solution": {
+          "code": "<style>\n  .highlight {\n    background-color: yellow;\n  }\n</style>\n\n<div id=\"myDiv\">Dette er en div som endrer bakgrunn.</div>\n<button id=\"toggleClassButton\">Veksle bakgrunn</button>",
+          "script": "let button = document.getElementById(\"toggleClassButton\");\nlet div = document.getElementById(\"myDiv\");\n\nbutton.addEventListener(\"click\", function() {\n  div.classList.toggle(\"highlight\");\n});"
+        }
+      },
+      {
+        "type": "paragraph",
+        "text": "Disse oppgavene vil hjelpe deg å forstå hvordan du kan bruke forskjellige selectors for å hente ut elementer fra DOM, samt hvordan du kan endre stiler dynamisk ved hjelp av JavaScript."
       }
-    },
-    {
-      "type": "task",
-      "number": 2,
-      "title": "Oppgave 2: Endre farge ved museklikk",
-      "description": "Lag en nettside med et område (`div`) som bytter farge hver gang brukeren klikker på det.",
-      "solution": {
-        "code": `<div id="colorBox" style="width:200px; height:200px; background:lightgray;"></div>`,
-        "script": `let box = document.getElementById("colorBox");
-box.addEventListener("click", function() {
-  box.style.backgroundColor = "lightgreen";
-});`
-      }
-    },
-    {
-      "type": "task",
-      "number": 3,
-      "title": "Oppgave 3: Endre tekst ved `mouseover`",
-      "description": "Lag et avsnitt som endrer tekst når musen holdes over det, og går tilbake når musen fjernes.",
-      "solution": {
-        "code": `<p id="myText">Hold musen over meg!</p>`,
-        "script": `let text = document.getElementById("myText");
-
-text.addEventListener("mouseover", function() {
-  text.textContent = "Hei! 👋";
-});
-
-text.addEventListener("mouseout", function() {
-  text.textContent = "Hold musen over meg!";
-});`
-      }
-    },
-  ]
-  },
+    ]
+  }
 ];
