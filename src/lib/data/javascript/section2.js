@@ -30,7 +30,7 @@ export default [
           {
             type: "text",
             value:
-              "Nettsiden YouTube er et godt eksempel. De viser antall subscriptions for hver kanal, hvor mange likes hver video har og hvor mange videoer en kanal har laget."
+              "Nettsiden YouTube er et godt eksempel. De viser antall subscriptions for hver kanal, hvor mange likes hver video har og hvor mange videoer en kanal har laget. Tall brukes også i beregninger som nettsider trenger. For eksempel bruker Amazon tall til å regne ut og vise gjennomsnittlig rating av produktene sine."
           }
         ]
       },
@@ -42,13 +42,16 @@ export default [
         type: 'code',
         language: 'javascript',
         interactive: true,
-        code: `let num1 = 1;
+        code: `let num1 = 1; //integer
 let num2 = 3;
 console.log(num1 + num2);
 
-let num3 = 1.2;
-let num4 = 1.3; 
-console.log(num3 + num4);`
+let rating1 = 5; //float
+let rating2 = 4.5; 
+let rating3 = 4; 
+let averageRating = (rating1 + rating2 + rating3)/3
+
+console.log(averageRating);`
       },
 
     ]
@@ -60,9 +63,6 @@ console.log(num3 + num4);`
       {
         type: "paragraph",
         text: '`Strings` kan forklares som **alt du ser på keyboardet**. Det gjelder alle de vanlige bokstavene i alle forskjellige språk, alle de spesielle symbolene som fins (for eksempel %, &, $, ...) og alle tallene. '
-      },
-      {type: "paragraph",
-        text: 'Så hvordan vet JavaScript at du vil at datatypen skal være number eller string? '
       },
       {type: "paragraph",
         text: 'For at JavaScript skal gjenkjenne en string, må du skrive det     mellom anførselstegn, enten doble (`""`) eller single (`\'\'`).'
@@ -86,7 +86,7 @@ console.log(melding);`
       },
       {
         type: "paragraph",
-        text: "Du kan sette sammen ulike strings ved å bruke $$+$$ operatoren."
+        text: "Du kan sette sammen ulike strings ved å bruke $$+$$-operatoren. "
       },
       {
         type: 'code',
@@ -95,9 +95,18 @@ console.log(melding);`
         code: `let melding = "Hello " + "and " + "Goodbye";
 console.log(melding);`
       },
+
+      {
+        type: 'extraInfo',
+        icon: 'note',
+        content: [
+          { type: 'text', value: 'Operasjonen ovenfor, hvor vi brukte `+` mellom strings har det fantastiske ordet ^^string-concatenation^^ på engelsk (nei du må ikke kunne ordet). En del programmeringsbegreper er litt overkant vanskelige.' },
+        ]
+      },
+   
       {
         type: "paragraph",
-        text: "Eventuelt kan du skrive strings direkte i `console.log()` sammen med variabler"
+        text: "Du kan skrive strings direkte i `console.log()` sammen med variabler, enten med `+`, eller skille mellom variablene med `,`."
       },
       {
         type: 'code',
@@ -105,19 +114,23 @@ console.log(melding);`
         interactive: true,
         code: `let navn = "Jens";
 let tema = "JavaScript";
-console.log(navn + " lærer seg " + tema + " i dag ");`
+console.log(navn + " lærer seg " + tema + " i dag "); // bruker +
+console.log(navn, "lærer seg", tema, "i dag");        // bruker ,`
       },
 
       {
         type: "paragraph",
-        text: "Strings kan også representere tall. Da vil JavaScript sette sammen tallene, istedenfor å addere tallene."
+        text: "Strings kan også representere tall. Da vil JavaScript sette sammen tallene, istedenfor å addere tallene. Hvis du vil gjøre matematisk operasjon, dropp anførselstegn!"
       },
       {
         type: 'code',
         language: 'javascript',
         interactive: true,
-        code: `let score = "10" + "30";
-console.log(score);`
+        code: `let score = "10" + "30"; // String
+console.log(score);
+
+score = 10 + 30; //Number
+console.log(score)`
       },
     ]
   },
@@ -177,7 +190,6 @@ let off = false; `
         code: `let first_name;
 console.log(first_name); //undefined`
       },
-
       {
         type: "paragraph",
         text: "`Null` er en spesiell datatype som representer en tom eller ukjent verdi."
@@ -264,5 +276,51 @@ console.log(x);`,
   ]
 },
 
+
+  // 📝 TASKS
+{
+  id: "sectionTasks",
+  title: 'Programmeringsoppgaver om datatyper',
+  blocks: [
+    // Oppgavene
+    {
+      type: "paragraph", 
+      text: ""
+    },
+    {
+      type: 'task',
+      number: 1,
+      title: "Enkel variabelbruk",
+      description: "Lag en variabel med navnet ditt. Skriv ut `Hallo (ditt navn)` ved å kombinere «Hallo» med ditt navn."
+    },
+    {
+      type: 'task',
+      number: 2,
+      title: "Enkel variabelbruk",
+      description: "Lag variablene `radius` og `pi`. Pi skal ha verdien 3.14 og radius bestemmer du. \n\nLag variabelen `omkrets` som regner ut omkretsen av en sirkel.  \n\n`Omkrets = 2*Pi*r` \n \nSkriv ut `\"For radius (radius) er omkretsen (omkrets)\"`"
+    },
+
+    {
+      type: 'task',
+      number: 3,
+      title: "Endre variabler",
+      description: "Lag en variabel som inneholder antall bokstaver i navnet ditt. Skriv ut «Hallo (ditt navn). Ditt navn har (ditt antall bokstaver) bokstaver»."
+    },
+    {
+      type: 'task',
+      number: 3,
+      title: "Bruk av const",
+      description: "Lag en variabel som inneholder antall bokstaver i navnet ditt. Skriv ut «Hallo (ditt navn). Ditt navn har (ditt antall bokstaver) bokstaver»."
+    },
+
+    {
+      type: 'task',
+      number: 4,
+      title: "Gjør enkel matte med variabler",
+      description: "Lag to variabler, `num1` og `num2`, og gjør noen enkle berekninger med dem. Skriv ut summen, differansen, produktet og kvotienten i konsollen."
+    },
+    
+  ]
+} 
 
 ];

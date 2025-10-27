@@ -5,7 +5,7 @@ export default [
     blocks: [
       {
         type: "paragraph",
-        text: "Lag en ny mappe på et fornuftig sted og gi den navnet **javascript-kurs**. Åpne mappen i *=VS Code=* ved å klikke på *=File → Open Folder=*. Dette er mappen hvor du skal lagre all kode du skriver i løpet av kurset."
+        text: "Lag en ny mappe på et fornuftig sted og gi den navnet **javascript-kurs**. Åpne mappen i VS Code ved å klikke på *=File → Open Folder=*. Dette er mappen hvor du skal lagre all kode du skriver i løpet av kurset."
       },
       {
         type: "paragraph",
@@ -16,27 +16,16 @@ export default [
 
   {
     id:"sectionOne",
-    title:"Hva er JavaScript og hvordan fungerer det med HTML/CSS?",
+    title:"Hva er JavaScript og hvordan fungerer det med HTML og CSS?",
     blocks: [
       {
         type: "paragraph",
-        text: "*=HTML=* og *=CSS=* er ^^markeringsspråk^^ som brukes for å strukturere og style nettsider. *=JavaScript=* går forbi det, og gir oss mulighet til å utnytte brukerinput, animere elementer og til og med bygge store web-apper."
+        text: "HTML og CSS er ^^markeringsspråk^^ som brukes for å strukturere og style nettsider. JavaScript går forbi det, og gir oss mulighet til å utnytte brukerinput, animere elementer og til og med bygge store web-apper."
       },
       {
         type: "paragraph",
-        text: "Her er et eksempel på samarbeidet mellom HTML, CSS og JavaScript:"
+        text: "Her er et eksempel på samarbeidet mellom HTML, CSS og JavaScript. Denne kan du copy-paste direkte inn inn i en ny `index.html`-fil."
       },
-//       {
-//         type: "sandbox",
-//         html: `<h1 id="title">Klikk knappen!</h1>
-// <button id="button">Trykk meg</button>`,
-//         js: `const btn = document.getElementById("button");
-// const title = document.getElementById("title");
-// btn.addEventListener("click", () => {
-//   title.textContent = "Du trykket på knappen!";
-//   title.style.color = "tomato";
-// });`
-//       },
       {
         type: "code",
         language: "html",
@@ -59,21 +48,22 @@ export default [
       
       {
         type: "paragraph",
-        text: "HTML definerer innholdet, `h1`, `button`. CSS styler `h1` grønn. Javascript brukes for å lage en `alert`-melding som dukker opp når knappen trykkes."
+        text: "HTML definerer innholdet: tagene `<h1></h1>` og `<button></button>`. CSS styler `h1` grønn."
       },
-        {
-        type: "paragraph",
-        text: "La oss se på hvordan vi kan skrive og kjøre JavaScript-kode."
+      { type: "paragraph",
+        text: "Bruk *=Go Live=* for å åpne HTML-filen i nettleseren din. Javascript brukes for å lage en `alert`-melding som dukker opp når knappen trykkes."
       },
+      
     ]
   },
   {
     id: "sectionTwo",
-    title: "1. JavaScript koblet til HTML-filer",
+    title: "Skrive JavaScript-kode i en fil",
     blocks: [
+      
       {
         type: "paragraph",
-        text: "Lag en fil som heter `index.html`. Legg inn følgende i filen:"
+        text: "1) Lag en fil som heter `index.html` (eller bruk den du lagde over). Legg inn følgende i filen:"
       },
       {
         type: "code",
@@ -94,24 +84,35 @@ export default [
       },
       {
         type: "paragraph",
-        text: "Bruk *=Go Live=* for å åpne HTML-filen i nettleseren din. Høyreklikk på siden og velg *=Inspect=* for å åpne *=Developer Tools=*, velg *=Console=*-taben (i Chrome kan du bruke snarveien *=cmd + option + i=*)."
-      },
-      {
-        type: "paragraph",
-        text: "Som du ser, kan man skrive JavaScript-kode inne i en `<script>...</script>`-tag direkte i HTML-filen. Men det ryddigste er å lage en egen JavaScript-fil (`main.js`) i samme mappe som HTML-filen, og lenke til den i HTML-filen."
+        text: "Bruk *=Go Live=* for å åpne HTML-filen i nettleseren din. To-finger-klikk på siden, velg Inspect og deretter Developer Tools. I Developer Tools velger du Console-taben (i Chrome kan du bruke snarveien *=cmd + option + i=*). I konsollen ser du nå denne meldingen:"
       },
 
-      
       {
         type: "code",
-        language: "html",
+        language: "plaintext",
         preview: false,
-        code: `<script src="main.js"></script>`
+        code: `Hello World!`
+      },
+      {
+        type: "paragraph",
+        text: "Som du ser, kan man skrive JavaScript-kode inne i en `<script>...</script>`-tag direkte i HTML-filen. Men det ryddigste er å lage en egen JavaScript-fil og lenke til den i HTML-filen."
+      },
+      {
+        type: "paragraph",
+        text: "Lag enn ny fil som heter `main.js` og skriv inn koden nedenfor. Her ser du også at med `//` kan man skrive kommentarer i koden, altså kode som ikke blir kjørt."
       },
 
       {
+        type: 'code',
+        language: 'javascript',
+        code: `// Mitt første program
+console.log("Hello World!");`,
+        preview: false,
+        interactive: false
+      },
+       {
         type: "paragraph",
-        text: "Hvor skal du plassere lenken? Siden nettleseren leser HTML-filen fra topp til bunn, er det lurt å legge lenken nederst i `<body>...</body>`-tagen. Da vil først strukturen og stylingen til nettsiden bli lastet inn, før de interaktive funksjonene til JavaScript."
+        text: 'For å tilknytte HTML-filen din til en JavaScript-fil, må du skrive inn `<script src=main.js></script>` i HTML-filen. Denne lenken skal legges nederst i `<body>...</body>`-tagen, slik at all struktur og styling blir lastet inn før de interaktive funksjonene til JavaScript.'
       },
       {
         type: "code",
@@ -133,20 +134,6 @@ export default [
 </html>`
       },
       
-      {
-        type: "paragraph",
-        text: "Skriv koden nedenfor i `main.js`-filen og gå inn i konsollen. Her ser du også at med `//` kan man skrive kommentarer i koden, altså kode som ikke blir kjørt. "
-      },
-
-
-      {
-        type: 'code',
-        language: 'javascript',
-        code: `// Mitt første program
-console.log("Hello World!");`,
-        preview: false,
-        interactive: false
-      },
       {
         type: "paragraph",
         text: "Nå har du det du trenger for å skrive og kjøre JavaScript-kode. Se bildet nedenfor som inkluderer oppsettet av VSCode og konsollen med JavaScript-output."

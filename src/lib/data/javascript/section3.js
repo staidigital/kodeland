@@ -16,7 +16,7 @@ export default [
         {
           type: "text",
           value:
-            "Eksempler er vennelisten din på Facebook, en liste av leiligheter på Airbnb, en liste av kommentarer på et Instagram-innlegg."
+            "Eksempler på bruk av array er vennelisten din på Facebook, en liste av leiligheter på Airbnb, en liste av kommentarer på et Instagram-innlegg."
         }
       ]
     },
@@ -40,13 +40,13 @@ let amazonRatings = [4, 4.6, 3.2, 5, 5.5]`
 
      {
       type: "paragraph",
-      text: "Vi skal se litt ekstra på arrayen `handleliste`:"
+      text: "Vi skal se litt ekstra på arrayen `handleliste` som skal inneholde matvarer vi trenger på butikken."
     },
     {
       type: "code",
       language: "javascript",
       interactive: false,
-      code: `let handleListe = ["melk", "egg", "brød"]
+      code: `let handleListe = ["melk", "egg", "brød"];
 console.log(handleliste);`
     },
      {
@@ -63,7 +63,7 @@ console.log(handleliste);`
             alt: 'En array',
             caption: 'Illustrasjon av en array.',
             fullWidth: false,
-            width: "60%",
+            width: "50%",
             align: "center",
             rounded: true,
             shadow: true
@@ -77,13 +77,15 @@ console.log(handleliste);`
     },
      {
       type: "paragraph",
-      text: "Du kan bruke indeks-nummeret når du vil skrive ut et spesifikt element. For eksempel hvis du vil skrive ut `Owl` og `Falcon` fra listen `fruits` skriver du:"
+      text: "Du kan bruke indeks-nummeret når du vil skrive ut et spesifikt element. For eksempel hvis du vil skrive ut `melk` og `brød` fra listen `handlelist` skriver du:"
     },
     {
       type: "code",
       language: "javascript",
       interactive: true,
-      code: "let birds = [\"Owl\", \"Eagle\", \"Parrot\", \"Falcon\"];\nconsole.log(birds[0])\nconsole.log(birds[3])"
+      code: `let handleListe = ["melk", "egg", "brød"];
+console.log(handleListe[0]);
+console.log(handleListe[2])`
     },
     {
       "type": "paragraph",
@@ -93,7 +95,10 @@ console.log(handleliste);`
       type: "code",
       language: "javascript",
       interactive: true,
-      code: "let birds = [\"Owl\", \"Eagle\", \"Parrot\", \"Falcon\"];\nbirds[2]='Vulture'\nconsole.log(birds[2])"
+      code:`let handleListe = ["melk", "egg", "brød"];
+handleListe[2] = "rundstykker"
+console.log(handleListe)`
+      
     },
     {
       "type": "paragraph",
@@ -103,8 +108,10 @@ console.log(handleliste);`
       "type": "code",
       "language": "javascript",
       interactive: true,
-       code: "let birds = [\"Owl\", \"Eagle\", \"Parrot\", \"Falcon\"];\nbirds.push(\"Sparrow\");\nconsole.log(birds)"
-    },
+        code:`let handleListe = ["melk", "egg", "brød"];
+handleListe.push("kakao");
+console.log(handleListe);`
+      },
     {
       "type": "paragraph",
       "text": "Du kan fjerne den siste verdien i arrayet med `pop()`:"
@@ -113,7 +120,9 @@ console.log(handleliste);`
       "type": "code",
       "language": "javascript",
       interactive: true,
-      "code": "let birds = [\"Owl\", \"Eagle\", \"Parrot\", \"Falcon\"];\nbirds.pop();\nconsole.log(birds)"
+              code:`let handleListe = ["melk", "egg", "brød"];
+handleListe.pop();
+console.log(handleListe);`
     },
     {
       "type": "paragraph",
@@ -123,14 +132,107 @@ console.log(handleliste);`
       "type": "code",
       "language": "javascript",
       interactive: true,
-      "code": "let birds = [\"Owl\", \"Eagle\", \"Parrot\", \"Falcon\"];\nconsole.log(birds.length);"
+      "code": `let handleListe = ["melk", "egg", "brød"];
+console.log(handleListe.length)`
     },
+  ]
+},
+
+
+{
+  id: "objects",
+  title: "Objects - ikke krav å kunne",
+  collapsible: "true",
+  blocks: [
+    {
+      type: "paragraph",
+      text: "Under kommer en rask, overordnet forklaring på hva et `object` (objekt) er. Det er ikke krav å jobbe med nå, men noe som kan være lurt for de som skal ta IT videre å vite om. Her er bare selve datastrukturen beskrevet."
+    },
+    {
+      type: "paragraph",
+      text: "Et eksempel på data lagret i et objekt er *=Amazon=* sin nettbutikk, som selger diverse produkter. Hvert produkt har en Customer Review tab:"
+    },
+    {
+      type: "image",
+      component: 'BlockImage',
+      props: {
+        images: [
+          {
+            src: '/images/js/object_amazon.png',
+            alt: 'En array',
+            caption: 'Amazon reviews.',
+            fullWidth: false,
+            width: "50%",
+            align: "center",
+            rounded: true,
+            shadow: true
+          },
+        ]
+      }
+    },
+    {
+      type: "paragraph",
+      text: "Men en anmeldelse inneholder ikke bare en rating. Hver anmeldelse inneholder et `forfatterNavn`, en `rating` og en `forklaring`. Med et objekt kan man samle denne dataen på en strukturert måte: "
+    },
+    {
+      type: "code",
+      language: "javascript",
+      interactive: false,
+      code: `{forfatterNavn: "user1", rating: 5, forklaring: "nydelig!"}`
+    },
+
+    {
+      type: "paragraph",
+      text: "Et annet eksempel er en leilighet på AirBNB, som inneholder egenskaper som `addresse`, `pris`, `beskrivelse`, `erLedig`, `rating`, `bilder`:"
+    },
+    {
+      type: "code",
+      language: "javascript",
+      interactive: false,
+      code: `{
+  addresse: "Osloveien 1",
+  pris: "2000",
+  beskrivelse: "noe tekst",
+  rating: 5,
+  erLedig: true,
+  bilder: ["bilde1", "bilde2", "bilde3"]
+}`
+    },
+    {
+      type: "paragraph",
+      text: "Objekter har `key:value` par. Key er egenskapene til objektet, mens value er egenskapens verdi. For eksempel er `rating` en key, mens `5` er dens tilhørende value. "
+    },
+    {
+      type: "paragraph",
+      text: "Du kan bruke alle de ulike datatypene som verdier i et objekt. Ovenfor bruker vi både string, number, boolean og array."
+    },
+    {
+      type: "paragraph",
+      text: "Til slutt, hvis vi går tilbake til Amazon-ratingene, så kan man ha en liste med ratings-objekter ved å bruke array. Det kan da se sånn her ut:"
+    },
+    {
+      type: "code",
+      language: "javascript",
+      interactive: false,
+      code: `[
+  {forfatterNavn: "user1", rating: 5, forklaring: "nydelig!"},
+  {forfatterNavn: "user2", rating: 4.5, forklaring: "ganske bra"},
+  {forfatterNavn: "user3", rating: 4, forklaring: "fungerte ok"}
+]`
+    },
+    {
+      type: "paragraph",
+      text: "Dette er nok den mest komplekse datastrukturen du kommer til å bruke i JavaScript. Vi går ikke mer nøye gjennom her, hvis du får bruk for det så får du jobbe med det da."
+    },
+    
+    
+    
   ]
 },
 
 {
   id: "sectionDatatypeQuiz",
-  title: "Flervalgsoppgaver – datatyper",
+  title: "Flervalgsoppgaver – arrays",
   blocks: [
     {
       type: "paragraph",
@@ -194,7 +296,10 @@ colors.pop();`,
   id: "arrayTasks",
   title: "Programmeringsoppgaver – arrays og logikk",
   blocks: [
-
+     {
+      type: "paragraph", 
+      text: ""
+    },
     {
       type: "task",
       number: 1,
@@ -270,12 +375,6 @@ console.log(colors);
 // ["yellow", "blue", "green", "black"]`
   }
 },
-{
-      type: 'task',
-      number: 4,
-      title: "FreeCodeCamp-ressurser",
-      description: '[Gjør Shopping-list-oppgaven på FreeCodeCamp](https://www.freecodecamp.org/learn/full-stack-developer/workshop-shopping-list/step-1)'
-    },
 
   ]
 }

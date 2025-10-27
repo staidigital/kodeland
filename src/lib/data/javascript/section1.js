@@ -8,7 +8,7 @@ export default [
     blocks: [
       {
         type:'paragraph',
-        text:'Det mest grunnleggende konseptet i JavaScript er ^^variabler^^ og ^^datatyper^^. I denne seksjonen ser vi på hva en variabel er og hvorfor vi trenger dem. Den neste seksjonen introduserer de $$5$$ mest kjente datatypene til JavaScript.'
+        text:'De mest grunnleggende konseptene i JavaScript er ^^variabler^^ og ^^datatyper^^. I denne seksjonen ser vi på hva en variabel er og hvorfor vi trenger dem. Den neste seksjonen introduserer de $$5$$ mest kjente datatypene til JavaScript.'
       },
       {
         type: 'extraInfo',
@@ -41,7 +41,7 @@ export default [
         type: 'code',
         language: 'javascript',
         interactive: false,
-        code: `let melding = "Hello World!";
+        code: `let melding = "Hello World!"; // Variabel
 console.log(melding);`
       },
       {
@@ -50,29 +50,45 @@ console.log(melding);`
       },
       {
         type:'paragraph',
-        text:'En variabel er en måte å lagre data slik at du kan bruke det videre i programmet.'
+        text:'En variabel er en måte å lagre data slik at du kan bruke det videre i programmet på en effektiv måte.'
       },
+
         {
         type:'paragraph',
-        text:'For å lage en variabel skriver du kodeordet `let` og deretter variabelnavnet. Deretter gir du en ^^verdi^^ til variabelen.'
+        text:'For å lage en variabel skriver du kodeordet `let` og deretter variabelnavnet. Deretter tildeler du en ^^verdi^^ til variabelen med tildelingsoperatoren `=`.'
       },
       {
         type:'paragraph',
-        text:'Du kan endre på verdien til variabelen ved å ^^re-assigne^^ en annen verdi på denne måten:'
+        text:'Du kan senere i programmet endre variablens verdi ved å ^^re-assigne^^ en ny verdi:'
       },
       {
         type: 'code',
         language: 'javascript',
         interactive: false,
-        code: `melding = "Hello World!"
+        code: `let melding = "Hello World!" //tildeler verdi
 console.log(melding)
-melding = "Fint vær"
+melding = "Fint vær" //re-assigner verdien
 console.log(melding)`
       },
        {
         type:'paragraph',
         text:'Variabler brukes til å referere til data slik at du kan bruke samme data flere ganger i programmet ditt.'
-      }
+      },
+      {
+        type:'paragraph',
+        text:'Du kan med `console.log()` skrive ut både en string og en variabel:'
+      },
+      {
+        type: "extraInfo",
+        icon: "example",
+        content: [
+          {
+            type: "text",
+            value:
+              "Se for deg at du endrer navnet ditt på Facebook. Da må navnet ditt endres alle steder hvor det befinner seg: på profilsiden din, i vennelisten til vennene dine, på innlegg du har skrevet, på kommentarer du har skrevet etc. Uten variabler måtte Facebook manuelt funnet stedene navnet er skrevet og endret det, noe som er tungvint. Isteden kan man lage en navnvariabel som refereres i resten av programmet, og kan enkelt endres"
+          }
+        ]
+      },
     ]
   },
 
@@ -83,7 +99,7 @@ console.log(melding)`
     blocks: [
       {
         type:'paragraph',
-        text: 'Hovedregelen i JavaScript er at variabelnavn skal være beskrivende. Ellers fins det noen viktige navn-regler man må følge for å ikke få errorer i JavaScript:'
+        text: 'Du gir variabler navn, og det bør være en logisk sammenheng med variabelnavnet og verdiene den har. Ellers fins det noen viktige navn-regler man må følge for å ikke få errorer i JavaScript:'
       },
       {
         type:'paragraph',
@@ -166,14 +182,25 @@ const MAX_SPEED = 300`
   blocks: [
     // Oppgavene
     {
+      type: "paragraph",
+      text: 'Usikker på hvordan du bør skrive og lagre din egen JavaScript-kode? Trykk på [denne lenken](/javascript/part0/) for å lære hvordan du kobler en `js`-fil til en `html`-fil.'
+    },
+    {
       type: 'task',
       number: 1,
       title: "Enkel variabelbruk",
-      description: "Skriv et program som definerer tre variabler: `firstName`, `lastName` og `age`. Gi dem verdier og skriv dem ut i konsollen."
+      description: "Lag en variabel som inneholder strengen «Hello World!» og skriv den ut til konsollen."
     },
     {
       type: 'task',
       number: 2,
+      title: "Enkel variabelbruk",
+      description: "Skriv et program som definerer tre variabler: `firstName`, `lastName` og `age`. Gi dem verdier og skriv dem ut i konsollen."
+    },
+
+    {
+      type: 'task',
+      number: 3,
       title: "Endre variabler",
       description: "Lag en variabel `favoriteColor` med `let`. Gi den en verdi og skriv den ut. Endre så verdien av variabelen og skriv ut den nye verdien."
     },

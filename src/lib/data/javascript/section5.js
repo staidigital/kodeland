@@ -54,8 +54,8 @@ console.log(5);
     {
       type: "list",
       items: [
-          'En ^^initialisering^^ hvor vi deklarer en variabel som skal brukes i løkken. I eksemplet var det `i = 1`.',
-          'En ^^betingelse^^ hvor variabelen i løkken skal evalueres for en spesifikk betingelse. I eksemplet var det `i <= 10`.',
+          'En ^^initialisering^^ hvor vi deklarer en variabel som skal brukes i løkken. I eksemplet var det `let i = 1`.',
+          'En ^^betingelse^^ hvor løkken skal fortsette så lenge betingelsen er `true`. I eksemplet var det `i <= 10`.',
           'Et ^^matematisk^^ uttrykk hvor verdien til variabelen enten øker eller synker etter hver iterasjon. ',
         ]
     },
@@ -280,95 +280,6 @@ console.log("Det tok ", flips, "flips for å lande på kron.")
     },
   ]},
   
-  {
-  id: "loopQuizShort",
-  title: "Flervalgsoppgaver – løkker i JavaScript",
-  blocks: [
-    {
-      type: "paragraph",
-      text: "Her er noen korte spørsmål for å teste om du forstår hvordan `for`- og `while`-løkker fungerer."
-    },
-
-    {
-      type: "task",
-      number: 1,
-      title: "Hva skriver denne for-løkken ut?",
-      description: "Hva blir resultatet i konsollen?",
-      code: "for (let i = 0; i < 3; i++) {\n  console.log(i);\n}",
-      solution: {
-        correct: 0,
-        options: [
-          "0 1 2",
-          "1 2 3",
-          "0 1 2 3",
-          "3 2 1 0"
-        ]
-      }
-    },
-
-    {
-      type: "task",
-      number: 2,
-      title: "Hvor mange ganger kjører denne while-løkken?",
-      description: "Hva er antall ganger 'Hei' blir skrevet ut?",
-      code: "let i = 1;\nwhile (i <= 4) {\n  console.log(\"Hei\");\n  i++;\n}",
-      solution: {
-        correct: 2,
-        options: [
-          "0",
-          "3",
-          "4",
-          "5"
-        ]
-      }
-    },
-  ]
-},
-  {
-  id: "loopTasks",
-  title: "Programmeringsoppgaver – løkker",
-  blocks: [
-    {
-      type: "task",
-      number: 1,
-      title: "Tell fra 1 til 10",
-      description: "Lag en `for`-løkke som skriver ut tallene fra 1 til 10.",
-      solution: {
-        code: "for (let i = 1; i <= 10; i++) {\n  console.log(i);\n}"
-      }
-    },
-
-    {
-      "type": "task",
-      "number": 2,
-      "title": "Summér tall fra 1 til 100",
-      "description": "Lag et program som bruker en `while`-løkke for å finne summen av alle tallene fra 1 til 100. Skriv ut summen til slutt.",
-      "solution": {
-        "code": "let sum = 0;\nlet i = 1;\nwhile (i <= 100) {\n  sum += i;\n  i++;\n}\nconsole.log(sum);"
-      }
-    },
-    {
-      "type": "task",
-      "number": 3,
-      "title": "Skriv ut verdier fra en liste",
-      "description": "Lag en array med tre navn. Bruk en `for`-løkke til å skrive ut hvert navn.",
-      "solution": {
-        "code": "let names = [\"Ada\", \"Ola\", \"Kari\"];\nfor (let i = 0; i < names.length; i++) {\n  console.log(names[i]);\n}"
-      }
-    },
-    {
-      "type": "task",
-      "number": 4,
-      "title": "Finn det største tallet",
-      "description": "Lag en array med noen tall. Bruk en `for`-løkke for å finne det største tallet.",
-      "solution": {
-        "code": "let numbers = [3, 7, 2, 9, 5];\nlet max = numbers[0];\nfor (let i = 1; i < numbers.length; i++) {\n  if (numbers[i] > max) {\n    max = numbers[i];\n  }\n}\nconsole.log(\"Største tall:\", max);"
-      }
-    },
-
-  ]
-},
-
 {
   id: "tasksLoops",
   title: "Oppgaver: Løkker",

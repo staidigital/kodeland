@@ -5,41 +5,42 @@ export function renderInlineMarkup(str: string = ''): string {
     .replace(/>/g, "&gt;");
 
   let html = escaped
-    // Kode inline
-    .replace(/`([^`]+)`/g, '<code class="bg-slate-800 text-green-300 px-1 rounded font-mono">$1</code>')
-    // Fet
+    // Inline kode
+    .replace(/`([^`]+)`/g, '<code class="bg-slate-800 text-green-300 px-1 text-base rounded font-mono">$1</code>')
+    // Fet tekst
     .replace(/\*\*([^*]+)\*\*/g, '<strong class="font-semibold">$1</strong>')
-    // Kursiv
-    //.replace(/_([^_]+)_/g, '<em class="italic text-slate-200">$1</em>')
     // Gjennomstreket
     .replace(/~~([^~]+)~~/g, '<span class="line-through text-slate-400">$1</span>')
     // Lenke
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="underline text-fuchsia-400 hover:text-fuchsia-300" target="_blank" rel="noopener noreferrer">$1</a>')
     // Inline bilde
     .replace(/\[img:([^\]]+)\]/g, '<img src="/images/$1" class="inline-block w-6 mx-1 align-middle" alt="" />')
-    // Ny: Info-boks
-    .replace(/\^\^\^([^\\^]+)\^\^\^/g, '<div class="bg-slate-800/60 border border-slate-600 text-slate-100 p-3 rounded-lg text-md my-3 flex items-start gap-2"><svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 1010 10A10 10 0 0012 2z"/></svg><span>$1</span></div>')
+    // Info-boks
+    .replace(/\^\^\^([^\\^]+)\^\^\^/g, `
+      <div class="block bg-slate-800/60 border border-slate-600 text-slate-100 p-3 rounded-lg text-md my-3 flex items-start gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 1010 10A10 10 0 0012 2z"/>
+        </svg>
+        <span>$1</span>
+      </div>`)
     // Rød tekst
-    .replace(/\^\^([^\\^]+)\^\^/g, '<span class="text-red-300 font-semibold">$1</span>')
-    // Grønn tekst  
+.replace(/\^\^([^\\^]+)\^\^/g, '<span class="text-red-300 font-semibold">$1</span>')    // Grønn tekst  
     .replace(/\*=\s*([^=*]+)\s*=\*/g, '<span class="text-green-400 font-semibold">$1</span>')
     // Sitatsboks
     .replace(/%%([^%]+)%%/g, '<span class="block italic text-sky-300 border-l-4 border-sky-500 pl-3 my-3">$1</span>')
-    // Ny: Markert tekst
-    .replace(/==([^=]+)==/g, '<mark class="bg-yellow-300 text-black px-1 rounded">$1</mark>')
-    // Ny: Advarsel
+    // Advarsel
     .replace(/!!([^!]+)!!/g, '<span class="text-red-400 font-bold">$1</span>')
-    // Ny: Hint
+    // Hint
     .replace(/::([^:]+)::/g, '<span class="text-slate-400 italic">$1</span>')
-     // Ny: Knapp
-    .replace(/\[btn:([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="inline-block bg-fuchsia-700 hover:bg-fuchsia-600 text-white text-xs px-3 py-1 rounded font-mono">$1</a>')
-    // Ny: Kommentar-stil
-    .replace(/(^|\s)(\/\/[^\n]*)/g, '$1<span class="text-slate-500 italic">$2</span>')
+    // Knapp
+    .replace(/\[btn:([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="inline-block bg-fuchsia-700 hover:bg-fuchsia-600 text-white text-xs px-3 py-1 rounded-md font-mono transition-colors duration-200">$1</a>')
+    // Kommentar
+    .replace(/(^|\s)(\/\/[^\n]*)/gm, '$1<span class="text-slate-400 italic">$2</span>')
     // Matte inline
-    .replace(/\$\$([0-9+\-*/^().=\s]+)\$\$/g,
-      '<span class="text-emerald-300 font-mono">$1</span>')
+    .replace(/\$\$([0-9+\-*/^().=\s]+)\$\$/g, '<span class="text-emerald-300 font-mono">$1</span>');
 
-
+  // Lister
   const lines = html.split('\n');
   const converted: string[] = [];
   let inList = false;
@@ -47,7 +48,7 @@ export function renderInlineMarkup(str: string = ''): string {
   for (const line of lines) {
     if (line.trim().startsWith('* ')) {
       if (!inList) {
-        converted.push('<ul class="list-disc list-inside mb-2">');
+        converted.push('<ul class="list-disc list-inside my-2">');
         inList = true;
       }
       converted.push(`<li>${line.trim().substring(2)}</li>`);

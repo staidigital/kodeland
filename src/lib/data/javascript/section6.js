@@ -4,23 +4,35 @@ export default [
   title: "",
   blocks: [
     {
-      type: "paragraph",
-      text: "En ^^funksjon^^ er en kodeblokk som vi har skrevet for å gjøre en spesifikk oppgave, og som er gjenbrukbar."
-    },
+        type: "paragraph",
+        text: "En ^^funksjon^^ er en kodeblokk som gjør en spesifikk oppgave og som kan brukes flere steder i koden."
+      },
     {
-      type: "paragraph",
-      text: "Man kan lage sine egne funksjoner til å gjøre en spesifikk oppgave. Funksjoner hjelper deg å skrive ryddig og gjenbrukbar kode. Det gjør det lettere å forstå hva programmet gjør."
-    }
-  ]
-},
-  {
+        type: "paragraph",
+        text: "Funksjoner hjelper deg å skrive ryddig, gjenbrukbar og forståelig kode."
+      },
+      {
+        type: "extraInfo",
+        icon: "example",
+        content: [
+          {
+            type: "text",
+            value: "I stedet for å gjenta den samme koden mange steder, kan vi samle logikken i en funksjon. For eksempel kan en nettbutikk ha en funksjon som beregner frakt, legger til moms eller oppdaterer handlekurven – og da kan den samme funksjonen brukes for alle kunder, overalt i systemet. Dette gjør koden ryddigere og enklere å vedlikeholde."
+          }
+        ]
+      }
+    ]
+    },
+
+    {
   id: "sectionDefineFunction",
   title: "Hvordan lage en funksjon",
   blocks: [
+   
     {
-      type: "paragraph",
-      text: "Her er et eksempel på en funksjon: "
-    },
+        type: "paragraph",
+        text: "La oss starte med en enkel funksjon som skriver en melding i konsollen:"
+      },
     {
       type: "code",
       language: "javascript",
@@ -28,13 +40,13 @@ export default [
       "code": "function siHei() {\n  console.log(\"Hei, Jens!\");\n}"
     },
     {
-      type: "paragraph",
-      text: "I dette eksemplet har vi laget en funksjon `siHei()`. Inni funksjonen bruker vi `console.log()` til å skrive ut meldingen `Hei Jens!`. Hvis vi prøvde å kjøre denne koden ville vi ikke sett noe i konsollen. Det er fordi man må ^^kalle på funksjonen^^."
-    },
-     {
-      type: "paragraph",
-      text: "Det er når vi kaller på funksjonen at vi faktisk kjører funksjonen. Dette gjør vi ved å skrive funksjonsnavnet etterfulgt av parenteser. "
-    },
+        type: "paragraph",
+        text: "Her har vi laget funksjonen `siHei()`. Inni funksjonen bruker vi `console.log()` til å skrive ut meldingen. Merk: vi har ikke ^^kalt på funksjonen^^ ennå, bare laget logikken, så ingen melding vises i konsollen."
+      },
+    {
+        type: "paragraph",
+        text: "Når vi kaller på funksjonen, altså skriver `siHei()`, kjører funksjonen og meldingen vises:"
+      },
     {
       type: "code",
       language: "javascript",
@@ -46,19 +58,19 @@ export default [
 siHei()`
     },
     {
-      type: "paragraph",
-      text: "Hva om vi heller ville si meldingen `Hei Sondre` eller `Hei Faizan`? For å slippe å skrive en ny funksjon for hver person lager vi heller en gjenbrukbar funksjon som bruker parametere og argumenter."
-    },
+        type: "paragraph",
+        text: "Hva om vi vil hilse på flere personer, som `Sondre` eller `Faizan`? I stedet for å lage en ny funksjon for hver person, kan vi bruke ^^parametere^^ og ^^argumenter^^."
+      }
   ]
-},
-{
+  },
+  {
   id: "sectionParameters",
   title: "Funksjonens parametere og argumenter",
   blocks: [
-    {
-      type: "paragraph",
-      text: "^^Parametere^^ fungerer som placeholdere for verdiene som blir gitt til funksjonen når den blir kalt på. De gjør at funksjonen kan akseptere inn ^^input^^. Argumenter er de faktiske verdiene som blir gitt til funksjonen når den kalles på. Her er en oppdatert versjon av `siHei`-funksjonen fra tidligere:"
-    },
+     {
+        type: "paragraph",
+        text: "^^Parametere^^ fungerer som plassholdere for verdier som sendes til funksjonen. ^^Argumenter^^ er de faktiske verdiene vi sender når vi kaller funksjonen. Her er en oppdatert `siHei()`-funksjon:"
+      }, 
     {
       type: "code",
       language: "javascript",
@@ -71,13 +83,8 @@ siHei("Faizan")
 siHei("Sondre")`
     },
     {
-      type: "paragraph",
-      text: "Her er `navn` parameteren til funksjonen, mens stringene \"Faizan\" og \"Sondre\" er argumentene."
-    },
-
-    {
-      type: "paragraph",
-      text: "Nå har vi en gjenbrukbar funksjon som kan brukes med ulike argumenter."
+        type: "paragraph",
+        text: "Her er `navn` parameteren, mens stringene \"Faizan\" og \"Sondre\" er argumentene. Nå kan vi gjenbruke funksjonen med ulike navn."
     }
   ]
 }
@@ -88,12 +95,12 @@ siHei("Sondre")`
   blocks: [
     {
       type: "paragraph",
-      text: "En funksjon kan ha en `return`-setning i kodeblokken. `return` brukes til å returnere en verdi tilbake fra funksjonskallet."
+      text: "En funksjon kan bruke `return` for å sende en verdi tilbake til stedet der funksjonen ble kalt."
     },
     {
-      type: "paragraph",
-      text: "For eksempel vil følgende funksjon returnere summen av to tall som kan brukes videre i programmet:"
-    }, 
+        type: "paragraph",
+        text: "For eksempel returnerer denne funksjonen summen av to tall:"
+      },
 
     {
       type: "code",
@@ -106,9 +113,9 @@ let resultat = sum(3,2);
 console.log(resultat);`
     },
     {
-      type: "paragraph",
-      text: "Når JavaScript når `return`-setningen vil den hoppe over resten av koden og gå tilbake til funksjonskallet. Du kan ha flere `return`-setninger, slik som dette eksemplet:"
-    },
+        type: "paragraph",
+        text: "Når JavaScript når `return`, stopper funksjonen og sender verdien tilbake. Vi kan ha flere `return`-setninger, for eksempel:"
+      },
     {
       type: "code",
       language: "javascript",
@@ -131,91 +138,101 @@ console.log(sjekkAlder(15))`
       type: "paragraph",
       text: "Den andre gangen er alderen mindre enn 18, så funksjonen kjører den andre `return`-setningen i stedet. "
     },
+    {
+  type: "extraInfo",
+  icon: "note",
+  content: [
+    {
+      type: "text",
+      value: "Variabler som lages inne i en funksjon finnes bare der inne – dette kalles ^^local scope^^. Variabler definert utenfor funksjoner er i ^^global scope^^ og kan brukes overalt. Tenk på det som at hver funksjon har sitt eget rom for variabler, slik at verdier ikke blandes med andre deler av programmet."
+    }
+  ]
+}
 
   ]
 },
-
-
 {
-  id: "sectionParameters",
-  title: "Litt om variabel-scope",
-  blocks: [
+  "id": "sectionForEach",
+  "title": "En enklere måte å gå gjennom en array: `forEach`",
+  "blocks": [
     {
-      type: "paragraph",
-      text: "^^Scope^^ i programmering handler om variablenes tilgjengelighet. Det å forstå scope er viktig for å lage effektiv og ren kode."
+      "type": "paragraph",
+      "text": "`forEach` er en metode du kan bruke på arrays. Den lar deg gjøre noe med hvert element i listen, én etter én, litt som en vanlig løkke. Men med `forEach` slipper du å håndtere en teller-variabel (`i`)."
     },
     {
-      type: "paragraph",
-      text: "Variabler deklarert i ^^global scope^^ er tilgjengelig overalt i programmet ditt, inkludert inne i funksjoner og i blokker. Derfor kalles disse variablene ^^globale variabler^^. Slike variabler er beleilige, men kan føre til navnekonflikter så bør i større programmer brukes på en sparsommelig måte. Her er et eksempel:"
+      "type": "paragraph",
+      "text": "Du kaller `forEach` på en liste og gir den en funksjon som skal kjøres på hvert element:"
     },
+    {
+      "type": "code",
+      "language": "javascript",
+      "interactive": true,
+      "code": `let navn = ["Mia", "Ola", "Ahmed"];
 
-    {
-      type: "code",
-      language: "javascript",
-      interactive: true,
-      code: `let globalVar = "Jeg er en global variabel";
-
-function printGlobalVar(){
-  console.log(globalVar)  
-}
-
-printGlobalVar()`
-    },
-    
-    {
-      type: "paragraph",
-      text: "I dette eksemplet er `globalVar` definert i det globale scopet og kan brukes inne i `printGlobalVar()`-funksjonen."
+navn.forEach(function(person) {
+  console.log("Hei, " + person + "!");
+});`
     },
     {
-      type: "paragraph",
-      text: "^^Local scope^^ derimot referer til variabler som bare er tilgjengelige i en funksjon. For eksempel:"
+      "type": "paragraph",
+      "text": "**Hva skjer her?**"
     },
     {
-      type: "code",
-      language: "javascript",
-      interactive: true,
-      code: `function siHei(){
-  let message = "Hei, local scope!";
-  console.log(message);
-}
-
-siHei();
-console.log(message);`
-    },
-
-    {
-      type: "paragraph",
-      text: "`message` er her en local variabel som bare er tilgjengelig innenfor `siHei()`-funksjonen."
+      "type": "list",
+      "items": [
+        "`navn.forEach(...)` går gjennom hvert element i arrayet",
+        "Funksjonen inni `forEach` blir kalt én gang for hvert navn.",
+        "`person` er en variabel som automatisk får verdien til det nåværende elementet i lista."
+      ]
     },
     {
-      type: "paragraph",
-      text: "Det siste scopet heter ^^block scope^^. En blokk er all kode som er innenfor krøllparenteser `{...}` (`if`, `for`, `while`). Variabler som defineres i en blokk er bare tilgjengelige innenfor den blokken. Eksempel: "
+  "type": "extraInfo",
+  "icon": "example",
+  "content": [
+    {
+      "type": "text",
+      "value": "`forEach` er nyttig når du vil gjøre noe med hvert element i en liste på nettsiden. Det kan være å vise produkter, legge til knapper eller oppdatere innhold dynamisk."
     },
     {
-      type: "code",
-      language: "javascript",
-      interactive: true,
-      code: `if(true){
-  let blockVar = "Jeg er i en blokk";
-  console.log(blockVar);      
-}
-console.log(blockVar)
-`
+      "type": "text",
+      "value": "For eksempel kan du ha en liste med produkter som du vil vise på siden:"
     },
     {
-      type: "paragraph",
-      text: "I dette eksemplet er `blockVar` bare tilgjengelig innenfor `if`-blokken."
+      "type": "code",
+      "language": "javascript",
+      "interactive": true,
+      "code": "let produkter = [\"T-skjorte\", \"Bukse\", \"Sko\"];\n\nprodukter.forEach(produkt => {\n  document.body.innerHTML += `<p>Produkt: ${produkt}</p>`;\n});"
     },
     {
-      type: "paragraph",
-      text: "Man bør bruke globale variabler sparsommelig siden de kan føre til navnkonflikter og gjøre koden vanskeligere å håndtere. Med lokale variabler isolerer man koden mer, som gjør det enklere å fikse feil og holde den ryddig."
+      "type": "text",
+      "value": "Her går `forEach` gjennom hvert produkt i arrayen og legger til et avsnitt på siden for hvert produkt. På den måten slipper du å skrive en løkke med teller selv."
     },
+    {
+      "type": "text",
+      "value": "💡 Du kan også bruke `forEach` til å legge til event listeners på flere knapper eller elementer samtidig, uten å måtte gjenta koden for hver enkelt."
+    }
+  ]
+},
+    {
+      "type": "code",
+      "language": "javascript",
+      "interactive": true,
+      "code": "navn.forEach(person => console.log(`Hei, ${person}!`));"
+    },
+    {
+      "type": "paragraph",
+      "text": "Resultatet er det samme – en personlig hilsen til hver person. Arrow-funksjonen gjør koden kortere og mer moderne."
+    },
+    {
+      "type": "paragraph",
+      "text": "💡 Tips: `forEach` er perfekt når du vil gjøre noe med hvert element, men du trenger ikke å endre arrayen direkte. Hvis du trenger å lage en ny array basert på de gamle verdiene, kan du heller bruke `map`."
+    }
   ]
 },
 
 {
   "id": "sectionForEach",
-  "title": "En enklere måte å gå gjennom en liste: forEach",
+  "title": "En enklere måte å gå gjennom en array: `forEach`",
   "blocks": [
     {
       "type": "paragraph",
