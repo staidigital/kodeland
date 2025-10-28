@@ -325,27 +325,20 @@ navn.forEach(function(person) {
   "id": "sectionTasks",
   "title": "Oppgaver – Funksjoner",
   "blocks": [
+    
     {
       "type": "task",
       "number": 1,
-      "title": "En enkel funksjon",
-      "description": "Lag en funksjon `sayHello`, som skriver ut \"Hei, verden!\" når den kalles. Kall funksjonen for å se resultatet.",
+      "title": "Kom i gang med funksjoner",
+      "description": "Lag en funksjon som heter `printMelding`. Funksjonen skal skrive ut teksten 'Hello World!' til konsollen. Endre funksjonen til å ta inn et navn som parameter, slik at meldingen blir for eksempel 'Hello (navn)'.",
       "solution": {
-        "code": "function sayHello() {\n  console.log(\"Hei, verden!\");\n}\n\nsayHello();"
+        "code": "function printMelding() {\n  console.log('Hello World!');\n}\n\nprintMelding();\n\nfunction printMeldingNavn(navn) {\n  console.log('Hallo ' + navn);\n}\n\nprintMeldingNavn('Jens');"
       }
     },
+
     {
       "type": "task",
       "number": 2,
-      "title": "Funksjon med parameter",
-      "description": "Lag en funksjon `greetPerson`, som tar et navn som parameter og skriver ut \"Hei, [navn]!\". Kall funksjonen med ditt eget navn.",
-      "solution": {
-        "code": "function greetPerson(name) {\n  console.log(\"Hei, \" + name + \"!\");\n}\n\ngreetPerson(\"Ola\");"
-      }
-    },
-    {
-      "type": "task",
-      "number": 3,
       "title": "Returnere verdier",
       "description": "Skriv en funksjon `multiply` som tar to tall som parametere og returnerer produktet av dem. Lagre resultatet i en variabel og skriv det ut.",
       "solution": {
@@ -353,36 +346,44 @@ navn.forEach(function(person) {
       }
     },
     {
-      "type": "task",
-      "number": 4,
-      "title": "Funksjon som bruker en annen funksjon",
-      "description": "Lag en funksjon `double`, som returnerer det dobbelte av tallet som sendes inn. Lag deretter en annen funksjon `printDouble` som tar et tall, bruker `double` og skriver ut resultatet.",
-      "solution": {
-        "code": "function double(x) {\n  return x * 2;\n}\n\nfunction printDouble(number) {\n  let result = double(number);\n  console.log(\"Doblet verdi: \" + result);\n}\n\nprintDouble(7);"
-      }
-    },
-    {
   "type": "task",
-  "number": 5,
-  "title": "Funksjoner og lister",
-  "description": "Lag en funksjon `greetAll`, som tar inn en liste med navn og gjør følgende:\n\n🔹 Gå gjennom listen med en løkke\n🔹 Skriv ut en personlig melding: `Hei, [navn]! Velkommen!`\n🔹 Tell hvor mange navn det er og skriv ut: `Det var X personer i listen.`\n\n✨ **Ekstra utfordring:**\nHvis et navn har mer enn 4 bokstaver, skriv også ut:\n`[navn], du har et langt navn!`",
+  "number": 3,
+  "title": "Celsius og Fahrenheit",
+  "description": "Lag et program som konverterer temperatur mellom Celsius og Fahrenheit. Programmet skal:\n\n1. Be brukeren skrive inn en temperatur med `prompt()`.\n2. Be brukeren skrive om tallet er i 'C' eller 'F'.\n3. Konverter temperaturen til den andre skalaen og skriv resultatet til konsollen.\n\nFormler:\n- Fahrenheit = (Celsius * 1.8) + 32, Celsius = (Fahrenheit − 32) * 0.56",
   "solution": {
-    "code": "function greetAll(names) {\n  for (let i = 0; i < names.length; i++) {\n    let name = names[i];\n    console.log(\"Hei, \" + name + \"! Velkommen!\");\n\n    if (name.length > 4) {\n      console.log(name + \", du har et langt navn!\");\n    }\n  }\n\n  console.log(\"Det var \" + names.length + \" personer i listen.\");\n}\n\nlet nameList = [\"Ola\", \"Mia\", \"Sebastian\", \"Lise\", \"Henrik\"];\ngreetAll(nameList);"
+    "code": "let temp = Number(prompt('Skriv inn temperaturen:'));\nlet enhet = prompt('Er temperaturen i Celsius (C) eller Fahrenheit (F)?');\n\nif(enhet.toUpperCase() === 'C') {\n  let result = (temp * 1.8) + 32;\n  console.log(temp + '°C er ' + result + '°F');\n} else if(enhet.toUpperCase() === 'F') {\n  let result = (temp - 32) * 0.56;\n  console.log(temp + '°F er ' + result + '°C');\n} else {\n  console.log('Ugyldig enhet');\n}"
   }
 },
+
 {
   "type": "task",
-  "number": 6,
+  "number": 4,
   "title": "Bruk forEach til å hilse på alle",
-  "description": "Lag en liste med navn, og bruk `forEach` til å skrive ut en hilsen til hvert navn. Hilsningen skal være: \"Hei, [navn]!\". \n\n**Ekstra utfordring**: Hvis navnet starter med bokstaven `A`, skriv også: \"[navn] – navnet ditt starter med A!\"",
+  "description": "Lag en liste med navn, og bruk `forEach` til å skrive ut en hilsen til hvert navn. Hilsningen skal være: \"Hei, [navn]!\". \n\n**Ekstra utfordring**: Utvid programmet slik at det sjekker om et navn inneholder mer enn 4 bokstaver. Hvis ja, skriv ut '(navn), du har et langt navn!' i tillegg til den vanlige meldingen.",
   "code": "let personer = [\"Anna\", \"Jonas\", \"Ali\", \"Emma\", \"Amir\"];\n\n// Skriv forEach her",
   "solution": {
-    "code": "let personer = [\"Anna\", \"Jonas\", \"Ali\", \"Emma\", \"Amir\"];\n\npersoner.forEach(function(navn) {\n  console.log(\"Hei, \" + navn + \"!\");\n  if (navn.startsWith(\"A\")) {\n    console.log(navn + \" – navnet ditt starter med A!\");\n  }\n});"
+    "code": "let personer = [\"Anna\", \"Jonas\", \"Ali\", \"Emma\", \"Amir\"];\n\npersoner.forEach(function(navn) {\n  console.log(\"Hei, \" + navn + \"!\");\n\n  if (navn.length > 4) {\n    console.log(navn + \", du har et langt navn!\");\n  }\n});"
+  }
+}, 
+    {
+  "type": "task",
+  "number": 4,
+  "title": "Beregn fraktkostnad med funksjon",
+  "description": "Lag en funksjon `beregnFrakt` som tar inn `totalPris` som parameter, og returnerer fraktkostnaden basert på totalprisen:\n\n- Hvis totalpris er 200 eller mindre, er frakten 100 kr.\n- Hvis totalpris er mellom 201 og 1000, er frakten 50 kr.\n- Hvis totalpris er over 1000, er frakten gratis.\n\nBe brukeren skrive inn totalpris med `prompt()`, kall funksjonen, og skriv ut resultatet til konsollen.",
+  "code": "// Skriv funksjon her\nlet totalPris = Number(prompt('Skriv inn totalpris:'));\n\n// kall funksjonen her",
+  "solution": {
+    "code": "function beregnFrakt(totalPris) {\n  let fraktKostnad;\n  if (totalPris <= 200) {\n    fraktKostnad = 100;\n  } else if (totalPris <= 1000) {\n    fraktKostnad = 50;\n  } else {\n    fraktKostnad = 0;\n  }\n  return fraktKostnad;\n}\n\nlet totalPris = Number(prompt('Skriv inn totalpris:'));\nlet frakt = beregnFrakt(totalPris);\nconsole.log(`Du må betale ${frakt} kr i frakt`);"
   }
 },
+  
     {
-      "type": "paragraph",
-      "text": "Disse oppgavene gir deg øvelse i å skrive, bruke og kombinere funksjoner – noe som gjør koden din mer fleksibel, gjenbrukbar og lett å forstå. 💡"
+      "type": "task",
+      "number": 6,
+      "title": "Arrow Functions (avansert)",
+      "description": "Gjør oppgavene ovenfor, men bruk `arrow-functions` istedet.",
+      "solution": {
+        "code": "// Oppgave 1 - printMelding\nconst printMelding = () => console.log('Hello World!');\nconst printMeldingNavn = navn => console.log('Hallo ' + navn);\n\nprintMelding();\nprintMeldingNavn('Madeleine');\n\n// Oppgave 2 - multiply\nconst multiply = (a, b) => a * b;\nlet result = multiply(4, 6);\nconsole.log(result);\n\n// Oppgave 3 - Celsius/Fahrenheit\nconst konverterTemperatur = () => {\n  let temp = Number(prompt('Skriv inn temperaturen:'));\n  let enhet = prompt('Er temperaturen i Celsius (C) eller Fahrenheit (F)?');\n\n  if(enhet.toUpperCase() === 'C') {\n    let result = (temp * 1.8) + 32;\n    console.log(`${temp}°C er ${result}°F`);\n  } else if(enhet.toUpperCase() === 'F') {\n    let result = (temp - 32) * 0.56;\n    console.log(`${temp}°F er ${result}°C`);\n  } else {\n    console.log('Ugyldig enhet');\n  }\n};\nkonverterTemperatur();\n\n// Oppgave 4 - forEach hilsen\nlet personer = [\"Anna\", \"Jonas\", \"Ali\", \"Emma\", \"Amir\"];\npersoner.forEach(navn => {\n  console.log(`Hei, ${navn}!`);\n  if (navn.length > 4) console.log(`${navn}, du har et langt navn!`);\n});\n\n// Oppgave 5 - fraktkostnad\nconst beregnFrakt = totalPris => {\n  if (totalPris <= 200) return 100;\n  else if (totalPris <= 1000) return 50;\n  else return 0;\n};\nlet totalPris = Number(prompt('Skriv inn totalpris:'));\nlet frakt = beregnFrakt(totalPris);\nconsole.log(`Du må betale ${frakt} kr i frakt`);\n\n// Oppgave 6 - kastTerning\nconst kastTerning = antallSider => Math.floor(Math.random() * antallSider) + 1;\nconsole.log(kastTerning(6));"
+      }
     }
   ]
 }
