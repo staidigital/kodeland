@@ -4,14 +4,15 @@
     alt: string;
     caption?: string;
     fullWidth?: boolean;
-    width?: string;         // Eks: "200px", "50%", "auto"
-    align?: 'left' | 'center' | 'right';  // Justering
-    rounded?: boolean;      // Skal bildet ha avrundede hjørner?
-    shadow?: boolean;       // Skal bildet ha skygge?
-    border?: boolean;
+    width?: string; // Eks: "200px", "50%", "auto"
+    align?: 'left' | 'center' | 'right'; // Justering
+    rounded?: boolean; // Skal bildet ha avrundede hjørner?
+    shadow?: boolean; // Skal bildet ha skygge?
+    border?: boolean; // Skal bildet ha kant?
+    background?: string; // Eks: "white", "#fff", "black", "transparent"
   }
-
 </script>
+
 <script lang="ts">
   export let images: ImageItem[] = [];
 </script>
@@ -32,14 +33,19 @@
           : 'items-center text-center'
       }`}
     >
-      <img
-        src={image.src}
-        alt={image.alt}
-        class={`object-contain h-auto 
-        ${image.rounded !== false ? 'rounded' : ''} 
-        ${image.shadow !== false ? 'shadow' : ''}`}
-        style={`width: ${image.width ?? (image.fullWidth ? '100%' : 'auto')};`}
-      />
+      <div
+        class={`flex justify-center items-center ${
+          image.rounded !== false ? 'rounded-lg' : ''
+        } ${image.shadow ? 'shadow-lg' : ''} ${image.border ? 'border border-slate-600' : ''}`}
+        style={`background: ${image.background ?? 'transparent'}; padding: 0.5rem; width: ${image.width ?? (image.fullWidth ? '100%' : 'auto')};`}
+      >
+        <img
+          src={image.src}
+          alt={image.alt}
+          class={`object-contain h-auto ${image.rounded !== false ? 'rounded' : ''}`}
+          style="width: 100%; height: auto;"
+        />
+      </div>
 
       {#if image.caption}
         <div class="text-sm text-slate-400 italic mt-2">

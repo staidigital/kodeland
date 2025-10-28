@@ -5,7 +5,7 @@ export default [
     blocks: [
       {
         type: "paragraph",
-        text: "Når man lager programmer må man often skrive kode som skal kjøres gjentatte ganger. For eksempel tenk deg at du skal skrive en kode som skriver ut tallene fra $$1$$ til $$10$$. Det kan du gjøre ved å skrive `console.log()` 10 ganger:"
+        text: "Når man lager programmer må man ofte skrive kode som skal kjøres gjentatte ganger. For eksempel tenk deg at du skal skrive en kode som skriver ut tallene fra $$1$$ til $$10$$. Det kan du gjøre ved å skrive `console.log()` 10 ganger:"
       },
       
     {
@@ -37,7 +37,7 @@ console.log(5);
   blocks: [
      {
       type: "paragraph",
-      text: "Istedenfor å repetere deg selv 10 ganger for å skrive ut tallene fra $$1$$ til $$10$$ kan du heller bruke en `for`-løkke med en enkelt linje med kode i løkken:"
+      text: "Istedenfor å skrive ut tallene fra 1 til 10 manuelt, kan vi bruke en `for`-løkke med en enkelt linje kode i løkken:"
     },
     {
         type: 'code',
@@ -49,34 +49,26 @@ console.log(5);
       },
     {
       type: "paragraph",
-      text: "Etter `for`-ordet skriver vi parenteser `()` som inneholder 3 uttrykk separert med en semikolon `;`"
+      text: "Parentesene etter `for` inneholder tre uttrykk separert med semikolon (`;`):"
+
     },
     {
       type: "list",
       items: [
-          'En ^^initialisering^^ hvor vi deklarer en variabel som skal brukes i løkken. I eksemplet var det `let i = 1`.',
-          'En ^^betingelse^^ hvor løkken skal fortsette så lenge betingelsen er `true`. I eksemplet var det `i <= 10`.',
-          'Et ^^matematisk^^ uttrykk hvor verdien til variabelen enten øker eller synker etter hver iterasjon. ',
+          "En ^^initialisering^^ hvor vi deklarerer variabelen som skal brukes i løkken. Eksempel: `let i = 1`.",
+          "En ^^betingelse^^ som bestemmer hvor lenge løkken skal kjøre. Eksempel: Så lenge `i <= 10`.",
+          "Et ^^matematisk uttrykk^^ som endrer variabelen for hver iterasjon, f.eks. `i++` øker `i` med $$1$$. `i--` reduserer tilsvarende `i` med $$1$$"
         ]
     },
     {
   type: "paragraph",
-  text: "Etter denne linja kommer selve koden som skal kjøres gjentakende. Vi bruker krøllparenteser `{}` for å lage en kodeblokk som JavaScript skal kjøre så lenge betingelsen er sann (`true`)."
+        text: "Selve koden som skal kjøres gjentakende legges i krøllparenteser `{}`."
   },
-    {
-        type: 'code',
-        language: 'javascript',
-        interactive: false,
-        code: `for ([initialisering]; [betingelse]; [matematisk_uttrykk]){
-  // Så lenge betingelsen er sann
-  // Vil denne blokken kjøres gjentakende
-}`
-      },
-       {
+  {
   type: "paragraph",
-  text: "Det matematiske uttrykket kan enten være en økning (`++`) eller synking (`--`). Den kjører etter resten av koden i krøllparantesen er ferdigkjørt."
+  text: "Eksempelkode som teller nedover fra $$10$$ til $$1$$:"
   },
-
+  
     {
         type: 'code',
         language: 'javascript',
@@ -128,13 +120,13 @@ console.log("Fortsett med resten av koden");
   },
   {
   type: "paragraph",
-  text: "For eksempel, si at du lager et program som flipper en mynt. Du vil finne ut hvor mange ganger mynten lander på kron etter 10 kast. Da kan du bruke `Math.random()`-metoden:"
+  text: "For eksempel, si at du lager et program som simulerer flipping av en mynt. Du vil finne ut hvor mange ganger mynten lander på kron etter 10 kast. Da kan du bruke `Math.random()`-metoden, som returnerer et tilfeldig desimaltall mellom $$0$$ og $$1$$. "
   },
   {
       type: "list",
       items: [
-        "Når tallet er under `0.5` så øker du mynt-telleren.",
-        "Når tallet er over `0.5` så øker du kron-telleren."
+        "Når tallet er under `0.5` fikk du mynt så da øker du mynt-telleren.",
+        "Når tallet er over `0.5` fikk du kron så da øker du kron-telleren."
       ]
     },
     {
@@ -143,32 +135,69 @@ console.log("Fortsett med resten av koden");
         interactive: true,
         code: `let mynt = 0;
 let kron = 0;
-for (x = 1; x <= 10; x++){
-  if (Math.random() < 0.5){
+let antallKast = 10
+
+for (i = 1; i <= antallKast; i++){
+  let kastResultat = Math.random()
+  if (kastResultat < 0.5){ 
       mynt++;
   }
   else{
       kron++;
     }
 }
-console.log("Kastet mynten 10 ganger")
-console.log("Antall mynt:", mynt)
+console.log("Kastet mynten", antallKast, "ganger")
 console.log("Kastet kron:", kron)`
       },
-    {
-      "type": "paragraph",
-      "text": "En av de vanligste bruksområdene for en `for`-løkke er å gå gjennom dataen i en `array` - ett for ett element. Her er et eksempel:"
-    },
-    {
-      "type": "code",
-      "language": "javascript",
-      interactive: true,
-      "code": "let fruits = [\"Eple\", \"Banan\", \"Appelsin\"];\n\nfor (let i = 0; i < fruits.length; i++) {\n  console.log(fruits[i]);\n}"
-    },
-    {
-      "type": "paragraph",
-      "text": "Her bruker vi `fruits.length` til å gi oss antall elementer i arrayet. Deretter bruker vi `for`-løkken til å skrive ut hvert element."
-    },
+      {
+        type: "paragraph",
+        subtitle: "Gå gjennom arrays med for-løkker",
+        text: "En av de vanligste bruksområdene for en `for`-løkke er å gå gjennom alle elementene i et array."
+      },
+      {
+        type: "code",
+        language: "javascript",
+        interactive: true,
+        code: `let frukter = ["Eple", "Banan", "Appelsin", "Pære"];
+
+for (let i = 0; i < frukter.length; i++) {
+  console.log("Frukt:", frukter[i]);
+}`
+      },
+      {
+        type: "paragraph",
+        text: "Her bruker vi `frukter.length` for å finne antall elementer i arrayet, og `frukter[i]` for å få tilgang til hvert enkelt element."
+      },
+      {
+        type: "paragraph",
+        text: "Man kan også bruke `for of` og `forEach`, `for of` vises nedenfor, `forEach` forklares i neste seksjon."
+      },
+      {
+        type: "code",
+        language: "javascript",
+        interactive: true,
+        code: `let frukter = ["Eple", "Banan", "Appelsin", "Pære"];
+
+for (let frukt of frukter) {
+  console.log("Frukt:", frukt);
+}`
+      },
+      {
+        type: "paragraph",
+        text: "Vi kan også bruke løkker med betingelser for å filtrere elementer. For eksempel skriver vi ut kun fruktene som starter med 'B' ved å bruke string-metoden `startsWith()`:"
+      },
+      {
+        type: "code",
+        language: "javascript",
+        interactive: true,
+        code: `let frukter = ["Eple", "Banan", "Appelsin", "Pære"];
+
+for (let i = 0; i < frukter.length; i++) {
+  if (frukter[i].startsWith("B")) {
+    console.log("Frukt som starter med B:", frukter[i]);
+  }
+}`
+      }
   ]
 }
 ,
@@ -178,31 +207,11 @@ console.log("Kastet kron:", kron)`
   blocks: [
     {
       type: "paragraph",
-      text: "Vi hadde et eksempel tidligere som telte hvor mange ganger vi får kron eller mynt dersom vi flipper en mynt $$10$$ ganger. Men hva om spørsmålet hadde vært:"
-    },
-    {
-      type:"paragraph",
-      text: '%%"Finn ut hvor mange ganger du må flippe en mynt for å få kron"%%'
+      text: "En ^^while-løkke^^ gjentar koden **så lenge en betingelse er sann (`true`)**. Den har følgende form:"
     },
     {
       type: "paragraph",
-      text: "Da vet du ikke hvor mange ganger du skal repetere koden! Det er da du må bruke en `while`-løkke istedet"
-    },
-    {
-      type: "paragraph",
-      text: "En ^^while-løkke^^ brukes til å gjenta kjøringen av en kode **så lenge** en betingelse er sann (`true`). Den skrives på følgende måte:"
-    },
-    {
-      type: "code",
-      language: "javascript",
-      interactive: false,
-      code: `while (betingelse) {
-  //kode som skal kjøres
-}`
-    },
-    {
-      type: "paragraph",
-      text: "Eksempel:"
+      text: "Eksempel: telle fra 0 til 4"
     },
     {
       type: "code",
@@ -218,11 +227,12 @@ while (i < 5) {
     },
     {
       type: "paragraph",
-      text: "Her vil `while`-løkken fortsette å skrive ut verdien av `i` så lenge `i` er mindre enn $$5$$. For hver gang løkken kjører, så øker `i` med $$1$$. Når `i` er $$5$$ så avsluttes løkken."
+      text: "Løkken fortsetter å kjøre så lenge betingelsen `i < 5` er `true`. For hver iterasjon øker vi `i` med $$1$$. Når `i` blir $$5$$, blir betingelsen `false` og løkken stopper."
     },
     {
       type: "paragraph",
-      text: "Pass på at du legger inn en betingelse som faktisk etterhvert blir `false`. Ellers vil du få en ^^uendelig løkke^^. Eksempel på en uendelig løkke nedenfor:"
+      text: "Pass på: hvis betingelsen aldri blir `false`, får du en ^^uendelig løkke^^. Eksempel:"
+
     },
     {
       type: "code",
@@ -237,7 +247,7 @@ while (i < 5) {
     },
     {
       type: "paragraph",
-      text: "Siden verdien av `i` aldri endres, vil løkken kjøre for alltid."
+      text: "Siden `i` aldri endres, vil løkken aldri stoppe. Husk derfor alltid å endre variabelen som kontrollerer betingelsen."
     },
   ]
 },
@@ -247,97 +257,154 @@ while (i < 5) {
   id: "sectionWhileWhy",
   title: "Når skal du bruke `while`-løkke?",
   blocks: [
-    {
+   {
       type: "paragraph",
-      text: "Det enkleste å tenke er at du bruker `while`-løkke **når du ikke vet hvor mange ganger løkken skal repetere.**"
+      text: "Regelen er enkel: bruk en `while`-løkke når du **ikke vet hvor mange ganger koden skal kjøre på forhånd**."
     },
-    {
+      {
       type: "paragraph",
-      text: "Slik som eksemplet fra tidligere: "
+      text: "Vi hadde tidligere et eksempel som telte hvor mange ganger vi får kron eller mynt når vi flipper en mynt 10 ganger. Men hva om spørsmålet hadde vært:"
     },
     {
       type:"paragraph",
-      text: '%%"Finn ut hvor mange ganger du må flippe en mynt for å få kron"%%'
+      text: '%%"Finn ut hvor mange ganger du må flippe en mynt før du får kron"%%'
+    },
+    {
+      type: "paragraph",
+      text: "Da vet vi ikke på forhånd hvor mange ganger koden skal kjøres. Her passer en `while`-løkke perfekt!"
     },
     {
       type: "code",
       language: "javascript",
       interactive: true,
-      code: `let flips = 0;
+      code: `let myntkast = 0;
 let erKron = false
 
-while (!erKron) {
-  flips++;
-  erKron = Math.random() < 0.5 //returnerer true med 50% sannsynlighet
+while (!erKron) { //kjører så lenge !erKron er true 
+  myntkast++; // øker antall myntkast
+  erKron = Math.random() < 0.5 // gir True dersom < 0.5
 }
 
-console.log("Det tok ", flips, "flips for å lande på kron.")
+console.log("Det tok ", myntkast, "myntkast for å lande på kron.")
 `
     },
     {
       type:"paragraph",
-      text: "Here vil betingelsen `erKron = Math.random() < 0.5` simulere et flipp av en mynt. Når resultatet er `true` betyr det at mynten landet på kron og løkken vil brytes."
+      text: "Her vil betingelsen `erKron = Math.random() < 0.5` simulere et myntkast og returnere `true` eller `false` avhengig av om det tilfeldige tallet er over eller under $$0.5$$. `true` vil bryte løkka, siden betingelsen da blir `false`"
     },
   ]},
   
+
+
+    
 {
   id: "tasksLoops",
   title: "Oppgaver: Løkker",
   blocks: [
-    {
-      type: "task",
-      number: 1,
-      title: "Tell fra 1 til 10",
-      description: "Lag en `for`-løkke som skriver ut tallene fra **1** til **10** i konsollen.",
-      solution: {
-        code: "for (let i = 1; i <= 10; i++) {\n  console.log(i);\n}"
-      }
-    },
-    {
-      type: "task",
-      number: 2,
-      title: "Skriv ut partall",
-      description: "Bruk en `for`-løkke til å skrive ut alle **partall** mellom **2** og **10**.",
-      solution: {
-        code: "for (let i = 2; i <= 10; i += 2) {\n  console.log(i);\n}"
-      }
-    },
-    {
-      type: "task",
-      number: 3,
-      title: "Skriv ut navn fra et array",
-      description: "Lag et array med tre navn, og bruk en `for`-løkke til å skrive ut hvert navn i konsollen.",
-      solution: {
-        code: "let venner = [\"Ali\", \"Sara\", \"Jonas\"];\n\nfor (let i = 0; i < venner.length; i++) {\n  console.log(venner[i]);\n}"
-      }
-    },
-    {
-      type: "task",
-      number: 4,
-      title: "Tell med `while`",
-      description: "Lag en `while`-løkke som skriver ut tallene fra **1** til **5**.",
-      solution: {
-        code: "let i = 1;\nwhile (i <= 5) {\n  console.log(i);\n  i++;\n}"
-      }
-    },
-    {
-      type: "task",
-      number: 5,
-      title: "Flip mynten til du får kron",
-      description: "Lag en `while`-løkke som **flipper en mynt** til du får `kron`. Tell hvor mange ganger du måtte flippe.",
-      solution: {
-        code: "let flips = 0;\nlet erKron = false;\n\nwhile (!erKron) {\n  flips++;\n  erKron = Math.random() < 0.5;\n}\n\nconsole.log(\"Du fikk kron etter\", flips, \"flips!\");"
-      }
-    }, 
-    {
-      type: "task",
-      number: 6,
-      title: "Lag en pyramide av stjerner",
-      description: "Skriv et program som skriver ut en halv pyramide av stjerner (`*`) slik som under\n\n+ \n++ \n+++ \n++++ \n+++++ \n\nDeretter print ut motsatte pyramiden:\n\n+++++ \n++++ \n+++ \n++ \n+",
-      solution: {
-        code: "// Halv pyramide\nfor (let i = 1; i <= 5; i++) {\n  console.log('+'.repeat(i));\n}\n\n// Omvendt halv pyramide\nfor (let i = 5; i >= 1; i--) {\n  console.log('+'.repeat(i));\n}"
-      }
+  {
+    type: "task",
+    number: 1,
+    title: "Skriv ut tall 1–10",
+    description: "Lag tre løsninger som skriver ut tallene fra 1 til 10 i konsollen:\n1. Uten løkker\n2. Med en `for`-løkke\n3. Med en `while`-løkke",
+    solution: {
+      code: `// Uten løkke
+console.log(1);
+console.log(2);
+console.log(3);
+console.log(4);
+console.log(5);
+console.log(6);
+console.log(7);
+console.log(8);
+console.log(9);
+console.log(10);
+
+// Med for-løkke
+for (let i = 1; i <= 10; i++) {
+  console.log(i);
+}
+
+// Med while-løkke
+let i = 1;
+while (i <= 10) {
+  console.log(i);
+  i++;
+}`
     }
+  },
+  {
+    type: "task",
+    number: 2,
+    title: "Tall opp til brukerens tall",
+    description: "Lag en kode som skriver ut alle tall fra 1 til et tall brukeren skriver inn via `prompt()`. Husk å sjekke at brukeren skriver inn et gyldig tall.",
+    solution: {
+      code: `let n = Number(prompt("Skriv inn et tall:"));
+if (!isNaN(n) && n > 0) {
+  for (let i = 1; i <= n; i++) {
+    console.log(i);
+  }
+} else {
+  console.log("Vennligst skriv inn et gyldig tall større enn 0");
+}`
+    }
+  },
+  {
+    type: "task",
+    number: 3,
+    title: "Stjernepyramide",
+    description: "Skriv et program som skriver ut en pyramide av stjerner. Brukeren skal skrive inn antall rader. For eksempel: hvis brukeren skriver 4, blir resultatet:",
+    code: `*
+**
+***
+****`,  
+    solution: {
+      code: `let rader = Number(prompt("Hvor mange rader?"));
+for (let i = 1; i <= rader; i++) {
+  console.log("*".repeat(i));
+}`
+    }
+  },
+  {
+    type: "task",
+    number: 4,
+    title: "Hangman (vanskelig utfording)",
+    description: "Lag et Hangman-spill:\n- Velg et ord som skal gjettes, f.eks. 'Elvebakken'\n- Brukeren gjetter en bokstav av gangen\n- Brukeren har 10 liv\n- Bruk `for...of` for å sjekke om bokstaven finnes i ordet\n- Bruk en `while`-løkke for å telle antall liv. ",
+    solution: {
+      code: `let ord = "Elvebakken";
+let antallLiv = 10;
+let gjettetBokstav = "";
+let gjettetOrd = Array(ord.length).fill("_");
+
+while (antallLiv > 0 && gjettetOrd.includes("_")) {
+  gjettetBokstav = prompt("Gjett en bokstav:").toLowerCase();
+  let funnet = false;
+
+  for (let bokstav of ord.toLowerCase()) {
+    if (bokstav === gjettetBokstav) {
+      let index = ord.toLowerCase().indexOf(bokstav);
+      gjettetOrd[index] = bokstav;
+      funnet = true;
+    }
+  }
+
+  if (!funnet) {
+    antallLiv--;
+    console.log("Feil! Liv igjen:", antallLiv);
+  }
+
+  console.log(gjettetOrd.join(" "));
+}
+
+if (!gjettetOrd.includes("_")) {
+  console.log("Gratulerer, du vant!");
+} else {
+  console.log("Du tapte! Ordet var:", ord);
+}`
+  }
+  }
+
+
+    
   ]
 }
 

@@ -15,20 +15,24 @@ export default [
         type:"paragraph",
         text: '%%"Hvis noe er sant - kjør denne kodeblokken"%%'
       },
+
+     
+      
       {
         type:"paragraph",
-        text: '**For eksempel:**'
+        text: 'For eksempel: Hvis brukeren er logget inn - skriv en velkomstmelding'
       },
-      {
-        type:"list",
-        items: [
-          '**Hvis** brukeren er logget inn - skriv en velkomstmelding',
-          '**Hvis** temperaturen er under 0 - skriv "Det er kaldt!"',
-        ]
+       {
+        type: "code",
+        language: "javascript",
+        interactive: false,
+        code: `if (isLoggedIn){
+  console.log("Velkommen tilbake")
+}`
       },
       {
         type:"paragraph",
-        text: 'Denne sjekken - *=er temperaturen under 0=* - kalles en betingelse. Koden din gjør noe bare hvis betingelsen er `true`.'
+        text: 'Denne sjekken - *=er brukeren logget inn=* - kalles en betingelse. Koden din gjør noe bare hvis betingelsen er `true`.'
       },
     ]
   },
@@ -54,8 +58,13 @@ export default [
       },
       {
         type: "paragraph",
-        text: "Med to likhetstegn `==` sammmenlignes verdiene med hverandre. Med tre likhetstegn `===` sammenlignes også datatypen til verdiene med hverandre. Det er vanligst å bruke `===` når du sammenligner verdier."
+        text: "Med to likhetstegn `==` sammmenlignes verdiene med hverandre. Med tre likhetstegn `===` sammenlignes også datatypen til verdiene med hverandre."
       },
+    {
+        type: "paragraph",
+        text: "**Tips:** Bruk alltid `===` med mindre du helt bevisst vil tillate at tall og tekst blir sammenlignet som like."
+      },
+
       {
         type: "code",
         language: "javascript",
@@ -127,7 +136,7 @@ if (age >= 18) {
     blocks: [
        {
         type: "paragraph",
-        text: 'Det er vanlig å inkludere en `else`-blokk når man bruker if-setninger. Dersom betingelsen i if-setningen ikke er `true`, skal blokken i else-setningen kjøre. %%Hvis `true` – gjør dette, hvis ikke `true` – gjør dette.%%'
+        text: 'Det er vanlig å inkludere en `else`-blokk når man bruker if-setninger. Dersom betingelsen i if-setningen ikke er `true`, skal blokken i else-setningen kjøre. %%Hvis noe er sant – gjør dette, hvis ikke – gjør dette.%%'
       },
       {
         type: "code",
@@ -192,6 +201,10 @@ console.log(\`Du må betale $\{fraktKostnad\} kr i frakt\`)`
       {
         type: "paragraph",
         text: "I koden ovenfor skriver vi resultat ut på to forskjellige måter. Den ene skiller mellom string og variabler med `,`. Den andre bruker backticks \` til å lage en ^^template string^^, hvor man kan referere til variabelen i stringen med $ og {variabelnavn}. Velg din favoritt!"
+      },
+      {
+        type: "paragraph",
+        text: "**Prøv selv:** Endre på verdien til `fraktKostnad`. Hva skjer da?"
       }
     ]
   },
@@ -326,6 +339,25 @@ let isHoliday = true;`
         ]
       }
     },
+      {
+      type: "task",
+      number: 4,
+      title: "Hva skrives ut i konsollen her?",
+      description: 'Velg det alternativet som er riktig:',
+      code: `let a = true;
+let b = false;
+
+if ( (a && !b) || b) {
+        console.log("Ja!")
+}`,
+      solution: {
+        correct: 0,
+        options: [
+          "\"Ja!\"",
+          "Ingenting",
+          "Feilmelding"
+        ]
+      }    },
   ]
 },
 
@@ -342,26 +374,51 @@ let isHoliday = true;`
     "type": "paragraph",
     "text": "Nedenfor er kode for å lagre brukerdata som variabel"
   },
+  
   {
     "type": "code",
     "language": "javascript",
     "interactive": false,
     "code": "let number = prompt(\"Skriv inn et tall: \")"
   },
+    {
+    "type": "paragraph",
+    "text": "Men pass på, `prompt()` gir en string! Så skal du skrive inn tall kan det være lurt å gjøre om variablens verdi til et tall"
+  },
+  {
+    "type": "code",
+    "language": "javascript",
+    "interactive": false,
+    "code": "let number = Number(prompt(\"Skriv inn et tall: \"))"
+  },
+
+
   {
     "type": "task",
     "number": 1,
     "title": "Sjekk tall",
-    "description": "Lag en variabel `number`. Skriv en if-setning som sjekker om `number` er større enn $$10$$. Hvis ja, skriv ut 'Større enn 10'. Ellers: '10 eller mindre'.",
+    "description": "Lag et program som sjekker om et tall er positivt, negativt eller null, og skriver ut riktig melding. Hvis tallet er over $$100$$ skriv ut 'Det var et stort tall!'",
     "solution": {
-      "code": "let number = prompt(\"Skriv inn et tall: \");\nif (Number(number) > 10) {\n  console.log('Større enn 10');\n} else {\n  console.log('10 eller mindre');\n}"
-    }
+      "code": `let number = 120;
+if (number > 100) {
+  console.log('Det var et stort tall!');
+} else if (number > 0) {
+  console.log(number, 'er et positivt tall');
+} else if (number < 0) {
+  console.log(number, 'er et negativt tall');
+} else {
+  console.log('Tallet er 0!')
+}
+  `
+  
+  }
+
   },
   {
     "type": "task",
     "number": 2,
     "title": "Karaktersystem",
-    "description": "Lag et program som tar en variabel `poeng` og gir karakter slik:\n90+: A\n80+: B\n70+: C\n60+: D\nUnder 60: F",
+    "description": "Lag et program som sjekker hva en variabel `poeng` er mellom 0 og 100, og gir en karakter:\n90+: A\n80+: B\n70+: C\n60+: D\nUnder 60: F",
     "solution": {
       "code": "let poeng = Number(prompt(\"Skriv inn poengsum: \"));\nlet karakter;\nif (poeng >= 90) {\n  karakter = 'A';\n} else if (poeng >= 80) {\n  karakter = 'B';\n} else if (poeng >= 70) {\n  karakter = 'C';\n} else if (poeng >= 60) {\n  karakter = 'D';\n} else {\n  karakter = 'F';\n}\nconsole.log('Karakter:', karakter);"
     }
@@ -375,6 +432,8 @@ let isHoliday = true;`
       "code": "let a = Number(prompt(\"Skriv inn første tall: \"));\nlet b = Number(prompt(\"Skriv inn andre tall: \"));\nif (a > b) {\n  console.log(a + ' er størst');\n} else if (b > a) {\n  console.log(b + ' er størst');\n} else {\n  console.log('Tallene er like');\n}"
     }
   },
+  
+
   {
     "type": "task",
     "number": 4,
@@ -396,12 +455,39 @@ let isHoliday = true;`
   {
     "type": "task",
     "number": 6,
-    "title": "Er det fredag?",
-    "description": "Lag et program som sjekker om det er fredag, og om du kan gå hjem. Hvis det er fredag, skriv 'Det er fredag!'. Hvis det **både** er fredag og klokka er 15:30, skriv 'God helg – sees på mandag! Husk stolen på fredag da.'\n\nTips: Sjekk ut `Date()`-objektet her: [https://www.w3schools.com/jsref/jsref_getday.asp](https://www.w3schools.com/jsref/jsref_getday.asp)",
+    "title": "Er det fredag? (må researche `Date`-objektet)",
+    "description": "Lag et program som sjekker om det er fredag, og om du kan gå hjem. Hvis det er fredag, skriv 'Det er fredag!'. Hvis det **både** er fredag og klokka er 15:30, skriv 'God helg – sees på mandag! Husk stolen på fredag da.'\n\nTips: Sjekk ut `Date()`-objektet her: [W3Schools Date objekt](https://www.w3schools.com/jsref/jsref_date_new.asp)",
     "solution": {
       "code": "let nå = new Date();\nlet dag = nå.getDay(); // 5 = fredag\nlet timer = nå.getHours();\nlet minutter = nå.getMinutes();\n\nif (dag === 5) {\n  console.log('Det er fredag!');\n  if (timer === 15 && minutter === 30) {\n    console.log('God helg – sees på mandag! Husk stolen på fredag da.');\n  }\n}"
     }
+  },
+  {
+  type: "task",
+  number: 7,
+  title: "Logg inn-system (avansert)",
+  description: `Lag et lite logg-inn-system med flere betingelser. Lag først variabler for brukernavn, passord og om brukeren er utestengt. Spør deretter brukeren om brukernavn og passord med prompt(). Lag regler med if, else if, else og logiske operatorer:\n\n- Hvis brukeren er utestengt, skriv «Kontoen er sperret».\n- Hvis brukernavn og passord stemmer, skriv «Innlogging vellykket!».\n- Hvis brukernavn stemmer, men passordet er feil, skriv «Feil passord».\n- Hvis brukernavn ikke finnes, skriv «Ukjent bruker».`,
+ 
+  solution: {
+    code: `let username = "Admin";
+let password = "1234";
+let isBanned = false;
+
+let inputUser = prompt("Brukernavn:");
+let inputPass = prompt("Passord:");
+
+if (isBanned) {
+  console.log("Kontoen er sperret");
+} else if (inputUser === username && inputPass === password) {
+  console.log("Innlogging vellykket!");
+} else if (inputUser === username && inputPass !== password) {
+  console.log("Feil passord");
+} else {
+  console.log("Ukjent bruker");
+}`
   }
+}
+
+
 ]
 
 }

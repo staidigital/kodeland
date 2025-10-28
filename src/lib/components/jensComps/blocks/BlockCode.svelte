@@ -33,6 +33,9 @@
       console.error('Kunne ikke kopiere kode:', err);
     }
   }
+
+  // Vis knappen kun hvis det ikke er plaintext
+  $: showCopyButton = lang !== 'plaintext';
 </script>
 
 <svelte:head>
@@ -41,20 +44,23 @@
 
 <div class="relative py-2">
   <!-- Kopier-knapp -->
-  <button
-    on:click={copyCode}
-    class="absolute top-4 right-2 text-xs font-mono bg-slate-800/80 hover:bg-fuchsia-700 text-slate-200 hover:text-white px-3 py-1.5 rounded transition"
-  >
-    {#if copied}
-      Kopiert!
-    {:else}
-      Kopier kode
-    {/if}
-  </button>
+  {#if showCopyButton}
+    <button
+      on:click={copyCode}
+      class="copy-btn text-xs font-mono bg-slate-800/80 hover:bg-fuchsia-700 text-slate-200 hover:text-white px-3 py-1.5 rounded transition"
+    >
+      {#if copied}
+        Kopiert!
+      {:else}
+        Kopier kode
+      {/if}
+    </button>
+  {/if}
 
   <!-- Kodeblokk -->
   <Highlight language={hlLang} {code} />
 
+  <!-- Forhåndsvisning -->
   {#if preview === true}
     <button
       on:click={() => (show = !show)}
@@ -72,3 +78,21 @@
     {/if}
   {/if}
 </div>
+
+<style>
+  .copy-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 10;
+  }
+
+  /* Flytter kopier-knappen under koden på små skjermer */
+  @media (max-width: 640px) {
+    .copy-btn {
+      position: static;
+      display: block;
+      margin: 0.5rem auto;
+    }
+  }
+</style>

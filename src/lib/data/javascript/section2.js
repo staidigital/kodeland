@@ -225,6 +225,17 @@ let erStudent = true;       // boolean: kan være true eller false
 let tomVerdi = null;        // null: tom verdi med vilje
 let ikkeTildelt;            // undefined: laget variabelen, men ikke gitt den en verdi`
       },
+      {
+  type: "extraInfo",
+  icon: "lightbulb",
+  content: [
+    {
+      type: "text",
+      value: "Tips: Du kan sjekke hvilken datatype en verdi har med `typeof`. Prøv `typeof 'hello'` eller `typeof 42`!"
+    }
+  ]
+}
+
     ]
   },
 
@@ -271,6 +282,23 @@ console.log(x);`,
         ]
       }
     },
+    {
+  type: "task",
+  number: 3,
+  title: "Hvilken datatype får vi her?",
+  description: "Hva er datatypen til resultatet av dette uttrykket?",
+  code: `let result = "5" + 2;`,
+  solution: {
+    correct: 0,
+    options: [
+      "String",
+      "Number",
+      "Boolean",
+      "Undefined"
+    ]
+  }
+}
+
 
 
   ]
@@ -287,40 +315,42 @@ console.log(x);`,
       type: "paragraph", 
       text: ""
     },
+    
     {
       type: 'task',
       number: 1,
-      title: "Enkel variabelbruk",
-      description: "Lag en variabel med navnet ditt. Skriv ut `Hallo (ditt navn)` ved å kombinere «Hallo» med ditt navn."
+      title: "Skrive ut numbers og strings",
+      description: "Lag en variabel som inneholder antall bokstaver i navnet ditt. Skriv ut «Hallo (ditt navn). Ditt navn har (ditt antall bokstaver) bokstaver»."
     },
     {
       type: 'task',
       number: 2,
-      title: "Enkel variabelbruk",
+      title: "Regning med numbers",
       description: "Lag variablene `radius` og `pi`. Pi skal ha verdien 3.14 og radius bestemmer du. \n\nLag variabelen `omkrets` som regner ut omkretsen av en sirkel.  \n\n`Omkrets = 2*Pi*r` \n \nSkriv ut `\"For radius (radius) er omkretsen (omkrets)\"`"
     },
+     {
+      type: 'task',
+      number: 3,
+      title: "Finn datatypen",
+      description: "Lag fem variabler med ulike typer data: et tall, en tekst, en boolean, `null` og `undefined`. \n\nSkriv ut typen til hver variabel med `typeof`."
+    },
 
-    {
-      type: 'task',
-      number: 3,
-      title: "Endre variabler",
-      description: "Lag en variabel som inneholder antall bokstaver i navnet ditt. Skriv ut «Hallo (ditt navn). Ditt navn har (ditt antall bokstaver) bokstaver»."
-    },
-    {
-      type: 'task',
-      number: 3,
-      title: "Bruk av const",
-      description: "Lag en variabel som inneholder antall bokstaver i navnet ditt. Skriv ut «Hallo (ditt navn). Ditt navn har (ditt antall bokstaver) bokstaver»."
-    },
+    
 
     {
       type: 'task',
       number: 4,
-      title: "Gjør enkel matte med variabler",
-      description: "Lag to variabler, `num1` og `num2`, og gjør noen enkle berekninger med dem. Skriv ut summen, differansen, produktet og kvotienten i konsollen."
+      title: "Tekst + tall = ?",
+      description: "Lag en variabel `a = \"10\"` og `b = 5`. \n\nPrøv å skrive ut `a + b`, og deretter `Number(a) + b`. \n\nHva skjer, og hvorfor?"
     },
+
+    {
+      type: 'task',
+      number: 5,
+      title: "Endre datatype",
+      description: "Lag en variabel `alder` som først er et tall. \n\nSkriv ut datatypen. \n\nDeretter gjør du `alder` om til en string (for eksempel med `String(alder)`) og skriv ut datatypen på nytt."
+    }
     
   ]
-} 
-
+},
 ];

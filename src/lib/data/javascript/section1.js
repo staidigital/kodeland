@@ -8,7 +8,7 @@ export default [
     blocks: [
       {
         type:'paragraph',
-        text:'De mest grunnleggende konseptene i JavaScript er ^^variabler^^ og ^^datatyper^^. I denne seksjonen ser vi på hva en variabel er og hvorfor vi trenger dem. Den neste seksjonen introduserer de $$5$$ mest kjente datatypene til JavaScript.'
+        text:'Det mest grunnleggende konseptet i programmering er bruk av ^^variabler^^. Når du lager et program, vil du ofte trenge å lagre informasjon (som navn, poengsum, eller antall forsøk). For å gjøre dette bruker vi variabler. I denne seksjonen ser vi på hva en variabel er og hvordan de brukes i JavaScript.'
       },
       {
         type: 'extraInfo',
@@ -37,20 +37,16 @@ export default [
         type:'paragraph',
         text:'Gå inn i `main.js`-filen din og endre koden slik at det står:'
       },
-          {
+      {
         type: 'code',
         language: 'javascript',
         interactive: false,
-        code: `let melding = "Hello World!"; // Variabel
+        code: `let melding = "Hello World!"; // Lager en variabel
 console.log(melding);`
       },
       {
         type:'paragraph',
-        text:'I konsollen skal du nå få samme melding som når du skrev `console.log("Hello World!")` i Setup-seksjonen. Det er fordi meldingen skrevet i koden ovenfor er en ^^variabel^^.'
-      },
-      {
-        type:'paragraph',
-        text:'En variabel er en måte å lagre data slik at du kan bruke det videre i programmet på en effektiv måte.'
+        text:'I konsollen skal du nå få samme melding som når du skrev `console.log("Hello World!")` i Setup-seksjonen, men denne gangen kommer teksten fra en variabel!.'
       },
 
         {
@@ -59,17 +55,18 @@ console.log(melding);`
       },
       {
         type:'paragraph',
-        text:'Du kan senere i programmet endre variablens verdi ved å ^^re-assigne^^ en ny verdi:'
+        text:'Du kan endre verdien til en variabel senere i programmet ved å gi den en ny verdi. Dette kalles å ^^re-assigne^^ verdien.'
       },
       {
-        type: 'code',
-        language: 'javascript',
-        interactive: false,
-        code: `let melding = "Hello World!" //tildeler verdi
-console.log(melding)
-melding = "Fint vær" //re-assigner verdien
-console.log(melding)`
-      },
+      type: 'code',
+      language: 'javascript',
+      interactive: false,
+      code: `let melding = "Hello World!";
+console.log(melding);
+
+melding = "Fint vær i dag!";
+console.log(melding);`
+    },
        {
         type:'paragraph',
         text:'Variabler brukes til å referere til data slik at du kan bruke samme data flere ganger i programmet ditt.'
@@ -78,10 +75,24 @@ console.log(melding)`
         type:'paragraph',
         text:'Du kan med `console.log()` skrive ut både en string og en variabel:'
       },
+
+    {
+      type: 'code',
+      language: 'javascript',
+      interactive: false,
+      code: `let navn = "Mia";
+console.log("Hei " + navn + "!");`
+    },
       {
         type: "extraInfo",
         icon: "example",
         content: [
+  
+          {
+            type: "text",
+            value:
+              "**Hvorfor bruke variabler:**"
+          },
           {
             type: "text",
             value:
@@ -89,6 +100,7 @@ console.log(melding)`
           }
         ]
       },
+      
     ]
   },
 
@@ -107,7 +119,7 @@ console.log(melding)`
       },
       {
         type:'paragraph',
-        text: '2) Første tegnet i variabelnavnet kan ikke være et tall. `melding_1` fungerer, `1_melding` fungerer ikke.`'
+        text: '2) Første tegnet i variabelnavnet kan ikke være et tall. `melding_1` fungerer, `1_melding` fungerer ikke.'
       },
       {
         type:'paragraph',
@@ -166,11 +178,16 @@ console.log(navn)
         language:'javascript',
         interactive: false,
         code: `const FILE_SIZE_LIMIT = 2000
-const MAX_SPEED = 300`
+const MAX_SPEED = 300
+MAX_SPEED = 200 //gir error`
       },
        {
         type:'paragraph',
         text: 'Som du ser bruker vi bare store bokstaver når vi gir navn til en konstant. Det er for å gjøre konstanter mer tydelige i koden.'
+      },
+      {
+        type:'paragraph',
+        text: '**Prøv selv å reassigne verdien til ** `const`**-variablene ovenfor.**'
       },
     ]
   },
@@ -206,17 +223,24 @@ const MAX_SPEED = 300`
     },
     {
       type: 'task',
-      number: 3,
+      number: 4,
       title: "Bruk av const",
       description: "Definer en konstant `PI` med verdien `3.14`. Prøv å endre verdien (spoiler: det vil ikke fungere!). Hva skjer?"
     },
 
     {
       type: 'task',
-      number: 4,
+      number: 5,
       title: "Gjør enkel matte med variabler",
       description: "Lag to variabler, `num1` og `num2`, og gjør noen enkle berekninger med dem. Skriv ut summen, differansen, produktet og kvotienten i konsollen."
     },
+      {
+    type: 'task',
+    number: 6,
+    title: "Lag en personlig introduksjon",
+    description: "Lag et lite program som viser informasjon om deg selv i konsollen. Bruk `let` for verdier som kan endres (for eksempel alder) og `const` for verdier som ikke skal endres (for eksempel land). Kombiner alt i én tekst som skrives ut i konsollen."
+  }
+
     
   ]
 }

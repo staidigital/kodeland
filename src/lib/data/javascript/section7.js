@@ -5,16 +5,37 @@ export default [
     blocks: [
       {
     "type": "paragraph",
-    "text": "Når du åpner en nettside, ser du HTML-koden _gjort om_ til en synlig side. Det som skjer i bakgrunnen, er at nettleseren lager noe som kalles ^^DOM^^ – Document Object Model."
+    "text": "Når du åpner en nettside ser du HTML-koden gjort om til en synlig side med tekst, bilder, knapper og mer. I bakgrunnen skjer det noe smart: Nettleseren laser en usynlig modell av nettsiden, kalt ^^DOM^^ – ^^Document Object Model^^."
     },
       {
       "type": "paragraph",
-      "text": "DOM er en slags ^^usynlig kopi^^ av HTML-strukturen, som JavaScript kan lese og endre. Når nettleseren laster en nettside, lager den et DOM-tre basert på HTML-en. Hvert element på nettsiden (som `<div>`, `<p>`, `<h1>` blir en ^^node^^ i dette treet."
+      "text": "Tenk på DOM som en levende kopi av HTML-koden, som JavaScript kan lese, endre og reagere på. Når nettleseren leser HTML-en bygger den et ^^DOM-tre^^, der hvert HTML-element (som `<body>`, `<h1>`, `<p>`) blir en ^^node^^ i treet."
     },
     {
       "type": "paragraph",
-      "text": "Med JavaScript kan du bruke DOM til å finne og endre disse nodene. Da kan du få nettsiden til å endre seg mens den er i gang – for eksempel ved å endre tekst, farger, skjule eller vise ting, eller lage knapper som reagerer når brukeren klikker."
+      "text": "Det er dette treet JavaScript bruker når du for eksempel endrer tekst, farge, skjuler elementer eller lager knapper som reagerer når du klikker."
     },
+    
+    {
+        type: "image",
+        component: 'BlockImage',
+        props: {
+          images: [
+            {
+              src: '/images/js/dom_model.png',
+              alt: 'DOM-modell',
+              caption: 'DOM-modell av en HTML-fil',
+              fullWidth: true,
+              width: "45%",
+              align: "center",
+              rounded: true,
+              shadow: true,
+              background: "white", 
+
+            },
+          ]
+        }
+      },
     ]
   },
   {
@@ -40,47 +61,77 @@ export default [
         language: "plaintext",
         code: `body\n├── h1#header ("Velkommen!")\n├── p#tekst ("Dette er en test.")\n└── button#knapp ("Klikk meg")`,
         preview: false
-      },
+      },      
       {
         type: "paragraph",
         text: "Nå kan vi bruke JavaScript til å hente ut disse elementene og gjøre hva vi vil med dem!"
-      }
+      },
     ]
   },
   {
     id: "sectionGetElementById",
-    title: "Bruke getElementById",
+    title: "Velge elementer fra DOM med getElementById",
     blocks: [
       {
         type: "paragraph",
-        text: "`getElementById` er en metode i JavaScript som lar deg hente et bestemt HTML-element – ved å bruke `id`-en."
+        text: "`getElementById` er en metode i JavaScript som lar deg hente et bestemt HTML-element – ved å bruke `id`-en til elementet. Etter du har hentet et element kan du forandre farge og innhold, og mye mer. "
       },
       {
         type: "paragraph",
-        text: "Når du har funnet elementet, kan du endre innholdet, farge, skjule det, eller hva du vil!"
+        text: "La innholdet i `<body>...</body>`-tagen til HTML-filen være følgende:"
+      },
+
+      {
+        type:"code",
+        language: "html",
+        preview: false,
+        code: `<body>
+  <h1 id="header">Klikk meg</h1>
+  <p id="tekst">Dette er en test.</p>
+  <button id="knapp">Klikk meg</button>
+</body>`
+      },
+       {
+        type: "paragraph",
+        text: "For å forandre på `<h1>`-tagen kan vi skrive følgende i JavaScript-filen"
+      },
+      {
+        type: "code",
+        language: "javascript",
+        interactive: false,
+        code: `let overskrift = document.getElementById("header");
+overskrift.textContent = "Velkommen til DOM-manipulering";`
+      },
+      {
+        type: "paragraph",
+        text: "I script-koden ovenfor skjer to ting:"
+      },
+      {
+        type: "paragraph",
+        text: '1) Vi lager en variabel `overskrift` og bruker `document.getElementById("header")` til å finne riktig element. `overskrift` blir dermed en referanse for elementet`<h1 id="header">`'
+      },
+      {
+        type: "paragraph",
+        text: '2) Vi endrer innholdet til headeren ved å skrive `overskrift.textContent = "...";`'
+      },
+      
+      {
+        type: "paragraph",
+        text: "**Prøv å endre teksten selv i den interaktive javascript-editoren nedenfor og trykk på ^^Lagre JavaScript^^.**"
       },
       {
         type: "code",
         language: "html",
         preview: true,
-        code: `<h1 id="header">Klikk meg</h1>\n<p id="tekst">Dette er en test.</p>\n<button id="knapp">Klikk meg</button>`,
-        script: `let overskrift = document.getElementById("header");\noverskrift.textContent = "Velkommen til DOM-manipulering";`
+        code: `<h1 id="header">Klikk meg</h1>`,
+        script: `let overskrift = document.getElementById("header");
+overskrift.textContent = "Velkommen til DOM-manipulering";`
       },
-      {
+       {
         type: "paragraph",
-        text: "👆 Her skjer to ting:"
+        text: "Merk at med `getElementById` blir kun det **første** elementet med den id-en returnert. Det er et godt argument for at man aldri bruker samme id på flere elementer."
       },
-      {
-        type: "list-ol",
-        items: [
-          'Vi bruker `getElementById("header")` for å finne `<h1 id="header">` og lagrer det i variabelen `overskrift`.',
-          'Så endrer vi teksten ved å skrive `overskrift.textContent = "...";`'
-        ]
-      },
-      {
-        type: "paragraph",
-        text: "💡 Prøv å endre teksten selv og trykk på **Lagre JavaScript**."
-      }
+      
     ]
   },
   {
@@ -89,7 +140,7 @@ export default [
     blocks: [
       {
         type: "paragraph",
-        text: "DOM lar deg også reagere på brukerens handlinger. For eksempel kan du endre tekst når noen trykker på en knapp."
+        text: "DOM lar deg også reagere på brukerens handlinger med for eksempel knapper. Her har jeg brukt samme HTML som over, men endret på scriptet for å inkludere en ^^event-listener^^."
       },
       {
         type: "code",
