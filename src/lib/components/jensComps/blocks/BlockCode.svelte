@@ -88,7 +88,7 @@
   }
 
   /* Flytter kopier-knappen under koden på små skjermer */
-  @media (max-width: 640px) {
+  @media (max-width: 1300px) {
     .copy-btn {
       position: static;
       display: block;

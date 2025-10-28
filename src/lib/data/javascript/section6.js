@@ -9,7 +9,7 @@ export default [
       },
     {
         type: "paragraph",
-        text: "Funksjoner hjelper deg å skrive ryddig, gjenbrukbar og forståelig kode."
+        text: "Funksjoner hjelper deg å skrive ryddig, gjenbrukbar og forståelig kode. Du slipper å gjenta deg selv, og endringer kan gjøres ett sted i stedet for mange."
       },
       {
         type: "extraInfo",
@@ -59,7 +59,7 @@ siHei()`
     },
     {
         type: "paragraph",
-        text: "Hva om vi vil hilse på flere personer, som `Sondre` eller `Faizan`? I stedet for å lage en ny funksjon for hver person, kan vi bruke ^^parametere^^ og ^^argumenter^^."
+        text: "Hva om vi vil hilse på flere personer, som `Julia` eller `Faizan`? I stedet for å lage en ny funksjon for hver person, kan vi bruke ^^parametere^^ og ^^argumenter^^."
       }
   ]
   },
@@ -69,7 +69,7 @@ siHei()`
   blocks: [
      {
         type: "paragraph",
-        text: "^^Parametere^^ fungerer som plassholdere for verdier som sendes til funksjonen. ^^Argumenter^^ er de faktiske verdiene vi sender når vi kaller funksjonen. Her er en oppdatert `siHei()`-funksjon:"
+        text: "^^Parametere^^ fungerer som placeholders for verdier som sendes til funksjonen. ^^Argumenter^^ er de faktiske verdiene vi sender når vi kaller funksjonen. Her er en oppdatert `siHei()`-funksjon:"
       }, 
     {
       type: "code",
@@ -79,12 +79,12 @@ siHei()`
   console.log("Hei, " + navn + "!")
 }
 
-siHei("Faizan")
+siHei("Julia")
 siHei("Sondre")`
     },
     {
         type: "paragraph",
-        text: "Her er `navn` parameteren, mens stringene \"Faizan\" og \"Sondre\" er argumentene. Nå kan vi gjenbruke funksjonen med ulike navn."
+        text: "Her er `navn` parameteren, mens stringene \"Julia\" og \"Sondre\" er argumentene. Nå kan vi gjenbruke funksjonen med ulike navn."
     }
   ]
 }
@@ -95,7 +95,7 @@ siHei("Sondre")`
   blocks: [
     {
       type: "paragraph",
-      text: "En funksjon kan bruke `return` for å sende en verdi tilbake til stedet der funksjonen ble kalt."
+      text: "En funksjon kan bruke `return` for å sende en verdi tilbake til stedet der den ble kalt, sånn at verdien kan brukes videre i programmet."
     },
     {
         type: "paragraph",
@@ -263,14 +263,13 @@ navn.forEach(function(person) {
   ]
 },
 {
-  "id": "sectionFunctionQuiz",
+  "id": "sectionTasks",
   "title": "Flervalgsoppgaver – Funksjoner i JavaScript",
   "blocks": [
     {
       "type": "paragraph",
       "text": "Her kommer noen spørsmål for å teste deg på det du har lært om funksjoner!"
     },
-
     {
       "type": "task",
       "number": 1,
@@ -367,7 +366,7 @@ navn.forEach(function(person) {
 }, 
     {
   "type": "task",
-  "number": 4,
+  "number": 5,
   "title": "Beregn fraktkostnad med funksjon",
   "description": "Lag en funksjon `beregnFrakt` som tar inn `totalPris` som parameter, og returnerer fraktkostnaden basert på totalprisen:\n\n- Hvis totalpris er 200 eller mindre, er frakten 100 kr.\n- Hvis totalpris er mellom 201 og 1000, er frakten 50 kr.\n- Hvis totalpris er over 1000, er frakten gratis.\n\nBe brukeren skrive inn totalpris med `prompt()`, kall funksjonen, og skriv ut resultatet til konsollen.",
   "code": "// Skriv funksjon her\nlet totalPris = Number(prompt('Skriv inn totalpris:'));\n\n// kall funksjonen her",

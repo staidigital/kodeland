@@ -238,7 +238,7 @@ console.log(handleListe.length)`
 },
 
 {
-  id: "sectionDatatypeQuiz",
+  id: "sectionTasks",
   title: "Flervalgsoppgaver – arrays",
   blocks: [
     {
@@ -305,7 +305,7 @@ console.log(dyr.length);`,
 },
 
   {
-  id: "arrayTasks",
+  id: "sectionTasks",
   title: "Programmeringsoppgaver – arrays og logikk",
   blocks: [
      {
@@ -374,25 +374,6 @@ colors.unshift("yellow");
 console.log(colors);`
       }
     },
-    {
-      type: "task",
-      number: 4,
-      title: "Lengde og indekser",
-      description:
-        "Lag en array `numbers` med tallene 5, 10, 15, 20 og 25. Skriv ut: (1) antall elementer, (2) det midterste tallet, og (3) summen av det første og siste tallet.",
-      code: `let numbers = [5, 10, 15, 20, 25];
-
-// 1. Skriv ut lengden
-// 2. Skriv ut det midterste tallet
-// 3. Skriv ut summen av første og siste tall`,
-      solution: {
-        code: `let numbers = [5, 10, 15, 20, 25];
-console.log(numbers.length);
-console.log(numbers[2]);
-console.log(numbers[0] + numbers[numbers.length - 1]);`
-      }
-    }
-
   ]
 }
 

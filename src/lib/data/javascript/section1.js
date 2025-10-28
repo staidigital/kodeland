@@ -8,7 +8,7 @@ export default [
     blocks: [
       {
         type:'paragraph',
-        text:'Det mest grunnleggende konseptet i programmering er bruk av ^^variabler^^. Når du lager et program, vil du ofte trenge å lagre informasjon (som navn, poengsum, eller antall forsøk). For å gjøre dette bruker vi variabler. I denne seksjonen ser vi på hva en variabel er og hvordan de brukes i JavaScript.'
+        text:'I JavaScript (og i programmering generelt) bruker vi ^^variabler^^ for å lagre informasjon som vi kan bruke senere. Det kan være et tall, et ord eller andre typer data.'
       },
       {
         type: 'extraInfo',
@@ -67,10 +67,7 @@ console.log(melding);
 melding = "Fint vær i dag!";
 console.log(melding);`
     },
-       {
-        type:'paragraph',
-        text:'Variabler brukes til å referere til data slik at du kan bruke samme data flere ganger i programmet ditt.'
-      },
+
       {
         type:'paragraph',
         text:'Du kan med `console.log()` skrive ut både en string og en variabel:'
@@ -105,60 +102,61 @@ console.log("Hei " + navn + "!");`
   },
 
   // NAVNGIVNING
-  {
-    id: "sectionFour",
-    title: "Navn til variabler",
-    blocks: [
-      {
-        type:'paragraph',
-        text: 'Du gir variabler navn, og det bør være en logisk sammenheng med variabelnavnet og verdiene den har. Ellers fins det noen viktige navn-regler man må følge for å ikke få errorer i JavaScript:'
-      },
-      {
-        type:'paragraph',
-        text: '1) Variabler kan bare inneholde bokstaver, tall og understreker. Så du kan gi navnene `melding`, `melding_1` og `melding_2`'
-      },
-      {
-        type:'paragraph',
-        text: '2) Første tegnet i variabelnavnet kan ikke være et tall. `melding_1` fungerer, `1_melding` fungerer ikke.'
-      },
-      {
-        type:'paragraph',
-        text: '3) Du kan ikke bruke reserverte kodeord, slik som `if` fordi de allerede brukes av JavaScript til å gjøre visse ting.'
-      },
-      {
-        type:'paragraph',
-        text: '4) Variabelnavn er ^^case-sensitive^^ som betyr at `Message`, `MESSAGE` og `message` kan bli brukt til tre forskjellige variabler. Men det så klart lurt å unngå like navn siden det kan forvirre.'
-      },
-      {
-        type:'paragraph',
-        text: '5) Noen ganger trenger du mer enn et ord for å deklarere et variabelnavn. Da bruker man `camelCase`-konvensjon. Camel case bruker en stor bokstav for første bokstav for etterfølgende ord. For eksempel'
-      },
-      {
-        type:'code',
-        language:'javascript',
-        interactive: false,
-        code: `let myAwesomeVariable`
-      },
-      {
-        type:'paragraph',
-        text: 'Generelt: '
-      },
-      {
-        type:'code',
-        language:'javascript',
-        interactive: false,
-        code: `let navn = "Jens"
+{
+  id: "sectionFour",
+  title: "Navn til variabler",
+  blocks: [
+    {
+      type:'paragraph',
+      text: 'Variabler bør ha beskrivende navn som passer verdien. Noen regler gjelder i JavaScript:'
+    },
+    {
+      type:'paragraph',
+      text: '1) Bare bokstaver, tall og understrek (_).'
+    },
+    {
+      type:'paragraph',
+      text: '2) Kan ikke starte med tall.'
+    },
+    {
+      type:'paragraph',
+      text: '3) Ikke bruk reserverte ord som `if`.'
+    },
+    {
+      type:'paragraph',
+      text: '4) Case-sensitive: `Message` ≠ `message`.'
+    },
+    {
+      type:'paragraph',
+      text: '5) Flere ord: bruk camelCase, f.eks.:'
+    },
+    {
+      type:'code',
+      language:'javascript',
+      interactive: false,
+      code: `let myAwesomeVariable`
+    },
+    {
+      type:'paragraph',
+      text: 'Eksempel og regler:'
+    },
+    {
+      type:'code',
+      language:'javascript',
+      interactive: false,
+      code: `let navn = "Jens"
 console.log(navn)
 
-// Skal være beskrivende
-// Kan ikke starte med et tall (1name)
-// Kan ikke ha noe mellomrom eller bindestrek (-)
-// Kan ikke være et reservert kodeord 
+// Beskrivende
+// Ikke start med tall
+// Ingen mellomrom/bindestrek
+// Ikke reserverte ord
 // Case-sensitive
 // Bruk camelCase`
-      },
-    ]
-  },
+    },
+  ]
+},
+
   // 🔹 CONST
   {
     id: "sectionThree",
@@ -166,11 +164,7 @@ console.log(navn)
     blocks: [
       {
         type:'paragraph',
-        text: 'I større applikasjoner er det ofte viktig at variabler forblir uendret under kjøringen av koden, for å forhindre bugs.'
-      },
-      {
-        type:'paragraph',
-        text: 'En konstant variabel er en variabel som ikke endrer sin verdi så lenge koden kjører. Vi bruker `const`-kodeordet for å lage en konstant variabel. Følgende viser hvordan lage to konstanter i JavaScript:'
+        text: 'En konstant variabel er en variabel som ikke endrer sin verdi så lenge koden kjører. Vi bruker `const`-kodeordet for å lage en konstant variabel.'
       },
 
       {
@@ -184,10 +178,6 @@ MAX_SPEED = 200 //gir error`
        {
         type:'paragraph',
         text: 'Som du ser bruker vi bare store bokstaver når vi gir navn til en konstant. Det er for å gjøre konstanter mer tydelige i koden.'
-      },
-      {
-        type:'paragraph',
-        text: '**Prøv selv å reassigne verdien til ** `const`**-variablene ovenfor.**'
       },
     ]
   },

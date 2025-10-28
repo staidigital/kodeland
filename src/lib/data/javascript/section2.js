@@ -62,10 +62,7 @@ console.log(averageRating);`
     blocks: [
       {
         type: "paragraph",
-        text: '`Strings` kan forklares som **alt du ser på keyboardet**. Det gjelder alle de vanlige bokstavene i alle forskjellige språk, alle de spesielle symbolene som fins (for eksempel %, &, $, ...) og alle tallene. '
-      },
-      {type: "paragraph",
-        text: 'For at JavaScript skal gjenkjenne en string, må du skrive det     mellom anførselstegn, enten doble (`""`) eller single (`\'\'`).'
+        text: '`String` brukes for tekst og er skrevet mellom anførselstegn, enten doble (`""`) eller single (`\'\'`). Man kan bruke alle de vanlige bokstavene samt alle de spesielle symbolene som fins (for eksempel %, &, $, ...) og alle tallene.'
       },
       {
         type: 'code',
@@ -106,18 +103,22 @@ console.log(melding);`
    
       {
         type: "paragraph",
-        text: "Du kan skrive strings direkte i `console.log()` sammen med variabler, enten med `+`, eller skille mellom variablene med `,`."
+        text: "Du kan skrive strings direkte i `console.log()` sammen med variabler, enten med `+`,  skille mellom variablene med `,`."
       },
       {
         type: 'code',
         language: 'javascript',
-        interactive: true,
+        interactive: false,
         code: `let navn = "Jens";
 let tema = "JavaScript";
 console.log(navn + " lærer seg " + tema + " i dag "); // bruker +
-console.log(navn, "lærer seg", tema, "i dag");        // bruker ,`
+console.log(navn, "lærer seg", tema, "i dag");        // bruker ,
+console.log(\`$\{navn\} lærer seg $\{tema\} i dag\`);   // bruker \` og $\{} `
       },
-
+      {
+        type: "paragraph",
+        text: "Siste måten å skrive på heter ^^template-strings^^, og bruker backticks ` og ${} til å referere til variabler."
+      },
       {
         type: "paragraph",
         text: "Strings kan også representere tall. Da vil JavaScript sette sammen tallene, istedenfor å addere tallene. Hvis du vil gjøre matematisk operasjon, dropp anførselstegn!"
@@ -240,7 +241,7 @@ let ikkeTildelt;            // undefined: laget variabelen, men ikke gitt den en
   },
 
 {
-  id: "sectionDatatypeQuiz",
+  id: "sectionTasks",
   title: "Flervalgsoppgaver – datatyper",
   blocks: [
     {
@@ -344,12 +345,6 @@ console.log(x);`,
       description: "Lag en variabel `a = \"10\"` og `b = 5`. \n\nPrøv å skrive ut `a + b`, og deretter `Number(a) + b`. \n\nHva skjer, og hvorfor?"
     },
 
-    {
-      type: 'task',
-      number: 5,
-      title: "Endre datatype",
-      description: "Lag en variabel `alder` som først er et tall. \n\nSkriv ut datatypen. \n\nDeretter gjør du `alder` om til en string (for eksempel med `String(alder)`) og skriv ut datatypen på nytt."
-    }
     
   ]
 },

@@ -298,7 +298,7 @@ console.log("Det tok ", myntkast, "myntkast for å lande på kron.")
 
     
 {
-  id: "tasksLoops",
+  id: "sectionTasks",
   title: "Oppgaver: Løkker",
   blocks: [
   {

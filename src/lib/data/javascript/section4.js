@@ -280,7 +280,7 @@ if (!isRaining){
   },
 
   {
-  id: "sectionBooleanQuiz",
+  id: "sectionTasks",
   title: "Flervalgsoppgaver – if og booleans",
   blocks: [
     {
