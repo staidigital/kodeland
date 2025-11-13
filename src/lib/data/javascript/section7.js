@@ -3,18 +3,12 @@ export default [
     id: "sectionIntro",
     title: "",
     blocks: [
-      {
-    "type": "paragraph",
-    "text": "Når du åpner en nettside ser du HTML-koden gjort om til en synlig side med tekst, bilder, knapper og mer. I bakgrunnen skjer det noe smart: Nettleseren lager en usynlig modell av nettsiden, kalt ^^DOM^^ – ^^Document Object Model^^."
-    },
-      {
-      "type": "paragraph",
-      "text": "Tenk på DOM som en levende kopi av HTML-koden, som JavaScript kan lese, endre og reagere på. Når nettleseren leser HTML-en bygger den et ^^DOM-tre^^, der hvert HTML-element (som `<body>`, `<h1>`, `<p>`) blir en ^^node^^ i treet."
-    },
-    {
-      "type": "paragraph",
-      "text": "Det er dette treet JavaScript bruker når du for eksempel endrer tekst, farge, skjuler elementer eller lager knapper som reagerer når du klikker."
-    },
+
+      { type: "paragraph", text: "Når du åpner en nettside ser du HTML gjort om til en synlig side. I bakgrunnen lager nettleseren en usynlig modell kalt ^^DOM^^ – ^^Document Object Model^^." },
+
+      { type: "paragraph", text: "DOM er en kopi av HTML som JavaScript kan lese og endre. Nettleseren bygger et ^^DOM-tre^^ der hvert HTML-element (som `<body>`, `<h1>`, `<p>`) blir en ^^node^^ i treet" },
+
+      { type: "paragraph", text: "JavaScript bruker dette treet for å endre tekst, farge, skjule elementer eller lage knapper som reagerer." },
     
     {
         type: "image",
@@ -42,10 +36,9 @@ export default [
     id: "sectionExampleHTML",
     title: "Hvordan DOM ser ut i praksis",
     blocks: [
-      {
-        type: "paragraph",
-        text: "Nettleseren tolker HTML-koden og lager et DOM-tre. Her er et enkelt eksempel:"
-      },
+   
+      { type: "paragraph", text: "Nettleseren tolker HTML og lager et DOM-tre.  Eksempel:" },
+
       {
         type: "code",
         language: "html",
@@ -54,7 +47,7 @@ export default [
       },
       {
         type: "paragraph",
-        text: "Dette blir til et DOM-tre som ser slik ut:"
+        text: "DOM-treet ser slik ut:"
       },
       {
         type: "code",
@@ -69,31 +62,16 @@ export default [
     ]
   },
   {
-    id: "sectionGetElementById",
+    id: "elementbyid",
     title: "Velge elementer fra DOM med getElementById",
     blocks: [
       {
         type: "paragraph",
         text: "`getElementById` er en metode i JavaScript som lar deg hente et bestemt HTML-element – ved å bruke `id`-en til elementet. Etter du har hentet et element kan du forandre farge og innhold, og mye mer. "
       },
-      {
-        type: "paragraph",
-        text: "La innholdet i `<body>...</body>`-tagen til HTML-filen være følgende:"
-      },
-
-      {
-        type:"code",
-        language: "html",
-        preview: false,
-        code: `<body>
-  <h1 id="header">Klikk meg</h1>
-  <p id="tekst">Dette er en test.</p>
-  <button id="knapp">Klikk meg</button>
-</body>`
-      },
        {
         type: "paragraph",
-        text: "For å forandre på `<h1>`-tagen kan vi skrive følgende i JavaScript-filen"
+        text: "For å forandre på teksten til `<h1>`-tagen fra koden ovenfor, kan vi skrive følgende i JavaScript"
       },
       {
         type: "code",
@@ -102,17 +80,12 @@ export default [
         code: `let overskrift = document.getElementById("header");
 overskrift.textContent = "Velkommen til DOM-manipulering";`
       },
+      { type: "paragraph", text: "Her skjer to ting:"},
+      { type: "paragraph", text: "1) Vi lager variabelen `overskrift` som peker til `<h1 id=\"header\">`."},
+
       {
         type: "paragraph",
-        text: "I script-koden ovenfor skjer to ting:"
-      },
-      {
-        type: "paragraph",
-        text: '1) Vi lager en variabel `overskrift` og bruker `document.getElementById("header")` til å finne riktig element. `overskrift` blir dermed en referanse for elementet`<h1 id="header">`'
-      },
-      {
-        type: "paragraph",
-        text: '2) Vi endrer innholdet til headeren ved å skrive `overskrift.textContent = "...";`'
+        text: '2) Vi endrer innholdet med `textContent`. '
       },
       
       {
@@ -127,10 +100,7 @@ overskrift.textContent = "Velkommen til DOM-manipulering";`
         script: `let overskrift = document.getElementById("header");
 overskrift.textContent = "Velkommen til DOM-manipulering";`
       },
-       {
-        type: "paragraph",
-        text: "Merk at med `getElementById` blir kun det **første** elementet med den id-en returnert. Det er et godt argument for at man aldri bruker samme id på flere elementer."
-      },
+          { type: "paragraph", text: "Merk: `getElementById` returnerer kun det første elementet med den id-en." }
       
     ]
   },
@@ -140,7 +110,7 @@ overskrift.textContent = "Velkommen til DOM-manipulering";`
     blocks: [
       {
         type: "paragraph",
-        text: "DOM lar deg også reagere på brukerens handlinger med for eksempel knapper. Her har jeg brukt samme HTML som over, men endret på scriptet for å inkludere en ^^event-listener^^."
+        text: "DOM lar deg også reagere på brukerens handlinger med for eksempel knapper. Her har jeg brukt samme HTML som over, men endret på scriptet for å inkludere en ^^event-listener^^, som kjører en funksjon dersom man klikker på knappen."
       },
       {
         type: "code",
@@ -157,84 +127,112 @@ overskrift.textContent = "Velkommen til DOM-manipulering";`
   },
 
 
-  {
-  "id": "sectionTasks",
-  "title": "Flervalgsoppgaver – DOM",
-  "blocks": [
-    {
-      "type": "paragraph",
-      "text": "Her kommer noen spørsmål for å teste deg på det du har lært om DOM!"
-    },
-    {
-    "type": "task",
-    "number": 1,
-    "title": "Hva gjør getElementById?",
-    "description": "Hva returnerer `document.getElementById(\"minId\")`?",
-    "solution": {
-      "correct": 2,
-      "options": [
-        "En liste over alle elementer med id = \"minId\"",
-        "Det første elementet med klassen \"minId\"",
-        "Et HTML-element med id = \"minId\"",
-        "Alle knapper på siden"
-      ]
-    }
-  },
-  {
-    "type": "task",
-    "number": 2,
-    "title": "Hvordan endrer vi teksten i et element?",
-    "description": "Hvilken JavaScript-kode endrer teksten i et element med id `minTekst`?",
-    "solution": {
-      "correct": 1,
-      "options": [
-        "minTekst.text = \"Hei\"",
-        "document.getElementById(\"minTekst\").textContent = \"Hei\";",
-        "getElement(\"minTekst\").innerText = \"Hei\";",
-        "document.querySelector(\"#minTekst\").id = \"Hei\";"
-      ]
-    }
-  },
-  {
-    "type": "task",
-    "number": 3,
-    "title": "Hva skjer når vi bruker addEventListener?",
-    "description": "Hva gjør denne koden?",
-    "code": "document.getElementById(\"knapp\").addEventListener(\"click\", function() {\n  alert(\"Hei!\");\n});",
-    "solution": {
-      "correct": 2,
-      "options": [
-        "Knappen blir skjult når man klikker på den",
-        "Ingenting skjer – det er en skrivefeil",
-        "Når brukeren klikker på knappen, vises en popup med \"Hei!\"",
-        "Den endrer teksten i knappen"
-      ]
-    }
-  },]
-  },
+//   {
+//   "id": "sectionTasks",
+//   "title": "Flervalgsoppgaver – DOM",
+//   "blocks": [
+//     {
+//       "type": "paragraph",
+//       "text": "Her kommer noen spørsmål for å teste deg på det du har lært om DOM!"
+//     },
+//     {
+//     "type": "task",
+//     "number": 1,
+//     "title": "Hva gjør getElementById?",
+//     "description": "Hva returnerer `document.getElementById(\"minId\")`?",
+//     "solution": {
+//       "correct": 2,
+//       "options": [
+//         "En liste over alle elementer med id = \"minId\"",
+//         "Det første elementet med klassen \"minId\"",
+//         "Et HTML-element med id = \"minId\"",
+//         "Alle knapper på siden"
+//       ]
+//     }
+//   },
+//   {
+//     "type": "task",
+//     "number": 2,
+//     "title": "Hvordan endrer vi teksten i et element?",
+//     "description": "Hvilken JavaScript-kode endrer teksten i et element med id `minTekst`?",
+//     "solution": {
+//       "correct": 1,
+//       "options": [
+//         "minTekst.text = \"Hei\"",
+//         "document.getElementById(\"minTekst\").textContent = \"Hei\";",
+//         "getElement(\"minTekst\").innerText = \"Hei\";",
+//         "document.querySelector(\"#minTekst\").id = \"Hei\";"
+//       ]
+//     }
+//   },
+//   {
+//     "type": "task",
+//     "number": 3,
+//     "title": "Hva skjer når vi bruker addEventListener?",
+//     "description": "Hva gjør denne koden?",
+//     "code": "document.getElementById(\"knapp\").addEventListener(\"click\", function() {\n  alert(\"Hei!\");\n});",
+//     "solution": {
+//       "correct": 2,
+//       "options": [
+//         "Knappen blir skjult når man klikker på den",
+//         "Ingenting skjer – det er en skrivefeil",
+//         "Når brukeren klikker på knappen, vises en popup med \"Hei!\"",
+//         "Den endrer teksten i knappen"
+//       ]
+//     }
+//   },]
+//   },
   
   {
   "id": "sectionTasks",
   "title": "Oppgaver om DOM",
   "blocks": [
+
     {
       "type": "task",
       "number": 1,
-      "title": "Endre overskrift med knappetrykk",
-      "description": "Lag et HTML-dokument med en overskrift `h1` og en knapp. Bruk JavaScript til å endre teksten i overskriften når knappen klikkes.",
-      "solution": {
-        "code": "<h1 id=\"header\">Original tekst</h1>\n<button id=\"changeText\">Endre tekst</button>\n\n<script>\n  let button = document.getElementById(\"changeText\");\n  let header = document.getElementById(\"header\");\n\n  button.addEventListener(\"click\", function() {\n    header.textContent = \"Ny overskrift!\";\n  });\n</script>"
-      }
-    },
-    {
-      "type": "task",
-      "number": 2,
       "title": "Endre farge på et element",
       "description": "Lag et element i HTML-filen med et tekstelement (f.eks. et `<p>`-element), og bruk JavaScript til å endre fargen på teksten når du klikker på en knapp. Hint: Bruk `<p>.style.color` for å endre farge-",
       "solution": {
         "code": "<p id=\"text\">Dette er en tekst.</p>\n<button id=\"changeColor\">Bytt farge</button>\n\n<script>\n  let button = document.getElementById(\"changeColor\");\n  let text = document.getElementById(\"text\");\n\n  button.addEventListener(\"click\", function() {\n    text.style.color = \"blue\";\n  });\n</script>"
       }
     },
+    {
+  "type": "task",
+  "number": 2,
+  "title": "Skjul og vis et element",
+  "description": "Lag et avsnitt og en knapp. Når du klikker på knappen, skal avsnittet skjules. Klikker du igjen, skal det vises. Hint: endre på style-attributen `display` som kan være `none` eller `block`",
+  "solution": {
+    "code": `let button = document.getElementById("toggle");
+let text = document.getElementById("text");
+
+button.addEventListener("click", function() {
+  if (text.style.display === "none") {
+    text.style.display = "block";
+  } else {
+    text.style.display = "none";
+  }
+});`
+  }
+},
+    {
+  "type": "task",
+  "number": 3,
+  "title": "Tell antall klikk",
+  "description": "Lag en knapp som teller hvor mange ganger den er klikket og viser tallet i et `<span>`-element.",
+  "solution": {
+    "code": `let button = document.getElementById("counter");
+let countSpan = document.getElementById("count");
+let count = 0;
+
+button.addEventListener("click", function() {
+  count++;
+  countSpan.textContent = count;
+});`
+
+  }
+}
+
   ]
 },
 

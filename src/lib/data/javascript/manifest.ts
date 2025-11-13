@@ -75,7 +75,9 @@ export const jsCourseSections: Section[] = [
     links: [
       { text: 'Intro', anchor: '' },
       { text: 'Lage en funksjon', anchor: '#lagefunksjoner' },
-      { text: 'Lage en funksjon', anchor: '#lagefunksjoner' },
+      { text: 'Parametere/argumenter', anchor: '#parametere' },
+      { text: 'Returnere verdier', anchor: '#return' },
+      { text: 'For Each', anchor: '#foreach' },
 
       { text: 'Oppgaver', anchor: '#sectionTasks' }
     ]

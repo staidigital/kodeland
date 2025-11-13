@@ -57,7 +57,7 @@ siHei()`
   ]
   },
   {
-  id: "sectionParameters",
+  id: "parametere",
   title: "Funksjonens parametere og argumenter",
   blocks: [
      {
@@ -87,7 +87,7 @@ siHei("Anders")`
 }
 ,
 {
-  id: "sectionReturnValues",
+  id: "return",
   title: "Returne verdier med funksjoner",
   blocks: [
     {
@@ -146,16 +146,12 @@ console.log(sjekkAlder(15))`
   ]
 },
 {
-  "id": "sectionForEach",
+  "id": "foreach",
   "title": "En enklere måte å gå gjennom en array: `forEach`",
   "blocks": [
     {
       "type": "paragraph",
-      "text": "`forEach` er en metode du kan bruke på arrays. Den lar deg gjøre noe med hvert element i listen, én etter én, litt som en vanlig løkke. Men med `forEach` slipper du å håndtere en teller-variabel (`i`)."
-    },
-    {
-      "type": "paragraph",
-      "text": "Du kaller `forEach` på en liste og gir den en funksjon som skal kjøres på hvert element:"
+      "text": "`forEach` er en metode på arrays som lar deg gjøre noe med hvert element uten å bruke en teller (`i`)."
     },
     {
       "type": "code",
@@ -168,45 +164,13 @@ navn.forEach(function(person) {
 });`
     },
     {
-      "type": "paragraph",
-      "text": "**Hva skjer her?**"
-    },
-    {
       "type": "list",
       "items": [
         "`navn.forEach(...)` går gjennom hvert element i arrayet",
-        "Funksjonen inni `forEach` blir kalt én gang for hvert navn.",
-        "`person` er en variabel som automatisk får verdien til det nåværende elementet i lista."
+        "Funksjonen inni `forEach` kjøres én gang per element",
+        "`person` får verdien til det nåværende elementet"
       ]
     },
-    {
-  "type": "extraInfo",
-  "icon": "example",
-  "content": [
-    {
-      "type": "text",
-      "value": "`forEach` er nyttig når du vil gjøre noe med hvert element i en liste på nettsiden. Det kan være å vise produkter, legge til knapper eller oppdatere innhold dynamisk."
-    },
-    {
-      "type": "text",
-      "value": "For eksempel kan du ha en liste med produkter som du vil vise på siden:"
-    },
-    {
-      "type": "code",
-      "language": "javascript",
-      "interactive": true,
-      "code": "let produkter = [\"T-skjorte\", \"Bukse\", \"Sko\"];\n\nprodukter.forEach(produkt => {\n  document.body.innerHTML += `<p>Produkt: ${produkt}</p>`;\n});"
-    },
-    {
-      "type": "text",
-      "value": "Her går `forEach` gjennom hvert produkt i arrayen og legger til et avsnitt på siden for hvert produkt. På den måten slipper du å skrive en løkke med teller selv."
-    },
-    {
-      "type": "text",
-      "value": "💡 Du kan også bruke `forEach` til å legge til event listeners på flere knapper eller elementer samtidig, uten å måtte gjenta koden for hver enkelt."
-    }
-  ]
-},
     {
       "type": "code",
       "language": "javascript",
@@ -217,103 +181,67 @@ navn.forEach(function(person) {
       "type": "paragraph",
       "text": "Resultatet er det samme – en personlig hilsen til hver person. Arrow-funksjonen gjør koden kortere og mer moderne."
     },
-    {
-      "type": "paragraph",
-      "text": "💡 Tips: `forEach` er perfekt når du vil gjøre noe med hvert element, men du trenger ikke å endre arrayen direkte. Hvis du trenger å lage en ny array basert på de gamle verdiene, kan du heller bruke `map`."
-    }
   ]
 },
 
-{
-  "id": "sectionForEach",
-  "title": "En enklere måte å gå gjennom en array: `forEach`",
-  "blocks": [
-    {
-      "type": "paragraph",
-      "text": "`forEach` er en metode du kan bruke på arrays. Den gjør nesten det samme som en `for`-løkke, men på en enklere måte. Den lar deg gjøre noe med hvert element i lista – uten å måtte bruke en teller (`i`)."
-    },
-    {
-      "type": "code",
-      "language": "javascript",
-      interactive: true,
-      "code": "let navn = [\"Mia\", \"Ola\", \"Ahmed\"];\n\nnavn.forEach(function(person) {\n  console.log(\"Hei, \" + person + \"!\");\n});"
-    },
-    {
-      "type": "paragraph",
-      "text": "💡 Forklaring:"
-    },
-    {
-      "type": "list",
-      "items": [
-        "`navn.forEach(...)` betyr: Gå gjennom hvert element i arrayen `navn`.",
-        "Funksjonen inni `forEach` blir kalt én gang for hvert navn.",
-        "`person` er en variabel som automatisk får verdien til det nåværende elementet i lista."
-      ]
-    },
-    {
-      "type": "paragraph",
-      "text": "Resultatet er at det skrives ut en personlig hilsen til hver person – akkurat som med en `for`-løkke, men med mindre kode!"
-    }
-  ]
-},
-{
-  "id": "sectionTasks",
-  "title": "Flervalgsoppgaver – Funksjoner i JavaScript",
-  "blocks": [
-    {
-      "type": "paragraph",
-      "text": "Her kommer noen spørsmål for å teste deg på det du har lært om funksjoner!"
-    },
-    {
-      "type": "task",
-      "number": 1,
-      "title": "Hva gjør denne funksjonen?",
-      "description": "Hva skrives ut når vi kjører dette programmet?",
-      "code": "function greet() {\n  console.log(\"Hei!\");\n}\n\ngreet();",
-      "solution": {
-        "correct": 0,
-        "options": [
-          "Hei!",
-          "greet",
-          "Ingenting skjer",
-          "Feilmelding"
-        ]
-      }
-    },
+// {
+//   "id": "sectionTasks",
+//   "title": "Flervalgsoppgaver – Funksjoner i JavaScript",
+//   "blocks": [
+//     {
+//       "type": "paragraph",
+//       "text": "Her kommer noen spørsmål for å teste deg på det du har lært om funksjoner!"
+//     },
+//     {
+//       "type": "task",
+//       "number": 1,
+//       "title": "Hva gjør denne funksjonen?",
+//       "description": "Hva skrives ut når vi kjører dette programmet?",
+//       "code": "function greet() {\n  console.log(\"Hei!\");\n}\n\ngreet();",
+//       "solution": {
+//         "correct": 0,
+//         "options": [
+//           "Hei!",
+//           "greet",
+//           "Ingenting skjer",
+//           "Feilmelding"
+//         ]
+//       }
+//     },
 
-    {
-      "type": "task",
-      "number": 2,
-      "title": "Hva er en parameter?",
-      "description": "Hva er riktig beskrivelse av en parameter i en funksjon?",
-      "solution": {
-        "correct": 2,
-        "options": [
-          "En funksjon som returnerer noe",
-          "En verdi som alltid er et tall",
-          "En midlertidig variabel som brukes i funksjonen",
-          "Et nytt JavaScript-nøkkelord"
-        ]
-      }
-    },
+//     {
+//       "type": "task",
+//       "number": 2,
+//       "title": "Hva er en parameter?",
+//       "description": "Hva er riktig beskrivelse av en parameter i en funksjon?",
+//       "solution": {
+//         "correct": 2,
+//         "options": [
+//           "En funksjon som returnerer noe",
+//           "En verdi som alltid er et tall",
+//           "En midlertidig variabel som brukes i funksjonen",
+//           "Et nytt JavaScript-nøkkelord"
+//         ]
+//       }
+//     },
 
-    {
-      "type": "task",
-      "number": 3,
-      "title": "Hva er forskjellen mellom `return` og `console.log()`?",
-      "description": "Velg det riktige alternativet:",
-      "solution": {
-        "correct": 3,
-        "options": [
-          "`return` skriver til skjermen, `console.log()` gjør det ikke",
-          "`console.log()` stopper funksjonen, `return` gjør ikke det",
-          "De gjør akkurat det samme",
-          "`return` sender verdien tilbake, `console.log()` viser den bare i konsollen"
-        ]
-      }
-    }
-  ]
-},
+//     {
+//       "type": "task",
+//       "number": 3,
+//       "title": "Hva er forskjellen mellom `return` og `console.log()`?",
+//       "description": "Velg det riktige alternativet:",
+//       "solution": {
+//         "correct": 3,
+//         "options": [
+//           "`return` skriver til skjermen, `console.log()` gjør det ikke",
+//           "`console.log()` stopper funksjonen, `return` gjør ikke det",
+//           "De gjør akkurat det samme",
+//           "`return` sender verdien tilbake, `console.log()` viser den bare i konsollen"
+//         ]
+//       }
+//     }
+//   ]
+// },
 {
   "id": "sectionTasks",
   "title": "Oppgaver – Funksjoner",
