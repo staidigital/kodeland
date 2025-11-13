@@ -1,11 +1,11 @@
 export default [
   {
-  id: "sectionIntro",
+  id: "introFunksjon",
   title: "",
   blocks: [
     {
         type: "paragraph",
-        text: "En ^^funksjon^^ er en kodeblokk som gjør en spesifikk oppgave og som kan brukes flere steder i koden."
+        text: "En ^^funksjon^^ er en kodeblokk som gjør en spesifikk oppgave og  kan brukes flere steder i koden."
       },
     {
         type: "paragraph",
@@ -25,13 +25,13 @@ export default [
     },
 
     {
-  id: "sectionDefineFunction",
+  id: "lagefunksjoner",
   title: "Hvordan lage en funksjon",
   blocks: [
    
     {
         type: "paragraph",
-        text: "La oss starte med en enkel funksjon som skriver en melding i konsollen:"
+        text: "Her er en enkel funksjon som skriver en melding:"
       },
     {
       type: "code",
@@ -41,11 +41,7 @@ export default [
     },
     {
         type: "paragraph",
-        text: "Her har vi laget funksjonen `siHei()`. Inni funksjonen bruker vi `console.log()` til å skrive ut meldingen. Merk: vi har ikke ^^kalt på funksjonen^^ ennå, bare laget logikken, så ingen melding vises i konsollen."
-      },
-    {
-        type: "paragraph",
-        text: "Når vi kaller på funksjonen, altså skriver `siHei()`, kjører funksjonen og meldingen vises:"
+        text: "Vi har nå bare laget funksjonen. For å kjøre den må vi ^^kalle på funksjonen^^ i programmet:"
       },
     {
       type: "code",
@@ -57,16 +53,17 @@ export default [
 
 siHei()`
     },
-    {
-        type: "paragraph",
-        text: "Hva om vi vil hilse på flere personer, som `Julia` eller `Faizan`? I stedet for å lage en ny funksjon for hver person, kan vi bruke ^^parametere^^ og ^^argumenter^^."
-      }
+  
   ]
   },
   {
   id: "sectionParameters",
   title: "Funksjonens parametere og argumenter",
   blocks: [
+     {
+        type: "paragraph",
+        text: "Hva om vi vil hilse på flere personer, som `Julia` eller `Anders`? I stedet for å lage en ny funksjon for hver person, kan vi bruke ^^parametere^^ og ^^argumenter^^."
+      },
      {
         type: "paragraph",
         text: "^^Parametere^^ fungerer som placeholders for verdier som sendes til funksjonen. ^^Argumenter^^ er de faktiske verdiene vi sender når vi kaller funksjonen. Her er en oppdatert `siHei()`-funksjon:"
@@ -80,11 +77,11 @@ siHei()`
 }
 
 siHei("Julia")
-siHei("Sondre")`
+siHei("Anders")`
     },
     {
         type: "paragraph",
-        text: "Her er `navn` parameteren, mens stringene \"Julia\" og \"Sondre\" er argumentene. Nå kan vi gjenbruke funksjonen med ulike navn."
+        text: "Her er `navn` parameteren, mens stringene `\"Julia\"` og `\"Anders\"` er argumentene. Nå kan vi gjenbruke funksjonen med ulike navn."
     }
   ]
 }
@@ -95,12 +92,11 @@ siHei("Sondre")`
   blocks: [
     {
       type: "paragraph",
-      text: "En funksjon kan bruke `return` for å sende en verdi tilbake til stedet der den ble kalt, sånn at verdien kan brukes videre i programmet."
+      text: "Funksjoner kan sende verdier tilbake med `return`, slik at resultatet kan brukes videre."
     },
     {
         type: "paragraph",
-        text: "For eksempel returnerer denne funksjonen summen av to tall:"
-      },
+        text: "For eksempel returnerer denne funksjonen summen av to tall:"},
 
     {
       type: "code",
@@ -114,7 +110,7 @@ console.log(resultat);`
     },
     {
         type: "paragraph",
-        text: "Når JavaScript når `return`, stopper funksjonen og sender verdien tilbake. Vi kan ha flere `return`-setninger, for eksempel:"
+        text: "Funksjonen stopper når den når `return`, og sender verdien tilbake."
       },
     {
       type: "code",
@@ -132,20 +128,18 @@ console.log(sjekkAlder(15))`
     },
     {
       type: "paragraph",
-      text: "Første gang vi kaller på `sjekkAlder()`-funksjonen er alderen større enn 18, så funksjonen kjører `return`-setningen inne i `if`-setningen. "
-    },
-    {
-      type: "paragraph",
-      text: "Den andre gangen er alderen mindre enn 18, så funksjonen kjører den andre `return`-setningen i stedet. "
+      text: "Første gang vi kaller på `sjekkAlder()`-funksjonen er alderen større enn 18, så funksjonen returnerer \"Du kan få førerkort\". Den andre gangen returneres \"Du kan ikke få førerkort\"."
     },
     {
   type: "extraInfo",
   icon: "note",
   content: [
-    {
-      type: "text",
-      value: "Variabler som lages inne i en funksjon finnes bare der inne – dette kalles ^^local scope^^. Variabler definert utenfor funksjoner er i ^^global scope^^ og kan brukes overalt. Tenk på det som at hver funksjon har sitt eget rom for variabler, slik at verdier ikke blandes med andre deler av programmet."
-    }
+   
+          {
+            type: "text",
+            value: "Variabler som lages inne i en funksjon finnes bare der – dette kalles ^^local scope^^. Variabler utenfor funksjoner er i ^^global scope^^ og kan brukes overalt."
+          }
+
   ]
 }
 

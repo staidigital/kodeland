@@ -14,6 +14,7 @@ const sectionImports: Record<string, () => Promise<any>> = {
     part8: () => import("$lib/data/javascript/section8.js"),
     part9: () => import("$lib/data/javascript/section9.js"),
     part10: () => import("$lib/data/javascript/section10.js"),
+    part11: () => import("$lib/data/javascript/section11.js"),
 
 };
 

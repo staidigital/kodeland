@@ -5,7 +5,7 @@ export const jsCourseSections: Section[] = [
     id: 'part0',
     title: 'Setup',
     links: [
-      {text: 'Javascript linket til HTML', anchor: ''},
+      {text: 'Javascript + HTML', anchor: ''},
       {text: 'Node', anchor: '#sectionNode'}
     ]
   },
@@ -14,7 +14,10 @@ export const jsCourseSections: Section[] = [
     id: 'part1',
     title: 'Del 1: Variabler',
     links: [
-      { text: 'Teori', anchor: '' },
+      { text: 'Lage variabler', anchor: '#lageVariabler' },
+      { text: 'Navngi variabler', anchor: '#navngiVariabler' },
+      { text: 'Konstante variabler', anchor: '#constVariabler' },
+
       { text: 'Oppgaver', anchor: '#sectionTasks' }
     ]
   },
@@ -22,15 +25,20 @@ export const jsCourseSections: Section[] = [
     id: 'part2',
     title: 'Del 2: Datatyper',
     links: [
-      { text: 'Teori', anchor: '' },
+      { text: 'Number', anchor: '#number' },
+      { text: 'String', anchor: '#string' },
+      { text: 'Boolean', anchor: '#boolean' },
+      { text: 'Undefined og Null', anchor: '#undefinednull' },
       { text: 'Oppgaver', anchor: '#sectionTasks' }
     ]
   },
   {
     id: 'part3',
-    title: 'Del 3: Arrays',
+    title: 'Del 3: Array',
     links: [
-      { text: 'Teori', anchor: '' },
+      { text: 'Array', anchor: '' },
+      { text: 'Noen arraymetoder', anchor: '#arraymetoder' },
+
       { text: 'Oppgaver', anchor: '#sectionTasks' }
     ]
   },
@@ -38,7 +46,12 @@ export const jsCourseSections: Section[] = [
     id: 'part4',
     title: 'Del 4: Betingelser',
     links: [
-      { text: 'Teori', anchor: '' },
+      { text: 'Intro', anchor: '' },
+      { text: 'Sammenligne verdier', anchor: '#sammenligningsoperatorer'},
+      { text: 'If', anchor: '#ifsetning'},
+      { text: 'If-else', anchor: '#ifelse'},
+      { text: 'If-elif-else', anchor: '#ifelifelse'},
+      { text: 'Kombinere betingelser', anchor: '#kombinering'},
       { text: 'Oppgaver', anchor: '#sectionTasks' }
     ]
   },
@@ -46,7 +59,13 @@ export const jsCourseSections: Section[] = [
     id: 'part5',
     title: 'Del 5: Løkker',
     links: [
-      { text: 'Teori', anchor: '' },
+      { text: 'Intro', anchor: '' },
+      { text: 'For-løkker', anchor: '#for' },
+            { text: 'Iterere over string', anchor: '#forstring' },
+
+      { text: 'Iterere over array', anchor: '#forarray' },
+      { text: 'While-løkker', anchor: '#while' },
+      { text: 'Break og Continue', anchor: '#breakcontinue' },
       { text: 'Oppgaver', anchor: '#sectionTasks' }
     ]
   },
@@ -54,7 +73,10 @@ export const jsCourseSections: Section[] = [
     id: 'part6',
     title: 'Del 6: Funksjoner',
     links: [
-      { text: 'Teori', anchor: '' },
+      { text: 'Intro', anchor: '' },
+      { text: 'Lage en funksjon', anchor: '#lagefunksjoner' },
+      { text: 'Lage en funksjon', anchor: '#lagefunksjoner' },
+
       { text: 'Oppgaver', anchor: '#sectionTasks' }
     ]
   },
@@ -82,6 +104,11 @@ export const jsCourseSections: Section[] = [
   {
     id: 'part10',
     title: 'Del 10: Bonusoppgaver',
+    links: []
+  },
+  {
+    id: 'part11',
+    title: 'Del 11: Input',
     links: []
   },
  

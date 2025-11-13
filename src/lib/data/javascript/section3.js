@@ -6,7 +6,7 @@ export default [
   "blocks": [
     {
       type: "paragraph",
-      text: "En `array` er en liste med data, vanligvis relatert (elementene har ofte en sammenheng med hverandre)."
+      text: "En `array` er en liste med verdier som vanligvis er relatert (elementene har en sammenheng med hverandre)."
     },
 
     {
@@ -16,7 +16,7 @@ export default [
         {
           type: "text",
           value:
-            "Eksempler på bruk av array er vennelisten din på Facebook, en liste over leiligheter på Airbnb, en liste av kommentarer på et Instagram-innlegg."
+            "Eksempler på bruk av array i nettsider kan være vennelisten din på Facebook, en liste over leiligheter på Airbnb, en liste av kommentarer på et Instagram-innlegg."
         }
       ]
     },
@@ -26,22 +26,28 @@ export default [
       type: "paragraph",
       text: "En array kan bestå av strings, tall, booleans eller en miks av ulike datatyper."
     },
+    
+]},
+    {
+  "id": "lagearray",
+  "title": "Lage en Array",
+  "blocks": [
+    {
+      type: "extraInfo",
+      icon: "keyboard",
+      content: [
+        {
+          type: "text",
+          value:
+            "For å lage en array bruker vi firkant-paranteser `[]` med knappen *=option + 8=*, og skiller verdiene med komma."
+        }
+      ]
+    },
     {
       type: "paragraph",
-      text: "For å lage en array bruker vi firkant-paranteser `[]`, og skiller verdiene med komma. Her er et par eksempler:"
+      text: "Her har vi laget en array `handleListe` som består av $$3$$ string-elementer."
     },
-    {
-      type: "code",
-      language: "javascript",
-      interactive: false,
-      code: `let venner = ["venn1", "venn2", "venn3"]
-let amazonRatings = [4, 4.6, 3.2, 5, 5.5]`
-    },
-
-     {
-      type: "paragraph",
-      text: "Vi skal se litt ekstra på arrayet `handleListe` som skal inneholde matvarer vi trenger på butikken."
-    },
+    
     {
       type: "code",
       language: "javascript",
@@ -75,8 +81,10 @@ console.log(handleListe);`
       type: "paragraph",
       text: "Plassen et element har i arrayet heter elementets  ^^indeks-nummer^^. Det første elementet i arrayet har indeks-nummer $$0$$, det neste elementet har indeks-nummer $$1$$ og så videre."
     },
+
      {
       type: "paragraph",
+      subtitle: "Skrive ut elementer",
       text: "Du kan bruke indeks-nummeret når du vil skrive ut et spesifikt element. For eksempel hvis du vil skrive ut `melk` og `brød` fra listen `handleListe`, gjør du slik:"
     },
     {
@@ -89,6 +97,7 @@ console.log(handleListe[2])`
     },
     {
       type: "paragraph",
+      subtitle: "Endre elementer",  
       text: "Du kan endre et element i en array ved å gi en ny verdi til et spesifikt indeksnummer:"
     },
     {
@@ -100,10 +109,20 @@ handleListe[2] = "rundstykker"
 console.log(handleListe)`
       
     },
-     {
+  ]},
+
+{
+  "id": "arraymetoder",
+  "title": "Array-metoder",
+  "blocks": [
+    {
       type: "paragraph",
-      subtitle: "Array-metoder",
-      text: "En array har mange innebygde metoder du kan bruke for å endre den. Du kan for eksempel legge til et nytt element på slutten med `push()`:"
+      text: "En array har mange innebygde metoder du kan bruke for å endre den."
+    }, 
+    {
+      type: "paragraph",
+      subtitle: "Legge til elementer",
+      text: "Du kan for eksempel legge til et nytt element på slutten med `push()`:"
     },
     {
       "type": "code",
@@ -115,6 +134,8 @@ console.log(handleListe);`
       },
     {
       "type": "paragraph",
+      subtitle: "Fjerne elementer",
+
       "text": "Du kan fjerne det siste elementet med `pop()`:"
     },
     {
@@ -127,7 +148,9 @@ console.log(handleListe);`
     },
     {
       "type": "paragraph",
-      "text": "For å finne ut hvor mange verdier det er i listen, bruker vi `length`:"
+      subtitle: "Finne lengden av en array",
+
+      "text": "For å finne ut hvor mange verdier det er i arrayet, bruker vi `length`:"
     },
     {
       "type": "code",
@@ -146,163 +169,163 @@ console.log(handleListe.length)`
 },
 
 
-{
-  id: "objects",
-  title: "Objects - ikke krav å kunne",
-  collapsible: "true",
-  blocks: [
-    {
-      type: "paragraph",
-      text: "Under kommer en rask, overordnet forklaring på hva et `object` (objekt) er. Det er ikke krav å jobbe med nå, men noe som kan være lurt for de som skal ta IT videre å vite om. Her er bare selve datastrukturen beskrevet."
-    },
-    {
-      type: "paragraph",
-      text: "Et eksempel på data lagret i et objekt er *=Amazon=* sin nettbutikk, som selger diverse produkter. Hvert produkt har en Customer Review tab:"
-    },
-    {
-      type: "image",
-      component: 'BlockImage',
-      props: {
-        images: [
-          {
-            src: '/images/js/object_amazon.png',
-            alt: 'En array',
-            caption: 'Amazon reviews.',
-            fullWidth: false,
-            width: "50%",
-            align: "center",
-            rounded: true,
-            shadow: true
-          },
-        ]
-      }
-    },
-    {
-      type: "paragraph",
-      text: "Men en anmeldelse inneholder ikke bare en rating. Hver anmeldelse inneholder et `forfatterNavn`, en `rating` og en `forklaring`. Med et objekt kan man samle denne dataen på en strukturert måte: "
-    },
-    {
-      type: "code",
-      language: "javascript",
-      interactive: false,
-      code: `{forfatterNavn: "user1", rating: 5, forklaring: "nydelig!"}`
-    },
+// {
+//   id: "objects",
+//   title: "Objects - ikke bruk tid på dette",
+//   collapsible: "true",
+//   blocks: [
+//     {
+//       type: "paragraph",
+//       text: "Under kommer en rask, overordnet forklaring på hva et `object` (objekt) er. Det er ikke krav å jobbe med nå, men noe som kan være lurt for de som skal ta IT videre å vite om. Her er bare selve datastrukturen beskrevet."
+//     },
+//     {
+//       type: "paragraph",
+//       text: "Et eksempel på data lagret i et objekt er *=Amazon=* sin nettbutikk, som selger diverse produkter. Hvert produkt har en Customer Review tab:"
+//     },
+//     {
+//       type: "image",
+//       component: 'BlockImage',
+//       props: {
+//         images: [
+//           {
+//             src: '/images/js/object_amazon.png',
+//             alt: 'En array',
+//             caption: 'Amazon reviews.',
+//             fullWidth: false,
+//             width: "50%",
+//             align: "center",
+//             rounded: true,
+//             shadow: true
+//           },
+//         ]
+//       }
+//     },
+//     {
+//       type: "paragraph",
+//       text: "Men en anmeldelse inneholder ikke bare en rating. Hver anmeldelse inneholder et `forfatterNavn`, en `rating` og en `forklaring`. Med et objekt kan man samle denne dataen på en strukturert måte: "
+//     },
+//     {
+//       type: "code",
+//       language: "javascript",
+//       interactive: false,
+//       code: `{forfatterNavn: "user1", rating: 5, forklaring: "nydelig!"}`
+//     },
 
-    {
-      type: "paragraph",
-      text: "Et annet eksempel er en leilighet på AirBNB, som inneholder egenskaper som `addresse`, `pris`, `beskrivelse`, `erLedig`, `rating`, `bilder`:"
-    },
-    {
-      type: "code",
-      language: "javascript",
-      interactive: false,
-      code: `{
-  addresse: "Osloveien 1",
-  pris: "2000",
-  beskrivelse: "noe tekst",
-  rating: 5,
-  erLedig: true,
-  bilder: ["bilde1", "bilde2", "bilde3"]
-}`
-    },
-    {
-      type: "paragraph",
-      text: "Objekter har `key:value` par. Key er egenskapene til objektet, mens value er egenskapens verdi. For eksempel er `rating` en key, mens `5` er dens tilhørende value. "
-    },
-    {
-      type: "paragraph",
-      text: "Du kan bruke alle de ulike datatypene som verdier i et objekt. Ovenfor bruker vi både string, number, boolean og array."
-    },
-    {
-      type: "paragraph",
-      text: "Til slutt, hvis vi går tilbake til Amazon-ratingene, så kan man ha en liste med ratings-objekter ved å bruke array. Det kan da se sånn her ut:"
-    },
-    {
-      type: "code",
-      language: "javascript",
-      interactive: false,
-      code: `[
-  {forfatterNavn: "user1", rating: 5, forklaring: "nydelig!"},
-  {forfatterNavn: "user2", rating: 4.5, forklaring: "ganske bra"},
-  {forfatterNavn: "user3", rating: 4, forklaring: "fungerte ok"}
-]`
-    },
-    {
-      type: "paragraph",
-      text: "Dette er nok den mest komplekse datastrukturen du kommer til å bruke i JavaScript. Vi går ikke mer nøye gjennom her, hvis du får bruk for det så får du jobbe med det da."
-    },
+//     {
+//       type: "paragraph",
+//       text: "Et annet eksempel er en leilighet på AirBNB, som inneholder egenskaper som `addresse`, `pris`, `beskrivelse`, `erLedig`, `rating`, `bilder`:"
+//     },
+//     {
+//       type: "code",
+//       language: "javascript",
+//       interactive: false,
+//       code: `{
+//   addresse: "Osloveien 1",
+//   pris: "2000",
+//   beskrivelse: "noe tekst",
+//   rating: 5,
+//   erLedig: true,
+//   bilder: ["bilde1", "bilde2", "bilde3"]
+// }`
+//     },
+//     {
+//       type: "paragraph",
+//       text: "Objekter har `key:value` par. Key er egenskapene til objektet, mens value er egenskapens verdi. For eksempel er `rating` en key, mens `5` er dens tilhørende value. "
+//     },
+//     {
+//       type: "paragraph",
+//       text: "Du kan bruke alle de ulike datatypene som verdier i et objekt. Ovenfor bruker vi både string, number, boolean og array."
+//     },
+//     {
+//       type: "paragraph",
+//       text: "Til slutt, hvis vi går tilbake til Amazon-ratingene, så kan man ha en liste med ratings-objekter ved å bruke array. Det kan da se sånn her ut:"
+//     },
+//     {
+//       type: "code",
+//       language: "javascript",
+//       interactive: false,
+//       code: `[
+//   {forfatterNavn: "user1", rating: 5, forklaring: "nydelig!"},
+//   {forfatterNavn: "user2", rating: 4.5, forklaring: "ganske bra"},
+//   {forfatterNavn: "user3", rating: 4, forklaring: "fungerte ok"}
+// ]`
+//     },
+//     {
+//       type: "paragraph",
+//       text: "Dette er nok den mest komplekse datastrukturen du kommer til å bruke i JavaScript. Vi går ikke mer nøye gjennom her, hvis du får bruk for det så får du jobbe med det da."
+//     },
     
     
     
-  ]
-},
+//   ]
+// },
 
-{
-  id: "sectionTasks",
-  title: "Flervalgsoppgaver – arrays",
-  blocks: [
-    {
-      type: "paragraph",
-      text: "Trykk på riktig alternativ for hvert spørsmål. Grønn betyr riktig svar, rød betyr feil."
-    },
-    {
-      type: "task",
-      number: 1,
-      title: "Hva skrives ut?",
-      description: "Hva vil denne koden skrive ut i konsollen?",
-      code: `let animals = ["Hund", "Katt", "Fugl"];
-console.log(animals[1]);`,
-      solution: {
-        correct: 1,
-        options: [`"Hund"`, `"Katt"`, `"Fugl"`, `"undefined"`]
-      }
-    },
-    {
-      type: "task",
-      number: 2,
-      title: "Hva gjør `pop()`?",
-      description: "Hva vil arrayet inneholde etter at vi bruker `pop()`?",
-      code: `let colors = ["Rød", "Grønn", "Blå"];
-colors.pop();`,
-      solution: {
-        correct: 1,
-        options: [
-          '["Rød", "Grønn", "Blå"]',
-          '["Rød", "Grønn"]',
-          '["Grønn", "Blå"]',
-          '["Rød", "Blå"]'
-        ]
-      }
-    },
-    {
-      type: "task",
-      number: 3,
-      title: "Hva gjør `push()`?",
-      description: "Hva gjør `push()` i en array?",
-      solution: {
-        correct: 0,
-        options: [
-          "Legger til et nytt element på slutten",
-          "Fjerner det første elementet",
-          "Sorter arrayet",
-          "Finner lengden på arrayet"
-        ]
-      }
-    },
-    {
-      type: "task",
-      number: 4,
-      title: "Hva er `length`?",
-      description: "Hva returnerer `length` når vi har tre elementer i arrayet?",
-      code: `let dyr = ["Hund", "Katt", "Fugl"];
-console.log(dyr.length);`,
-      solution: {
-        correct: 2,
-        options: ["0", "2", "3", "4"]
-      }
-    }
-  ]
-},
+// {
+//   id: "sectionTasks",
+//   title: "Flervalgsoppgaver – arrays",
+//   blocks: [
+//     {
+//       type: "paragraph",
+//       text: "Trykk på riktig alternativ for hvert spørsmål. Grønn betyr riktig svar, rød betyr feil."
+//     },
+//     {
+//       type: "task",
+//       number: 1,
+//       title: "Hva skrives ut?",
+//       description: "Hva vil denne koden skrive ut i konsollen?",
+//       code: `let animals = ["Hund", "Katt", "Fugl"];
+// console.log(animals[1]);`,
+//       solution: {
+//         correct: 1,
+//         options: [`"Hund"`, `"Katt"`, `"Fugl"`, `"undefined"`]
+//       }
+//     },
+//     {
+//       type: "task",
+//       number: 2,
+//       title: "Hva gjør `pop()`?",
+//       description: "Hva vil arrayet inneholde etter at vi bruker `pop()`?",
+//       code: `let colors = ["Rød", "Grønn", "Blå"];
+// colors.pop();`,
+//       solution: {
+//         correct: 1,
+//         options: [
+//           '["Rød", "Grønn", "Blå"]',
+//           '["Rød", "Grønn"]',
+//           '["Grønn", "Blå"]',
+//           '["Rød", "Blå"]'
+//         ]
+//       }
+//     },
+//     {
+//       type: "task",
+//       number: 3,
+//       title: "Hva gjør `push()`?",
+//       description: "Hva gjør `push()` i en array?",
+//       solution: {
+//         correct: 0,
+//         options: [
+//           "Legger til et nytt element på slutten",
+//           "Fjerner det første elementet",
+//           "Sorter arrayet",
+//           "Finner lengden på arrayet"
+//         ]
+//       }
+//     },
+//     {
+//       type: "task",
+//       number: 4,
+//       title: "Hva er `length`?",
+//       description: "Hva returnerer `length` når vi har tre elementer i arrayet?",
+//       code: `let dyr = ["Hund", "Katt", "Fugl"];
+// console.log(dyr.length);`,
+//       solution: {
+//         correct: 2,
+//         options: ["0", "2", "3", "4"]
+//       }
+//     }
+//   ]
+// },
 
   {
   id: "sectionTasks",
@@ -317,7 +340,7 @@ console.log(dyr.length);`,
       number: 1,
       title: "Skriv ut bestemte frukter",
       description:
-        "Lag en array `fruits` med minst tre frukter. Skriv ut den første og siste frukten. (Hint: Bruk indeksen `fruits.length - 1` for siste element.)",
+        "Lag en array `fruits` med minst tre frukter. Skriv ut den første og siste frukten.",
       code: `let fruits = ["Eple", "Banan", "Appelsin"];
 
 // Skriv ut første og siste frukt`,

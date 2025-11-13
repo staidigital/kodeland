@@ -1,15 +1,13 @@
 export default [
+  
+
   {
     id: "intro",
     title: "",
     blocks: [
       {
         type: 'paragraph',
-        text: 'I JavaScript referer ^^datatyper^^ til hva slags type verdi en variabel kan tildeles. En datatype spesifiserer hva du kan og hva du ikke kan gjøre med den dataen.'
-      },
-      {
-        type: 'paragraph',
-        text: 'I denne seksjonen skal vi jobbe med de ulike grunnleggende datatypene som er relevante i JavaScript.'
+        text: 'I JavaScript har alle verdier en ^^datatype^^. Det forteller hva slags data du jobber med, og hva du kan gjøre med den. De viktigste typene du trenger å vite om nå er forklart nedenfor.'
       },
     ]
   },
@@ -21,7 +19,7 @@ export default [
 
       {
         type: "paragraph",
-        text: "En viktig datatype som brukes av veldig mange nettsider er `number` (tall). Når du lager en nettside eller applikasjon så er det åpenbart at man må forholde seg til tall."
+        text: "En viktig datatype som brukes av veldig mange nettsider er `Number`. Number inkluderer både heltall (`int`) og desimaltall (`float`)."
       },
       {
         type: "extraInfo",
@@ -29,14 +27,15 @@ export default [
         content: [
           {
             type: "text",
+
             value:
-              "Nettsiden YouTube er et godt eksempel. De viser antall subscriptions for hver kanal, hvor mange likes hver video har og hvor mange videoer en kanal har laget. Tall brukes også i beregninger som nettsider trenger. For eksempel bruker Amazon tall til å regne ut og vise gjennomsnittlig rating av produktene sine."
+              "Tall brukes ofte i beregninger som nettsiden må gjøre. For eksempel bruker Amazon tall til å regne ut og vise gjennomsnittlig rating av produktene sine."
           }
         ]
       },
       {
         type: "paragraph",
-        text: "For å kunne gjøre matematiske operasjoner ($$+$$, $$-$$, $$*$$, $$/$$) må vi bruke verdier med datatypen `Number`. Number representer både heltall `integer` og desimaltall `float`."
+        text: "For å kunne gjøre matematiske operasjoner ($$+$$, $$-$$, $$*$$, $$/$$) må datatypen være `Number`."
       },
       {
         type: 'code',
@@ -57,19 +56,22 @@ console.log(averageRating);`
     ]
   },
   {
-    id: "strings",
+    id: "string",
     title: "String",
     blocks: [
       {
         type: "paragraph",
-        text: '`String` brukes for tekst og er skrevet mellom anførselstegn, enten doble (`""`) eller single (`\'\'`). Man kan bruke alle de vanlige bokstavene samt alle de spesielle symbolene som fins (for eksempel %, &, $, ...) og alle tallene.'
+        text: '`String` brukes for tekst og er skrevet mellom anførselstegn, enten doble " ", single \' \' eller med backticks \`.'
       },
       {
         type: 'code',
         language: 'javascript',
-        interactive: false,
-        code: `let melding = "Hello World!"; // String
-console.log(melding);`
+        interactive: true,
+        code: `let navn1 = "Jens";
+let navn2 = 'Julia';
+let navn3 = \`Anders\`;
+
+console.log(navn1, navn2, navn3);`
       },
       {
         type: "paragraph",
@@ -92,33 +94,6 @@ console.log(melding);`
         code: `let melding = "Hello " + "and " + "Goodbye";
 console.log(melding);`
       },
-
-      {
-        type: 'extraInfo',
-        icon: 'note',
-        content: [
-          { type: 'text', value: 'Operasjonen ovenfor, hvor vi brukte `+` mellom strings har det fantastiske ordet ^^string-concatenation^^ på engelsk (nei du må ikke kunne ordet). En del programmeringsbegreper er litt overkant vanskelige.' },
-        ]
-      },
-   
-      {
-        type: "paragraph",
-        text: "Du kan skrive strings direkte i `console.log()` sammen med variabler, enten med `+`,  skille mellom variablene med `,`."
-      },
-      {
-        type: 'code',
-        language: 'javascript',
-        interactive: false,
-        code: `let navn = "Jens";
-let tema = "JavaScript";
-console.log(navn + " lærer seg " + tema + " i dag "); // bruker +
-console.log(navn, "lærer seg", tema, "i dag");        // bruker ,
-console.log(\`$\{navn\} lærer seg $\{tema\} i dag\`);   // bruker \` og $\{} `
-      },
-      {
-        type: "paragraph",
-        text: "Siste måten å skrive på heter ^^template-strings^^, og bruker backticks ` og ${} til å referere til variabler."
-      },
       {
         type: "paragraph",
         text: "Strings kan også representere tall. Da vil JavaScript sette sammen tallene, istedenfor å addere tallene. Hvis du vil gjøre matematisk operasjon, dropp anførselstegn!"
@@ -138,12 +113,12 @@ console.log(score)`
 
 
   {
-  id: "strings",
+  id: "boolean",
   title: "Boolean",
   blocks: [
       {
         type: "paragraph",
-        text: "`Booleans` er en datatype som representerer `true` eller `false` verdier. Det er som en lysbryter, den kan enten være av eller på."
+        text: "`Booleans` er en datatype som representerer `true` eller `false` verdier, verdier som enten er sanne eller usanne."
       },
 
       {
@@ -153,7 +128,7 @@ console.log(score)`
           {
             type: "text",
             value:
-              "I JavaScript brukes Booleans når programmet skal gjøre en avgjørelse: er passordet som ble sendt inn riktig eller galt? Er brukeren logget inn?"
+              "I JavaScript brukes Booleans når programmet skal gjøre en avgjørelse: er passordet som ble sendt inn riktig eller galt? Er brukeren logget inn, eller ikke?"
           }
         ]
       },
@@ -165,24 +140,24 @@ console.log(score)`
         type: 'code',
         language: 'javascript',
         interactive: false,
-        code: `let on = true;
-let off = false; `
+        code: `let erStudent = true;
+let darkMode = false;`
       },
        {
         type: "paragraph",
-        text: "Vi bruker Booleans mye når vi jobber med betingelser i neste seksjon."
+        text: "Vi bruker Booleans mye når vi jobber med `if-else` senere."
       },
 
     ]
   },
 
   {
-  id: "strings",
+  id: "undefinednull",
   title: "Undefined og Null",
   blocks: [
       {
         type: "paragraph",
-        text: "`Undefined` er en datatype som representerer en variabel som ikke har blitt tildelt en verdi. Når du deklarerer en variabel uten å gi den en verdi vil den automatisk ha datatypen `undefined`."
+        text: "`Undefined` er en datatype som representerer en variabel som ikke ennå har blitt tildelt en verdi.."
       },
       {
         type: 'code',
@@ -193,7 +168,7 @@ console.log(first_name); //undefined`
       },
       {
         type: "paragraph",
-        text: "`Null` er en spesiell datatype som representer en tom eller ukjent verdi."
+        text: "`Null` er en datatype som representer en tom eller ukjent verdi."
       },
       {
         type: 'code',
@@ -209,7 +184,7 @@ console.log(first_name); //undefined`
   },
 
   {
-  id: "strings",
+  id: "oppsummert",
   title: "Oppsummert",
   blocks: [
       {
@@ -240,70 +215,70 @@ let ikkeTildelt;            // undefined: laget variabelen, men ikke gitt den en
     ]
   },
 
-{
-  id: "sectionTasks",
-  title: "Flervalgsoppgaver – datatyper",
-  blocks: [
-    {
-      type: "paragraph",
-      text: "Trykk på riktig alternativ for hvert spørsmål. Grønn er at du fikk riktig, rød er feil."
-    },
+// {
+//   id: "sectionTasks",
+//   title: "Flervalgsoppgaver – datatyper",
+//   blocks: [
+//     {
+//       type: "paragraph",
+//       text: "Trykk på riktig alternativ for hvert spørsmål. Grønn er at du fikk riktig, rød er feil."
+//     },
 
-    {
-      type: "task",
-      number: 1,
-      title: "Hvilken datatype er dette?",
-      description: "Hva er datatypen til variabelen `navn`?",
-      code: `let navn = "Ola";`,
-      solution: {
-        correct: 0,
-        options: [
-          "String",
-          "Number",
-          "Boolean",
-          "Undefined"
-        ]
-      }
-    },
+//     {
+//       type: "task",
+//       number: 1,
+//       title: "Hvilken datatype er dette?",
+//       description: "Hva er datatypen til variabelen `navn`?",
+//       code: `let navn = "Ola";`,
+//       solution: {
+//         correct: 0,
+//         options: [
+//           "String",
+//           "Number",
+//           "Boolean",
+//           "Undefined"
+//         ]
+//       }
+//     },
 
-    {
-      type: "task",
-      number: 2,
-      title: "Hva er verdien til x?",
-      description: "Hva skrives ut i konsollen?",
-      code: `let x;
-console.log(x);`,
-      solution: {
-        correct: 2,
-        options: [
-          `"null"`,
-          `"0"`,
-          `"undefined"`,
-          `"false"`
-        ]
-      }
-    },
-    {
-  type: "task",
-  number: 3,
-  title: "Hvilken datatype får vi her?",
-  description: "Hva er datatypen til resultatet av dette uttrykket?",
-  code: `let result = "5" + 2;`,
-  solution: {
-    correct: 0,
-    options: [
-      "String",
-      "Number",
-      "Boolean",
-      "Undefined"
-    ]
-  }
-}
+//     {
+//       type: "task",
+//       number: 2,
+//       title: "Hva er verdien til x?",
+//       description: "Hva skrives ut i konsollen?",
+//       code: `let x;
+// console.log(x);`,
+//       solution: {
+//         correct: 2,
+//         options: [
+//           `"null"`,
+//           `"0"`,
+//           `"undefined"`,
+//           `"false"`
+//         ]
+//       }
+//     },
+//     {
+//   type: "task",
+//   number: 3,
+//   title: "Hvilken datatype får vi her?",
+//   description: "Hva er datatypen til resultatet av dette uttrykket?",
+//   code: `let result = "5" + 2;`,
+//   solution: {
+//     correct: 0,
+//     options: [
+//       "String",
+//       "Number",
+//       "Boolean",
+//       "Undefined"
+//     ]
+//   }
+// }
 
 
 
-  ]
-},
+//   ]
+// },
 
 
   // 📝 TASKS

@@ -15,66 +15,39 @@ export default [
         type:"paragraph",
         text: '%%"Hvis noe er sant - kjør denne kodeblokken"%%'
       },
-
+      
      
       
       {
         type:"paragraph",
-        text: 'For eksempel: Hvis brukeren er logget inn - skriv en velkomstmelding'
+        text: 'For eksempel: Hvis alderen er over 18, skriv du er myndig.'
       },
-       {
+
+      {
         type: "code",
         language: "javascript",
         interactive: false,
-        code: `if (isLoggedIn){
-  console.log("Velkommen tilbake")
+        code: `let age = 18;
+
+if (age >= 18) {
+  console.log("Du er myndig.");
 }`
       },
       {
         type:"paragraph",
-        text: 'Denne sjekken - *=er brukeren logget inn=* - kalles en betingelse. Koden din gjør noe bare hvis betingelsen er `true`.'
+        text: 'Denne sjekken - *=er alder større eller lik 18=* - kalles en betingelse. Koden din gjør noe bare hvis betingelsen er `true`, altså ikke hvis betingelsen er `false`.'
       },
     ]
   },
   
 
   {
-    id: "sectionBetingelser",
+    id: "sammenligningsoperatorer",
     title: "Sammenligningsoperatorer",
     blocks: [
       {
         type: "paragraph",
-        text: "JavaScript kan sammenligne to verdier og gi en Boolean som enten er `true` eller `false`."
-      },
-      {
-        type: 'extraInfo',
-        icon: 'example',
-        content: [
-          { type: 'text', value: 'Et eksempel på bruken av sammenligningsoperatorer er Facebook sin feature når en bruker har bursdag. Når du har bursdag så viser Facebook et bursdagsikon 🎂 og sender en notifikasjon til alle vennene dine.' },
-          { type: 'text', value: 'For å sjekke om du har bursdag må Facebook sammenligne dagens dato med bursdagsdatoen din. ' },
-          { type: 'text', value: '`dagensDato === bursdagsDato` eller `dagensDato == bursdagsDato`'},
-          { type: 'text', value: 'Dersom du har bursdag returnerer denne testen ut booleanen `true`.'},
-        ]
-      },
-      {
-        type: "paragraph",
-        text: "Med to likhetstegn `==` sammmenlignes verdiene med hverandre. Med tre likhetstegn `===` sammenlignes også datatypen til verdiene med hverandre."
-      },
-    {
-        type: "paragraph",
-        text: "**Tips:** Bruk alltid `===` med mindre du helt bevisst vil tillate at tall og tekst blir sammenlignet som like."
-      },
-
-      {
-        type: "code",
-        language: "javascript",
-        interactive: true,
-        code: `let age = 30
-console.log(age == 30) //true
-console.log(age === 30) //true
-console.log(age == '30') //true
-console.log(age === '30') //false
-console.log(age == 50) //false`
+        text: "I koden ovenfor bruker vi ^^sammenligningsoperatoren^^ `>=` for å sjekke om verdien til `age` er større eller lik 18. Dersom denne betingelsen er sann vil JavaScript gi `true`, og hvis usann gir JavaScript ut `false`."
       },
       {
         type: "paragraph",
@@ -95,18 +68,35 @@ console.log(age == 50) //false`
         ]
       },
 
+      {
+        type: "paragraph",
+        text: "Med to likhetstegn `==` sammmenlignes verdiene med hverandre. Med tre likhetstegn `===` sammenlignes også datatypen til verdiene med hverandre."
+      },
+ 
+
+      {
+        type: "code",
+        language: "javascript",
+        interactive: true,
+        code: `let age = 30
+console.log(age == 30) //true
+console.log(age === 30) //true
+console.log(age == '30') //true Number mot String gir True
+console.log(age === '30') //false Number mot String gir False
+console.log(age == 50) //false` 
+      },
 
 
     ]
   },
 
   {
-    id: "sectionBasicIf",
+    id: "if",
     title: "Grunnleggende if-setning",
     blocks: [
       {
         type: "paragraph",
-        text: "En `if`-setning sjekker om en betingelse er `true`. Hvis det stemmer, kjører koden som står inne i if-blokken - koden mellom klammeparantesene `{...}`."
+        text: "En `if`-setning sjekker om en betingelse er `true`. Hvis det stemmer, kjører koden som står inne i `if`-blokken - koden mellom klammeparantesene `{...}`."
       },
       {
         type: "code",
@@ -131,7 +121,7 @@ if (age >= 18) {
   },
 
   {
-    id: "sectionIfElse",
+    id: "ifelse",
     title: "If-else-setning",
     blocks: [
        {
@@ -161,7 +151,7 @@ if (age >= 18) {
     ]
   },
   {
-    id: "sectionElseIf",
+    id: "ifelifelse",
     title: "If – else if – else",
     blocks: [
       {
@@ -187,7 +177,6 @@ if (totalPris <= 200) {
   fraktKostnad = 0
 }
 
-console.log('Du må betale', fraktKostnad, 'kr i frakt')
 console.log(\`Du må betale $\{fraktKostnad\} kr i frakt\`)`
     },
       {
@@ -200,16 +189,12 @@ console.log(\`Du må betale $\{fraktKostnad\} kr i frakt\`)`
       },
       {
         type: "paragraph",
-        text: "I koden ovenfor skriver vi resultat ut på to forskjellige måter. Den ene skiller mellom string og variabler med `,`. Den andre bruker backticks \` til å lage en ^^template string^^, hvor man kan referere til variabelen i stringen med $ og {variabelnavn}. Velg din favoritt!"
-      },
-      {
-        type: "paragraph",
         text: "**Prøv selv:** Endre på verdien til `fraktKostnad`. Hva skjer da?"
       }
     ]
   },
   {
-    id: "sectionConditions",
+    id: "kombinering",
     title: "Kombinere betingelser (logiske operatorer)",
     blocks: [
       {
@@ -218,7 +203,7 @@ console.log(\`Du må betale $\{fraktKostnad\} kr i frakt\`)`
       },
       {
         type: "paragraph",
-        text: "`&&` betyr at **begge** betingelsene må være `true`."
+        text: "`&&` betyr at **begge** betingelsene må være `true` for at koden skal kjøre."
       },
       {
         type: "code",
@@ -230,10 +215,6 @@ let hasTicket = true;
 if (age >= 18 && hasTicket) {
   console.log("Du kan gå inn på konserten.");
 }`
-      },
-      {
-        type: "paragraph",
-        text: "Her sjekker vi to ting: %%er personen over 18 **og** har billett?%% Hvis begge stemmer, slipper de inn."
       },
        {
         type: "paragraph",
@@ -251,31 +232,23 @@ if (isWeekend || isHoliday) {
 }`
       },
       {
-        type: "paragraph",
-        text: "Her sjekker vi: %%er det helg **eller** ferie?%% Hvis minst én av dem stemmer, får vi fri!"  
-      },
-      {
-        type: "paragraph",
-        text: "**Prøv selv:** Endre verdiene i eksemplene over for å se hvordan `&&` og `||` fungerer."
-      },
-      {
-        type: "paragraph",
-        text: "`!` flipper verdien til en boolean og kan være nyttig også. For eksempel"
-      },
-          {
-        type: "code",
-        language: "javascript",
-        interactive: true,
-        code: `const isRaining = false;
+  type: "paragraph",
+  text: "`!` betyr **ikke** — det snur en Boolean (`true`/`false`) til det motsatte"
+},
+         {
+  type: "code",
+  language: "javascript",
+  interactive: true,
+  code: `const hasDoneHomework = false;
 
-if (!isRaining){
-  console.log("Du trenger ikke en paraply")
+if (!hasDoneHomework) {
+  console.log("Du må gjøre leksene dine!");
 }`
-      },
+},
       {
-        type: "paragraph",
-        text: "Siden `isRaining = false`, vil `!isRaining` bli `true`. Dermed er betingelsen `true` og if-blokken kjøres."
-      },
+  type: "paragraph",
+  text: "Her er `hasDoneHomework` `false`. Når vi bruker `!hasDoneHomework` får vi verdien `true`. Derfor kjører `if`-blokken og viser meldingen."
+},
     ]
   },
 
@@ -423,20 +396,12 @@ if (number > 100) {
       "code": "let poeng = Number(prompt(\"Skriv inn poengsum: \"));\nlet karakter;\nif (poeng >= 90) {\n  karakter = 'A';\n} else if (poeng >= 80) {\n  karakter = 'B';\n} else if (poeng >= 70) {\n  karakter = 'C';\n} else if (poeng >= 60) {\n  karakter = 'D';\n} else {\n  karakter = 'F';\n}\nconsole.log('Karakter:', karakter);"
     }
   },
-  {
-    "type": "task",
-    "number": 3,
-    "title": "Sammenlign to tall",
-    "description": "Be brukeren skrive inn to tall med `prompt()`. Sammenlign tallene og skriv ut en melding i konsollen som forteller hvilket tall som er størst – eller om de er like.",
-    "solution": {
-      "code": "let a = Number(prompt(\"Skriv inn første tall: \"));\nlet b = Number(prompt(\"Skriv inn andre tall: \"));\nif (a > b) {\n  console.log(a + ' er størst');\n} else if (b > a) {\n  console.log(b + ' er størst');\n} else {\n  console.log('Tallene er like');\n}"
-    }
-  },
+  
   
 
   {
     "type": "task",
-    "number": 4,
+    "number": 3,
     "title": "Stemmerett",
     "description": "Be brukeren skrive inn alderen sin med `prompt()`. Hvis alderen er 18 år eller eldre, skriv 'Du er kvalifisert til å stemme'. Ellers skriv 'Du er ikke kvalifisert til å stemme ennå'.",
     "solution": {
@@ -445,7 +410,7 @@ if (number > 100) {
   },
   {
     "type": "task",
-    "number": 5,
+    "number": 4,
     "title": "Enkel passordkontroll",
     "description": "Be brukeren skrive inn et passord med `prompt()`. Hvis passordet er 'passord123', skriv 'Tilgang innvilget'. Ellers skriv 'Tilgang nektet'.",
     "solution": {
@@ -453,19 +418,10 @@ if (number > 100) {
     }
   },
   {
-    "type": "task",
-    "number": 6,
-    "title": "Er det fredag? (må researche `Date`-objektet)",
-    "description": "Lag et program som sjekker om det er fredag, og om du kan gå hjem. Hvis det er fredag, skriv 'Det er fredag!'. Hvis det **både** er fredag og klokka er 15:30, skriv 'God helg – sees på mandag! Husk stolen på fredag da.'\n\nTips: Sjekk ut `Date()`-objektet her: [W3Schools Date objekt](https://www.w3schools.com/jsref/jsref_date_new.asp)",
-    "solution": {
-      "code": "let nå = new Date();\nlet dag = nå.getDay(); // 5 = fredag\nlet timer = nå.getHours();\nlet minutter = nå.getMinutes();\n\nif (dag === 5) {\n  console.log('Det er fredag!');\n  if (timer === 15 && minutter === 30) {\n    console.log('God helg – sees på mandag! Husk stolen på fredag da.');\n  }\n}"
-    }
-  },
-  {
   type: "task",
-  number: 7,
+  number: 5,
   title: "Logg inn-system (avansert)",
-  description: `Lag et lite logg-inn-system med flere betingelser. Lag først variabler for brukernavn, passord og om brukeren er utestengt. Spør deretter brukeren om brukernavn og passord med prompt(). Lag regler med if, else if, else og logiske operatorer:\n\n- Hvis brukeren er utestengt, skriv «Kontoen er sperret».\n- Hvis brukernavn og passord stemmer, skriv «Innlogging vellykket!».\n- Hvis brukernavn stemmer, men passordet er feil, skriv «Feil passord».\n- Hvis brukernavn ikke finnes, skriv «Ukjent bruker».`,
+  description: `Lag et logg-inn-system med flere betingelser. Lag først variabler for brukernavn, passord og om brukeren er utestengt. Spør deretter brukeren om brukernavn og passord med \`prompt()\` eller ved å bruke \`<input>\` elementer (se seksjon om input på siden). Lag regler med if, else if, else og logiske operatorer:\n\n- Hvis brukeren er utestengt, skriv «Kontoen er sperret».\n- Hvis brukernavn og passord stemmer, skriv «Innlogging vellykket!».\n- Hvis brukernavn stemmer, men passordet er feil, skriv «Feil passord».\n- Hvis brukernavn ikke finnes, skriv «Ukjent bruker».`,
  
   solution: {
     code: `let username = "Admin";
