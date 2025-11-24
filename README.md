@@ -2,7 +2,7 @@
 foo
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-## Creating a prasdxfasdfasdfasdfject
+## Creating a prasdxfasdfasdfasd asdf asd fasdfject
 
 If you're seeing this, you've probably already done this step. Congrats!
 
