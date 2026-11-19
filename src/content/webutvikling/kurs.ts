@@ -83,7 +83,12 @@ export const MODULER: Modul[] = [
     html: ["<a>", "meny i <ul>", "flere .html-filer"],
     css: [":hover", "text-decoration"],
     teori: ["klient og tjener", "hva skjer når du skriver inn en adresse", "relative og absolutte stier"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "lenker", tittel: "Lenker", minutter: 20 },
+      { slug: "flere-sider", tittel: "En side til", minutter: 30 },
+      { slug: "meny", tittel: "En meny på alle sider", minutter: 30 },
+      { slug: "klient-og-tjener", tittel: "Hva skjer når du klikker?", minutter: 30 },
+    ],
   },
   {
     slug: "bilder",

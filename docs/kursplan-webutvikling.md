@@ -38,7 +38,7 @@ Kolonnen «Pensum» viser hvilke kapitler i Webutvikling-101 modulen henter stof
 | 1 | **Din første nettside** ✅ | `h1`, `p`, grunnstruktur (fylles inn, ikke pugges) | smakebit: `color` | en nettside er en tekstfil; prosjektmappen; filnavn; `index.html` | 1, 2, 3 |
 | 2 | **Gi den farge!** ✅ | `strong`, `em`, `h2`–`h3` | `style.css`, `<link>`, `color`, `background-color`, `font-family`, `font-size` | HTML, CSS og JavaScript – tre språk, tre jobber | 4, 10, 12, 13 |
 | 3 | **Mer innhold, mer stil** ✅ | `ul`, `ol`, `span`, kommentarer | klasser (`.klasse`), hex og hsl, `text-align` | tag, element, attributt og verdi | 3, 4, 7, 11, 12 |
-| 4 | **Flere sider og lenker** | `a`, meny i `ul`, flere `.html`-filer | `:hover`, `text-decoration` | **klient og tjener**; hva skjer når du skriver inn en adresse; relative og absolutte stier | 1, 5, 11 |
+| 4 | **Flere sider og lenker** ✅ | `a`, meny i `ul`, flere `.html`-filer | `:hover`, `text-decoration` | **klient og tjener**; hva skjer når du skriver inn en adresse; relative og absolutte stier | 1, 5, 11 |
 | 5 | **Bilder** | `img`, `alt`, `figure` | `width`/`max-width`, `border-radius`, `background-image` | hvert bilde er en egen forespørsel (Network-fanen); formater; filstørrelse; opphavsrett | 6, 12 |
 | 🏁 | **Sjekkpunkt 1:** nettsted med tre sider, meny, bilder og egen fargepalett | | | | (9) |
 | 6 | **Boksmodellen** | `div` | `padding`, `margin`, `border`, `box-sizing` | alt er firkanter; utviklerverktøyet | 10, 14 |
@@ -61,7 +61,7 @@ nettsted som faktisk har stil – i motsetning til pensumet, der sjekkpunkt 1 le
 
 | Komponent | Bruk |
 |---|---|
-| `<Oppgave id="…" />` | Kodeeditor (index.html, ev. style.css) med forhåndsvisning og automatiske sjekker. Definisjonene ligger i `oppgaver.ts`. |
+| `<Oppgave id="…" />` | Kodeeditor (index.html, ev. flere sider og style.css) med forhåndsvisning og automatiske sjekker. Lenker mellom sidene virker, og feil sti gir 404. Definisjonene ligger i `oppgaver.ts`. |
 | `<Quiz sporsmal kode alternativer riktig forklaring />` | Gjett-først: studenten velger, så kommer forklaringen. Bra før en ny ting vises. |
 | `<UnderPanseret tittel="…">` | Kort teoriboks. Hovedverktøyet for å spre teorien. |
 | `<Tips>` | Små tips. |
@@ -70,15 +70,16 @@ nettsted som faktisk har stil – i motsetning til pensumet, der sjekkpunkt 1 le
 | `<Mappebygger />` | Klikk filer på plass i `webkurs/` og `webkurs/bilder/`. |
 | `<Sjekkliste id punkter />` | Avkrysning som huskes. |
 | `<Fargevelger />` | HSL-glidere for tekst- og bakgrunnsfarge, med hex-kode, hsl-kode og kontrastmåler. |
+| `<KlientTjener />` | Forespørsel og svar mellom nettleser og tjener, steg for steg – også en lenke som gir 404. |
+| `<Stifinner />` | Velg siden du står på og fila du vil til, og se den relative stien bygges opp ledd for ledd. |
 
 Oppgavetyper vi bruker: endre koden, **finn feilen** (ødelagt kode som skal fikses), **hva gjør
 denne koden?** (som `<Quiz>` med kode), og frie lekeplasser (oppgave uten sjekker).
 
 **Ideer som ikke er bygget ennå**, med modulen de hører til:
 
-- Mappeutforsker der man klikker seg gjennom et filtre og ser den relative stien bygges opp,
-  og et ødelagt bilde når stien er feil (modul 4–5)
-- Animasjon av klient og tjener: forespørsel og svar steg for steg (modul 4, igjen i 14)
+- Ødelagt bilde når stien er feil, bygget på `<Stifinner />` (modul 5)
+- `<KlientTjener />` igjen ved publisering, med DNS-oppslag og en ekte tjener (modul 14)
 - Boksmodell med glidebrytere for `padding`, `border` og `margin` (modul 6)
 - Spesifisitetsspill: to CSS-regler møtes, gjett hvem som vinner (modul 9)
 - Sandkasse eller lite spill for flexbox og grid (modul 11–12). Må være en egen idé, ikke en

@@ -1,0 +1,102 @@
+Du har laget lenker som virker. Men hva skjer egentlig i det sekundet du klikker? Og hvordan vet
+nettleseren hvor fila ligger?
+
+## Klient og tjener
+
+Når du besøker en nettside, er det to datamaskiner som snakker sammen:
+
+- **Klienten** – nettleseren din, på din maskin eller mobil. Den *ber om* filer.
+- **Tjeneren** (*server* på engelsk) – en datamaskin et sted i verden, som står på hele døgnet og
+  *deler ut* filer til alle som ber om dem.
+
+Hver gang du klikker på en lenke, sender klienten en **forespørsel**, og tjeneren sender et
+**svar**. Gå gjennom det steg for steg:
+
+<KlientTjener />
+
+<Quiz
+  sporsmal="En nettside har én HTML-fil og ett stilark. Hvor mange forespørsler sender nettleseren for å vise den?"
+  alternativer={["Én – hele nettsiden kommer samlet", "To – én for HTML-fila og én for stilarket", "Ingen – siden ligger allerede i nettleseren"]}
+  riktig={1}
+  forklaring='Nettleseren får først HTML-fila. Når den leser <link href="style.css">, sender den en ny forespørsel for stilarket. Hver fil er en egen forespørsel – det får du se enda tydeligere når vi kommer til bilder.'
+/>
+
+## Hva står i en adresse?
+
+```text
+https://www.minside.no/sider/kontakt.html
+└─┬──┘   └─────┬─────┘└────────┬───────┘
+protokoll    domene            sti
+```
+
+- **Protokollen** – `https://` – hvordan klienten og tjeneren snakker sammen.
+- **Domenet** – `www.minside.no` – *hvilken* tjener du vil snakke med.
+- **Stien** – `/sider/kontakt.html` – hvilken fil i tjenerens mappe du vil ha.
+
+Stien er akkurat det samme som mappene i prosjektet ditt. Ligger `kontakt.html` i mappen `sider`,
+blir stien `sider/kontakt.html`.
+
+<UnderPanseret tittel="Hvordan finner nettleseren tjeneren?">
+
+Datamaskiner på internett finner hverandre med tall, såkalte **IP-adresser**, som `151.101.1.195`.
+Domenenavn finnes fordi mennesker husker `nrk.no` mye bedre enn tall. Før forespørselen sendes,
+slår nettleseren opp domenet i en slags telefonkatalog for internett, **DNS**, og får tallet
+tilbake. Mer om det når du skal publisere nettstedet ditt i modul 14.
+
+</UnderPanseret>
+
+## Relative stier med mapper
+
+Når nettstedet vokser, legger du gjerne noen filer i undermapper. Da må stien vise veien fra siden
+du står på, til fila du vil til:
+
+- `sider/kontakt.html` – gå *inn* i mappen `sider`, og finn `kontakt.html`.
+- `../index.html` – gå *opp* én mappe, og finn `index.html`. To punktum betyr «mappen over».
+
+Prøv selv: velg hvor du står, og klikk på fila du vil lenke til.
+
+<Stifinner />
+
+<Quiz
+  sporsmal="Du står i sider/hobbyer.html og vil lenke til bilder/logo.png. Hva blir stien?"
+  alternativer={["bilder/logo.png", "../bilder/logo.png", "../../bilder/logo.png", "/sider/bilder/logo.png"]}
+  riktig={1}
+  forklaring="Først opp én mappe, fra sider/ til webkurs/ (../). Så inn i bilder/, og til slutt fila logo.png. Uten ../ ville nettleseren lett etter sider/bilder/logo.png – som ikke finnes."
+/>
+
+## Sider i en mappe
+
+I oppgaven under ligger kontaktsiden i mappen `sider`. Både lenkene og `<link>` til stilarket må
+ha riktig sti.
+
+<Oppgave id="m4-mapper" />
+
+<Tips>
+
+Stier er den vanligste grunnen til at noe «ikke virker» – lenker som gir 404, stilark som ikke
+lastes, og bilder som ikke vises. Når noe mangler, spør deg selv: *Hvor står jeg, og hvor ligger
+fila?*
+
+</Tips>
+
+<GjorDetSelv>
+
+1. Skriv inn en lenke med feil filnavn på siden din, og klikk på den i Live Server. Se på
+   adressefeltet og feilmeldingen. Rett den opp igjen.
+2. Se på adressefeltet mens du klikker deg rundt. Ser du stien til hver fil?
+3. Åpne en hvilken som helst nettside og se på adressen. Finn protokollen, domenet og stien.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="m4-ferdig"
+  punkter={[
+    "Nettstedet mitt har minst to sider: index.html og om-meg.html",
+    "Alle sidene har den samme menyen i en <ul>, og alle lenkene virker",
+    "Alle sidene har <link> til style.css",
+    "Lenkene i menyen har egen farge og en :hover-effekt",
+    "Jeg har minst én lenke til et annet nettsted, med en lenketekst som sier hvor den går",
+    "Jeg kan forklare hva klient og tjener er",
+    "Jeg vet forskjellen på en relativ sti (om-meg.html) og en absolutt adresse (https://…)",
+  ]}
+/>

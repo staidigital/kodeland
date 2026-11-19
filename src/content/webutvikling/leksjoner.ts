@@ -11,6 +11,10 @@ import m3HexOgHsl from "./mer-innhold-mer-stil/hex-og-hsl.mdx";
 import m3Klasser from "./mer-innhold-mer-stil/klasser.mdx";
 import m3Lister from "./mer-innhold-mer-stil/lister.mdx";
 import m3MidtstillOgRydd from "./mer-innhold-mer-stil/midtstill-og-rydd.mdx";
+import m4FlereSider from "./lenker/flere-sider.mdx";
+import m4KlientOgTjener from "./lenker/klient-og-tjener.mdx";
+import m4Lenker from "./lenker/lenker.mdx";
+import m4Meny from "./lenker/meny.mdx";
 
 /**
  * Kobler leksjons-id (modul/leksjon) til MDX-fila.
@@ -30,4 +34,8 @@ export const LEKSJONER: Record<string, ComponentType> = {
   "mer-innhold-mer-stil/klasser": m3Klasser,
   "mer-innhold-mer-stil/hex-og-hsl": m3HexOgHsl,
   "mer-innhold-mer-stil/midtstill-og-rydd": m3MidtstillOgRydd,
+  "lenker/lenker": m4Lenker,
+  "lenker/flere-sider": m4FlereSider,
+  "lenker/meny": m4Meny,
+  "lenker/klient-og-tjener": m4KlientOgTjener,
 };

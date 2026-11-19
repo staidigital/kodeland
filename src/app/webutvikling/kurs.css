@@ -465,13 +465,17 @@ a.modul:hover { border-color: var(--linje-sterk); transform: translateY(-1px); }
 .leksjon-tekst > * + .filnavn,
 .leksjon-tekst > * + .mappebygger,
 .leksjon-tekst > * + .fargevelger,
+.leksjon-tekst > * + .klient-tjener,
+.leksjon-tekst > * + .stifinner,
 .leksjon-tekst > * + .sjekkliste { margin-top: 1.6em; }
 .leksjon-tekst > .oppgave + *,
 .leksjon-tekst > .quiz + *,
 .leksjon-tekst > .boks + *,
 .leksjon-tekst > .filnavn + *,
 .leksjon-tekst > .mappebygger + *,
-.leksjon-tekst > .fargevelger + * { margin-top: 1.6em; }
+.leksjon-tekst > .fargevelger + *,
+.leksjon-tekst > .klient-tjener + *,
+.leksjon-tekst > .stifinner + * { margin-top: 1.6em; }
 
 /* Bokser */
 .boks {
@@ -584,6 +588,20 @@ a.modul:hover { border-color: var(--linje-sterk); transform: translateY(-1px); }
   font-family: var(--font-geist-mono), monospace;
   font-size: 12px;
 }
+.oppgave__tilbake {
+  padding: 0 6px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.oppgave__tilbake:hover:not(:disabled) { background: var(--linje); }
+.oppgave__tilbake:disabled { opacity: 0.35; cursor: default; }
+.oppgave__adresse--feil { color: var(--rod); }
 .oppgave__iframe { flex: 1; width: 100%; min-height: 220px; border: 0; background: #fff; }
 
 .oppgave__sjekker {
@@ -618,7 +636,7 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
 .fil-ikon--bilde { background: var(--gronn); }
 
 /* Quiz, filnavn, sjekkliste: felles kort */
-.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger {
+.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner {
   padding: 18px 20px;
   border: 1px solid var(--linje);
   border-radius: 14px;
@@ -825,6 +843,176 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
   .fv-glider { grid-template-columns: 1fr 52px; }
   .fv-glider input { grid-column: 1 / -1; grid-row: 2; }
 }
+
+/* Klient og tjener */
+.kt-faner { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.kt-scene {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(90px, 1.1fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 14px;
+}
+.kt-boks {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--linje-sterk);
+  border-radius: 10px;
+  background: var(--bg);
+  font-size: 13px;
+}
+.kt-boks__tittel { margin: 0 0 8px; font-weight: 650; font-size: 14px; }
+.kt-boks__tittel span { color: var(--dempet); font-weight: 400; }
+.kt-adresse {
+  overflow: hidden;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: var(--kort);
+  color: var(--dempet);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.kt-skjerm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-height: 74px;
+  margin-top: 6px;
+  padding: 8px;
+  border-radius: 6px;
+  background: #fff;
+  color: #222;
+  transition: background-color 0.3s;
+}
+.kt-skjerm b { font-size: 15px; }
+.kt-skjerm u { color: #1a0dab; }
+.kt-skjerm i { color: #888; }
+.kt-skjerm--ferdig { background: #f1faee; }
+.kt-skjerm--ferdig b { color: #e63946; font-family: Georgia, serif; }
+.kt-skjerm--ferdig span { color: #1d3557; }
+.kt-skjerm--404 b { font-size: 22px; }
+.kt-mappe { list-style: none !important; margin: 0; padding: 0 !important; display: flex; flex-direction: column; gap: 4px; }
+.kt-mappe li {
+  margin: 0 !important;
+  padding: 3px 6px;
+  border-radius: 5px;
+  background: var(--kort);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  transition: background-color 0.3s;
+}
+.kt-mappe li.funnet { background: var(--gronn-myk); color: var(--gronn); font-weight: 600; }
+.kt-mappe li.mangler { background: var(--rod-myk); color: var(--rod); font-weight: 600; }
+.kt-bane { position: relative; display: flex; align-items: center; min-height: 60px; }
+.kt-linje { flex: 1; border-top: 2px dashed var(--linje-sterk); }
+.kt-melding {
+  position: absolute;
+  top: 50%;
+  max-width: 100%;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--css);
+  color: #fff;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11.5px;
+  line-height: 1.3;
+  text-align: center;
+  white-space: normal;
+  z-index: 1;
+  animation: 1.1s ease-in-out forwards;
+}
+.kt-melding--til-tjener { animation-name: kt-til-hoyre; }
+.kt-melding--til-klient { animation-name: kt-til-venstre; background: var(--gronn); }
+.kt-melding--feil { background: var(--rod); }
+@keyframes kt-til-hoyre {
+  from { left: 0; transform: translate(0, -50%); }
+  to { left: 100%; transform: translate(-100%, -50%); }
+}
+@keyframes kt-til-venstre {
+  from { left: 100%; transform: translate(-100%, -50%); }
+  to { left: 0; transform: translate(0, -50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kt-melding { animation-duration: 0.01s; }
+}
+@media (max-width: 520px) {
+  .kt-scene { grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr); gap: 6px; }
+  .kt-boks { padding: 8px; }
+  .kt-mappe li { padding: 3px 4px; font-size: 10.5px; overflow-wrap: normal; }
+  .kt-melding { padding: 3px 5px; font-size: 10px; }
+}
+.kt-tekst { min-height: 3.2em; margin-top: 14px; }
+.kt-nr { color: var(--dempet); font-variant-numeric: tabular-nums; font-size: 14px; }
+.kt-knapper { display: flex; gap: 8px; margin-top: 10px; }
+.kt-knapp {
+  padding: 7px 14px;
+  border: 1px solid var(--linje-sterk);
+  border-radius: 8px;
+  background: var(--bg);
+  color: inherit;
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+.kt-knapp:disabled { opacity: 0.4; cursor: default; }
+.kt-knapp--neste { border-color: var(--aksent); background: var(--aksent); color: var(--aksent-tekst); font-weight: 600; }
+
+/* Stifinner */
+.sf-instruks { margin: 0; color: var(--dempet); font-size: 15px; }
+.sf-rad { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 12px; }
+.sf-valg { display: flex; flex-wrap: wrap; gap: 6px; }
+.sf-valg .fv-fane { font-family: var(--font-geist-mono), monospace; font-size: 13px; }
+.sf-valg .fv-fane[aria-pressed="true"] { border-color: var(--tekst); font-weight: 600; }
+.sf-etikett { margin: 0; color: var(--dempet); font-size: 14px; }
+.sf-flate { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 16px; margin-top: 14px; }
+@media (max-width: 600px) { .sf-flate { grid-template-columns: 1fr; } }
+.sf-tre {
+  list-style: none !important;
+  margin: 0;
+  padding: 10px !important;
+  border: 1px solid var(--linje);
+  border-radius: 10px;
+  background: var(--bg);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 13.5px;
+}
+.sf-tre li { margin: 0 !important; padding-top: 2px; padding-bottom: 2px; }
+.sf-mappe { color: var(--dempet); font-weight: 600; }
+.sf-tre button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 1px 6px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.sf-tre button:hover:not(:disabled) { border-color: var(--linje-sterk); }
+.sf-tre button:disabled { cursor: default; }
+.sf-her button { background: var(--gul-myk); }
+.sf-mal button { background: var(--css-myk); color: var(--css); font-weight: 600; border-color: var(--css); }
+.sf-merke { font-family: var(--font-geist-sans), sans-serif; font-size: 11px; color: var(--dempet); font-weight: 400; white-space: nowrap; }
+.sf-sti {
+  margin: 6px 0 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--kode-bg);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 17px;
+  overflow-wrap: anywhere;
+}
+.sf-opp { color: #c586c0; }
+.sf-inn { color: #4ec9b0; }
+.sf-fil { color: #ce9178; }
+.sf-ledd { margin: 0; padding-left: 1.3em; font-size: 15px; }
+.sf-ledd li + li { margin-top: 0.25em; }
 
 /* Sjekkliste */
 .sjekkliste ul { list-style: none !important; padding: 0 !important; display: flex; flex-direction: column; gap: 4px; }

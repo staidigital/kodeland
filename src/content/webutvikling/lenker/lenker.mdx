@@ -1,0 +1,64 @@
+Det som gjør nettet til et *nett*, er lenkene. Uten dem ville hver nettside vært en øy. Nå skal du
+lære å lage dem – først til andre nettsteder, og så mellom dine egne sider.
+
+## Taggen a
+
+En lenke lages med `<a>` (*anchor*, anker). Adressen den skal gå til, står i attributtet `href`:
+
+```html
+<p>Sjekk været på <a href="https://www.yr.no">Yr</a> før turen.</p>
+```
+
+- `href="https://www.yr.no"` – hvor lenken går.
+- `Yr` – teksten du klikker på, **lenketeksten**.
+
+`<a>` står inni teksten, akkurat som `<strong>` – den lager ikke ny linje.
+
+<Oppgave id="m4-lenke" />
+
+<Tips>
+
+Lenker i oppgavene her åpnes i en ny fane. På din egen side åpnes de i samme fane – det er helt
+vanlig, og brukeren kommer tilbake med tilbakeknappen.
+
+</Tips>
+
+## Gode lenketekster
+
+<Quiz
+  sporsmal="Hvilken lenketekst er best?"
+  alternativer={[
+    "Les mer om skolen her: klikk her",
+    "Les mer på skolens nettside",
+    "https://www.skolen.no/om-oss/informasjon",
+  ]}
+  riktig={1}
+  forklaring="Lenketeksten skal fortelle hvor du kommer. Mange skjermleserbrukere hopper fra lenke til lenke og hører bare lenketeksten – da er «klikk her» ti ganger på rad helt ubrukelig. En lang adresse er også tung å lese høyt."
+/>
+
+## Finn feilene
+
+Her er to feil. Den ene lenken går ikke dit den skal – klikk på den i forhåndsvisningen og se. Den
+andre lenken har tatt med seg altfor mye tekst.
+
+<Oppgave id="m4-lenke-feil" />
+
+<UnderPanseret tittel="Hvorfor må det stå https://?">
+
+En adresse som starter med `https://`, er en **absolutt** adresse: den sier nøyaktig hvor på
+internett siden ligger. Uten `https://` tror nettleseren at `www.yr.no` er navnet på en *fil* i din
+egen mappe – og den finnes jo ikke. Derfor fikk du en 404-side.
+
+`https` står for *HyperText Transfer Protocol Secure*. Det er «språket» nettleseren og nettstedet
+snakker sammen på. *Secure* betyr at det de sender, er kryptert, så ingen underveis kan lese det.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Åpne `index.html` i `webkurs`.
+2. Legg til et avsnitt med en lenke til et nettsted du liker – med en lenketekst som sier hvor
+   lenken går.
+3. Lagre, og klikk på lenken i nettleseren. Kommer du dit du skulle?
+
+</GjorDetSelv>

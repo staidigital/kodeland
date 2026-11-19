@@ -72,6 +72,12 @@ export default async function StudentSide({ params }: PageProps<"/admin/student/
                 <>
                   <p className="dempet">index.html</p>
                   <pre className="quiz__kode"><code>{o.html ?? ""}</code></pre>
+                  {Object.entries(o.pages ?? {}).map(([fil, kode]) => (
+                    <div key={fil}>
+                      <p className="dempet">{fil}</p>
+                      <pre className="quiz__kode"><code>{kode}</code></pre>
+                    </div>
+                  ))}
                   {o.css !== null && (
                     <>
                       <p className="dempet">style.css</p>

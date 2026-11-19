@@ -13,6 +13,8 @@ export type OppgaveStatus = {
   attempts: number;
   html?: string;
   css?: string;
+  /** Ekstra HTML-sider i oppgaver med flere filer (filnavn → kode). */
+  sider?: Record<string, string>;
 };
 export type Fremdrift = {
   leksjoner: Record<string, LeksjonStatus>;

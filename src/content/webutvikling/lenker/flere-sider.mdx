@@ -1,0 +1,65 @@
+Et nettsted har som regel flere sider. Hver side er en egen `.html`-fil i prosjektmappen – og
+lenkene binder dem sammen.
+
+## En side til
+
+En ny side lager du ved å lage en ny fil, for eksempel `om-meg.html`, med den samme grunnstrukturen
+som `index.html`. Så lenker du til den med *filnavnet*:
+
+```html
+<a href="om-meg.html">Om meg</a>
+```
+
+Legg merke til at det ikke står `https://` her. Siden filene ligger i samme mappe, holder det med
+filnavnet. Det kalles en **relativ** sti – den er *relativ til* siden du står på.
+
+Oppgaven under har to filer. Bytt mellom dem med fanene, og klikk på lenkene i forhåndsvisningen
+for å gå mellom sidene. Pilen ← øverst virker som tilbakeknappen i nettleseren.
+
+<Oppgave id="m4-to-sider" />
+
+<UnderPanseret tittel="Hver side må hente stilarket selv">
+
+Da du åpnet `om-meg.html`, var den svart på hvitt – selv om `style.css` ligger rett ved siden av.
+Det er fordi hver HTML-fil er sin egen side. Nettleseren vet ikke at `om-meg.html` hører sammen
+med `index.html`, så hver side må ha sin egen `<link>` til stilarket.
+
+</UnderPanseret>
+
+<Quiz
+  sporsmal='Hvorfor er href="om-meg.html" bedre enn href="https://minside.no/om-meg.html" når du lenker mellom dine egne sider?'
+  alternativer={[
+    "Den er kortere, men ellers er det ingen forskjell",
+    "Den virker både på din egen maskin og når siden er publisert – uansett hva domenet heter",
+    "Absolutte adresser er ikke lov i HTML",
+  ]}
+  riktig={1}
+  forklaring="En relativ sti sier bare «fila ved siden av meg». Den virker i Live Server på din maskin, og den virker når du har lagt mappen ut på nettet. Den absolutte adressen virker bare etter publisering – og bare hvis domenet aldri endres."
+/>
+
+## Finn feilene
+
+Dette nettstedet har tre sider, men flere av lenkene gir 404. Klikk deg rundt i forhåndsvisningen
+og finn dem. Sjekk alle tre filene.
+
+<Oppgave id="m4-sti-feil" />
+
+<UnderPanseret tittel="«Men det virket jo på min maskin!»">
+
+Windows og Mac bryr seg ofte ikke om store og små bokstaver i filnavn: `Om-meg.html` finner
+`om-meg.html` likevel. Men tjenerne som nettsider ligger på, gjør det. Derfor kan en lenke virke
+når du tester lokalt, og så gi 404 når siden er publisert.
+
+Det er grunnen til regelen fra modul 1: **bare små bokstaver i filnavn**. Da kan du aldri bomme.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Lag en ny fil `om-meg.html` i `webkurs`. Kopier grunnstrukturen fra `index.html` – også
+   `<link>` til stilarket.
+2. Endre `<title>` og `<h1>`, og skriv litt om deg selv.
+3. Lag en lenke fra `index.html` til `om-meg.html`, og en lenke tilbake.
+4. Test lenkene begge veier i Live Server.
+
+</GjorDetSelv>

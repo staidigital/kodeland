@@ -10,7 +10,11 @@ import { kontrast, lesRgb, rgbTilHsl, toneAvstand } from "@/lib/farger";
 
 export type Sjekk = {
   tekst: string;
-  test: (doc: Document) => boolean;
+  /**
+   * `doc` er siden som vises i forhåndsvisningen (med CSS, så getComputedStyle virker).
+   * `sider` er alle HTML-filene i oppgaven, lest inn uten CSS (filnavn → dokument).
+   */
+  test: (doc: Document, sider: Record<string, Document>) => boolean;
 };
 
 export type OppgaveDef = {
@@ -25,7 +29,44 @@ export type OppgaveDef = {
    * slik som i en ekte nettleser. Ellers kobles den til automatisk.
    */
   lenketCss?: boolean;
+  /**
+   * Flere HTML-sider i tillegg til index.html (filnavn → startkode), f.eks. "om-meg.html"
+   * eller "sider/kontakt.html". Lenker mellom sidene virker i forhåndsvisningen.
+   */
+  sider?: Record<string, string>;
 };
+
+const PROSJEKT = "https://prosjekt.invalid/";
+
+/**
+ * Hvilken fil i prosjektet peker `href` på, sett fra siden `fra`? Følger samme regler som
+ * nettleseren (relative stier, ../, mappe/ → mappe/index.html). Gir null for lenker ut av
+ * prosjektet (https://…, mailto: …).
+ */
+export function løsSti(href: string, fra: string): string | null {
+  let url: URL;
+  try {
+    url = new URL(href.trim(), PROSJEKT + fra);
+  } catch {
+    return null;
+  }
+  if (url.origin !== new URL(PROSJEKT).origin) return null;
+  let sti = decodeURIComponent(url.pathname.slice(1));
+  if (sti === "" || sti.endsWith("/")) sti += "index.html";
+  return sti;
+}
+
+/** Filene lenkene på en side peker på (lenker ut av prosjektet er tatt bort). */
+const lenkerTil = (side: Document | undefined, fra: string) =>
+  [...(side?.querySelectorAll("a[href]") ?? [])]
+    .map((a) => løsSti(a.getAttribute("href") ?? "", fra))
+    .filter((x): x is string => x !== null);
+
+/** Har siden en <link rel="stylesheet"> som peker på style.css? */
+const harStilark = (side: Document | undefined, fra: string) =>
+  [...(side?.querySelectorAll('head link[rel="stylesheet"]') ?? [])].some(
+    (l) => løsSti(l.getAttribute("href") ?? "", fra) === "style.css",
+  );
 
 const tekst = (el: Element | null) => (el?.textContent ?? "").trim();
 const stil = (el: Element) => el.ownerDocument.defaultView!.getComputedStyle(el);
@@ -758,5 +799,405 @@ h1 {
       },
     ],
     hint: "Skriv /* før h1 { color: hotpink; } og */ etter. Lag overskrifter som /* Hele siden */ og /* Overskrifter */. I HTML: <!-- Om klubben -->",
+  },
+
+  // ── Modul 4: Flere sider og lenker ──────────────────────────────────
+
+  "m4-lenke": {
+    html: `<h1>Mine favorittsider</h1>
+<p>Her er noen nettsider jeg bruker mye.</p>
+`,
+    sjekker: [
+      {
+        tekst: "Det er minst to lenker til andre nettsteder (som starter med https://)",
+        test: (d) =>
+          [...d.querySelectorAll("a[href]")].filter((a) =>
+            /^https?:\/\//i.test((a.getAttribute("href") ?? "").trim()),
+          ).length >= 2,
+      },
+      {
+        tekst: "Lenketekstene sier hvor lenken går – ikke «klikk her»",
+        test: (d) => {
+          const a = [...d.querySelectorAll("a")];
+          return (
+            a.length >= 2 &&
+            a.every((x) => tekst(x).length > 1 && !/^(klikk )?her$|^lenke$|^link$/i.test(tekst(x)))
+          );
+        },
+      },
+      {
+        tekst: "Lenkene står inni et avsnitt eller en liste",
+        test: (d) => {
+          const a = [...d.querySelectorAll("a")];
+          return a.length > 0 && a.every((x) => x.closest("p, li") !== null);
+        },
+      },
+    ],
+    hint: `<p>Jeg sjekker været på <a href="https://www.yr.no">Yr</a>.</p>`,
+  },
+
+  "m4-lenke-feil": {
+    html: `<h1>Før turen</h1>
+<p>Sjekk været på <a href="www.yr.no">Yr</a>.</p>
+<p>Les om turen på <a href="https://ut.no">UT.no.</p>
+<p>Lykke til på tur!</p>
+`,
+    sjekker: [
+      {
+        tekst: "Lenken til Yr går til https://www.yr.no",
+        test: (d) => {
+          const a = [...d.querySelectorAll("a")].find((x) => /yr/i.test(tekst(x)));
+          return /^https:\/\/(www\.)?yr\.no\/?$/i.test(a?.getAttribute("href")?.trim() ?? "");
+        },
+      },
+      {
+        tekst: "«Lykke til på tur!» er ikke en del av noen lenke",
+        test: (d) => [...d.querySelectorAll("a")].every((a) => !/lykke/i.test(tekst(a))),
+      },
+      {
+        tekst: "Det er fortsatt to lenker",
+        test: (d) => d.querySelectorAll("a[href]").length === 2,
+      },
+    ],
+    hint: "Adresser til andre nettsteder må starte med https://. Og se etter en lenke som aldri blir lukket med </a>.",
+  },
+
+  "m4-to-sider": {
+    html: `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Forside</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Velkommen!</h1>
+    <p>Dette er forsiden min.</p>
+  </body>
+</html>
+`,
+    sider: {
+      "om-meg.html": `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Om meg</title>
+  </head>
+  <body>
+    <h1>Om meg</h1>
+    <p>Jeg heter Kim og går på Vg1.</p>
+  </body>
+</html>
+`,
+    },
+    css: `body {
+  background-color: #f1faee;
+  color: #1d3557;
+  font-family: Verdana, sans-serif;
+}
+
+h1 {
+  color: #e63946;
+}
+`,
+    lenketCss: true,
+    sjekker: [
+      {
+        tekst: "Forsiden har en lenke til om-meg.html",
+        test: (_, s) => lenkerTil(s["index.html"], "index.html").includes("om-meg.html"),
+      },
+      {
+        tekst: "om-meg.html har en lenke tilbake til forsiden",
+        test: (_, s) => lenkerTil(s["om-meg.html"], "om-meg.html").includes("index.html"),
+      },
+      {
+        tekst: "om-meg.html bruker også stilarket",
+        test: (_, s) => harStilark(s["om-meg.html"], "om-meg.html"),
+      },
+    ],
+    hint: `På forsiden: <a href="om-meg.html">Om meg</a>. På om-meg.html: <a href="index.html">Forside</a> – og kopier <link>-linja fra forsiden inn i <head>.`,
+  },
+
+  "m4-sti-feil": {
+    html: `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Forside</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Velkommen!</h1>
+    <ul>
+      <li><a href="Om-meg.html">Om meg</a></li>
+      <li><a href="hobbyer">Hobbyer</a></li>
+    </ul>
+    <p>Dette er forsiden min.</p>
+  </body>
+</html>
+`,
+    sider: {
+      "om-meg.html": `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Om meg</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Om meg</h1>
+    <p><a href="index.htm">Tilbake til forsiden</a></p>
+    <p>Jeg heter Kim og går på Vg1.</p>
+  </body>
+</html>
+`,
+      "hobbyer.html": `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Hobbyer</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Hobbyer</h1>
+    <p><a href="index.html">Tilbake til forsiden</a></p>
+    <p>Jeg liker fotball og gaming.</p>
+  </body>
+</html>
+`,
+    },
+    css: `body {
+  background-color: #f1faee;
+  color: #1d3557;
+  font-family: Verdana, sans-serif;
+}
+
+h1 {
+  color: #e63946;
+}
+`,
+    lenketCss: true,
+    sjekker: [
+      {
+        tekst: "Forsiden lenker til både om-meg.html og hobbyer.html",
+        test: (_, s) => {
+          const l = lenkerTil(s["index.html"], "index.html");
+          return l.includes("om-meg.html") && l.includes("hobbyer.html");
+        },
+      },
+      {
+        tekst: "Begge undersidene lenker tilbake til index.html",
+        test: (_, s) =>
+          ["om-meg.html", "hobbyer.html"].every((f) => lenkerTil(s[f], f).includes("index.html")),
+      },
+      {
+        tekst: "Ingen lenker gir 404",
+        test: (_, s) => Object.entries(s).every(([f, side]) => lenkerTil(side, f).every((m) => m in s)),
+      },
+    ],
+    hint: "Klikk på lenkene i forhåndsvisningen og se hvilke som gir 404. Sjekk store bokstaver og filendelsen .html – på alle tre sidene.",
+  },
+
+  "m4-meny": {
+    html: `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Forside</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <ul>
+      <li><a href="index.html">Forside</a></li>
+      <li><a href="om-meg.html">Om meg</a></li>
+      <li><a href="hobbyer.html">Hobbyer</a></li>
+    </ul>
+    <h1>Velkommen!</h1>
+    <p>Dette er forsiden min.</p>
+  </body>
+</html>
+`,
+    sider: {
+      "om-meg.html": `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Om meg</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Om meg</h1>
+    <p>Jeg heter Kim og går på Vg1.</p>
+  </body>
+</html>
+`,
+      "hobbyer.html": `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Hobbyer</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Hobbyer</h1>
+    <p>Jeg liker fotball og gaming.</p>
+  </body>
+</html>
+`,
+    },
+    css: `body {
+  background-color: #f1faee;
+  color: #1d3557;
+  font-family: Verdana, sans-serif;
+}
+
+h1 {
+  color: #e63946;
+}
+`,
+    lenketCss: true,
+    sjekker: [
+      {
+        tekst: "Alle tre sidene har en meny (<ul>) med lenker til alle tre sidene",
+        test: (_, s) =>
+          Object.entries(s).every(([f, side]) => {
+            const l = [...side.querySelectorAll("ul a[href]")].map((a) =>
+              løsSti(a.getAttribute("href") ?? "", f),
+            );
+            return Object.keys(s).every((m) => l.includes(m));
+          }),
+      },
+      {
+        tekst: "Menyen står øverst, før <h1>, på alle sidene",
+        test: (_, s) =>
+          Object.values(s).every((side) => {
+            const ul = side.querySelector("ul");
+            const h1 = side.querySelector("h1");
+            return ul !== null && h1 !== null && (ul.compareDocumentPosition(h1) & 4) !== 0;
+          }),
+      },
+      {
+        tekst: "Ingen lenker gir 404",
+        test: (_, s) => Object.entries(s).every(([f, side]) => lenkerTil(side, f).every((m) => m in s)),
+      },
+    ],
+    hint: "Kopier hele <ul> … </ul> fra forsiden, og lim den inn rett under <body> på de to andre sidene.",
+  },
+
+  "m4-hover": {
+    html: `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Forside</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <ul>
+      <li><a href="index.html">Forside</a></li>
+      <li><a href="om-meg.html">Om meg</a></li>
+      <li><a href="hobbyer.html">Hobbyer</a></li>
+    </ul>
+    <h1>Velkommen!</h1>
+    <p>Dette er forsiden min.</p>
+  </body>
+</html>
+`,
+    css: `body {
+  background-color: #f1faee;
+  color: #1d3557;
+  font-family: Verdana, sans-serif;
+}
+
+h1 {
+  color: #e63946;
+}
+`,
+    lenketCss: true,
+    sjekker: [
+      {
+        tekst: "Lenkene i menyen er ikke understreket",
+        test: (d) => {
+          const a = [...d.querySelectorAll("ul a")];
+          return a.length > 0 && a.every((x) => stil(x).textDecorationLine === "none");
+        },
+      },
+      {
+        tekst: "Lenkene har fått en egen farge",
+        test: (d) => {
+          const a = d.querySelector("ul a");
+          // Nettleserens standardfarger for lenker: blå, og lilla for besøkte.
+          return a !== null && !["rgb(0, 0, 238)", "rgb(85, 26, 139)"].includes(farge(a));
+        },
+      },
+      {
+        tekst: "En a:hover-regel endrer noe når musa er over lenken",
+        test: (d) =>
+          regler(d).some(
+            (r) =>
+              /\ba:hover\b/.test(r.selectorText) &&
+              ["color", "background-color", "text-decoration", "text-decoration-line", "font-weight"].some(
+                (e) => r.style.getPropertyValue(e) !== "",
+              ),
+          ),
+      },
+    ],
+    hint: "a { color: #1d3557; text-decoration: none; } og a:hover { color: #e63946; text-decoration: underline; }",
+  },
+
+  "m4-mapper": {
+    html: `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Forside</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Velkommen!</h1>
+    <p>Har du spørsmål? Ta kontakt!</p>
+  </body>
+</html>
+`,
+    sider: {
+      "sider/kontakt.html": `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Kontakt</title>
+  </head>
+  <body>
+    <h1>Kontakt</h1>
+    <p>Send meg en e-post, så svarer jeg så fort jeg kan.</p>
+  </body>
+</html>
+`,
+    },
+    css: `body {
+  background-color: #f1faee;
+  color: #1d3557;
+  font-family: Verdana, sans-serif;
+}
+
+h1 {
+  color: #e63946;
+}
+`,
+    lenketCss: true,
+    sjekker: [
+      {
+        tekst: "Forsiden lenker til sider/kontakt.html",
+        test: (_, s) => lenkerTil(s["index.html"], "index.html").includes("sider/kontakt.html"),
+      },
+      {
+        tekst: "Kontaktsiden lenker tilbake til forsiden",
+        test: (_, s) => lenkerTil(s["sider/kontakt.html"], "sider/kontakt.html").includes("index.html"),
+      },
+      {
+        tekst: "Kontaktsiden bruker stilarket",
+        test: (_, s) => harStilark(s["sider/kontakt.html"], "sider/kontakt.html"),
+      },
+    ],
+    hint: `Fra index.html: href="sider/kontakt.html". Fra kontakt.html må du først opp én mappe: href="../index.html" og href="../style.css".`,
   },
 };

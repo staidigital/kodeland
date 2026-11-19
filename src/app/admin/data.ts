@@ -21,7 +21,15 @@ export type Student = {
   leksjoner: Record<string, { status: string; completed_at: string | null; updated_at: string }>;
   oppgaver: Record<
     string,
-    { passed: boolean; attempts: number; html: string | null; css: string | null; updated_at: string }
+    {
+      passed: boolean;
+      attempts: number;
+      html: string | null;
+      css: string | null;
+      /** Ekstra HTML-sider (filnavn → kode), for oppgaver med flere sider. */
+      pages?: Record<string, string> | null;
+      updated_at: string;
+    }
   >;
   sistAktiv: string | null;
 };
@@ -36,10 +44,18 @@ export async function hentStudenter(filter: { klasseId?: string; studentId?: str
   if (!profiler?.length) return [];
 
   const ider = profiler.map((p) => p.id);
-  const [{ data: l }, { data: o }] = await Promise.all([
+  const [{ data: l }, { data: o }, { data: medSider }] = await Promise.all([
     supabase.from("lesson_progress").select("user_id, lesson_id, status, completed_at, updated_at").in("user_id", ider),
     supabase.from("exercise_results").select("user_id, exercise_id, passed, attempts, html, css, updated_at").in("user_id", ider),
+    // Egen spørring, så panelet virker selv om migrasjonen for pages ikke er kjørt.
+    supabase.from("exercise_results").select("user_id, exercise_id, pages").in("user_id", ider).not("pages", "is", null),
   ]);
+  const sider = new Map(
+    ((medSider ?? []) as { user_id: string; exercise_id: string; pages: Record<string, string> }[]).map((r) => [
+      `${r.user_id}/${r.exercise_id}`,
+      r.pages,
+    ]),
+  );
 
   return profiler.map((p) => {
     const leksjoner: Student["leksjoner"] = {};
@@ -52,7 +68,7 @@ export async function hentStudenter(filter: { klasseId?: string; studentId?: str
     }
     for (const r of o ?? []) {
       if (r.user_id !== p.id) continue;
-      oppgaver[r.exercise_id] = r;
+      oppgaver[r.exercise_id] = { ...r, pages: sider.get(`${p.id}/${r.exercise_id}`) };
       if (!sist || r.updated_at > sist) sist = r.updated_at;
     }
     return {
