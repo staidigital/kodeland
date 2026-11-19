@@ -1,0 +1,66 @@
+Før du lager nettsiden på din egen maskin, trenger du et sted å ha den. Et nettsted er nemlig ikke
+én fil – det er en **mappe** full av filer som henger sammen.
+
+## Alt i én mappe
+
+Gjennom hele kurset skal du jobbe i én mappe som heter `webkurs`. Den ser slik ut:
+
+```text
+webkurs/
+├── index.html      ← forsiden
+├── om-meg.html     ← en side til
+├── style.css       ← utseendet
+└── bilder/
+    ├── katt.jpg
+    └── logo.png
+```
+
+HTML-sidene og stilarket ligger rett i `webkurs`. Bildene får sin egen undermappe, så det ikke blir
+rot når du har mange av dem.
+
+<Mappebygger />
+
+<UnderPanseret tittel="Hvorfor er mappen så viktig?">
+
+Når du senere legger nettstedet ditt ut på nettet, kopierer du hele mappen over til en **tjener** –
+en datamaskin som står på og deler filene med alle som ber om dem. Mappen din *blir* nettstedet.
+
+Sidene dine peker på hverandre og på bildene med filnavn og mappenavn. Flytter du en fil, eller
+lagrer den et annet sted enn du tror, finner ikke nettleseren den. Det er den vanligste grunnen til
+at bilder ikke vises – og nå vet du allerede hvorfor.
+
+</UnderPanseret>
+
+## Regler for filnavn
+
+På nettet blir filnavn en del av adressen, for eksempel `minside.no/om-meg.html`. Derfor gjelder
+noen strenge regler:
+
+- **små bokstaver** – `Om-Meg.html` og `om-meg.html` er to forskjellige filer på en tjener
+- **ingen mellomrom** – bruk bindestrek i stedet: `om-meg.html`
+- **ingen æ, ø eller å** – skriv `skole.html`, ikke `skøle.html`, og `aarstider.html` for `årstider`
+- **husk filendelsen** – `.html`, `.css`, `.jpg`
+
+<Filnavn
+  filer={[
+    { navn: "om-meg.html", ok: true, hvorfor: "Små bokstaver, bindestrek og riktig endelse." },
+    { navn: "Mine Bilder.html", ok: false, hvorfor: "Store bokstaver og mellomrom. Bedre: mine-bilder.html" },
+    { navn: "fotball.html", ok: true, hvorfor: "Kort og tydelig." },
+    { navn: "hobbyer", ok: false, hvorfor: "Mangler filendelsen .html." },
+    { navn: "ferie_på_hytta.html", ok: false, hvorfor: "Inneholder å. Bedre: ferie-paa-hytta.html" },
+    { navn: "style.css", ok: true, hvorfor: "Akkurat slik stilarket skal hete." },
+  ]}
+/>
+
+## Hvorfor heter forsiden index.html?
+
+<Quiz
+  sporsmal="Du skriver minside.no i adressefeltet, uten noe filnavn. Hvilken fil sender tjeneren?"
+  alternativer={[
+    "Den første fila i mappen, alfabetisk",
+    "index.html",
+    "Ingen – du får en feilmelding",
+  ]}
+  riktig={1}
+  forklaring="Når adressen ikke sier hvilken fil du vil ha, ser tjeneren etter en fil som heter index.html, og sender den. Derfor skal forsiden alltid hete index.html."
+/>

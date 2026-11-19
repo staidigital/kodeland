@@ -1,0 +1,69 @@
+I forrige leksjon skrev du tekst mellom små merkelapper. Disse merkelappene heter **tagger**, og
+de er selve grunnmuren i HTML.
+
+## Start og slutt
+
+De fleste tagger kommer i par: en **starttag** og en **sluttag**. Sluttaggen har en skråstrek `/`
+foran navnet.
+
+```html
+<p>Dette er et avsnitt.</p>
+```
+
+- `<p>` er starttaggen – «her begynner et avsnitt»
+- `</p>` er sluttaggen – «her slutter avsnittet»
+- Teksten imellom er **innholdet**
+
+Til sammen kalles hele greia et **element**.
+
+<Quiz
+  sporsmal="Hva vil nettleseren vise her?"
+  kode={"<h1>Ferie</h1>\n<p>Vi skal til Bergen.</p>"}
+  alternativer={[
+    "To linjer med like stor tekst",
+    "En stor overskrift «Ferie» og et vanlig avsnitt under",
+    "Teksten <h1>Ferie</h1> akkurat slik den står",
+  ]}
+  riktig={1}
+  forklaring="Taggene vises ikke på siden – de forteller nettleseren hva teksten er. <h1> blir en stor overskrift, <p> et vanlig avsnitt."
+/>
+
+## Overskrifter i flere nivåer
+
+Det finnes seks nivåer med overskrifter, fra `<h1>` til `<h6>`. Tenk på dem som kapitler og
+underkapitler i en bok:
+
+```html
+<h1>Om meg</h1>
+<h2>Det jeg liker</h2>
+<h2>Det jeg er god på</h2>
+```
+
+En side skal ha **én** `<h1>` – den viktigste overskriften. Under den bruker du `<h2>`, og så
+`<h3>` under igjen hvis du trenger det.
+
+<Oppgave id="m1-overskrifter" />
+
+<Tips>
+
+Velg overskriftsnivå etter hvor *viktig* overskriften er, ikke etter hvor stor du vil ha teksten.
+Størrelsen kan du styre med CSS etterpå.
+
+</Tips>
+
+## Finn feilen
+
+Nettleseren er snill: når koden har feil, prøver den å gjette hva du mente. Men den gjetter ikke
+alltid riktig. Her har noe gått galt – avsnittet ser ut som en overskrift.
+
+<Oppgave id="m1-finn-feilen" />
+
+<UnderPanseret tittel="Nettleseren tilgir – men det gjør ikke du">
+
+Når en sluttag mangler, fortsetter nettleseren å tro at elementet varer. Derfor ble avsnittet i
+oppgaven over en del av overskriften.
+
+Andre ganger ser siden helt riktig ut selv om koden har feil. Det er nesten verre, for da oppdager
+du det ikke før noe annet slutter å virke. Vane nummer én: **lukk det du åpner**.
+
+</UnderPanseret>
