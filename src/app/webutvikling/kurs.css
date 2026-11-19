@@ -149,7 +149,13 @@
 }
 .chip--html { background: var(--html-myk); color: var(--html); }
 .chip--css { background: var(--css-myk); color: var(--css); }
-.chip--teori { background: var(--teori-myk); color: var(--teori); }
+.chip--teori {
+  max-width: 100%;
+  background: var(--teori-myk);
+  color: var(--teori);
+  /* Teoristikkord kan være hele setninger – la dem bryte linjen. */
+  white-space: normal;
+}
 
 /* Oversikt */
 .kurs-side {

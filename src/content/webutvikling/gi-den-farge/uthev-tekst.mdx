@@ -1,0 +1,68 @@
+I denne modulen skal siden din få farger og skrift. Men først litt mer HTML – for før du kan
+pynte på teksten, må nettleseren vite hva som er *viktig* i den.
+
+## Viktig og uthevet
+
+To nye tagger lar deg markere ord inni et avsnitt:
+
+```html
+<p>Husk å <strong>lagre fila</strong> før du ser på siden.</p>
+<p>Det var <em>ikke</em> det jeg mente!</p>
+```
+
+- `<strong>` betyr **viktig**. Nettleseren viser det med fet skrift.
+- `<em>` betyr *trykk* – slik du ville lagt trykk på ordet når du sier det høyt. Nettleseren viser
+  det med kursiv.
+
+Begge brukes *inni* et annet element, for eksempel et avsnitt. De lager ikke ny linje.
+
+<Oppgave id="m2-uthev" />
+
+<Quiz
+  sporsmal="Hvorfor heter taggen <strong> («sterk») og ikke <fet>?"
+  alternativer={[
+    "Fordi HTML er på engelsk, og bold var opptatt",
+    "Fordi taggen forteller hva teksten betyr – at den er viktig – ikke hvordan den ser ut",
+    "Det er bare tilfeldig",
+  ]}
+  riktig={1}
+  forklaring="HTML beskriver hva innholdet er. At viktig tekst blir fet, er bare nettleserens standardutseende – og det kan du endre med CSS. En skjermleser kan i stedet lese den viktige teksten med ekstra trykk."
+/>
+
+<UnderPanseret tittel="Lukk i omvendt rekkefølge">
+
+Du kan legge tagger inni hverandre. Da må den du åpnet *sist*, lukkes *først* – som esker i esker:
+
+```html
+<p>Dette er <strong><em>veldig</em></strong> viktig.</p>
+```
+
+`<em>` ble åpnet sist, så `</em>` kommer før `</strong>`. Bytter du om på dem, gjetter nettleseren –
+og som du så i modul 1, gjetter den ikke alltid riktig.
+
+</UnderPanseret>
+
+## Kapitler og underkapitler
+
+I modul 1 lærte du at det finnes overskrifter fra `<h1>` til `<h6>`. Når en side blir lengre,
+trenger du flere nivåer – akkurat som en innholdsfortegnelse:
+
+```text
+Min hobby: Fotball          ← <h1>
+  Laget mitt                ← <h2>
+    Treninger               ← <h3>
+    Kamper                  ← <h3>
+  Favorittspillere          ← <h2>
+```
+
+En `<h3>` hører alltid til `<h2>`-en over seg. Hopp ikke over nivåer: etter en `<h2>` kommer en
+ny `<h2>` eller en `<h3>` – aldri en `<h4>`.
+
+<Oppgave id="m2-nivaaer" />
+
+<Tips>
+
+Skjermlesere lar brukeren hoppe mellom overskriftene for å finne fram, omtrent slik du skummer en
+side med øynene. Riktige nivåer gjør siden lettere å bruke for alle.
+
+</Tips>

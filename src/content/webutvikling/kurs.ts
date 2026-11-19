@@ -53,7 +53,12 @@ export const MODULER: Modul[] = [
     html: ["<strong>", "<em>", "<h2>–<h3>"],
     css: ["style.css", "color", "background-color", "font-family", "font-size"],
     teori: ["HTML, CSS og JavaScript – tre språk, tre jobber"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "uthev-tekst", tittel: "Viktig, uthevet og underoverskrifter", minutter: 15 },
+      { slug: "forste-regel", tittel: "Din første CSS-regel", minutter: 20 },
+      { slug: "bakgrunn-og-skrift", tittel: "Bakgrunn og skrift", minutter: 25 },
+      { slug: "koble-stilarket", tittel: "Koble til stilarket", minutter: 25 },
+    ],
   },
   {
     slug: "mer-innhold-mer-stil",

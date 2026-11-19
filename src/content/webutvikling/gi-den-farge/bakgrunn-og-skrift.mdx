@@ -1,0 +1,91 @@
+Til nå har du endret fargen på teksten. Nå skal du endre bakgrunnen, skrifttypen og
+skriftstørrelsen – de tre tingene som mest av alt bestemmer hvordan en side *føles*.
+
+## Bakgrunnsfarge
+
+Egenskapen `background-color` gir et element en bakgrunnsfarge. Vil du farge hele siden, bruker du
+selektoren `body` – for `<body>` er jo elementet som inneholder alt som vises.
+
+```css
+body {
+  background-color: oldlace;
+}
+```
+
+Du kan også gi enkeltelementer bakgrunn. Da blir hele «boksen» rundt elementet farget – ikke bare
+bak bokstavene.
+
+<Oppgave id="m2-bakgrunn" />
+
+<UnderPanseret tittel="Hva er kontrast?">
+
+Kontrast er hvor forskjellig teksten er fra bakgrunnen. Lys grå tekst på hvit bakgrunn er vanskelig
+å lese – for alle, men særlig for folk som ser dårlig, eller som sitter ute i sola med mobilen.
+
+Kontrast måles som et tall. Svart på hvitt er 21:1, det høyeste du kan få. Vanlig tekst bør ha
+**minst 4,5:1**. Sjekken i oppgaven over regner det ut for deg.
+
+</UnderPanseret>
+
+## Skrifttype
+
+Med `font-family` velger du skrifttype. Men du vet ikke hvilke skrifter som er installert på
+maskinen til den som besøker siden din. Derfor gir du en *liste*, med reserver:
+
+```css
+body {
+  font-family: Verdana, Arial, sans-serif;
+}
+```
+
+Nettleseren prøver den første. Finnes den ikke, prøver den neste – og så videre. Det siste ordet er
+en **skriftfamilie** som alltid finnes:
+
+- `sans-serif` – skrift uten «føtter», som denne teksten
+- `serif` – skrift med små føtter på bokstavene, som i en avis
+- `monospace` – alle bokstaver like brede, som i koden
+
+Skriftnavn med mellomrom må stå i anførselstegn: `"Trebuchet MS"`.
+
+<Quiz
+  sporsmal="Maskinen har verken Georgia eller Times New Roman. Hvilken skrift blir brukt?"
+  kode={"body {\n  font-family: Georgia, \"Times New Roman\", serif;\n}"}
+  alternativer={[
+    "Ingen – teksten blir usynlig",
+    "En hvilken som helst serif-skrift som finnes på maskinen",
+    "Nettleserens standard sans-serif",
+  ]}
+  riktig={1}
+  forklaring="Nettleseren går gjennom lista. Når ingen av de navngitte skriftene finnes, bruker den en serif-skrift den har. Derfor skal lista alltid slutte med en skriftfamilie."
+/>
+
+## Skriftstørrelse
+
+Med `font-size` velger du hvor stor teksten skal være. Foreløpig bruker vi enheten `px`
+(piksler). Vanlig tekst er 16px hvis du ikke bestemmer noe annet.
+
+```css
+p {
+  font-size: 18px;
+}
+```
+
+<Oppgave id="m2-skrift" />
+
+<UnderPanseret tittel="Hvorfor fikk overskriftene også ny skrift?">
+
+Du satte `font-family` på `body`, men overskriftene og avsnittene byttet skrift de også. Det er
+fordi noen egenskaper **arves**: elementer inni `<body>` får samme verdi som `<body>` – med mindre
+de har en egen regel.
+
+Skrift og tekstfarge arves. Bakgrunnsfarge arves ikke – men siden bakgrunnen er gjennomsiktig som
+standard, ser du bakgrunnen til `<body>` gjennom den.
+
+</UnderPanseret>
+
+<Tips>
+
+Hold deg til to–tre farger og én eller to skrifttyper. En side med ti farger og fem skrifter ser
+sjelden bra ut.
+
+</Tips>

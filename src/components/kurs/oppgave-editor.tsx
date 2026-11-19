@@ -10,8 +10,16 @@ import { hentOppgave, lagreOppgave } from "./fremdrift";
 
 type Fane = "html" | "css";
 
-function byggSide(html: string, css: string | undefined) {
+function byggSide(html: string, css: string | undefined, lenket = false) {
   if (css === undefined) return html;
+  if (lenket) {
+    // Som i en ekte nettleser: stilarket virker bare via <link rel="stylesheet" href="style.css">.
+    return html.replace(/<link\b[^>]*>/gi, (tag) =>
+      /\brel\s*=\s*["']?stylesheet["'\s>]/i.test(tag) && /\bhref\s*=\s*["']?style\.css["'\s>]/.test(tag)
+        ? `<style data-lenke="style.css">\n${css}\n</style>`
+        : tag,
+    );
+  }
   const stil = `<style>\n${css}\n</style>`;
   if (/<\/head>/i.test(html)) return html.replace(/<\/head>/i, `${stil}\n</head>`);
   return `${stil}\n${html}`;
@@ -25,7 +33,7 @@ export default function OppgaveEditor({ id }: { id: string }) {
     css: def.css === undefined ? undefined : (lagret?.css ?? def.css),
   });
   const [fane, setFane] = useState<Fane>("html");
-  const [srcDoc, setSrcDoc] = useState(() => byggSide(kode.html, kode.css));
+  const [srcDoc, setSrcDoc] = useState(() => byggSide(kode.html, kode.css, def.lenketCss));
   const [resultat, setResultat] = useState<boolean[]>([]);
   const [visHint, setVisHint] = useState(false);
   const iframe = useRef<HTMLIFrameElement>(null);
@@ -34,11 +42,11 @@ export default function OppgaveEditor({ id }: { id: string }) {
   // Oppdater forhåndsvisningen og lagre koden litt etter at eleven slutter å skrive.
   useEffect(() => {
     const t = setTimeout(() => {
-      setSrcDoc(byggSide(kode.html, kode.css));
+      setSrcDoc(byggSide(kode.html, kode.css, def.lenketCss));
       lagreOppgave(id, { html: kode.html, css: kode.css });
     }, 250);
     return () => clearTimeout(t);
-  }, [id, kode]);
+  }, [id, kode, def.lenketCss]);
 
   function sjekk() {
     const doc = iframe.current?.contentDocument;

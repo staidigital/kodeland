@@ -1,0 +1,83 @@
+I oppgavene til nå har vi koblet `index.html` og `style.css` sammen for deg i bakgrunnen. På din
+egen maskin skjer ikke det av seg selv – HTML-fila må selv si fra om at den har et stilark.
+
+## Lenken til stilarket
+
+Det gjør du med taggen `<link>`, inni `<head>`:
+
+```html
+<head>
+  <meta charset="utf-8">
+  <title>Min side</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+```
+
+- `rel="stylesheet"` – forteller at fila er et stilark.
+- `href="style.css"` – filnavnet til stilarket. Det må være *nøyaktig* likt navnet på fila.
+
+`<link>` har ingen sluttag. Den har ikke noe innhold – den bare peker på en annen fil.
+
+<UnderPanseret tittel="rel og href er attributter">
+
+`rel` og `href` står inni starttaggen og gir ekstra informasjon om elementet. Slike tillegg heter
+**attributter**. Du har allerede brukt ett: `lang="no"` i `<html>`-taggen. Du kommer til å møte
+mange flere – blant annet når du skal lage lenker og sette inn bilder.
+
+</UnderPanseret>
+
+## Koble dem sammen
+
+I oppgaven under er koblingen borte. Stilarket er ferdig skrevet, men siden er svart på hvitt.
+Legg til `<link>` i `<head>`.
+
+<Oppgave id="m2-link" />
+
+## Hvorfor en egen fil?
+
+Du *kunne* skrevet CSS-en rett inn i HTML-fila. Men et nettsted har som regel mange sider – og de
+skal se like ut.
+
+<Quiz
+  sporsmal="Nettstedet ditt har fem sider som alle bruker style.css. Du vil endre fargen på alle overskriftene. Hvor mange filer må du endre?"
+  alternativer={["Én", "Fem", "Seks"]}
+  riktig={0}
+  forklaring="Alle sidene henter utseendet fra den samme fila. Endrer du style.css, endres alle fem sidene på én gang. Det er hele poenget med et eget stilark."
+/>
+
+## Finn feilen
+
+Denne gangen er stilarket koblet til – eller er det? Ingenting av CSS-en virker.
+
+<Oppgave id="m2-link-feil" />
+
+<Tips>
+
+Ser ikke siden din ut som du forventer? Sjekk alltid dette først: Er `<link>` med? Står filnavnet
+riktig – med små bokstaver? Ligger `style.css` i samme mappe som `index.html`?
+
+</Tips>
+
+<GjorDetSelv>
+
+1. Åpne `webkurs` i VSCodium og start Live Server på `index.html`.
+2. Legg til `<link rel="stylesheet" href="style.css">` inni `<head>`.
+3. Åpne `style.css` (den tomme fila du lagde i modul 1) og gi `body` en bakgrunnsfarge.
+   Lagre, og se at siden endrer seg.
+4. Velg en skrifttype med reserver, og gi overskriftene en egen farge.
+5. Legg til minst én `<h2>`, og bruk `<strong>` eller `<em>` et sted i teksten.
+6. Sjekk at teksten fortsatt er lett å lese mot bakgrunnen.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="m2-stilark"
+  punkter={[
+    "index.html har <link> til style.css i <head>",
+    "Siden har en bakgrunnsfarge jeg har valgt selv",
+    "Jeg har valgt skrifttype – med en skriftfamilie til slutt i lista",
+    "Overskriftene har en annen farge enn resten av teksten",
+    "Teksten er lett å lese mot bakgrunnen",
+    "Jeg kan forklare forskjellen på selektor, egenskap og verdi",
+  ]}
+/>
