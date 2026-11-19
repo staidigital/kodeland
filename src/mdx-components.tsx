@@ -1,5 +1,6 @@
 import type { MDXComponents } from "mdx/types";
 import { GjorDetSelv, Tips, UnderPanseret } from "@/components/kurs/bokser";
+import { Fargevelger } from "@/components/kurs/fargevelger";
 import { Filnavn } from "@/components/kurs/filnavn";
 import { MdxKode } from "@/components/kurs/kodefarger";
 import { Mappebygger } from "@/components/kurs/mappebygger";
@@ -16,6 +17,7 @@ const components: MDXComponents = {
   Tips,
   GjorDetSelv,
   Filnavn,
+  Fargevelger,
   Mappebygger,
   Sjekkliste,
 };

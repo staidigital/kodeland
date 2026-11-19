@@ -7,6 +7,10 @@ import m2Bakgrunn from "./gi-den-farge/bakgrunn-og-skrift.mdx";
 import m2ForsteRegel from "./gi-den-farge/forste-regel.mdx";
 import m2KobleStilarket from "./gi-den-farge/koble-stilarket.mdx";
 import m2UthevTekst from "./gi-den-farge/uthev-tekst.mdx";
+import m3HexOgHsl from "./mer-innhold-mer-stil/hex-og-hsl.mdx";
+import m3Klasser from "./mer-innhold-mer-stil/klasser.mdx";
+import m3Lister from "./mer-innhold-mer-stil/lister.mdx";
+import m3MidtstillOgRydd from "./mer-innhold-mer-stil/midtstill-og-rydd.mdx";
 
 /**
  * Kobler leksjons-id (modul/leksjon) til MDX-fila.
@@ -22,4 +26,8 @@ export const LEKSJONER: Record<string, ComponentType> = {
   "gi-den-farge/forste-regel": m2ForsteRegel,
   "gi-den-farge/bakgrunn-og-skrift": m2Bakgrunn,
   "gi-den-farge/koble-stilarket": m2KobleStilarket,
+  "mer-innhold-mer-stil/lister": m3Lister,
+  "mer-innhold-mer-stil/klasser": m3Klasser,
+  "mer-innhold-mer-stil/hex-og-hsl": m3HexOgHsl,
+  "mer-innhold-mer-stil/midtstill-og-rydd": m3MidtstillOgRydd,
 };

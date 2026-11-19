@@ -6,6 +6,8 @@
  * Uten sjekker blir oppgaven en fri lekeplass.
  */
 
+import { kontrast, lesRgb, rgbTilHsl, toneAvstand } from "@/lib/farger";
+
 export type Sjekk = {
   tekst: string;
   test: (doc: Document) => boolean;
@@ -40,36 +42,27 @@ const regler = (d: Document) =>
     [...ark.cssRules].filter((r): r is CSSStyleRule => r instanceof d.defaultView!.CSSStyleRule),
   );
 
-/** rgb(a)-streng → [r, g, b, a]. */
-function rgb(c: string) {
-  const [r = 0, g = 0, b = 0, a = 1] = (c.match(/[\d.]+/g) ?? []).map(Number);
-  return [r, g, b, a];
-}
-
 /** Bakgrunnsfargen som faktisk vises bak et element (hvit hvis ingen er satt). */
 function synligBakgrunn(el: Element | null): number[] {
   for (let e = el; e; e = e.parentElement) {
-    const f = rgb(stil(e).backgroundColor);
+    const f = lesRgb(stil(e).backgroundColor);
     if (f[3] > 0) return f;
   }
   return [255, 255, 255, 1];
 }
 
-/** Kontrastforhold etter WCAG, fra 1 til 21. */
-function kontrast(a: number[], b: number[]) {
-  const lys = ([r, g, b]: number[]) => {
-    const k = [r, g, b].map((v) => {
-      v /= 255;
-      return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
-    });
-    return 0.2126 * k[0] + 0.7152 * k[1] + 0.0722 * k[2];
-  };
-  const [l1, l2] = [lys(a), lys(b)].sort((x, y) => y - x);
-  return (l1 + 0.05) / (l2 + 0.05);
-}
+/** Fargen som HSL, regnet ut fra den beregnede rgb-verdien. */
+const hsl = (c: string) => rgbTilHsl(lesRgb(c));
+/** Teksten i stilarket slik studenten skrev det (med kommentarer). */
+const stilarkTekst = (d: Document) =>
+  [...d.querySelectorAll("style")].map((s) => s.textContent ?? "").join("\n");
+const venstre = (el: Element | null) =>
+  el !== null && ["start", "left"].includes(stil(el).textAlign);
+const FIREBRICK = "rgb(178, 34, 34)";
 
-const lesbar = (el: Element | null) =>
-  el !== null && kontrast(rgb(stil(el).color), synligBakgrunn(el)) >= 4.5;
+/** Kontrast mot bakgrunnen er minst 4,5:1 (vanlig tekst) eller et annet krav, f.eks. 3 for stor tekst. */
+const lesbar = (el: Element | null, krav = 4.5) =>
+  el !== null && kontrast(lesRgb(stil(el).color), synligBakgrunn(el)) >= krav;
 
 export const OPPGAVER: Record<string, OppgaveDef> = {
   "m1-hei": {
@@ -350,7 +343,7 @@ p {
         tekst: "Avsnittene er lette å lese (kontrast minst 4,5:1)",
         test: (d) => {
           const p = [...d.querySelectorAll("p")];
-          return p.length > 0 && p.every(lesbar);
+          return p.length > 0 && p.every((x) => lesbar(x));
         },
       },
       {
@@ -466,5 +459,304 @@ h1 {
       },
     ],
     hint: "Fila heter style.css. Se nøye på filnavnet i href – bokstav for bokstav.",
+  },
+
+  // ── Modul 3: Mer innhold, mer stil ──────────────────────────────────
+
+  "m3-handleliste": {
+    html: `<h1>Handleliste</h1>
+<p>Til taco på fredag:</p>
+`,
+    sjekker: [
+      {
+        tekst: "Det finnes en <ul>",
+        test: (d) => d.querySelector("ul") !== null,
+      },
+      {
+        tekst: "Lista har minst tre punkter (<li>) med tekst",
+        test: (d) => [...d.querySelectorAll("ul > li")].filter((li) => tekst(li).length > 0).length >= 3,
+      },
+      {
+        tekst: "Alle <li> ligger inni lista",
+        test: (d) => {
+          const li = [...d.querySelectorAll("li")];
+          return li.length > 0 && li.every((x) => x.parentElement?.matches("ul, ol"));
+        },
+      },
+    ],
+    hint: "Start med <ul> på én linje og </ul> på en annen. Mellom dem: <li>Lefser</li>, <li>Kjøttdeig</li> …",
+  },
+
+  "m3-liste-feil": {
+    html: `<h1>Pannekaker</h1>
+<ul>
+  <li>1. Visp sammen mel og melk</li>
+  <li>2. Visp inn eggene</li>
+  <li>3. La røren svelle en halvtime</li>
+  <li>4. Stek i smør</li>
+</ul>
+`,
+    sjekker: [
+      {
+        tekst: "Stegene står i en nummerert liste (<ol>)",
+        test: (d) => d.querySelectorAll("ol > li").length >= 4,
+      },
+      {
+        tekst: "Det er ingen <ul> igjen",
+        test: (d) => d.querySelector("ul") === null,
+      },
+      {
+        tekst: "Tallene er fjernet fra teksten – nettleseren teller selv",
+        test: (d) => {
+          const li = [...d.querySelectorAll("li")];
+          return li.length >= 4 && li.every((x) => !/^\d/.test(tekst(x)));
+        },
+      },
+    ],
+    hint: "Bytt <ul> og </ul> med <ol> og </ol>, og slett «1. », «2. » osv. foran hvert steg.",
+  },
+
+  "m3-klasse": {
+    html: `<h1>Turtips for helga</h1>
+<p>Lørdag blir det sol og 12 grader.</p>
+<p>Søndag kommer det mye regn og sterk vind.</p>
+<p>Ta med niste og varme klær.</p>
+<p>Ikke gå over Langfjellet alene på søndag.</p>
+`,
+    css: `.advarsel {
+  color: firebrick;
+  font-weight: bold;
+}
+`,
+    sjekker: [
+      {
+        tekst: "De to avsnittene om søndag er advarsler (røde og fete)",
+        test: (d) => {
+          const p = [...d.querySelectorAll("p")].filter((x) => /søndag/i.test(tekst(x)));
+          return p.length === 2 && p.every((x) => farge(x) === FIREBRICK);
+        },
+      },
+      {
+        tekst: "De andre avsnittene er som før",
+        test: (d) => {
+          const p = [...d.querySelectorAll("p")].filter((x) => !/søndag/i.test(tekst(x)));
+          return p.length >= 2 && p.every((x) => farge(x) !== FIREBRICK);
+        },
+      },
+    ],
+    hint: `Skriv class="advarsel" inni starttaggen: <p class="advarsel">Søndag kommer …</p>`,
+  },
+
+  "m3-span": {
+    html: `<h1>Ukeplan</h1>
+<p>På mandag har vi gym, og på torsdag er det prøve i matte.</p>
+<p>Husk at fredag er siste frist for innleveringen.</p>
+`,
+    css: ``,
+    sjekker: [
+      {
+        tekst: "Minst to <span> med en klasse ligger inni avsnittene",
+        test: (d) =>
+          [...d.querySelectorAll("p span[class]")].filter((s) => s.className.trim() !== "").length >= 2,
+      },
+      {
+        tekst: "Spanene har fått bakgrunnsfarge",
+        test: (d) => {
+          const s = [...d.querySelectorAll("p span")];
+          return s.length > 0 && s.every(harBakgrunn);
+        },
+      },
+      {
+        tekst: "Resten av avsnittene har ikke bakgrunnsfarge",
+        test: (d) => [...d.querySelectorAll("p")].every((p) => !harBakgrunn(p)),
+      },
+    ],
+    hint: `<span class="merket">prøve i matte</span> i HTML, og .merket { background-color: yellow; } i CSS.`,
+  },
+
+  "m3-klasse-feil": {
+    html: `<h1>Viktig beskjed</h1>
+<p class=".advarsel">Skolen er stengt i morgen på grunn av snøstorm.</p>
+<p>Alt annet er som vanlig.</p>
+`,
+    css: `advarsel {
+  color: firebrick;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Beskjeden om snøstormen er rød",
+        test: (d) => farge(d.querySelector("p")) === FIREBRICK,
+      },
+      {
+        tekst: "Det andre avsnittet er ikke rødt",
+        test: (d) => {
+          const p = d.querySelectorAll("p")[1];
+          return p !== undefined && farge(p) !== FIREBRICK;
+        },
+      },
+    ],
+    hint: "Punktumet hører hjemme i CSS (.advarsel), ikke i class-attributtet i HTML.",
+  },
+
+  "m3-hex": {
+    html: `<h1>Sommerfest</h1>
+<p>Velkommen til sommerfest i skolegården fredag klokka 18!</p>
+<p class="info">Ta med noe å grille.</p>
+`,
+    css: `body {
+  background-color: white;
+  color: black;
+}
+
+h1 {
+  color: red;
+}
+
+.info {
+  background-color: lightblue;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Bakgrunnen er #f1faee og teksten #1d3557",
+        test: (d) =>
+          stil(d.body).backgroundColor === "rgb(241, 250, 238)" && farge(d.body) === "rgb(29, 53, 87)",
+      },
+      {
+        tekst: "Overskriften er #e63946",
+        test: (d) => farge(d.querySelector("h1")) === "rgb(230, 57, 70)",
+      },
+      {
+        tekst: ".info har bakgrunnen #a8dadc",
+        test: (d) => {
+          const el = d.querySelector(".info");
+          return el !== null && stil(el).backgroundColor === "rgb(168, 218, 220)";
+        },
+      },
+      {
+        tekst: "Det står ingen fargenavn igjen i stilarket",
+        test: (d) => !/\b(white|black|red|lightblue)\b/i.test(stilarkTekst(d)),
+      },
+    ],
+    hint: "Bytt ut hvert fargenavn med en kode fra paletten: white → #f1faee, black → #1d3557, red → #e63946, lightblue → #a8dadc.",
+  },
+
+  "m3-hsl": {
+    html: `<h1>Kaffekroken</h1>
+<h2>Dagens kake</h2>
+<p>Gulrotkake med kremostglasur.</p>
+`,
+    css: `h1 {
+  color: hsl(25, 70%, 30%);
+}
+`,
+    sjekker: [
+      {
+        tekst: "<h2> har samme fargetone som <h1>, men er lysere",
+        test: (d) => {
+          const a = hsl(farge(d.querySelector("h1")));
+          const b = hsl(farge(d.querySelector("h2")));
+          return b[1] > 10 && toneAvstand(a[0], b[0]) <= 5 && b[2] >= a[2] + 5;
+        },
+      },
+      {
+        tekst: "Bakgrunnen har samme fargetone, og er veldig lys (lyshet minst 85%)",
+        test: (d) => {
+          const a = hsl(farge(d.querySelector("h1")));
+          const bg = hsl(stil(d.body).backgroundColor);
+          return harBakgrunn(d.body) && bg[1] > 10 && toneAvstand(a[0], bg[0]) <= 5 && bg[2] >= 85;
+        },
+      },
+      {
+        tekst: "Alt er lett å lese: overskriftene minst 3:1, avsnittet minst 4,5:1",
+        test: (d) =>
+          [...d.querySelectorAll("h1, h2")].every((h) => lesbar(h, 3)) &&
+          [...d.querySelectorAll("p")].every((p) => lesbar(p)),
+      },
+    ],
+    hint: "Behold 25 og 70%, og endre bare det siste tallet: h2 { color: hsl(25, 70%, 40%); } og body { background-color: hsl(25, 70%, 94%); }",
+  },
+
+  "m3-midtstill": {
+    html: `<h1>Høstdikt</h1>
+<p class="ingress">Skrevet av klasse 1STA</p>
+<p>Bladene faller, ett for ett.</p>
+<p>Vinden tar dem med seg.</p>
+<p>Snart er treet bart.</p>
+<p class="signatur">– 1STA, oktober</p>
+`,
+    css: `body {
+  font-family: Georgia, serif;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Overskriften og ingressen er midtstilt",
+        test: (d) =>
+          ["h1", ".ingress"].every((s) => {
+            const el = d.querySelector(s);
+            return el !== null && stil(el).textAlign === "center";
+          }),
+      },
+      {
+        tekst: "Signaturen står til høyre",
+        test: (d) => {
+          const el = d.querySelector(".signatur");
+          return el !== null && stil(el).textAlign === "right";
+        },
+      },
+      {
+        tekst: "Selve diktet står fortsatt til venstre",
+        test: (d) => {
+          const p = [...d.querySelectorAll("p:not([class])")];
+          return p.length >= 3 && p.every(venstre);
+        },
+      },
+    ],
+    hint: "Lag tre regler: h1, .ingress og .signatur – med text-align: center; eller text-align: right;",
+  },
+
+  "m3-kommentarer": {
+    html: `<h1>Sjakklubben</h1>
+<p class="ingress">Velkommen til sjakklubben på skolen!</p>
+<p>Vi møtes hver onsdag etter skolen i rom 204.</p>
+`,
+    css: `h1 {
+  color: #2a9d8f;
+}
+.ingress {
+  font-size: 20px;
+}
+body {
+  background-color: #fefae0;
+  font-family: Verdana, sans-serif;
+}
+h1 {
+  color: hotpink;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Hotpink-regelen er kommentert ut, så overskriften er #2a9d8f igjen",
+        test: (d) => farge(d.querySelector("h1")) === "rgb(42, 157, 143)",
+      },
+      {
+        tekst: "Hotpink-regelen er ikke slettet, bare kommentert ut",
+        test: (d) => /\/\*[^]*hotpink[^]*?\*\//.test(stilarkTekst(d)),
+      },
+      {
+        tekst: "Stilarket har minst to kommentarer i tillegg, som overskrifter",
+        test: (d) => (stilarkTekst(d).match(/\/\*[^]*?\*\//g) ?? []).length >= 3,
+      },
+      {
+        tekst: "Det står en kommentar i index.html",
+        test: (d) => {
+          const w = d.createTreeWalker(d, 128 /* NodeFilter.SHOW_COMMENT */);
+          return w.nextNode() !== null;
+        },
+      },
+    ],
+    hint: "Skriv /* før h1 { color: hotpink; } og */ etter. Lag overskrifter som /* Hele siden */ og /* Overskrifter */. I HTML: <!-- Om klubben -->",
   },
 };

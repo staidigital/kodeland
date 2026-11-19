@@ -1,0 +1,107 @@
+Til nå har CSS-reglene dine truffet *alle* elementer av en type: `p` gjør alle avsnitt grønne.
+Men hva om du bare vil gjøre *ett* av dem grønt? Da trenger du en **klasse**.
+
+## Gi elementet et navn
+
+Du gir et element en klasse ved å skrive `class="…"` inni starttaggen:
+
+```html
+<p class="advarsel">Husk å lagre før du lukker!</p>
+<p>Dette er et helt vanlig avsnitt.</p>
+```
+
+I CSS treffer du klassen med et **punktum** foran navnet:
+
+```css
+.advarsel {
+  color: firebrick;
+}
+```
+
+Nå blir bare avsnittet med `class="advarsel"` rødt. Det andre avsnittet er som før.
+
+<Oppgave id="m3-klasse" />
+
+<Tips>
+
+Du finner på klassenavnene selv. Velg navn som sier *hva* noe er, ikke hvordan det ser ut:
+`advarsel` er bedre enn `rod-tekst` – for kanskje bestemmer du deg for at advarsler skal være
+oransje i stedet. Bruk små bokstaver og bindestrek, som i filnavn.
+
+</Tips>
+
+## Tag, element, attributt og verdi
+
+Nå har du sett nok HTML til å lære de riktige navnene på delene:
+
+```html
+<p class="advarsel">Husk å lagre!</p>
+```
+
+- **Taggen** er merkelappen: `<p …>` er starttaggen og `</p>` sluttaggen.
+- **Elementet** er hele greia – starttag, innhold og sluttag.
+- **Attributtet** er ekstra informasjon i starttaggen: `class`.
+- **Verdien** er det som står i anførselstegnene: `advarsel`.
+
+Du har brukt attributter før: `lang="no"` på `<html>`, og `rel` og `href` på `<link>`.
+
+<Quiz
+  sporsmal="Hva er href i denne linja?"
+  kode={'<link rel="stylesheet" href="style.css">'}
+  alternativer={["En tag", "Et attributt", "En verdi", "Et element"]}
+  riktig={1}
+  forklaring="link er taggen, rel og href er attributter, og stylesheet og style.css er verdiene deres. Hele linja er et element."
+/>
+
+<UnderPanseret tittel="Verdi i HTML og verdi i CSS">
+
+Ordet «verdi» brukes i begge språk. I HTML er det det som står i anførselstegnene etter et
+attributt: `class="advarsel"`. I CSS er det det som står etter kolon: `color: firebrick;`.
+Mønsteret er det samme – et *navn* og en *verdi* som hører sammen.
+
+</UnderPanseret>
+
+## Bare en bit av teksten: span
+
+Noen ganger vil du bare style *noen ord* i et avsnitt. Da pakker du dem inn i et `<span>`.
+Et `<span>` betyr ingenting i seg selv – det er bare en «håndtak» du kan sette en klasse på:
+
+```html
+<p>Prøven er på <span class="merket">fredag</span>.</p>
+```
+
+```css
+.merket {
+  background-color: yellow;
+}
+```
+
+<Oppgave id="m3-span" />
+
+<Quiz
+  sporsmal="Hva er forskjellen på <strong> og <span>?"
+  alternativer={[
+    "Ingen – begge gjør teksten fet",
+    "<strong> betyr «viktig». <span> betyr ingenting, det er bare noe å henge CSS på",
+    "<span> kan bare brukes inni lister",
+  ]}
+  riktig={1}
+  forklaring="<strong> forteller at teksten er viktig, også til skjermlesere. <span> sier ingenting om innholdet – det er bare en måte å treffe noen ord med CSS. Er ordene viktige, bruk <strong>, og style den om du vil."
+/>
+
+## Finn feilene
+
+Her skulle avsnittet vært rødt, men det er det ikke. Det er én feil i `index.html` og én i
+`style.css` – og de handler begge om punktumet.
+
+<Oppgave id="m3-klasse-feil" />
+
+<GjorDetSelv>
+
+1. Tenk på noe på siden din som skal se annerledes ut enn resten – en ingress, en advarsel eller
+   et sitat.
+2. Gi det en klasse i `index.html`, for eksempel `<p class="ingress">`.
+3. Skriv en regel for klassen i `style.css`, med punktum foran: `.ingress { … }`.
+4. Merk noen ord i et avsnitt med `<span>` og en klasse, og gi dem en bakgrunnsfarge.
+
+</GjorDetSelv>

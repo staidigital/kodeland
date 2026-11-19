@@ -1,0 +1,98 @@
+Siden din har fått farger, lister og klasser. Nå skal du lære å plassere tekst til venstre, i
+midten og til høyre – og å holde orden i koden når den begynner å bli lang.
+
+## Tekstjustering
+
+Med `text-align` bestemmer du hvor teksten skal stå på linja:
+
+```css
+h1 {
+  text-align: center;
+}
+```
+
+- `left` – til venstre (standard)
+- `center` – midtstilt
+- `right` – til høyre
+
+<Oppgave id="m3-midtstill" />
+
+<Tips>
+
+Midtstill overskrifter og korte tekster, ikke lange avsnitt. Når hver linje starter et nytt sted,
+blir det mye tyngre å lese.
+
+</Tips>
+
+## Kommentarer
+
+En **kommentar** er tekst i koden som nettleseren hopper over. Den er en lapp til deg selv – eller
+til den som skal lese koden din etter deg.
+
+I HTML ser en kommentar slik ut:
+
+```html
+<!-- Her starter menyen -->
+<h2>Meny</h2>
+```
+
+I CSS ser den annerledes ut:
+
+```css
+/* Farger for overskriftene */
+h1 {
+  color: #1d3557;
+}
+```
+
+<Quiz
+  sporsmal="Hva vises på nettsiden?"
+  kode={"<h1>Velkommen</h1>\n<!-- Husk å skrive mer her -->\n<p>Hei!</p>"}
+  alternativer={[
+    "Velkommen, Husk å skrive mer her og Hei!",
+    "Bare Velkommen og Hei!",
+    "En feilmelding, fordi kommentaren står midt i siden",
+  ]}
+  riktig={1}
+  forklaring="Kommentarer vises aldri på siden. Nettleseren hopper over alt mellom <!-- og -->. Men pass på: alle kan se dem med Vis sidekilde, så ikke skriv noe hemmelig der."
+/>
+
+## Skru av en regel
+
+Kommentarer er også nyttige når du feilsøker. Setter du `/*` og `*/` rundt en regel, slutter den
+å virke – uten at du må slette den. Det kalles å **kommentere ut** koden.
+
+I oppgaven under er stilarket rotete og uten kommentarer. Rydd det opp.
+
+<Oppgave id="m3-kommentarer" />
+
+<UnderPanseret tittel="Hvorfor skrive kommentarer, når nettleseren ignorerer dem?">
+
+Koden din blir lest mange flere ganger enn den blir skrevet – mest av deg selv. Om tre uker husker
+du ikke lenger hvorfor `.boks` har akkurat den fargen. Korte overskrifter i stilarket, som
+`/* Meny */` og `/* Bunntekst */`, gjør det mye lettere å finne fram når fila blir lang.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Midtstill overskriften på siden din med `text-align: center`.
+2. Del `style.css` inn med kommentarer, for eksempel `/* Hele siden */`, `/* Overskrifter */`
+   og `/* Klasser */`, og flytt reglene til riktig del.
+3. Legg inn en HTML-kommentar i `index.html` som forteller hva en del av siden er.
+4. Prøv å kommentere ut en regel, lagre og se hva som skjer. Fjern kommentaren igjen.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="m3-ferdig"
+  punkter={[
+    "Siden min har minst én <ul> og én <ol>",
+    "Jeg har laget minst én egen klasse og brukt den i CSS med punktum foran",
+    "Jeg har brukt <span> til å style noen ord inni et avsnitt",
+    "Fargene mine er skrevet som hex-koder eller hsl()",
+    "Teksten har god nok kontrast mot bakgrunnen (minst 4,5:1)",
+    "style.css er delt inn med kommentarer",
+    "Jeg kan forklare hva tag, element, attributt og verdi er",
+  ]}
+/>

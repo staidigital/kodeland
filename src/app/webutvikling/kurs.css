@@ -426,7 +426,8 @@ a.modul:hover { border-color: var(--linje-sterk); transform: translateY(-1px); }
   white-space: nowrap;
 }
 .leksjon-tekst pre,
-.quiz__kode {
+.quiz__kode,
+.fv-kode {
   overflow-x: auto;
   padding: 16px 18px;
   border-radius: 12px;
@@ -463,12 +464,14 @@ a.modul:hover { border-color: var(--linje-sterk); transform: translateY(-1px); }
 .leksjon-tekst > * + .boks,
 .leksjon-tekst > * + .filnavn,
 .leksjon-tekst > * + .mappebygger,
+.leksjon-tekst > * + .fargevelger,
 .leksjon-tekst > * + .sjekkliste { margin-top: 1.6em; }
 .leksjon-tekst > .oppgave + *,
 .leksjon-tekst > .quiz + *,
 .leksjon-tekst > .boks + *,
 .leksjon-tekst > .filnavn + *,
-.leksjon-tekst > .mappebygger + * { margin-top: 1.6em; }
+.leksjon-tekst > .mappebygger + *,
+.leksjon-tekst > .fargevelger + * { margin-top: 1.6em; }
 
 /* Bokser */
 .boks {
@@ -615,7 +618,7 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
 .fil-ikon--bilde { background: var(--gronn); }
 
 /* Quiz, filnavn, sjekkliste: felles kort */
-.quiz, .filnavn, .mappebygger, .sjekkliste {
+.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger {
   padding: 18px 20px;
   border: 1px solid var(--linje);
   border-radius: 14px;
@@ -734,6 +737,94 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
 .mb-fil.valgt { border-color: var(--gul); box-shadow: 0 0 0 3px var(--gul-myk); }
 .mb-feil { margin-top: 12px; color: var(--rod); font-size: 15px; }
 .mappebygger .oppgave__bra { margin-top: 12px; }
+
+/* Fargepalett i leksjonstekst */
+.palett { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; }
+.palett span { display: flex; flex-direction: column; gap: 6px; }
+.palett i { display: block; height: 56px; border-radius: 10px; border: 1px solid var(--linje); }
+
+/* Fargevelger */
+.fv-forhandsvisning {
+  margin-top: 8px;
+  padding: 20px 22px;
+  border: 1px solid var(--linje);
+  border-radius: 10px;
+}
+.fv-forhandsvisning p { margin: 0; }
+.fv-forhandsvisning .fv-stor { font-size: 26px; font-weight: 700; line-height: 1.25; margin-bottom: 6px; }
+.fv-kontrast {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 14px;
+  margin: 14px 0 4px;
+}
+.fv-tall { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.fv-vurdering { font-size: 15px; font-weight: 600; }
+.fv-vurdering--ok { color: var(--gronn); }
+.fv-vurdering--middels { color: var(--gul); }
+.fv-vurdering--feil { color: var(--rod); }
+.fv-faner { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.fv-fane {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--linje-sterk);
+  border-radius: 8px;
+  background: var(--bg);
+  color: inherit;
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+.fv-fane[aria-selected="true"] { border-color: var(--tekst); font-weight: 600; }
+.fv-prikk { width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--linje-sterk); }
+.fv-glidere { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+.fv-glider {
+  display: grid;
+  grid-template-columns: 130px 1fr 52px;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+}
+.fv-glider input {
+  width: 100%;
+  height: 14px;
+  border-radius: 7px;
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid var(--linje-sterk);
+}
+.fv-glider input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.5), 0 1px 3px rgb(0 0 0 / 0.4);
+  cursor: pointer;
+}
+.fv-glider input::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.5), 0 1px 3px rgb(0 0 0 / 0.4);
+  cursor: pointer;
+}
+.fv-glider__verdi { text-align: right; font-variant-numeric: tabular-nums; }
+.fv-koder { display: flex; flex-direction: column; gap: 4px; margin-top: 14px; font-size: 15px; }
+.fv-koder div { display: flex; flex-wrap: wrap; gap: 4px 10px; }
+.fv-koder dt { min-width: 130px; color: var(--dempet); }
+.fv-koder dd { margin: 0; }
+.fv-kode { margin-top: 12px; }
+@media (max-width: 520px) {
+  .fv-glider { grid-template-columns: 1fr 52px; }
+  .fv-glider input { grid-column: 1 / -1; grid-row: 2; }
+}
 
 /* Sjekkliste */
 .sjekkliste ul { list-style: none !important; padding: 0 !important; display: flex; flex-direction: column; gap: 4px; }

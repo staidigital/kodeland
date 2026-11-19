@@ -37,7 +37,7 @@ Kolonnen «Pensum» viser hvilke kapitler i Webutvikling-101 modulen henter stof
 |---|---|---|---|---|---|
 | 1 | **Din første nettside** ✅ | `h1`, `p`, grunnstruktur (fylles inn, ikke pugges) | smakebit: `color` | en nettside er en tekstfil; prosjektmappen; filnavn; `index.html` | 1, 2, 3 |
 | 2 | **Gi den farge!** ✅ | `strong`, `em`, `h2`–`h3` | `style.css`, `<link>`, `color`, `background-color`, `font-family`, `font-size` | HTML, CSS og JavaScript – tre språk, tre jobber | 4, 10, 12, 13 |
-| 3 | **Mer innhold, mer stil** | `ul`, `ol`, `span`, kommentarer | klasser (`.klasse`), hex og hsl, `text-align` | tag, element, attributt og verdi | 3, 4, 7, 11, 12 |
+| 3 | **Mer innhold, mer stil** ✅ | `ul`, `ol`, `span`, kommentarer | klasser (`.klasse`), hex og hsl, `text-align` | tag, element, attributt og verdi | 3, 4, 7, 11, 12 |
 | 4 | **Flere sider og lenker** | `a`, meny i `ul`, flere `.html`-filer | `:hover`, `text-decoration` | **klient og tjener**; hva skjer når du skriver inn en adresse; relative og absolutte stier | 1, 5, 11 |
 | 5 | **Bilder** | `img`, `alt`, `figure` | `width`/`max-width`, `border-radius`, `background-image` | hvert bilde er en egen forespørsel (Network-fanen); formater; filstørrelse; opphavsrett | 6, 12 |
 | 🏁 | **Sjekkpunkt 1:** nettsted med tre sider, meny, bilder og egen fargepalett | | | | (9) |
@@ -69,6 +69,7 @@ nettsted som faktisk har stil – i motsetning til pensumet, der sjekkpunkt 1 le
 | `<Filnavn filer={[…]} />` | Spill: godt eller dårlig filnavn? |
 | `<Mappebygger />` | Klikk filer på plass i `webkurs/` og `webkurs/bilder/`. |
 | `<Sjekkliste id punkter />` | Avkrysning som huskes. |
+| `<Fargevelger />` | HSL-glidere for tekst- og bakgrunnsfarge, med hex-kode, hsl-kode og kontrastmåler. |
 
 Oppgavetyper vi bruker: endre koden, **finn feilen** (ødelagt kode som skal fikses), **hva gjør
 denne koden?** (som `<Quiz>` med kode), og frie lekeplasser (oppgave uten sjekker).
@@ -79,8 +80,6 @@ denne koden?** (som `<Quiz>` med kode), og frie lekeplasser (oppgave uten sjekke
   og et ødelagt bilde når stien er feil (modul 4–5)
 - Animasjon av klient og tjener: forespørsel og svar steg for steg (modul 4, igjen i 14)
 - Boksmodell med glidebrytere for `padding`, `border` og `margin` (modul 6)
-- Fargevelger med kontrastmåler (modul 2/3 eller 9). Kontrastberegning finnes allerede som
-  hjelpefunksjon i `oppgaver.ts`.
 - Spesifisitetsspill: to CSS-regler møtes, gjett hvem som vinner (modul 9)
 - Sandkasse eller lite spill for flexbox og grid (modul 11–12). Må være en egen idé, ikke en
   kopi av eksisterende spill som Flexbox Froggy.

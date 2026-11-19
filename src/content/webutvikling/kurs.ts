@@ -68,7 +68,12 @@ export const MODULER: Modul[] = [
     html: ["<ul>", "<ol>", "<span>", "kommentarer"],
     css: [".klasser", "hex og hsl", "text-align"],
     teori: ["tag, element, attributt og verdi"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "lister", tittel: "Lister", minutter: 20 },
+      { slug: "klasser", tittel: "Klasser og span", minutter: 30 },
+      { slug: "hex-og-hsl", tittel: "Farger med koder", minutter: 30 },
+      { slug: "midtstill-og-rydd", tittel: "Midtstill og rydd", minutter: 20 },
+    ],
   },
   {
     slug: "lenker",
