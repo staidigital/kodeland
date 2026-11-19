@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Kode } from "./kodefarger";
 
 type Props = {
   sporsmal: string;
@@ -22,7 +23,7 @@ export function Quiz({ sporsmal, kode, alternativer, riktig, forklaring }: Props
       <p className="quiz__sporsmal">{sporsmal}</p>
       {kode && (
         <pre className="quiz__kode">
-          <code>{kode}</code>
+          <Kode kode={kode} />
         </pre>
       )}
       <div className="quiz__alternativer">

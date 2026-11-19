@@ -437,6 +437,16 @@ a.modul:hover { border-color: var(--linje-sterk); transform: translateY(-1px); }
 }
 .leksjon-tekst pre code { font-size: 14.5px; }
 
+/* Kodefarger i kodeeksempler (kodefarger.tsx), samme som VS Code Dark+ i oppgave-editoren.
+   Kodeblokkene er mørke i begge temaer, så fargene er felles. */
+.kurs .kf-tag { color: #4ec9b0; }
+.kurs .kf-egenskap { color: #9cdcfe; }
+.kurs .kf-verdi { color: #569cd6; }
+.kurs .kf-streng { color: #ce9178; }
+.kurs .kf-tall { color: #b5cea8; }
+.kurs .kf-klammer { color: #808080; }
+.kurs .kf-kommentar { color: #6a9955; }
+
 /* Fullbredde for interaktive blokker: litt bredere enn teksten */
 .leksjon-tekst > .oppgave,
 .leksjon-tekst > .mappebygger {
