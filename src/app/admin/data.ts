@@ -1,5 +1,5 @@
 import "server-only";
-import { MODULER } from "@/content/webutvikling/kurs";
+import { leksjonsNr, MODULER } from "@/content/webutvikling/kurs";
 import { OPPGAVER } from "@/content/webutvikling/oppgaver";
 import { createClient } from "@/lib/supabase/server";
 
@@ -7,7 +7,7 @@ import { createClient } from "@/lib/supabase/server";
 export const ALLE_LEKSJONER = MODULER.flatMap((m) =>
   m.leksjoner.map((l, i) => ({
     id: `${m.slug}/${l.slug}`,
-    kort: `${m.nr}.${i + 1}`,
+    kort: leksjonsNr(m, i),
     tittel: l.tittel,
     modul: m,
   })),

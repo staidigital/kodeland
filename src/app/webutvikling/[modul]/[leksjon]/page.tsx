@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { LeksjonHake } from "@/components/kurs/fremdrift-visning";
 import { LeksjonBunn } from "@/components/kurs/leksjon-status";
-import { finnModul, leksjonsId, MODULER } from "@/content/webutvikling/kurs";
+import { delNavn, finnModul, leksjonsId, MODULER, nesteDel } from "@/content/webutvikling/kurs";
 import { LEKSJONER } from "@/content/webutvikling/leksjoner";
 
 type Props = PageProps<"/webutvikling/[modul]/[leksjon]">;
@@ -43,18 +43,18 @@ async function Leksjon({ params }: { params: Props["params"] }) {
   if (!Innhold) notFound();
 
   const nesteL = m.leksjoner[indeks + 1];
-  const nesteM = MODULER.find((x) => x.nr === m.nr + 1 && x.leksjoner.length > 0);
+  const nesteM = nesteDel(m);
   const neste = nesteL
     ? { href: `/webutvikling/${m.slug}/${nesteL.slug}`, tittel: nesteL.tittel }
     : nesteM
-      ? { href: `/webutvikling/${nesteM.slug}`, tittel: `Modul ${nesteM.nr}` }
+      ? { href: `/webutvikling/${nesteM.slug}`, tittel: delNavn(nesteM) }
       : undefined;
 
   return (
     <div className="leksjon-ramme">
-      <nav className="leksjon-meny" aria-label={`Leksjoner i modul ${m.nr}`}>
+      <nav className="leksjon-meny" aria-label={`Leksjoner i ${delNavn(m).toLowerCase()}`}>
         <Link href={`/webutvikling/${m.slug}`} className="leksjon-meny__modul">
-          <span>Modul {m.nr}</span>
+          <span>{delNavn(m)}</span>
           {m.tittel}
         </Link>
         <ol>
@@ -74,7 +74,7 @@ async function Leksjon({ params }: { params: Props["params"] }) {
 
       <main className="leksjon">
         <p className="leksjon__over">
-          Modul {m.nr} · Leksjon {indeks + 1} av {m.leksjoner.length} · ca. {l.minutter} min
+          {delNavn(m)} · Leksjon {indeks + 1} av {m.leksjoner.length} · ca. {l.minutter} min
         </p>
         <h1 className="leksjon__tittel">{l.tittel}</h1>
         <article className="leksjon-tekst">

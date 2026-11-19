@@ -18,8 +18,8 @@ import m4Meny from "./lenker/meny.mdx";
 import m5Bakgrunnsbilder from "./bilder/bakgrunnsbilder.mdx";
 import m5ForsteBilde from "./bilder/forste-bilde.mdx";
 import m5Formater from "./bilder/formater-og-opphavsrett.mdx";
-import m5Sjekkpunkt1 from "./bilder/sjekkpunkt-1.mdx";
 import m5StorrelseOgForm from "./bilder/storrelse-og-form.mdx";
+import s1DittNettsted from "./sjekkpunkt-1/ditt-nettsted.mdx";
 
 /**
  * Kobler leksjons-id (modul/leksjon) til MDX-fila.
@@ -47,5 +47,5 @@ export const LEKSJONER: Record<string, ComponentType> = {
   "bilder/storrelse-og-form": m5StorrelseOgForm,
   "bilder/bakgrunnsbilder": m5Bakgrunnsbilder,
   "bilder/formater-og-opphavsrett": m5Formater,
-  "bilder/sjekkpunkt-1": m5Sjekkpunkt1,
+  "sjekkpunkt-1/ditt-nettsted": s1DittNettsted,
 };

@@ -40,7 +40,7 @@ Kolonnen «Pensum» viser hvilke kapitler i Webutvikling-101 modulen henter stof
 | 3 | **Mer innhold, mer stil** ✅ | `ul`, `ol`, `span`, kommentarer | klasser (`.klasse`), hex og hsl, `text-align` | tag, element, attributt og verdi | 3, 4, 7, 11, 12 |
 | 4 | **Flere sider og lenker** ✅ | `a`, meny i `ul`, flere `.html`-filer | `:hover`, `text-decoration` | **klient og tjener**; hva skjer når du skriver inn en adresse; relative og absolutte stier | 1, 5, 11 |
 | 5 | **Bilder** ✅ | `img`, `alt`, `figure` | `width`/`max-width`, `border-radius`, `background-image` | hvert bilde er en egen forespørsel (Network-fanen); formater; filstørrelse; opphavsrett | 6, 12 |
-| 🏁 | **Sjekkpunkt 1:** nettsted med tre sider, meny, bilder og egen fargepalett | | | | (9) |
+| 🏁 | **Sjekkpunkt 1:** nettsted med tre sider, meny, bilder og egen fargepalett ✅ | | | | (9) |
 | 6 | **Boksmodellen** | `div` | `padding`, `margin`, `border`, `box-sizing` | alt er firkanter; utviklerverktøyet | 10, 14 |
 | 7 | **Semantisk struktur** | `header`, `nav`, `main`, `section`, `article`, `footer` | stil på header, meny og bunntekst | DOM-treet; skjermlesere; universell utforming (lovkrav); `class` og `id` | 8, 9 |
 | 8 | **Typografi** | `blockquote`, spesialtegn | webfonter, `rem`/`em`, `line-height`, linjelengde | typografisk skala | 4, 13 |
@@ -54,6 +54,9 @@ Kolonnen «Pensum» viser hvilke kapitler i Webutvikling-101 modulen henter stof
 
 ✅ = leksjoner skrevet. Modul 1–5 tilsvarer omtrent første periode, og studentene ender med et
 nettsted som faktisk har stil – i motsetning til pensumet, der sjekkpunkt 1 leveres uten CSS.
+
+Sjekkpunktene er egne deler av kurset (`type: "sjekkpunkt"` i `kurs.ts`), med egne leksjoner. De
+vises mellom modulene i oversikten og heter «Sjekkpunkt N» i stedet for «Modul N».
 
 ## Interaktive elementer
 
@@ -73,6 +76,7 @@ nettsted som faktisk har stil – i motsetning til pensumet, der sjekkpunkt 1 le
 | `<KlientTjener />` | Forespørsel og svar mellom nettleser og tjener, steg for steg – også en lenke som gir 404. |
 | `<Stifinner />` | Velg siden du står på og fila du vil til, og se den relative stien bygges opp ledd for ledd. |
 | `<Nettverksfane />` | Forenklet Network-fane: forespørslene for en side med ekte filstørrelser, ulike bildeformater og nett. |
+| `<Nettstedsjekker />` | Studenten velger eller drar inn `webkurs`-mappen sin, og får den sjekket mot kravene i sjekkpunkt 1 (filnavn, grunnstruktur, lenker, meny, bilder, farger). Alt skjer lokalt i nettleseren. Sjekkene står i `src/lib/nettstedsjekk.ts`. |
 
 Oppgavetyper vi bruker: endre koden, **finn feilen** (ødelagt kode som skal fikses), **hva gjør
 denne koden?** (som `<Quiz>` med kode), og frie lekeplasser (oppgave uten sjekker).
@@ -93,4 +97,7 @@ denne koden?** (som `<Quiz>` med kode), og frie lekeplasser (oppgave uten sjekke
   fremdriften der. Studenter registreres med fornavn eller initialer, ikke fullt navn.
 - Passord lages automatisk og lagres kryptert, så læreren kan vise dem igjen.
 - Innlevering skjer foreløpig utenfor nettsiden (læringslogg o.l.). Sjekkpunktene er beskrevet,
-  men ikke bygget som innleveringer på siden.
+  men ikke bygget som innleveringer på siden. Sjekkpunkt 1 har `<Nettstedsjekker />`, så studenten
+  kan sjekke sitt eget nettsted før innlevering; resultatet lagres ikke.
+- Ideer videre: vurderingskriterier (lav/middels/høy) per sjekkpunkt, sjekklister og
+  nettstedsjekkens resultat synket til lærerpanelet, og strukturert medstudentvurdering.

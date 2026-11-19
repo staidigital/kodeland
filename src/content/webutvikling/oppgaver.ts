@@ -7,6 +7,7 @@
  */
 
 import { kontrast, lesRgb, rgbTilHsl, toneAvstand } from "@/lib/farger";
+import { løsSti } from "@/lib/stier";
 import type { Kursbilde } from "./kursbilder";
 
 export type Sjekk = {
@@ -38,26 +39,6 @@ export type OppgaveDef = {
   /** Bildene som ligger i prosjektet (se kursbilder.ts). Brukes av <img src> og url() i CSS. */
   bilder?: Kursbilde[];
 };
-
-const PROSJEKT = "https://prosjekt.invalid/";
-
-/**
- * Hvilken fil i prosjektet peker `href` på, sett fra siden `fra`? Følger samme regler som
- * nettleseren (relative stier, ../, mappe/ → mappe/index.html). Gir null for lenker ut av
- * prosjektet (https://…, mailto: …).
- */
-export function løsSti(href: string, fra: string): string | null {
-  let url: URL;
-  try {
-    url = new URL(href.trim(), PROSJEKT + fra);
-  } catch {
-    return null;
-  }
-  if (url.origin !== new URL(PROSJEKT).origin) return null;
-  let sti = decodeURIComponent(url.pathname.slice(1));
-  if (sti === "" || sti.endsWith("/")) sti += "index.html";
-  return sti;
-}
 
 /** Filene lenkene på en side peker på (lenker ut av prosjektet er tatt bort). */
 const lenkerTil = (side: Document | undefined, fra: string) =>

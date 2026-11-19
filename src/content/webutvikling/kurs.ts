@@ -6,6 +6,10 @@
  * og må også registreres i lessons.ts.
  *
  * Moduler uten leksjoner vises som «kommer snart».
+ *
+ * Sjekkpunktene (type: "sjekkpunkt") er egne deler i lista, mellom modulene. De har egne
+ * leksjoner og vises som «Sjekkpunkt N» i stedet for «Modul N». Rekkefølgen i lista er
+ * rekkefølgen i kurset.
  */
 
 export type Leksjon = {
@@ -17,7 +21,9 @@ export type Leksjon = {
 
 export type Modul = {
   slug: string;
+  /** Moduler og sjekkpunkter nummereres hver for seg: Modul 5, Sjekkpunkt 1, Modul 6 … */
   nr: number;
+  type?: "sjekkpunkt";
   tittel: string;
   ingress: string;
   /** Det eleven lærer, i stikkord. */
@@ -25,8 +31,8 @@ export type Modul = {
   css: string[];
   teori: string[];
   leksjoner: Leksjon[];
-  /** Sjekkpunkt etter denne modulen. */
-  sjekkpunkt?: string;
+  /** Målet for modulen, vist som en egen linje under den i oversikten. */
+  mål?: string;
 };
 
 export const MODULER: Modul[] = [
@@ -103,9 +109,18 @@ export const MODULER: Modul[] = [
       { slug: "storrelse-og-form", tittel: "Størrelse og form", minutter: 25 },
       { slug: "bakgrunnsbilder", tittel: "Bakgrunnsbilder", minutter: 20 },
       { slug: "formater-og-opphavsrett", tittel: "Formater, filstørrelse og opphavsrett", minutter: 30 },
-      { slug: "sjekkpunkt-1", tittel: "Sjekkpunkt 1: Ditt nettsted", minutter: 90 },
     ],
-    sjekkpunkt: "Et nettsted med tre sider, meny, bilder og egen fargepalett.",
+  },
+  {
+    slug: "sjekkpunkt-1",
+    nr: 1,
+    type: "sjekkpunkt",
+    tittel: "Ditt nettsted",
+    ingress: "Et nettsted med tre sider, meny, bilder og egen fargepalett.",
+    html: [],
+    css: [],
+    teori: [],
+    leksjoner: [{ slug: "ditt-nettsted", tittel: "Ditt nettsted", minutter: 90 }],
   },
   {
     slug: "boksmodellen",
@@ -146,7 +161,17 @@ export const MODULER: Modul[] = [
     css: ["kombinatorer", ":nth-child", ":focus", "arv", "spesifisitet"],
     teori: ["kaskaden"],
     leksjoner: [],
-    sjekkpunkt: "Nettstedet ditt med semantisk struktur, typografi og stil.",
+  },
+  {
+    slug: "sjekkpunkt-2",
+    nr: 2,
+    type: "sjekkpunkt",
+    tittel: "Struktur og stil",
+    ingress: "Nettstedet ditt med semantisk struktur, typografi og stil.",
+    html: [],
+    css: [],
+    teori: [],
+    leksjoner: [],
   },
   {
     slug: "display",
@@ -197,12 +222,28 @@ export const MODULER: Modul[] = [
     css: ["kontrastsjekk"],
     teori: ["hosting", "domener og DNS", "nå ligger din side på en tjener"],
     leksjoner: [],
-    sjekkpunkt: "Ferdig, publisert nettsted.",
+    mål: "Ferdig, publisert nettsted.",
   },
 ];
 
 export function finnModul(slug: string) {
   return MODULER.find((m) => m.slug === slug);
+}
+
+/** «Modul 5» eller «Sjekkpunkt 1». */
+export function delNavn(m: Modul) {
+  return `${m.type === "sjekkpunkt" ? "Sjekkpunkt" : "Modul"} ${m.nr}`;
+}
+
+/** Neste del av kurset (modul eller sjekkpunkt), hvis den har leksjoner. */
+export function nesteDel(m: Modul) {
+  const neste = MODULER[MODULER.indexOf(m) + 1];
+  return neste && neste.leksjoner.length > 0 ? neste : undefined;
+}
+
+/** Kortnummer for en leksjon: «5.2» i modul 5, «S1.1» i sjekkpunkt 1. */
+export function leksjonsNr(m: Modul, indeks: number) {
+  return `${m.type === "sjekkpunkt" ? "S" : ""}${m.nr}.${indeks + 1}`;
 }
 
 export function leksjonsId(modul: string, leksjon: string) {

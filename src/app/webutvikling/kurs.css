@@ -219,6 +219,16 @@ a.modul:hover { border-color: var(--linje-sterk); transform: translateY(-1px); }
   font-weight: 700;
   color: var(--dempet);
 }
+.modul--sjekkpunkt { border: 1px dashed var(--gul); background: var(--gul-myk); }
+a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
+.modul--sjekkpunkt .modul__nr { font-size: 26px; text-align: center; }
+.modul__over {
+  color: var(--dempet);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
 .modul__tekst { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .modul__tittel { font-size: 19px; font-weight: 650; }
 .modul__ingress { color: var(--dempet); font-size: 15px; }
@@ -468,6 +478,7 @@ a.modul:hover { border-color: var(--linje-sterk); transform: translateY(-1px); }
 .leksjon-tekst > * + .klient-tjener,
 .leksjon-tekst > * + .stifinner,
 .leksjon-tekst > * + .nettverksfane,
+.leksjon-tekst > * + .nettstedsjekker,
 .leksjon-tekst > * + figure,
 .leksjon-tekst > * + .sjekkliste { margin-top: 1.6em; }
 .leksjon-tekst > .oppgave + *,
@@ -479,6 +490,7 @@ a.modul:hover { border-color: var(--linje-sterk); transform: translateY(-1px); }
 .leksjon-tekst > .klient-tjener + *,
 .leksjon-tekst > .stifinner + *,
 .leksjon-tekst > .nettverksfane + *,
+.leksjon-tekst > .nettstedsjekker + *,
 .leksjon-tekst > figure + * { margin-top: 1.6em; }
 
 /* Bokser */
@@ -653,7 +665,7 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
 .fil-ikon--bilde { background: var(--gronn); }
 
 /* Quiz, filnavn, sjekkliste: felles kort */
-.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner, .nettverksfane {
+.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner, .nettverksfane, .nettstedsjekker {
   padding: 18px 20px;
   border: 1px solid var(--linje);
   border-radius: 14px;
@@ -1082,6 +1094,76 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
   .nf-rad > :nth-child(2) { display: none; }
   .nf-foss, .nf-foss-hode { grid-column: 1 / -1; }
 }
+
+/* Nettstedsjekker */
+.ns-slipp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 24px 16px;
+  border: 2px dashed var(--linje-sterk);
+  border-radius: 12px;
+  background: var(--bg);
+  text-align: center;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.ns-slipp p { margin: 0; }
+.ns-slipp--over { border-color: var(--css); background: var(--css-myk); }
+.ns-personvern { color: var(--dempet); font-size: 14px; }
+.ns-feilmelding { margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: var(--rod-myk); color: var(--rod); }
+.ns-resultat { margin-top: 16px; }
+.ns-oversikt { margin: 0; color: var(--dempet); font-size: 14px; }
+.ns-teller { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0 0; }
+.ns-merke { padding: 2px 10px; border-radius: 999px; font-weight: 700; font-size: 14px; }
+.ns-merke--ok { background: var(--gronn-myk); color: var(--gronn); }
+.ns-merke--advarsel { background: var(--gul-myk); color: var(--gul); }
+.ns-merke--feil { background: var(--rod-myk); color: var(--rod); }
+.ns-teller__tekst { font-size: 15px; }
+.ns-gruppe { margin-top: 18px; }
+.ns-gruppe h3 {
+  margin: 0 0 6px !important;
+  color: var(--dempet);
+  font-size: 13px !important;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.ns-iorden > summary { cursor: pointer; color: var(--dempet); font-size: 14px; font-weight: 600; }
+.ns-iorden[open] > summary { margin-bottom: 6px; }
+.ns-gruppenavn { color: var(--dempet); font-weight: 400; font-size: 13px; }
+.ns-gruppe > ul { list-style: none !important; margin: 0; padding: 0 !important; display: flex; flex-direction: column; gap: 6px; }
+.ns-sjekk {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 !important;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--bg);
+}
+.ns-sjekk--feil { background: var(--rod-myk); }
+.ns-sjekk--advarsel { background: var(--gul-myk); }
+.ns-ikon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+}
+.ns-sjekk--ok .ns-ikon { background: var(--gronn); }
+.ns-sjekk--advarsel .ns-ikon { background: var(--gul); }
+.ns-sjekk--feil .ns-ikon { background: var(--rod); }
+.ns-tittel { margin: 0; font-size: 15.5px; font-weight: 600; }
+.ns-detaljer { margin: 4px 0 0 !important; padding-left: 1.1em !important; font-size: 14px; overflow-wrap: anywhere; }
+.ns-detaljer li + li { margin-top: 2px !important; }
+.ns-leksjon { display: inline-block; margin-top: 4px; font-size: 14px; }
 
 /* Figurer i leksjonsteksten */
 .leksjon-tekst figure { margin: 0; }

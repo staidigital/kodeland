@@ -6,7 +6,8 @@ import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import CodeMirror from "@uiw/react-codemirror";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { KURSBILDER, type Kursbilde } from "@/content/webutvikling/kursbilder";
-import { løsSti, OPPGAVER } from "@/content/webutvikling/oppgaver";
+import { OPPGAVER } from "@/content/webutvikling/oppgaver";
+import { løsSti } from "@/lib/stier";
 import { hentOppgave, lagreOppgave } from "./fremdrift";
 
 const INDEX = "index.html";
