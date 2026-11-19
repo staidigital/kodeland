@@ -23,6 +23,9 @@ Nettsted for kodeundervisning på videregående (Vg1), laget med Next.js 16 (App
 Kursplanen, prinsippene (CSS tidlig, teori spredt utover, mappestruktur som rød tråd) og ideer til
 interaktive elementer står i `docs/kursplan-webutvikling.md`. Følg den når du lager nye moduler.
 
+Kurset består av moduler og sjekkpunkter (`type: "sjekkpunkt"`) i `kurs.ts`, i den rekkefølgen
+de skal tas. Bruk `delNavn()`, `nesteDel()` og `leksjonsNr()` i stedet for å regne med `nr`.
+
 Ny leksjon:
 1. Skriv `src/content/webutvikling/<modul>/<leksjon>.mdx`. Komponentene i `src/mdx-components.tsx`
    (`<Oppgave>`, `<Quiz>`, `<UnderPanseret>`, `<Tips>`, `<GjorDetSelv>`, `<Sjekkliste>` …) kan
@@ -30,8 +33,10 @@ Ny leksjon:
 2. Legg leksjonen inn i `kurs.ts` **og** `leksjoner.ts` (statisk import – dynamisk `import()` av MDX
    feiler i Next sin forhåndsvalidering).
 3. Kodeoppgaver med sjekker defineres i `oppgaver.ts`, med id-er som `m3-lister`. Fargehjelpere
-   (kontrast, hsl/hex) ligger i `src/lib/farger.ts`. Funksjoner kan ikke
-   sendes som props fra MDX, derfor ligger sjekkene der.
+   (kontrast, hsl/hex) ligger i `src/lib/farger.ts`. Oppgaver med flere HTML-sider bruker `sider`
+   (filnavn → kode) og `løsSti()` (`src/lib/stier.ts`) for stier; de ekstra sidene lagres i `exercise_results.pages`.
+   Bilder i oppgaver: `bilder: [...]` med stier fra `kursbilder.ts` (filene ligger i `public/kurs/bilder/`).
+   Funksjoner kan ikke sendes som props fra MDX, derfor ligger sjekkene der.
 4. Test oppgaven i nettleseren: skriv riktig og feil kode, og se at sjekkene reagerer riktig.
 
 Stilen for kurset ligger i `src/app/webutvikling/kurs.css` (fargetokens på `.kurs`, lyst og mørkt tema).

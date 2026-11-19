@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FremdriftTeller } from "@/components/kurs/fremdrift-visning";
-import { leksjonsId, MODULER } from "@/content/webutvikling/kurs";
+import { delNavn, leksjonsId, MODULER } from "@/content/webutvikling/kurs";
 
 export default function KursOversikt() {
   return (
@@ -22,11 +22,15 @@ export default function KursOversikt() {
       <ol className="modulkart">
         {MODULER.map((m) => {
           const klar = m.leksjoner.length > 0;
+          const sjekkpunkt = m.type === "sjekkpunkt";
           const ider = m.leksjoner.map((l) => leksjonsId(m.slug, l.slug));
           const innhold = (
             <>
-              <span className="modul__nr">{String(m.nr).padStart(2, "0")}</span>
+              <span className="modul__nr" aria-hidden={sjekkpunkt || undefined}>
+                {sjekkpunkt ? "🏁" : String(m.nr).padStart(2, "0")}
+              </span>
               <span className="modul__tekst">
+                {sjekkpunkt && <span className="modul__over">{delNavn(m)}</span>}
                 <span className="modul__tittel">{m.tittel}</span>
                 <span className="modul__ingress">{m.ingress}</span>
                 <span className="modul__stikkord">
@@ -46,15 +50,15 @@ export default function KursOversikt() {
           return (
             <li key={m.slug}>
               {klar ? (
-                <Link href={`/webutvikling/${m.slug}`} className="modul">
+                <Link href={`/webutvikling/${m.slug}`} className={`modul ${sjekkpunkt ? "modul--sjekkpunkt" : ""}`}>
                   {innhold}
                 </Link>
               ) : (
-                <div className="modul modul--snart">{innhold}</div>
+                <div className={`modul modul--snart ${sjekkpunkt ? "modul--sjekkpunkt" : ""}`}>{innhold}</div>
               )}
-              {m.sjekkpunkt && (
+              {m.mål && (
                 <p className="sjekkpunkt">
-                  <span>🏁 Sjekkpunkt</span> {m.sjekkpunkt}
+                  <span>🚀 Mål</span> {m.mål}
                 </p>
               )}
             </li>

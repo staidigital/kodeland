@@ -1,0 +1,81 @@
+Når nettstedet har flere sider, trenger brukeren en måte å finne fram på. Det er menyen – og den
+skal være lik på alle sidene.
+
+## En meny er en liste med lenker
+
+En meny er egentlig bare en punktliste der hvert punkt er en lenke:
+
+```html
+<ul>
+  <li><a href="index.html">Forside</a></li>
+  <li><a href="om-meg.html">Om meg</a></li>
+  <li><a href="hobbyer.html">Hobbyer</a></li>
+</ul>
+```
+
+Menyen står øverst i `<body>`, før `<h1>`. Og den må stå på *alle* sidene – ellers blir brukeren
+sittende fast.
+
+<Oppgave id="m4-meny" />
+
+<Quiz
+  sporsmal="Hvorfor legger vi menyen i en <ul>, og ikke bare lenkene etter hverandre?"
+  alternativer={[
+    "Fordi lenker ikke virker utenfor en liste",
+    "Fordi menyen er en liste over sider – og da kan en skjermleser si «liste, tre punkter»",
+    "Fordi <ul> gjør lenkene blå",
+  ]}
+  riktig={1}
+  forklaring="HTML skal beskrive hva innholdet er. En meny er en liste over steder du kan gå, så <ul> er riktig. Utseendet – om den skal stå på rad, uten punkter og så videre – fikser vi med CSS."
+/>
+
+<Tips>
+
+Ja, du må kopiere menyen inn i hver eneste fil. Endrer du menyen, må du endre den overalt. Det er
+litt tungvint, men helt vanlig for enkle nettsteder. Senere i livet som utvikler lærer du verktøy
+som gjør det for deg.
+
+</Tips>
+
+## Style lenkene
+
+Lenker er blå og understreket som standard. I en meny vil du ofte ha det annerledes:
+
+```css
+a {
+  color: #1d3557;
+  text-decoration: none;
+}
+```
+
+`text-decoration: none` fjerner understrekingen. Men da ser det ikke lenger ut som noe man kan
+klikke på. Derfor gir vi lenkene en endring når musa er over dem, med `:hover`:
+
+```css
+a:hover {
+  color: #e63946;
+  text-decoration: underline;
+}
+```
+
+`a:hover` betyr «en lenke, *mens* musepekeren er over den». Prøv å holde musa over lenkene i
+forhåndsvisningen når du er ferdig.
+
+<Oppgave id="m4-hover" />
+
+<UnderPanseret tittel="Ikke fjern understrekingen overalt">
+
+Understrekingen er det som viser at et ord i en tekst er en lenke. Mange ser ikke forskjell på
+farger – særlig rødt og grønt. I en meny er det tydelig at alt er lenker, så der går det fint å
+fjerne den. Men inni avsnitt bør lenkene beholde understrekingen.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Lag en meny med `<ul>` øverst i `<body>` på både `index.html` og `om-meg.html`.
+2. Lag gjerne en tredje side, for eksempel `hobbyer.html`, og legg den til i menyen på alle sidene.
+3. Gi lenkene en farge fra paletten din, fjern understrekingen i menyen, og lag en `a:hover`-regel.
+4. Klikk deg gjennom alle sidene i Live Server. Kommer du til alle sider fra alle sider?
+
+</GjorDetSelv>

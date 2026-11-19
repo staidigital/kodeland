@@ -1,0 +1,74 @@
+Du har kommet langt. På fem moduler har du gått fra én linje med HTML til et nettsted med flere
+sider, meny, farger og bilder. Nå er det tid for å samle trådene – og lage et nettsted du kan være
+stolt av.
+
+## Oppgaven
+
+Lag et nettsted om noe du liker – deg selv, en hobby, et lag, et spill, et sted. Det skal ha:
+
+- **Minst tre sider**, som `index.html`, `om-meg.html` og én til.
+- **En meny** i en `<ul>` øverst på alle sidene, der alle lenkene virker.
+- **Bilder** med god alt-tekst, i riktig størrelse.
+- **En egen fargepalett** med 2–4 farger, skrevet som hex eller `hsl()`, med god kontrast.
+- **Ett felles stilark**, `style.css`, som alle sidene bruker.
+
+## Planlegg før du koder
+
+1. **Bestem tema og sider.** Skriv ned hva hver side skal handle om.
+2. **Tegn mappen.** Hvilke filer trenger du, og hvor skal bildene ligge? Husk reglene for filnavn.
+3. **Velg farger.** Bruk fargevelgeren fra modul 3, eller finn en palett på
+   [coolors.co](https://coolors.co/). Sjekk kontrasten.
+4. **Finn bilder** du har lov til å bruke, og gjør dem mindre før du legger dem i `bilder/`.
+
+<Tips>
+
+Bygg én side ferdig først – med grunnstruktur, `<link>` til stilarket og menyen. Kopier den når du
+skal lage neste side, og bytt bare ut innholdet. Da blir alle sidene like, og du slipper å skrive
+menyen på nytt.
+
+</Tips>
+
+## Sjekk arbeidet ditt
+
+Når du tror du er ferdig, kan du la nettstedsjekkeren gå gjennom mappen din. Den sjekker det
+samme som sjekklista under – filnavn, grunnstruktur, lenker, meny, bilder og farger – og forteller
+deg hva som må fikses, og hvor i kurset du kan lese mer om det.
+
+<Nettstedsjekker />
+
+Sjekkeren finner mye, men ikke alt. Den vet ikke om alt-tekstene faktisk beskriver bildene, eller
+om sidene er fine å se på. Det må du – og en medstudent – vurdere selv.
+
+<UnderPanseret tittel="Slik tester du som en utvikler">
+
+- **Klikk på alle lenkene**, på alle sidene. Får du noen gang en 404?
+- **Åpne Network-fanen** og last hver side på nytt. Er noe rødt (filer som ikke ble funnet)? Er
+  noen bilder veldig store?
+- **Gjør vinduet smalt.** Holder bildene seg innenfor?
+- **Les sidene høyt for deg selv.** Gir overskriftene mening alene? Sier lenketekstene hvor de går?
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Lag nettstedet i `webkurs`-mappen din, steg for steg.
+2. Test det med nettstedsjekkeren og punktene over.
+3. Vis det til en medstudent, og la dem klikke seg rundt uten at du forklarer noe. Hvor stopper de
+   opp?
+4. Fiks det de fant, og lever slik læreren din har bestemt.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="sjekkpunkt-1"
+  punkter={[
+    "Nettstedet har minst tre sider",
+    "Alle sidene har grunnstrukturen med <!DOCTYPE html>, lang=\"no\" og en egen <title>",
+    "Alle sidene har den samme menyen, og ingen lenker gir 404",
+    "Alle sidene bruker style.css",
+    "Fargene er fra min egen palett, og teksten har god kontrast",
+    "Nettstedet har bilder med god alt-tekst, og ingen er over 200 kB",
+    "Alle filnavn har små bokstaver og ingen mellomrom eller æ, ø og å",
+    "En medstudent har klikket seg gjennom nettstedet",
+  ]}
+/>

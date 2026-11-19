@@ -219,6 +219,16 @@ a.modul:hover { border-color: var(--linje-sterk); transform: translateY(-1px); }
   font-weight: 700;
   color: var(--dempet);
 }
+.modul--sjekkpunkt { border: 1px dashed var(--gul); background: var(--gul-myk); }
+a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
+.modul--sjekkpunkt .modul__nr { font-size: 26px; text-align: center; }
+.modul__over {
+  color: var(--dempet);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
 .modul__tekst { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .modul__tittel { font-size: 19px; font-weight: 650; }
 .modul__ingress { color: var(--dempet); font-size: 15px; }
@@ -465,13 +475,23 @@ a.modul:hover { border-color: var(--linje-sterk); transform: translateY(-1px); }
 .leksjon-tekst > * + .filnavn,
 .leksjon-tekst > * + .mappebygger,
 .leksjon-tekst > * + .fargevelger,
+.leksjon-tekst > * + .klient-tjener,
+.leksjon-tekst > * + .stifinner,
+.leksjon-tekst > * + .nettverksfane,
+.leksjon-tekst > * + .nettstedsjekker,
+.leksjon-tekst > * + figure,
 .leksjon-tekst > * + .sjekkliste { margin-top: 1.6em; }
 .leksjon-tekst > .oppgave + *,
 .leksjon-tekst > .quiz + *,
 .leksjon-tekst > .boks + *,
 .leksjon-tekst > .filnavn + *,
 .leksjon-tekst > .mappebygger + *,
-.leksjon-tekst > .fargevelger + * { margin-top: 1.6em; }
+.leksjon-tekst > .fargevelger + *,
+.leksjon-tekst > .klient-tjener + *,
+.leksjon-tekst > .stifinner + *,
+.leksjon-tekst > .nettverksfane + *,
+.leksjon-tekst > .nettstedsjekker + *,
+.leksjon-tekst > figure + * { margin-top: 1.6em; }
 
 /* Bokser */
 .boks {
@@ -557,6 +577,19 @@ a.modul:hover { border-color: var(--linje-sterk); transform: translateY(-1px); }
   cursor: pointer;
 }
 .oppgave__nullstill:hover { color: #fff; }
+.oppgave__bilder {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--kode-linje);
+  color: #a6a6a6;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+}
+.oppgave__bilde { display: inline-flex; align-items: center; gap: 6px; }
+.oppgave__bilde img { width: 22px; height: 22px; object-fit: cover; border-radius: 4px; background: #333; }
 .oppgave__cm { flex: 1; font-size: 14.5px; }
 .oppgave__cm .cm-editor { height: 100%; }
 .oppgave__cm .cm-scroller { font-family: var(--font-geist-mono), monospace !important; line-height: 1.6; }
@@ -584,6 +617,20 @@ a.modul:hover { border-color: var(--linje-sterk); transform: translateY(-1px); }
   font-family: var(--font-geist-mono), monospace;
   font-size: 12px;
 }
+.oppgave__tilbake {
+  padding: 0 6px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+.oppgave__tilbake:hover:not(:disabled) { background: var(--linje); }
+.oppgave__tilbake:disabled { opacity: 0.35; cursor: default; }
+.oppgave__adresse--feil { color: var(--rod); }
 .oppgave__iframe { flex: 1; width: 100%; min-height: 220px; border: 0; background: #fff; }
 
 .oppgave__sjekker {
@@ -618,7 +665,7 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
 .fil-ikon--bilde { background: var(--gronn); }
 
 /* Quiz, filnavn, sjekkliste: felles kort */
-.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger {
+.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner, .nettverksfane, .nettstedsjekker {
   padding: 18px 20px;
   border: 1px solid var(--linje);
   border-radius: 14px;
@@ -825,6 +872,303 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
   .fv-glider { grid-template-columns: 1fr 52px; }
   .fv-glider input { grid-column: 1 / -1; grid-row: 2; }
 }
+
+/* Klient og tjener */
+.kt-faner { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.kt-scene {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(90px, 1.1fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 14px;
+}
+.kt-boks {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--linje-sterk);
+  border-radius: 10px;
+  background: var(--bg);
+  font-size: 13px;
+}
+.kt-boks__tittel { margin: 0 0 8px; font-weight: 650; font-size: 14px; }
+.kt-boks__tittel span { color: var(--dempet); font-weight: 400; }
+.kt-adresse {
+  overflow: hidden;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: var(--kort);
+  color: var(--dempet);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.kt-skjerm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-height: 74px;
+  margin-top: 6px;
+  padding: 8px;
+  border-radius: 6px;
+  background: #fff;
+  color: #222;
+  transition: background-color 0.3s;
+}
+.kt-skjerm b { font-size: 15px; }
+.kt-skjerm u { color: #1a0dab; }
+.kt-skjerm i { color: #888; }
+.kt-skjerm--ferdig { background: #f1faee; }
+.kt-skjerm--ferdig b { color: #e63946; font-family: Georgia, serif; }
+.kt-skjerm--ferdig span { color: #1d3557; }
+.kt-skjerm--404 b { font-size: 22px; }
+.kt-mappe { list-style: none !important; margin: 0; padding: 0 !important; display: flex; flex-direction: column; gap: 4px; }
+.kt-mappe li {
+  margin: 0 !important;
+  padding: 3px 6px;
+  border-radius: 5px;
+  background: var(--kort);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  transition: background-color 0.3s;
+}
+.kt-mappe li.funnet { background: var(--gronn-myk); color: var(--gronn); font-weight: 600; }
+.kt-mappe li.mangler { background: var(--rod-myk); color: var(--rod); font-weight: 600; }
+.kt-bane { position: relative; display: flex; align-items: center; min-height: 60px; }
+.kt-linje { flex: 1; border-top: 2px dashed var(--linje-sterk); }
+.kt-melding {
+  position: absolute;
+  top: 50%;
+  max-width: 100%;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: var(--css);
+  color: #fff;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11.5px;
+  line-height: 1.3;
+  text-align: center;
+  white-space: normal;
+  z-index: 1;
+  animation: 1.1s ease-in-out forwards;
+}
+.kt-melding--til-tjener { animation-name: kt-til-hoyre; }
+.kt-melding--til-klient { animation-name: kt-til-venstre; background: var(--gronn); }
+.kt-melding--feil { background: var(--rod); }
+@keyframes kt-til-hoyre {
+  from { left: 0; transform: translate(0, -50%); }
+  to { left: 100%; transform: translate(-100%, -50%); }
+}
+@keyframes kt-til-venstre {
+  from { left: 100%; transform: translate(-100%, -50%); }
+  to { left: 0; transform: translate(0, -50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kt-melding { animation-duration: 0.01s; }
+}
+@media (max-width: 520px) {
+  .kt-scene { grid-template-columns: minmax(0, 1fr) 64px minmax(0, 1fr); gap: 6px; }
+  .kt-boks { padding: 8px; }
+  .kt-mappe li { padding: 3px 4px; font-size: 10.5px; overflow-wrap: normal; }
+  .kt-melding { padding: 3px 5px; font-size: 10px; }
+}
+.kt-tekst { min-height: 3.2em; margin-top: 14px; }
+.kt-nr { color: var(--dempet); font-variant-numeric: tabular-nums; font-size: 14px; }
+.kt-knapper { display: flex; gap: 8px; margin-top: 10px; }
+.kt-knapp {
+  padding: 7px 14px;
+  border: 1px solid var(--linje-sterk);
+  border-radius: 8px;
+  background: var(--bg);
+  color: inherit;
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+.kt-knapp:disabled { opacity: 0.4; cursor: default; }
+.kt-knapp--neste { border-color: var(--aksent); background: var(--aksent); color: var(--aksent-tekst); font-weight: 600; }
+
+/* Stifinner */
+.sf-instruks { margin: 0; color: var(--dempet); font-size: 15px; }
+.sf-rad { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-top: 12px; }
+.sf-valg { display: flex; flex-wrap: wrap; gap: 6px; }
+.sf-valg .fv-fane { font-family: var(--font-geist-mono), monospace; font-size: 13px; }
+.sf-valg .fv-fane[aria-pressed="true"] { border-color: var(--tekst); font-weight: 600; }
+.sf-etikett { margin: 0; color: var(--dempet); font-size: 14px; }
+.sf-flate { display: grid; grid-template-columns: minmax(0, 220px) minmax(0, 1fr); gap: 16px; margin-top: 14px; }
+@media (max-width: 600px) { .sf-flate { grid-template-columns: 1fr; } }
+.sf-tre {
+  list-style: none !important;
+  margin: 0;
+  padding: 10px !important;
+  border: 1px solid var(--linje);
+  border-radius: 10px;
+  background: var(--bg);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 13.5px;
+}
+.sf-tre li { margin: 0 !important; padding-top: 2px; padding-bottom: 2px; }
+.sf-mappe { color: var(--dempet); font-weight: 600; }
+.sf-tre button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 1px 6px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.sf-tre button:hover:not(:disabled) { border-color: var(--linje-sterk); }
+.sf-tre button:disabled { cursor: default; }
+.sf-her button { background: var(--gul-myk); }
+.sf-mal button { background: var(--css-myk); color: var(--css); font-weight: 600; border-color: var(--css); }
+.sf-merke { font-family: var(--font-geist-sans), sans-serif; font-size: 11px; color: var(--dempet); font-weight: 400; white-space: nowrap; }
+.sf-sti {
+  margin: 6px 0 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--kode-bg);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 17px;
+  overflow-wrap: anywhere;
+}
+.sf-opp { color: #c586c0; }
+.sf-inn { color: #4ec9b0; }
+.sf-fil { color: #ce9178; }
+.sf-ledd { margin: 0; padding-left: 1.3em; font-size: 15px; }
+.sf-ledd li + li { margin-top: 0.25em; }
+
+/* Nettverksfane */
+.nf-valg { display: flex; flex-wrap: wrap; gap: 10px 20px; margin-top: 8px; }
+.nf-valg label { display: flex; flex-direction: column; gap: 4px; }
+.nf-valg select {
+  padding: 6px 10px;
+  border: 1px solid var(--linje-sterk);
+  border-radius: 8px;
+  background: var(--bg);
+  color: inherit;
+  font: inherit;
+  font-size: 15px;
+}
+.nf-tabell {
+  margin-top: 14px;
+  overflow: hidden;
+  border: 1px solid var(--linje-sterk);
+  border-radius: 10px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12.5px;
+}
+.nf-rad {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) 44px 70px 62px minmax(0, 2fr);
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-top: 1px solid var(--linje);
+}
+.nf-rad--hode { border-top: 0; background: var(--bg); color: var(--dempet); font-family: var(--font-geist-sans), sans-serif; font-size: 12px; }
+.nf-navn { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nf-stor { color: var(--rod); font-weight: 700; }
+.nf-foss { position: relative; height: 10px; }
+.nf-strek {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: var(--dempet);
+  transform-origin: left;
+  animation: nf-vokse ease-out both;
+}
+.nf-strek--html { background: var(--html); }
+.nf-strek--css { background: var(--css); }
+.nf-strek--png, .nf-strek--jpg, .nf-strek--webp { background: var(--gronn); }
+@keyframes nf-vokse { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .nf-strek { animation: none; } }
+.nf-sum { margin: 10px 0 0; font-size: 15px; }
+@media (max-width: 560px) {
+  .nf-rad { grid-template-columns: minmax(0, 1fr) 62px 54px; }
+  .nf-rad > :nth-child(2) { display: none; }
+  .nf-foss, .nf-foss-hode { grid-column: 1 / -1; }
+}
+
+/* Nettstedsjekker */
+.ns-slipp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 24px 16px;
+  border: 2px dashed var(--linje-sterk);
+  border-radius: 12px;
+  background: var(--bg);
+  text-align: center;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.ns-slipp p { margin: 0; }
+.ns-slipp--over { border-color: var(--css); background: var(--css-myk); }
+.ns-personvern { color: var(--dempet); font-size: 14px; }
+.ns-feilmelding { margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: var(--rod-myk); color: var(--rod); }
+.ns-resultat { margin-top: 16px; }
+.ns-oversikt { margin: 0; color: var(--dempet); font-size: 14px; }
+.ns-teller { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0 0; }
+.ns-merke { padding: 2px 10px; border-radius: 999px; font-weight: 700; font-size: 14px; }
+.ns-merke--ok { background: var(--gronn-myk); color: var(--gronn); }
+.ns-merke--advarsel { background: var(--gul-myk); color: var(--gul); }
+.ns-merke--feil { background: var(--rod-myk); color: var(--rod); }
+.ns-teller__tekst { font-size: 15px; }
+.ns-gruppe { margin-top: 18px; }
+.ns-gruppe h3 {
+  margin: 0 0 6px !important;
+  color: var(--dempet);
+  font-size: 13px !important;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.ns-iorden > summary { cursor: pointer; color: var(--dempet); font-size: 14px; font-weight: 600; }
+.ns-iorden[open] > summary { margin-bottom: 6px; }
+.ns-gruppenavn { color: var(--dempet); font-weight: 400; font-size: 13px; }
+.ns-gruppe > ul { list-style: none !important; margin: 0; padding: 0 !important; display: flex; flex-direction: column; gap: 6px; }
+.ns-sjekk {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 !important;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--bg);
+}
+.ns-sjekk--feil { background: var(--rod-myk); }
+.ns-sjekk--advarsel { background: var(--gul-myk); }
+.ns-ikon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+}
+.ns-sjekk--ok .ns-ikon { background: var(--gronn); }
+.ns-sjekk--advarsel .ns-ikon { background: var(--gul); }
+.ns-sjekk--feil .ns-ikon { background: var(--rod); }
+.ns-tittel { margin: 0; font-size: 15.5px; font-weight: 600; }
+.ns-detaljer { margin: 4px 0 0 !important; padding-left: 1.1em !important; font-size: 14px; overflow-wrap: anywhere; }
+.ns-detaljer li + li { margin-top: 2px !important; }
+.ns-leksjon { display: inline-block; margin-top: 4px; font-size: 14px; }
+
+/* Figurer i leksjonsteksten */
+.leksjon-tekst figure { margin: 0; }
+.leksjon-tekst figure img { display: block; max-width: 100%; height: auto; border-radius: 10px; }
+.leksjon-tekst figcaption { margin-top: 6px; color: var(--dempet); font-size: 14px; }
 
 /* Sjekkliste */
 .sjekkliste ul { list-style: none !important; padding: 0 !important; display: flex; flex-direction: column; gap: 4px; }
