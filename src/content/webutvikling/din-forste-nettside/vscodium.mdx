@@ -1,0 +1,58 @@
+Til nå har du skrevet kode her på siden. Nå flytter du over til ditt eget prosjekt, på din egen
+maskin – der skal nettstedet ditt vokse gjennom hele kurset.
+
+## Det du trenger
+
+- **VSCodium** – en gratis kodeeditor. Last den ned fra [vscodium.com](https://vscodium.com/) hvis
+  den ikke er installert.
+- **Live Server** – et tillegg som viser siden din i nettleseren, og oppdaterer den hver gang du
+  lagrer. Installer det fra *Extensions* i VSCodium (søk etter «Live Server»).
+
+## Hele oppskriften
+
+Koden du har skrevet til nå, har bare vært en *bit* av en nettside. En ekte HTML-fil har en fast
+ramme rundt innholdet. Den trenger du ikke pugge – du kopierer den hver gang:
+
+<Oppgave id="m1-grunnstruktur" />
+
+<details className="utvid">
+<summary>Hva betyr hver linje?</summary>
+
+- `<!DOCTYPE html>` – forteller nettleseren at dette er moderne HTML.
+- `<html lang="no">` – hele siden starter her. `lang="no"` sier at teksten er på norsk, så
+  skjermlesere uttaler den riktig.
+- `<head>` – informasjon *om* siden, som ikke vises på selve siden.
+- `<meta charset="utf-8">` – sørger for at æ, ø og å vises riktig.
+- `<title>` – teksten som står på fanen i nettleseren.
+- `<body>` – alt som skal vises på siden, står her.
+
+</details>
+
+<UnderPanseret tittel="Hvorfor ser jeg ikke tittelen?">
+
+`<title>` står i `<head>`, og alt i `<head>` er informasjon *om* siden. Tittelen vises derfor ikke
+inni siden, men på fanen øverst i nettleseren – og i søkeresultatene på Google.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Lag mappen `webkurs` et sted du finner den igjen, for eksempel i Dokumenter.
+2. Åpne VSCodium, velg **File → Open Folder** og åpne `webkurs`.
+3. Lag en ny fil som heter `index.html`, og lim inn koden fra oppgaven over.
+4. Lag også en tom fil `style.css` og en mappe `bilder` – de skal du bruke snart.
+5. Høyreklikk på `index.html` og velg **Open with Live Server**.
+6. Endre teksten i `<h1>`, lagre med `Ctrl + S` (`Cmd + S` på Mac), og se at siden oppdaterer seg.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="m1-oppsett"
+  punkter={[
+    "Mappen webkurs er åpnet i VSCodium",
+    "Den inneholder index.html, style.css og mappen bilder",
+    "Live Server er installert, og siden åpner seg i nettleseren",
+    "Navnet mitt står som overskrift på siden",
+    "Jeg vet hvor på maskinen mappen min ligger",
+  ]}
+/>

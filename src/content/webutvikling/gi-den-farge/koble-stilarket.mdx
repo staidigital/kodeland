@@ -1,0 +1,76 @@
+I oppgavene til nå har vi koblet `index.html` og `style.css` sammen for deg i bakgrunnen. I ditt
+eget prosjekt limte du inn en linje i leksjon 2 som gjorde det samme. Nå skal du lære hva den
+linja betyr – for HTML-fila må selv si fra om at den har et stilark.
+
+## Lenken til stilarket
+
+Det gjør du med taggen `<link>`, inni `<head>`:
+
+```html
+<head>
+  <meta charset="utf-8">
+  <title>Min side</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+```
+
+- `rel="stylesheet"` – forteller at fila er et stilark.
+- `href="style.css"` – filnavnet til stilarket. Det må være *nøyaktig* likt navnet på fila.
+
+`<link>` har ingen sluttag. Den har ikke noe innhold – den bare peker på en annen fil.
+Tilleggene `rel` og `href` inni taggen ser vi nærmere på i modul 3.
+
+## Koble dem sammen
+
+I oppgaven under er koblingen borte. Stilarket er ferdig skrevet, men siden er svart på hvitt.
+Legg til `<link>` i `<head>`.
+
+<Oppgave id="m2-link" />
+
+## Hvorfor en egen fil?
+
+Du *kunne* skrevet CSS-en rett inn i HTML-fila. Men et nettsted har som regel mange sider – og de
+skal se like ut.
+
+<Quiz
+  sporsmal="Nettstedet ditt har fem sider som alle bruker style.css. Du vil endre fargen på alle overskriftene. Hvor mange filer må du endre?"
+  alternativer={["Én", "Fem", "Seks"]}
+  riktig={0}
+  forklaring="Alle sidene henter utseendet fra den samme fila. Endrer du style.css, endres alle fem sidene på én gang. Det er hele poenget med et eget stilark."
+/>
+
+## Finn feilen
+
+Denne gangen er stilarket koblet til – eller er det? Ingenting av CSS-en virker.
+
+<Oppgave id="m2-link-feil" />
+
+<Tips>
+
+Ser ikke siden din ut som du forventer? Sjekk alltid dette først: Er `<link>` med? Står filnavnet
+riktig – med små bokstaver? Ligger `style.css` i samme mappe som `index.html`?
+
+</Tips>
+
+<GjorDetSelv>
+
+1. Sjekk at `<link rel="stylesheet" href="style.css">` står inni `<head>` i `index.html`, og at
+   `style.css` ligger i samme mappe.
+2. Prøv å skrive feil filnavn i `href`, lagre og se hva som skjer. Rett det opp igjen.
+3. Gå gjennom stilarket ditt: Har siden to–tre farger som passer sammen, og én skrifttype med
+   reserver?
+4. Sjekk at teksten fortsatt er lett å lese mot bakgrunnen.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="m2-stilark"
+  punkter={[
+    "index.html har <link> til style.css i <head>",
+    "Siden har en bakgrunnsfarge jeg har valgt selv",
+    "Jeg har valgt skrifttype – med en skriftfamilie til slutt i lista",
+    "Overskriftene har en annen farge enn resten av teksten",
+    "Teksten er lett å lese mot bakgrunnen",
+    "Jeg kan forklare forskjellen på selektor, egenskap og verdi",
+  ]}
+/>

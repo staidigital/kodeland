@@ -1,0 +1,106 @@
+Fargenavn som `tomato` og `seagreen` er fine å starte med, men det finnes bare rundt 140 av dem.
+Skjermen din kan vise over 16 millioner farger. For å få tak i dem trenger du **fargekoder**.
+
+## Hex-koder
+
+Den vanligste fargekoden ser slik ut:
+
+```css
+h1 {
+  color: #e63946;
+}
+```
+
+En **hex-kode** starter med `#` og har seks tegn. Du har garantert sett dem før – i tegneprogrammer,
+i Canva eller når du har valgt farge i et spill. Når du finner en fargepalett på nettet, er det
+nesten alltid hex-koder du får.
+
+<UnderPanseret tittel="Hva betyr tegnene?">
+
+Skjermen din lager alle farger ved å blande **rødt**, **grønt** og **blått** lys. En hex-kode er
+tre par med tegn – ett par for hver farge:
+
+```text
+#e6 39 46
+ │  │  └─ blått
+ │  └──── grønt
+ └─────── rødt
+```
+
+Hvert par går fra `00` (ingenting) til `ff` (fullt). Det er tall i **sekstentallsystemet**
+(*hexadesimalt*), der man teller 0–9 og så a–f. Derfor er `#000000` svart – ingen lys – og
+`#ffffff` hvitt – alt lyset på en gang. `#ff0000` er helt rødt.
+
+</UnderPanseret>
+
+<Quiz
+  sporsmal="Hvilken farge er #00ff00?"
+  alternativer={["Rød", "Grønn", "Blå", "Svart"]}
+  riktig={1}
+  forklaring="Første par er rødt (00 = ingenting), andre par er grønt (ff = fullt), tredje par er blått (00 = ingenting). Bare grønt lys, altså grønn."
+/>
+
+Du skal sjelden regne ut hex-koder selv. Du kopierer dem fra en fargevelger eller en palett.
+Her er en palett med fire farger:
+
+<div className="palett">
+  <span><i style={{ background: "#e63946" }} /><code>#e63946</code></span>
+  <span><i style={{ background: "#f1faee" }} /><code>#f1faee</code></span>
+  <span><i style={{ background: "#a8dadc" }} /><code>#a8dadc</code></span>
+  <span><i style={{ background: "#1d3557" }} /><code>#1d3557</code></span>
+</div>
+
+<Oppgave id="m3-hex" />
+
+## HSL – farger mennesker forstår
+
+Hex-koder er vanskelige å lese. Ser du på `#1d3557`, er det ikke lett å se at det er mørkeblått.
+Derfor finnes det en annen måte å skrive farger på, som ligner mer på hvordan vi tenker:
+
+```css
+h1 {
+  color: hsl(220, 50%, 23%);
+}
+```
+
+- **h** – *hue*, **fargetonen** – et tall fra 0 til 360, rundt fargesirkelen: 0 er rød, 120 er
+  grønn, 240 er blå, og 360 er rød igjen.
+- **s** – *saturation*, **metningen** – fra `0%` (grå) til `100%` (så sterk som mulig).
+- **l** – *lightness*, **lysheten** – fra `0%` (svart) via `50%` (vanlig) til `100%` (hvit).
+
+Det fine med HSL er at du kan lage flere nyanser av samme farge: behold fargetonen, og endre bare
+lysheten. Prøv selv:
+
+<Fargevelger />
+
+<Quiz
+  sporsmal="Hvilken av disse fargene er lysest?"
+  alternativer={["hsl(200, 80%, 20%)", "hsl(200, 80%, 50%)", "hsl(200, 80%, 90%)"]}
+  riktig={2}
+  forklaring="Det siste tallet er lysheten. 90% er nesten hvitt, 20% er nesten svart. Fargetonen (200, en blåfarge) og metningen er den samme i alle tre."
+/>
+
+<UnderPanseret tittel="Kontrast er viktigere enn du tror">
+
+Tallet over forhåndsvisningen i fargevelgeren er **kontrasten**. Du så det i modul 2: vanlig
+tekst bør ha minst **4,5:1**. Stor tekst, som overskrifter, er lettere å lese og klarer seg med
+**3:1**. Universell utforming er et krav i loven for mange norske nettsider –
+og det handler ikke bare om folk som ser dårlig. Alle har lest på mobilen i sterk sol.
+
+</UnderPanseret>
+
+## En farge, tre nyanser
+
+Nå skal du lage en liten fargepalett med HSL: én fargetone, i tre forskjellige lysheter.
+
+<Oppgave id="m3-hsl" />
+
+<GjorDetSelv>
+
+1. Finn en fargepalett du liker. Prøv for eksempel [coolors.co](https://coolors.co/) – trykk
+   mellomrom for å få nye forslag.
+2. Bytt ut fargenavnene i `style.css` med hex-koder fra paletten.
+3. Bruk fargevelgeren over til å sjekke at teksten og bakgrunnen din har god nok kontrast.
+4. Lag en lys bakgrunnsfarge og en mørk tekstfarge med samme fargetone i `hsl()`.
+
+</GjorDetSelv>

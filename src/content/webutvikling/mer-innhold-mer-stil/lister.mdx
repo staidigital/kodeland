@@ -1,0 +1,89 @@
+Handlelister, oppskrifter, topp ti-lister, menyer – nettet er fullt av lister. HTML har egne
+tagger for dem, og nå skal du lære to av dem.
+
+## Punktliste
+
+En liste der rekkefølgen ikke betyr noe, lager du med `<ul>` (*unordered list*). Hvert punkt
+står i sin egen `<li>` (*list item*):
+
+```html
+<ul>
+  <li>Melk</li>
+  <li>Brød</li>
+  <li>Ost</li>
+</ul>
+```
+
+`<ul>` er lista, og `<li>`-ene er punktene *inni* den. Et `<li>` skal alltid ligge inni en liste –
+aldri alene.
+
+<Oppgave id="m3-handleliste" />
+
+<Tips>
+
+Rykk inn `<li>`-ene med to mellomrom, slik som i eksempelet. Nettleseren bryr seg ikke, men det
+gjør koden mye lettere å lese – du ser med en gang hva som ligger inni hva.
+
+</Tips>
+
+## Nummerert liste
+
+Når rekkefølgen betyr noe, bruker du `<ol>` (*ordered list*) i stedet. Punktene skrives på samme
+måte, men nettleseren nummererer dem for deg:
+
+```html
+<ol>
+  <li>Kok opp vann</li>
+  <li>Ha i pastaen</li>
+  <li>Kok i ti minutter</li>
+</ol>
+```
+
+<Quiz
+  sporsmal="Du skal lage en liste over dine tre favorittfilmer, fra best til nest best til tredje best. Hvilken liste passer?"
+  alternativer={["<ul> – punktliste", "<ol> – nummerert liste", "Tre <p>-avsnitt"]}
+  riktig={1}
+  forklaring="Her betyr rekkefølgen noe – nummer én er best. Da bruker du <ol>. En handleliste, der det ikke spiller noen rolle hva du kjøper først, er en <ul>."
+/>
+
+## Finn feilen
+
+Noen har laget en oppskrift, men har brukt feil liste – og skrevet tallene for hånd. Gjør den om
+til en nummerert liste, og la nettleseren telle.
+
+<Oppgave id="m3-liste-feil" />
+
+<UnderPanseret tittel="Hvorfor ikke bare skrive tallene selv?">
+
+Det ser likt ut på skjermen, men nettleseren vet ikke at `1.` er et nummer – for den er det bare
+tekst. Med `<ol>` *vet* nettleseren at det er en nummerert liste. Da kan en skjermleser si «liste,
+fire punkter» før den leser, og legger du til et punkt i midten, blir tallene riktige av seg selv.
+
+</UnderPanseret>
+
+## Lister i lister
+
+Et `<li>` kan inneholde en hel ny liste. Det er slik du lager underpunkter:
+
+```html
+<ul>
+  <li>Frukt
+    <ul>
+      <li>Epler</li>
+      <li>Bananer</li>
+    </ul>
+  </li>
+  <li>Brød</li>
+</ul>
+```
+
+Legg merke til at den indre `<ul>` ligger *inni* `<li>Frukt …</li>` – før `</li>`.
+
+<GjorDetSelv>
+
+1. Åpne `index.html` i `webkurs`.
+2. Lag en ny `<h2>`, for eksempel «Det jeg liker», og en `<ul>` med minst tre ting under.
+3. Lag en topp tre-liste med `<ol>` – favorittspill, -filmer, -musikk eller noe annet.
+4. Lagre og se resultatet i nettleseren.
+
+</GjorDetSelv>
