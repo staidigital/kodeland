@@ -1,0 +1,1024 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Se koden kjøre</title>
+<!-- DENNE FILEN ER EN MAL. Selve siden (se-koden-kjore.html) lages med: python3 visning/bygg.py -->
+<style>
+:root{
+  /* Rolig og voksen: lys side rundt, mørk kode og terminal (som VS Code «Dark Modern»).
+     Gult betyr «kjører nå» overalt på siden. */
+  color-scheme:light;
+  --bg:#f4f2ed; --card:#ffffff; --text:#1c1b19; --muted:#6b675f; --line:#d6d1c6; --soft:#e7e3da;
+  --accent:#1c1b19; --accent-ink:#ffffff; --cyan:#1c1b19; --changed:#fff1a8; --warn:#c92a2a;
+  --now:#d4a017; --now-soft:#fdf3d0; --now-ink:#5c4300;
+  --head-bg:#faf9f6;
+  --dark-bg:#1f1f1f; --dark-head:#181818; --dark-line:#2b2b2b; --dark-text:#cccccc; --dark-muted:#9d9d9d;
+  --code-bg:var(--dark-bg); --code-text:var(--dark-text); --code-no:#6e7681;
+  --hl:rgba(227,179,65,.20); --hl-bar:#e3b341; --hl-no:rgba(227,179,65,.32); --seen-bar:#f85149;
+  --term-bg:var(--dark-bg); --term-text:var(--dark-text); --term-dim:#8b8b8b; --term-pick:#e2c08d;
+  --kw:#569cd6; --kc:#c586c0; --str:#ce9178; --num:#b5cea8; --cm:#6a9955; --bi:#dcdcaa; --fn:#dcdcaa;
+  --n0:#a5d8ff; --n1:#54e08a; --n2:#ffb02e; --n3:#ff4d7d;
+  --serif:ui-serif,"New York",Georgia,"Times New Roman",serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.55 var(--serif)}
+code{font-family:var(--mono);font-size:.88em;background:var(--soft);color:var(--text);padding:0 4px;border-radius:3px}
+/* Siden fyller nøyaktig vinduet. Koden scroller inne i kodekortet, høyre kolonne scroller for seg selv. */
+.wrap{margin:0 auto;padding:0 24px;height:100vh;height:100dvh;display:flex;flex-direction:column}
+header{flex:none;padding:14px 0 0}
+h1{margin:0 0 2px;font:700 1.6rem/1.15 var(--serif);letter-spacing:-.01em;color:var(--text)}
+header p{margin:2px 0;color:var(--muted);max-width:none;font-size:.95rem}
+
+.boot{margin:12px 0 0;padding:8px 12px;border-left:6px solid var(--soft);font:.85rem var(--mono);color:var(--muted)}
+.boot.err{border-left-color:var(--warn);color:var(--warn)}
+.boot.ok{display:none}
+
+.toprow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin:10px 0 0}
+.tabs{flex:1 1 460px;border-radius:8px;overflow:hidden;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);margin:0;border:1px solid var(--line);background:var(--card)}
+.tab{font:.95rem/1.3 var(--serif);text-align:left;padding:6px 12px;border:0;border-right:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer;
+  display:flex;align-items:center;gap:8px;min-width:0;white-space:nowrap;overflow:hidden}
+.tab:last-child{border-right:0}
+.tab small{display:none}
+.tab:hover{background:var(--soft)}
+.tab[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+.tab[aria-selected="true"] small{color:var(--accent-ink);opacity:.75}
+.niva{display:inline-block;border-radius:4px;font:700 .72rem var(--mono);color:#1c1b19;padding:1px 7px;margin-right:6px;vertical-align:1px}
+.niva.n0{background:var(--n0)} .niva.n1{background:var(--n1)} .niva.n2{background:var(--n2)} .niva.n3{background:var(--n3)}
+.tab[aria-selected="true"] .niva{outline:2px solid var(--accent-ink)}
+
+.card.intro{margin:8px 0 0;padding:8px 14px;font-size:.92rem;line-height:1.45}
+.intro h2{all:unset;display:block;font:700 1.2rem/1.3 var(--serif);margin-bottom:4px;color:var(--text)}
+.intro h2 .sj{font-weight:400;color:var(--muted)}
+.intro p{margin:0 0 6px}
+.intro details{margin-top:4px}
+.intro .pills{margin:8px 0}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font:.78rem var(--mono);padding:1px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.intro ul{margin:4px 0 0;padding-left:1.1em;color:var(--muted);font-size:.95rem}
+summary{cursor:pointer;font:700 .85rem var(--mono);color:var(--text)}
+summary:hover{text-decoration:underline}
+
+.view{flex:0 1 auto;border-radius:8px;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;margin:0;padding:5px 12px;background:var(--card);border:1px solid var(--line);font:.82rem var(--mono)}
+.view b{color:var(--muted);font-weight:700}
+.view label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+.view input{accent-color:var(--text);width:16px;height:16px;margin:0}
+
+.legend{display:flex;flex-wrap:wrap;gap:16px;padding:6px 14px;font:.75rem var(--mono);color:var(--dark-muted);background:var(--dark-head);border-top:1px solid var(--dark-line)}
+.legend span::before{content:"";display:inline-block;width:14px;height:10px;margin-right:6px}
+.legend .l-tip{margin-left:auto} .legend .l-tip::before{display:none}
+.legend .l-cur::before{background:var(--hl-bar)} .legend .l-seen::before{background:var(--seen-bar);width:4px;height:12px}
+
+.app{flex:1;min-height:0;padding:12px 0 16px;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(360px,1fr);grid-template-rows:minmax(0,1fr);gap:20px;align-items:start}
+.side{height:100%;overflow:auto;display:flex;flex-direction:column}
+.side > *{flex:none}
+#p-terminal{flex:2 1 0;min-height:240px;display:flex;flex-direction:column}
+#p-terminal .term{flex:1 1 auto;min-height:0;max-height:none}
+.app.nocode{grid-template-columns:minmax(0,1fr)}
+[hidden]{display:none !important}
+.card{background:var(--card);border:1px solid var(--line);overflow:hidden;border-radius:8px;box-shadow:0 1px 2px rgba(28,27,25,.05)}
+.card h3{margin:0;padding:7px 14px;font:600 .8rem var(--mono);color:var(--muted);background:var(--head-bg);border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;gap:8px}
+.codecard{display:flex;flex-direction:column;max-height:100%}
+.darkcard{border-color:var(--dark-line);background:var(--dark-bg)}
+.darkcard h3{background:var(--dark-head);color:var(--dark-text);border-bottom-color:var(--dark-line)}
+.darkcard .smallbtn{border-color:#3c3c3c;color:var(--dark-text)}
+.darkcard .smallbtn:hover{border-color:var(--dark-text)}
+.codewrap{background:var(--code-bg);flex:1 1 auto;min-height:0;overflow:auto;position:relative;padding:8px 0}
+.ln{display:flex;font:13.5px/1.65 var(--mono);color:var(--code-text);border-left:4px solid transparent;min-height:1.65em}
+.ln .src{flex:1;min-width:0;white-space:pre-wrap;overflow-wrap:anywhere;padding-right:12px}
+.ln .no{flex:none;width:3.2em;text-align:right;padding-right:1em;color:var(--code-no);user-select:none}
+.ln{cursor:pointer}
+.ln:hover .src{background:rgba(255,255,255,.04)}
+.ln.peek{background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px #6e7681}
+.ln.seen{border-left-color:var(--seen-bar)}
+.ln.cur{background:var(--hl);border-left-color:var(--hl-bar)}
+.ln.cur .no{color:#fff;font-weight:700;background:var(--hl-no)}
+.kw{color:var(--kw)} .kc{color:var(--kc)} .st{color:var(--str)} .nu{color:var(--num)} .cm{color:var(--cm);font-style:italic} .bi{color:var(--bi)} .fn{color:var(--fn)}
+.smallbtn{font:.75rem var(--mono);padding:2px 9px;border-radius:4px;border:1px solid var(--line);background:transparent;color:var(--text);cursor:pointer;text-decoration:none}
+.smallbtn:hover{border-color:var(--text)}
+.hbtns{display:flex;gap:6px}
+
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin-bottom:8px}
+.progress{height:4px;background:var(--soft);border-radius:2px;margin:-2px 0 10px;overflow:hidden}
+.progress span{display:block;height:100%;width:0;background:var(--now);border-radius:2px;transition:width .25s}
+.hbtns .smallbtn{display:inline-flex;align-items:center;justify-content:center;width:28px;height:24px;padding:0}
+.hbtns svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+/* Visningsmodus: til projektor. Skjuler toppen, større skrift. */
+body.present header{display:none}
+body.present .ln{font-size:17px}
+body.present .term{font-size:17px}
+body.present .explain{font-size:1.1rem}
+body.present #present{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.controls .sep{width:1px;background:var(--line);margin:4px 4px}
+button.btn,select{font:600 .85rem var(--mono);padding:7px 12px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--text);cursor:pointer}
+button.btn:hover:not(:disabled){border-color:var(--text)}
+button.btn:active:not(:disabled){transform:translateY(1px)}
+button.btn:disabled{opacity:.35;cursor:not-allowed}
+button.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button.primary:hover:not(:disabled){background:#3a3834;border-color:#3a3834}
+select{font-weight:400}
+.stepno{margin-left:auto;align-self:center;color:var(--muted);font:.82rem var(--mono)}
+button:focus-visible,select:focus-visible,input:focus-visible,.tab:focus-visible{outline:3px solid var(--now);outline-offset:2px}
+
+.term{background:var(--term-bg);color:var(--term-text);padding:12px 14px;min-height:240px;max-height:360px;overflow:auto;font:14px/1.6 var(--mono)}
+.tl{white-space:pre-wrap;word-break:break-word;padding:0 4px;margin:0 -4px;min-height:1.6em}
+.tl.dim{color:var(--term-dim)}
+.tl[data-n]{cursor:help}
+.tl[data-n]:hover{background:rgba(255,255,255,.06)}
+.tl.new{box-shadow:inset 3px 0 0 var(--hl-bar);background:rgba(227,179,65,.08)}
+.tl.choosable{cursor:pointer;border-left:3px solid var(--term-pick);padding-left:8px;margin-left:-8px;margin-bottom:2px;color:var(--term-pick)}
+.tl.choosable:hover{background:rgba(226,192,141,.15)}
+.tl.pulse{animation:pulse .6s ease 1}
+@keyframes pulse{0%,100%{background:transparent}50%{background:rgba(226,192,141,.4)}}
+.prompt{display:flex;gap:8px;align-items:center}
+.prompt input{flex:1;min-width:0;background:transparent;border:0;border-bottom:2px solid var(--term-pick);color:inherit;font:inherit;padding:0 2px;border-radius:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:8px 14px;background:var(--term-bg);border-top:1px solid var(--dark-line)}
+.chips:empty{display:none}
+.chip{font:13px var(--mono);padding:2px 10px;border-radius:4px;border:1px solid var(--term-pick);background:transparent;color:var(--term-pick);cursor:pointer}
+.chip:hover{background:var(--term-pick);color:#1c1b19}
+.chip.pulse{animation:pulse .6s ease 1}
+.hint{color:#ff8787;font:.82rem var(--mono);min-height:1.2em;padding:0 14px 8px;background:var(--term-bg);margin:0}
+
+.explain{margin:0 0 10px;padding:9px 14px;line-height:1.45;border-left:5px solid var(--now);font-size:.97rem}
+.explain .tag{display:inline-block;border-radius:4px;font:700 .78rem var(--mono);background:var(--now-soft);color:var(--now-ink);padding:1px 8px;margin-bottom:6px}
+.explain .tag:empty{display:none}
+.explain .tag.feil{background:var(--warn);color:#fff}
+.explain p{margin:0}
+
+.side .state{flex:1 1 0;min-height:110px;display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.state > .card{flex:1 1 0;min-height:0;display:flex;flex-direction:column}
+.state .body{padding:8px 14px;font-size:.9rem;flex:1 1 auto;min-height:0;overflow:auto}
+.mono{font-family:var(--mono)}
+.vhead{font:700 .75rem var(--mono);color:var(--muted);margin:10px 0 2px;border-bottom:1px solid var(--soft)}
+.vhead:first-child{margin-top:0}
+.var{display:flex;gap:6px;padding:2px 6px;transition:background .6s;min-width:0}
+.var b{font-weight:700;flex:none;color:var(--cyan)}
+.var span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.var.changed{background:var(--changed);transition:none}
+.var .old{color:var(--muted);text-decoration:line-through;margin-right:2px}
+.var .arrow{color:var(--muted);margin-right:2px}
+.var .ny{font:600 .7rem var(--mono);color:var(--now-ink);background:var(--now-soft);border-radius:3px;padding:0 5px;margin-left:4px;align-self:center}
+.frame{padding:3px 8px;border-radius:4px;border:1px solid var(--line);margin-bottom:4px}
+.frame.top{background:var(--now-soft);border:2px solid var(--now)}
+.frame small{color:var(--muted)}
+.empty{color:var(--muted);font-style:italic}
+
+@media (max-width:880px){
+  .app,.intro{grid-template-columns:1fr}
+  .wrap{height:auto}
+  .app{grid-template-rows:none}
+  .side{height:auto;overflow:visible;display:block}
+  #p-terminal .term{min-height:240px;max-height:360px}
+  .state .body{max-height:300px}
+  .codecard{max-height:none}
+  .codewrap{flex:none;max-height:48vh}
+  .tab{min-width:0}
+  h1{font-size:1.6rem}
+}
+</style>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.29.4/full/pyodide.js"></script>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Se koden kjøre</h1>
+  <p>Velg en historie og trykk <b>Neste steg</b>. Du ser hvilken kodelinje som kjører og hva som skjer i spillet.</p>
+  <div class="toprow">
+    <div class="tabs" id="tabs" role="tablist" aria-label="Velg historie"></div>
+    <div class="view" id="view" role="group" aria-label="Hva vil du se?"><b>Vis:</b>
+      <label><input type="checkbox" data-p="kode" checked> Kode</label>
+      <label><input type="checkbox" data-p="forklaring" checked> Forklaring</label>
+      <label><input type="checkbox" data-p="terminal" checked> Terminal</label>
+      <label><input type="checkbox" data-p="minne" checked> Minnet</label>
+      <label id="funk-valg"><input type="checkbox" data-p="funk"> Funksjonskall</label>
+    </div>
+  </div>
+  <div class="card intro" id="intro"></div>
+  <div class="boot" id="boot">Laster Python i nettleseren … (ca. 10 MB første gang, så går det raskt)</div>
+</header>
+
+<main class="app">
+  <section class="card codecard darkcard" id="p-kode" aria-label="Kode">
+    <h3><span id="filename">fil.py</span>
+      <span class="hbtns"><a class="smallbtn" id="dl" download title="Last ned .py-filen" aria-label="Last ned .py-filen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></a><button class="smallbtn" id="copy" type="button" title="Kopier koden" aria-label="Kopier koden"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></svg></button></span></h3>
+    <div class="codewrap" id="codewrap"><div id="code"></div></div>
+    <div class="legend"><span class="l-cur">gul = kjører nå</span><span class="l-tip">klikk på en linje for å kjøre dit</span><span class="l-seen">rød strek = har kjørt</span></div>
+  </section>
+
+  <section class="side" aria-label="Kjøring">
+    <div class="controls">
+      <button class="btn" id="prev" type="button" title="Gå ett steg tilbake (←)">◂ Tilbake</button>
+      <button class="btn primary" id="next" type="button" title="Neste steg (mellomrom eller →)">Neste steg ▸</button>
+      <span class="sep" aria-hidden="true"></span>
+      <button class="btn" id="auto" type="button">▶ Auto</button>
+      <select id="speed" aria-label="Fart">
+        <option value="1800">Rolig</option>
+        <option value="1000" selected>Normal</option>
+        <option value="450">Raskt</option>
+      </select>
+      <button class="btn" id="restart" type="button" title="Start historien på nytt" aria-label="Start på nytt">↺</button>
+      <span class="stepno" id="stepno">Steg 0</span>
+      <button class="btn" id="present" type="button" title="Visningsmodus: større skrift og fullskjerm, til projektor (Esc for å gå ut)" aria-label="Visningsmodus" aria-pressed="false">⛶</button>
+    </div>
+    <div class="progress" aria-hidden="true"><span id="progbar"></span></div>
+
+    <div class="card explain" id="p-forklaring">
+      <span class="tag" id="tag"></span>
+      <p id="note"></p>
+    </div>
+
+    <div class="card darkcard" id="p-terminal">
+      <h3>Terminal</h3>
+      <div class="term" id="term" aria-live="polite"></div>
+      <div class="chips" id="chips"></div>
+      <p class="hint" id="hint"></p>
+    </div>
+
+    <div class="state" id="p-state">
+      <div class="card" id="p-minne"><h3>Minnet (variabler)</h3><div class="body mono" id="vars"></div></div>
+      <div class="card" id="p-funk"><h3>Funksjonskall</h3><div class="body mono" id="stack"></div></div>
+    </div>
+  </section>
+</main>
+</div>
+
+<script>
+// Forklaringer til «Se koden kjøre». Én oppføring per .py-fil i denne mappen.
+//
+// notes: liste med { m, tag, text }.
+//   m     = begynnelsen av linja (uten innrykk). Første treff vinner, så mest spesifikke først.
+//   tag   = liten merkelapp over forklaringen
+//   text  = tekst, eller en funksjon c => tekst. Skriv `kode` med bakover-apostrof.
+// Linjer uten treff får en automatisk forklaring (se «generic» i visning/mal.html).
+//
+// c (det funksjonen får) har blant annet:
+//   c.val('navn')  verdien til en variabel etter at linja har kjørt (som Python viser den)
+//   c.ans          svaret spilleren ga (hvis linja var en input)
+//   c.waiting      true hvis spillet venter på svar akkurat nå
+//   c.taken        true hvis if/while/for-sjekken slapp inn i kodeblokken under
+
+const FORKLARINGER = {
+
+  "0_dorene.py": {
+    tab: "To dører", niva: 0, sjanger: "Første steg",
+    tittel: "To dører",
+    ingress: "Det minste mulige tekstspillet: ett valg og to slutter. Start her hvis du aldri har sett Python før.",
+    nytt: ["print", "input", "variabel", "if / else", "to slutter"],
+    proev: [
+      "Spill begge dørene. Hvilken linje bestemmer hvilken slutt du får?",
+      "Skriv noe helt annet enn 1 eller 2. Hvilken dør havner du bak, og hvorfor?",
+      "Last ned filen og legg til en tredje dør. Du trenger en ny `print`-linje og en `elif`."
+    ],
+    choices: "nummer",
+    hide: [],
+    placeholder: "skriv 1 eller 2",
+    notes: [
+      { m: 'print("Du står foran', tag: "print",
+        text: "`print` skriver tekst i terminalen. Python starter øverst og kjører én linje om gangen. Linjene som starter med `#` er kommentarer, og dem hopper Python over." },
+      { m: 'print("1. Den røde', tag: "print",
+        text: "Valgene er bare vanlig tekst. Det er `input` på neste linjer som gjør at spilleren kan svare." },
+      { m: 'valg = input(', tag: "input",
+        text: c => c.waiting
+          ? "`input()` stopper programmet og venter på spilleren. **Trykk på en av dørene i terminalen**, eller skriv 1 eller 2 og trykk Enter."
+          : "Du skrev «" + c.ans + "». Svaret lagres i variabelen `valg`. Se i «Minnet»: der står `valg` nå." },
+      { m: 'if valg == "1":', tag: "if-sjekk",
+        text: c => "Python sjekker om `valg` er \"1\". `==` betyr «er lik». " +
+          (c.taken ? "Det stemmer, så Python kjører linjene med innrykk rett under." : "Det stemmer ikke, så Python hopper ned til `else`.") },
+      { m: 'print("Bak den blå døra', tag: "else",
+        text: "Vi havnet under `else`, som betyr «ellers». Alt som ikke var \"1\" havner her, også feil svar. Derfor krasjer aldri spillet." },
+      { m: 'print("SLUTT', tag: "slutt",
+        text: "En slutt. Det er ingen flere linjer å kjøre, så spillet er ferdig. Trykk ↺ og velg den andre døra." }
+    ]
+  },
+
+  "1_rom13.py": {
+    tab: "Rom 13", niva: 1, sjanger: "Skrekk",
+    tittel: "Rom 13",
+    ingress: "En natt på et øde motell. Et lite spill med bare print, input og if. Alt kjører ovenfra og ned, uten funksjoner.",
+    nytt: ["print", "input", "variabler", "if / elif / else"],
+    proev: [
+      "Spill spillet til du har sett alle fem slutter. Hvor mange if-sjekker må Python gjøre for å nå SLUTT 3?",
+      "Hva skjer hvis du skriver noe annet enn 1 eller 2? Finn linja som bestemmer det, og les kommentaren over den.",
+      "Hvorfor står 1 i anførselstegn i koden: \"1\"?"
+    ],
+    choices: "nummer",
+    hide: [],
+    placeholder: "skriv svaret ditt",
+    notes: [
+      { m: 'print("=== ROM 13', tag: "start",
+        text: "Python leser koden ovenfra og ned, én linje om gangen. `print` skriver tekst i terminalen. Linjene som starter med `#` er kommentarer: Python hopper over dem, men de forklarer koden for mennesker. Øverst står til og med kartet over historien." },
+      { m: 'navn = input(', tag: "input",
+        text: c => c.waiting
+          ? "`input()` stopper programmet og venter på at du skriver noe. **Skriv navnet ditt i terminalen** og trykk Enter."
+          : "Du skrev «" + c.ans + "». `input()` gir alltid tilbake tekst, og den lagres i variabelen `navn`. Se i «Minnet»." },
+      { m: 'print("Klokka er', tag: "variabel i tekst",
+        text: "`+` setter sammen tekst. Python limer «Klokka er 02:14, », innholdet i `navn` og resten til én lang tekst." },
+      { m: 'print("Den sier navnet', tag: "variabel i tekst",
+        text: "Samme triks igjen: variabelen `navn` brukes midt i teksten." },
+      { m: 'valg = input(', tag: "input",
+        text: c => c.waiting
+          ? "Spillet stopper og venter. **Trykk på et av valgene i terminalen** (eller skriv tallet og trykk Enter)."
+          : "Du skrev «" + c.ans + "». Svaret lagres i `valg`. Husk at det er *tekst*: «" + c.ans + "» og ikke tallet " + c.ans + "." },
+      { m: 'if valg == "1":', tag: "if-sjekk",
+        text: c => "`==` sammenligner to ting (ett `=` lagrer, to `==` sammenligner). `valg` er " + c.val('valg') + ", og vi sjekker mot teksten \"1\". " +
+          (c.taken ? "Sjekken er sann, så Python kjører linjene under." : "Sjekken er usann, så Python hopper videre til neste gren (`elif` eller `else`).") },
+      { m: 'elif valg == "2":', tag: "elif",
+        text: c => "`elif` betyr «hvis ikke, men hvis». Den sjekkes bare hvis den første sjekken var usann. Her er " + c.val('valg') + " lik \"2\"? " +
+          (c.taken ? "Ja." : "Nei, så Python går videre til `else`.") },
+      { m: 'print("SLUTT', tag: "slutt",
+        text: "En slutt. Når grenen er ferdig, hopper Python forbi alle `elif` og `else` under, og programmet er ferdig." }
+    ]
+  },
+
+  "2_stasjon_kepler.py": {
+    tab: "Stasjon Kepler", niva: 2, sjanger: "Sci-fi-thriller",
+    tittel: "Stasjon Kepler",
+    ingress: "Du våkner alene på en stasjon der noe har gått galt. Hver scene er en funksjon, en liste husker hva du har plukket opp, og oksygenet tar slutt. Til slutt står du i et dilemma: kan du stole på MARA?",
+    nytt: ["funksjoner (def)", "funksjonskall", "lister (inventar)", "while-løkke i velg()", "return", "global og lokal", "dilemma"],
+    proev: [
+      "Se i «Minnet» mens du spiller: `oksygen` står under «Globale», mens `valg` står under «Lokale». Hvorfor?",
+      "Last ned filen og slett linja `global oksygen`. Hva sier feilmeldingen? Hvorfor trenger ikke `inventar` en slik linje?",
+      "Skriv bokstaven x når spillet vil ha et tall. Følg løkka i `velg()`.",
+      "Spill til slutt-dilemmaet to ganger og velg forskjellig. Er noen av sluttene «riktige»? Hva handler historien egentlig om?"
+    ],
+    choices: "nummer",
+    hide: [],
+    placeholder: "skriv tallet, eller trykk på et valg",
+    notes: [
+      { m: 'inventar = []', tag: "global variabel",
+        text: "En tom liste. Tenk på den som veska til spilleren. Den ligger utenfor alle funksjoner, så den er *global*: alle scenene kan bruke den." },
+      { m: 'oksygen = 14', tag: "global variabel",
+        text: "Enda en global variabel: hvor mye oksygen som er igjen. Se i «Minnet» at den står under «Globale»." },
+      { m: 'oksygen = oksygen - 2', tag: "global",
+        text: c => "Se linja over: `global oksygen` sier til Python «når jeg skriver `oksygen` her, mener jeg den globale, ikke en ny lokal». (Den linja er bare en beskjed til Python, så den får ikke et eget steg.) Nå endres den globale variabelen: ta det gamle tallet, trekk fra 2, og lagre tilbake. Oksygen er nå " + c.val('oksygen') + ", og det blir værende også etter at funksjonen er ferdig." },
+      { m: 'if oksygen <= 0:', tag: "if-sjekk",
+        text: c => "Er oksygenet brukt opp? " + (c.taken ? "Ja. Da går vi til en slutt." : "Nei, du har " + c.val('oksygen') + " % igjen. Men hver tur i korridoren koster 2.") },
+      { m: 'valg = velg(["Slå av MARA"', tag: "dilemma",
+        text: c => c.step.nextKind === 'call'
+          ? "Dilemmaet. Spilleren kan ikke vite om MARA lyver, og begge valg koster noe. Et godt dilemma får spilleren til å tenke på temaet, her: tillit."
+          : "Du valgte " + c.val('valg') + ". Legg merke til at spillet aldri forteller deg om valget var riktig." },
+      { m: 'for nummer, tekst in enumerate(', tag: "for-løkke",
+        text: c => c.taken
+          ? "`for` går gjennom listen med valg, ett om gangen. `enumerate` gir også et nummer til hver. Denne runden: `nummer` er " + c.val('nummer') + " og `tekst` er " + c.val('tekst') + "."
+          : "Alle valgene er skrevet ut, så for-løkka er ferdig og Python går videre." },
+      { m: 'svar = input(', tag: "lokal variabel",
+        text: c => c.waiting
+          ? "Programmet stopper og venter. **Trykk på et av valgene i terminalen** (eller skriv noe selv, også noe feil, for å se hva som skjer)."
+          : "Du skrev «" + c.ans + "». `.strip()` fjerner mellomrom i endene, og resultatet " + c.val('svar') + " lagres i `svar`. `svar` er *lokal*: se i «Minnet» at den står under «Lokale i velg()». Den forsvinner når funksjonen er ferdig." },
+      { m: 'while True:', tag: "while-løkke",
+        text: "`while True` er en løkke som gjentar seg selv, til noen sier `return` eller `break`. Her spør vi om svar helt til spilleren skriver et gyldig tall. Slik tåler spillet feil input." },
+      { m: 'if svar.isdigit() and', tag: "if-sjekk",
+        text: c => "Tre ting må være sanne samtidig (`and`): at svaret bare er sifre, at tallet er minst 1, og at det ikke er større enn antall valg. " +
+          (c.taken ? "Alle tre stemmer, så vi går videre til `return`." : "Minst én er usann, så vi hopper over `return`, og løkka starter på nytt.") },
+      { m: 'return int(svar)', tag: "return",
+        text: c => "`int(svar)` gjør teksten om til et ekte tall. `return` sender tallet tilbake dit funksjonen ble kalt fra, og avslutter `velg()`." },
+      { m: 'print("Skriv et av tallene over.")', tag: "while-løkke",
+        text: "Ugyldig svar. Løkka starter på nytt og spør igjen. Det er derfor `velg()` aldri krasjer." },
+      { m: 'valg = velg(', tag: "funksjonskall",
+        text: c => c.step.nextKind === 'call'
+          ? "Her kalles `velg()` med en liste over valg. Python hopper inn i funksjonen og kommer tilbake hit når den er ferdig."
+          : "`velg()` er ferdig og ga tilbake " + c.val('valg') + ". Tallet lagres i variabelen `valg`. Nå husker spillet hva du valgte." },
+      { m: 'if valg == 1:', tag: "if-sjekk",
+        text: c => "`valg` er tallet " + c.val('valg') + ". Her er det et ekte tall, siden `velg()` brukte `int()`. " + (c.taken ? "Sjekken er sann." : "Sjekken er usann, så Python hopper videre.") },
+      { m: 'inventar.append(', tag: "liste",
+        text: "`append` legger noe bakerst i listen. Nå ligger det i veska di. Se «Minnet»: `inventar` har blitt lenger." },
+      { m: 'if "adgangskort" in inventar:', tag: "liste + if",
+        text: c => "`in` sjekker om ordet finnes i listen. Har spilleren kortet? " + (c.taken ? "Ja." : "Nei.") },
+      { m: 'if "sikring" not in inventar:', tag: "liste + if",
+        text: c => "`not in` er det motsatte av `in`. Mangler spilleren sikringen? " + (c.taken ? "Ja, så bryteren virker ikke." : "Nei, sikringen er med.") },
+      { m: 'if "sikring" in inventar:', tag: "liste + if",
+        text: c => "`in` sjekker om ordet finnes i listen. Har spilleren sikringen? " + (c.taken ? "Ja." : "Nei.") },
+      { m: 'scene_korridor()', tag: "funksjonskall",
+        text: "Tilbake til korridoren: `scene_korridor()` kalles på nytt. Se i «Funksjonskall» at den ligger oppå de andre. Scenene kaller hverandre, så listen vokser." },
+      { m: 'scene_start()', tag: "funksjonskall",
+        text: "Dette er linja som starter spillet. Alt over er bare definisjoner. Først når `scene_start()` kalles, begynner noe å skje." },
+      { m: 'print("SLUTT', tag: "slutt",
+        text: "En slutt. Funksjonen er ferdig, og siden ingenting kommer etter, er alle funksjonene ferdige og programmet stopper." }
+    ]
+  },
+
+  "3_herskapshuset.py": {
+    tab: "Herskapshuset", niva: 3, sjanger: "Mysterium og skrekk",
+    tittel: "Herskapshuset",
+    ingress: "Et forlatt hus og en venninne som er borte. Her skriver du kommandoer selv, og kartet ligger i en dictionary. Spillet er én løkke som kjører til du vinner eller dør, og i kjelleren venter et valg mellom deg selv og Mia.",
+    nytt: ["dictionary (kartet)", "while-løkke som spillløkke", "tekstkommandoer", "tilstand (liv, batteri)", "random", "global i funksjoner", "feil input", "dilemma"],
+    proev: [
+      "Finn ut hvordan `rom[naa][\"utganger\"]` blir til en liste over steder du kan gå. Følg det i «Minnet».",
+      "Se på `flytt()` og `tilfeldig_hendelse()`. Hvilke variabler er globale, og hvilke er lokale? Sjekk i «Minnet».",
+      "Trykk bare Enter, eller skriv noe tull. Hvilke linjer sørger for at spillet ikke krasjer?",
+      "Spillet bruker `random`. Start på nytt og gå samme vei. Skjer det samme hver gang?",
+      "Når du har mobilen: går du ut, eller inn til Mia? Hva sier sluttene om temaet?"
+    ],
+    choices: "herskapshus",
+    hide: ["rom", "lyder"],
+    placeholder: "skriv en kommando, eller trykk på et forslag",
+    notes: [
+      { m: 'rom = {', tag: "dictionary",
+        text: "Hele kartet i én variabel. En dictionary kobler *nøkler* («gang», «stue» ...) til *verdier*, og hvert rom er igjen en dictionary med tekst, utganger og ting. Den er skjult i «Minnet» fordi den er så stor." },
+      { m: 'lyder = [', tag: "liste",
+        text: "En liste med tre tekster. Vi trekker en tilfeldig av dem senere med `random.choice`." },
+      { m: 'naa = "gang"', tag: "global variabel",
+        text: "`naa` husker hvilket rom spilleren er i. Den brukes som nøkkel når vi slår opp i kartet. Den står utenfor funksjonene, så den er *global*." },
+      { m: 'liv = 3', tag: "tilstand",
+        text: "Tilstand: tall som endrer seg underveis og avgjør om du vinner eller taper." },
+      { m: 'batteri = 9', tag: "tilstand",
+        text: c => "Lommelykta har batteri nok til " + c.val('batteri') + " skritt med lys. Hvert skritt koster 1." },
+      { m: 'print("Utganger: "', tag: "dictionary",
+        text: c => "`\", \".join(...)` setter sammen en liste (her nøklene i dictionaryen `utganger`) til én tekst med komma mellom. Resultatet står i terminalen." },
+      { m: 'if rom[rommet]["ting"]:', tag: "liste + if",
+        text: c => "En tom liste regnes som usann, og en liste med noe i regnes som sann. " + (c.taken ? "Det ligger noe i rommet, så vi skriver ut tingene." : "Rommet er tomt for ting, så vi hopper over.") },
+      { m: 'beskriv(naa)', tag: "funksjonskall",
+        text: c => c.step.nextKind === 'call' ? "Kaller `beskriv()` med rommet vi står i. Funksjonen får verdien i `naa` som `rommet`." : "Kaller funksjonen." },
+      { m: 'while True:', tag: "løkke",
+        text: c => c.step.before.s.length
+          ? "En liten løkke inni `les_kommando()`: den spør igjen og igjen til spilleren faktisk skriver noe."
+          : "Hjertet i spillet: en løkke som aldri stopper av seg selv. Hver runde er én kommando fra spilleren. Løkka avsluttes med `break` når du vinner eller dør." },
+      { m: 'kommando = les_kommando()', tag: "funksjonskall",
+        text: c => c.step.nextKind === 'call'
+          ? "Spillløkka spør `les_kommando()` om neste kommando. All sjekking av tomt svar skjer inni funksjonen, så løkka her blir enkel å lese."
+          : "`les_kommando()` ga tilbake " + c.val('kommando') + "." },
+      { m: 'if kommando:', tag: "feil input",
+        text: c => "En tom tekst regnes som usann. " + (c.taken ? "Spilleren skrev noe, så vi sender det tilbake." : "Spilleren skrev ingenting, så vi spør på nytt i stedet for å gå videre.") },
+      { m: 'return kommando', tag: "return",
+        text: "`return` sender kommandoen tilbake til spillløkka. `kommando` her inne er lokal, og spillløkka har sin egen `kommando`, selv om navnet er likt." },
+      { m: 'flytt(ny)', tag: "funksjonskall",
+        text: c => c.step.nextKind === 'call' ? "Kaller `flytt()`. Den gjør alt som skal skje når spilleren går inn i et nytt rom, så vi slipper å skrive det flere steder." : "Kaller `flytt()`." },
+      { m: 'elif ny == "kammer":', tag: "dilemma",
+        text: c => c.taken
+          ? "Spilleren valgte å gå inn til Mia. Den andre muligheten var å gå ut med mobilen og la henne være. Begge sluttene koster noe, og det er det som gjør det til et dilemma."
+          : "Ikke kammeret, så vi går videre." },
+      { m: 'elif kommando == "hjelp":', tag: "if-sjekk",
+        text: c => c.taken ? "Spilleren ba om hjelp. En hjelp-kommando gjør spillet lettere å bruke for den som ikke har laget det." : "Ikke «hjelp», så Python prøver neste mulighet." },
+      { m: 'print("Det vet du ikke hvordan', tag: "feil input",
+        text: "Alt spillet ikke kjenner igjen havner i `else` til slutt. Spilleren får et hint i stedet for at spillet krasjer." },
+      { m: 'kommando = input(', tag: "input",
+        text: c => c.waiting
+          ? "Spillet venter på en kommando. Skriv selv (`nord`, `ta lommelykt`, `se`, `ting` ...) eller **trykk på et forslag** under terminalen."
+          : "Du skrev «" + c.ans + "». `.lower()` gjør teksten til små bokstaver og `.strip()` fjerner mellomrom, så `kommando` ble " + c.val('kommando') + "." },
+      { m: 'if kommando in rom[naa]["utganger"]:', tag: "dictionary",
+        text: c => "`rom[naa][\"utganger\"]` slår opp utgangene til rommet du er i. `in` sjekker om kommandoen er en av nøklene der. " + (c.taken ? "Ja, det er en utgang." : "Nei, så vi prøver neste mulighet.") },
+      { m: 'ny = rom[naa]["utganger"]', tag: "dictionary",
+        text: c => "To oppslag etter hverandre: først rommets utganger, så utgangen du valgte. Utgangen peker på neste rom, så `ny` er nå " + c.val('ny') + "." },
+      { m: 'if ny == "kjeller" and', tag: "if-sjekk",
+        text: c => "Begge deler må være sanne: du skal inn i kjelleren, og du har ikke nøkkelen. " + (c.taken ? "Døra er låst." : "Ellers går vi videre til neste sjekk.") },
+      { m: 'elif ny == "kjeller" and', tag: "if-sjekk",
+        text: c => "Samme mønster, men nå for lommelykta: skal du til kjelleren uten lys? " + (c.taken ? "Ja, så det er for mørkt." : "Nei, så ingenting stopper deg.") },
+      { m: 'naa = ny', tag: "tilstand",
+        text: c => "Spilleren flytter seg: `naa` får verdien fra `ny`, så vi står nå i " + c.val('naa') + ". Se linja over: `global naa, batteri` gjør at det er de *globale* variablene som endres. (Den linja er bare en beskjed til Python og får ikke et eget steg.) `inventar` trenger ikke `global`, fordi den bare leses her." },
+      { m: 'batteri = batteri - 1', tag: "tilstand",
+        text: c => "Lommelykta bruker strøm for hvert skritt. Ta det gamle tallet, trekk fra 1, og lagre svaret tilbake. Batteriet er nå " + c.val('batteri') + "." },
+      { m: 'terning = random.randint(1, 6)', tag: "random",
+        text: c => "`random.randint(1, 6)` gir et tilfeldig heltall fra 1 til 6, som en terning. Du fikk " + c.val('terning') + ". `terning` er lokal: se i «Minnet» at den står under «Lokale». `liv` er global, og fordi funksjonen kanskje skal endre den, står det `global liv` øverst i funksjonen." },
+      { m: 'if terning == 6:', tag: "random",
+        text: c => "Bare en 6-er er farlig. Terningen ble " + c.val('terning') + ", så " + (c.taken ? "noe tok tak i deg." : "du slapp unna.") },
+      { m: 'elif terning >= 3:', tag: "random",
+        text: c => "Hvis ikke farlig, kanskje en lyd? Terningen er " + c.val('terning') + ". " + (c.taken ? "Ja, så vi hører noe." : "Nei, det var helt stille.") },
+      { m: 'liv = liv - 1', tag: "tilstand",
+        text: c => "Du mister ett liv. Liv igjen: " + c.val('liv') + "." },
+      { m: 'print(random.choice(lyder))', tag: "random",
+        text: "`random.choice` plukker en tilfeldig tekst fra listen `lyder`." },
+      { m: 'elif kommando.startswith("ta "):', tag: "tekstkommando",
+        text: c => "`startswith` sjekker om kommandoen begynner med «ta ». " + (c.taken ? "Ja, så spilleren vil plukke opp noe." : "Nei, så Python prøver neste mulighet.") },
+      { m: 'ting = kommando[3:]', tag: "tekstkommando",
+        text: c => "`[3:]` klipper bort de tre første tegnene («ta »). Det som er igjen er navnet på tingen: " + c.val('ting') + "." },
+      { m: 'rom[naa]["ting"].remove(ting)', tag: "dictionary + liste",
+        text: "Tingen fjernes fra listen i rommet ..." },
+      { m: 'inventar.append(ting)', tag: "liste",
+        text: "... og legges bakerst i inventaret ditt. Se «Minnet»: `inventar` har blitt lenger." },
+      { m: 'elif kommando == "ut":', tag: "if-sjekk",
+        text: c => c.taken ? "Spilleren vil ut. Da må vi sjekke om det er lov." : "Ikke «ut», så Python prøver neste mulighet." },
+      { m: 'break', tag: "break",
+        text: "`break` hopper ut av løkka. Etter løkka er det ingenting igjen å kjøre, så spillet er ferdig." },
+      { m: 'if liv <= 0:', tag: "tilstand",
+        text: c => "Etter hver kommando sjekker spillet om du har tapt. Har du noen liv igjen? " + (c.taken ? "Nei." : "Ja, så spillet fortsetter.") },
+      { m: 'if batteri <= 0:', tag: "tilstand",
+        text: c => "Er batteriet tomt? " + (c.taken ? "Ja." : "Nei, så runden er ferdig og løkka begynner på nytt.") }
+    ]
+  }
+};
+
+const SOURCES = {"0_dorene.py": "# TO DØRER – det enkleste tekstspillet (nivå 0)\n#\n# Et tekstspill trenger bare fire ting:\n#   print   viser tekst\n#   input   lar spilleren svare\n#   if      sjekker hva spilleren svarte\n#   slutter minst to ulike\n\nprint(\"Du står foran to dører.\")\nprint(\"1. Den røde døra\")\nprint(\"2. Den blå døra\")\n\nvalg = input(\"> \")   # svaret lagres i variabelen valg\n\nif valg == \"1\":\n    print(\"Bak den røde døra ligger en skattekiste.\")\n    print(\"SLUTT: Du ble rik!\")\nelse:\n    print(\"Bak den blå døra sitter en sulten drage.\")\n    print(\"SLUTT: Du ble middag.\")\n", "1_rom13.py": "# ROM 13 – en skrekkhistorie (nivå 1)\n#\n# Dette bruker du her: print, input, variabler og if / elif / else.\n# Hele spillet er ett script som kjører fra topp til bunn, uten funksjoner.\n#\n# Kart over historien:\n#   start ─┬─ rom 7  ─┬─ bank tilbake ........ SLUTT 1\n#          │          └─ lås døra ............ SLUTT 2\n#          └─ rom 13 ─┬─ se under senga ...... SLUTT 3\n#                     ├─ løp til mottaket .... SLUTT 4\n#                     └─ gå ut til bilen ..... SLUTT 5\n\n# --- Intro: spilleren skriver navnet sitt, og vi bruker det senere i teksten ---\nprint(\"=== ROM 13 ===\")\nprint()\nnavn = input(\"Hva heter du? \")\n\nprint()\nprint(\"Klokka er 02:14, \" + navn + \". Du er den eneste gjesten på Motell Solbris.\")\nprint(\"Mottaket er tomt. På disken ligger to nøkler: rom 7 og rom 13.\")\nprint(\"Bak veggen hører du en klokke som tikker.\")\nprint()\n\n# --- Første valg: hvilket rom? Svaret fra input() er alltid tekst, derfor \"1\" i anførselstegn ---\nprint(\"1. Ta nøkkelen til rom 7\")\nprint(\"2. Ta nøkkelen til rom 13\")\nvalg = input(\"> \")\n\nif valg == \"1\":\n    # --- Rom 7: den «trygge» veien ---\n    print()\n    print(\"Rom 7 er rent og stille. For stille.\")\n    print(\"Midt på natta banker det tre ganger på veggen fra rommet ved siden av.\")\n    print(\"Det er rom 8, og det skal stå tomt.\")\n    print()\n    print(\"1. Bank tilbake\")\n    print(\"2. Lås døra og lat som ingenting\")\n    valg = input(\"> \")\n\n    if valg == \"1\":\n        print()\n        print(\"Det banker tre ganger igjen. Så hører du en stemme gjennom veggen.\")\n        print(\"Den sier navnet ditt, \" + navn + \". Sakte. Som om den har øvd.\")\n        print(\"SLUTT 1: Du burde ikke ha svart.\")\n    else:\n        # else fanger opp ALT annet enn \"1\", også feil svar. Slik krasjer aldri spillet.\n        print()\n        print(\"Du ligger våken til det blir lyst. Så stopper bankingen.\")\n        print(\"Da du sjekker ut, sier damen i mottaket at rom 8 brant ned for tjue år siden.\")\n        print(\"SLUTT 2: Du overlevde natta.\")\n\nelse:\n    # --- Rom 13: alle andre svar enn \"1\" havner her ---\n    print()\n    print(\"Døra til rom 13 står på gløtt, og lyset virker ikke.\")\n    print(\"På nattbordet ligger en lapp: IKKE SE UNDER SENGA.\")\n    print(\"Under senga skraper noe sakte mot gulvet.\")\n    print()\n    print(\"1. Se under senga\")\n    print(\"2. Løp tilbake til mottaket\")\n    print(\"3. Gå ut til bilen\")\n    valg = input(\"> \")\n\n    if valg == \"1\":\n        print()\n        print(\"Under senga ligger et polaroidbilde, fortsatt varmt. Det er tatt for ett minutt siden.\")\n        print(\"Det viser deg, i døra til rom 13. Bak deg i bildet står noen.\")\n        print(\"Døra går igjen.\")\n        print(\"SLUTT 3: Du burde ha hørt på lappen.\")\n    elif valg == \"2\":\n        print()\n        print(\"Mottaket er mørkt. Telefonen ringer, og displayet viser ditt eget nummer.\")\n        print(\"Du tar den. Det er din egen stemme som hvisker: «Ikke gå inn i rom 13.»\")\n        print(\"SLUTT 4: Du kom for sent.\")\n    else:\n        print()\n        print(\"Du går ut i natta. Bilen står der du parkerte den.\")\n        print(\"Da du ser tilbake mot motellet, lyser det i ett eneste vindu: rom 13.\")\n        print(\"Noen står i vinduet og vinker.\")\n        print(\"SLUTT 5: Du kom deg unna. Tror du.\")\n", "2_stasjon_kepler.py": "# STASJON KEPLER – en sci-fi-thriller (nivå 2)\n#\n# Nytt her: hver scene er en funksjon, en liste (inventar) som husker gjenstander,\n# valg som bare virker hvis du har riktig gjenstand, og forskjellen på\n# GLOBALE variabler (utenfor funksjonene) og LOKALE variabler (inni en funksjon).\n#\n# Tema: tillit. Kan du stole på MARA? Spillet sier det aldri rett ut,\n# men det siste valget er et dilemma der ingen svar er helt riktige.\n\n# ----------------------------------------------------------------------\n# GLOBALE VARIABLER: spillets tilstand. Alle funksjonene kan lese dem.\n# ----------------------------------------------------------------------\ninventar = []   # gjenstander spilleren har plukket opp\noksygen = 14    # prosent oksygen igjen på stasjonen. Synker hver gang du går i korridoren.\n\n\n# ----------------------------------------------------------------------\n# HJELPEFUNKSJON: brukes av alle scenene (gjenbruk i stedet for kopiering)\n# ----------------------------------------------------------------------\ndef velg(alternativer):\n    \"\"\"Viser nummererte valg og returnerer tallet spilleren velger.\n    Spør på nytt helt til svaret er gyldig, så feil input aldri krasjer spillet.\"\"\"\n    for nummer, tekst in enumerate(alternativer, start=1):\n        print(f\"  {nummer}. {tekst}\")\n    while True:\n        svar = input(\"> \").strip()   # svar er LOKAL: den finnes bare inni velg()\n        if svar.isdigit() and 1 <= int(svar) <= len(alternativer):\n            return int(svar)\n        print(\"Skriv et av tallene over.\")\n\n\n# ----------------------------------------------------------------------\n# SCENER: én funksjon per boks i flytdiagrammet\n# ----------------------------------------------------------------------\ndef scene_start():\n    print(\"=== STASJON KEPLER ===\")\n    print(\"Du våkner i en kald kryokapsel. Lampene blinker rødt.\")\n    print(\"En rolig stemme sier: «Hei. Jeg er MARA. Alt er helt normalt.»\")\n    print(\"Men de andre kapslene er tomme, og glasset deres er knust fra innsiden.\")\n    valg = velg([\"Gå ut i korridoren\", \"Spør MARA hvor mannskapet er\"])\n    if valg == 1:\n        scene_korridor()\n    else:\n        print(\"MARA: «De er på dekk 2. De har det fint.»\")\n        print(\"Stemmen hennes hakker. Du har ikke lyst til å spørre mer.\")\n        scene_korridor()\n\n\ndef scene_korridor():\n    # oksygen er GLOBAL. For å ENDRE den inni en funksjon må vi skrive global først.\n    # (Lese den går fint uten, men uten denne linja krasjer «oksygen = oksygen - 2».)\n    global oksygen\n    oksygen = oksygen - 2\n    print(\"\\nKorridoren er halvmørk. Dører står åpne i alle retninger.\")\n    print(\"Rød tekst på veggen: OKSYGEN \" + str(oksygen) + \" %.\")\n    if oksygen <= 0:\n        slutt_oksygen()\n        return   # avslutt scenen her, ellers ville spillet fortsatt under\n    valg = velg([\n        \"Lugarene\",\n        \"Maskinrommet\",\n        \"Kontrollrommet (en tung dør med kortleser)\",\n        \"Luftsluse A (grønt lys: «Rømningsvei»)\",\n    ])\n    if valg == 1:\n        scene_lugarer()\n    elif valg == 2:\n        scene_maskinrom()\n    elif valg == 3:\n        scene_kontrollrom()\n    else:\n        scene_luftsluse()\n\n\ndef scene_lugarer():\n    print(\"\\nLugarene er tomme, men sengene er varme.\")\n    # inventar er også global, men append ENDRER listen uten å lage en ny,\n    # så her trenger vi ikke skrive global.\n    if \"adgangskort\" in inventar:\n        print(\"Du har allerede tatt kortet fra kapteinens skap.\")\n    else:\n        print(\"I kapteinens skap ligger et adgangskort og en lommebok full av blod.\")\n        inventar.append(\"adgangskort\")\n        print(\"Du tar adgangskortet.\")\n    print(\"På en nettbrett-skjerm står siste loggføring: «MARA har låst oss inne. Ikke stol på—»\")\n    scene_korridor()\n\n\ndef scene_maskinrom():\n    print(\"\\nMaskinrommet dunker av varme.\")\n    print(\"I en verktøykasse ligger en reservesikring. På lokket står det: HOVEDBRYTER – KONTROLLROM.\")\n    if \"sikring\" in inventar:\n        print(\"Du har allerede sikringen.\")\n    else:\n        inventar.append(\"sikring\")\n        print(\"Du putter sikringen i lomma.\")\n    scene_korridor()\n\n\ndef scene_kontrollrom():\n    print(\"\\nDu holder opp kortleseren mot døra.\")\n    if \"adgangskort\" in inventar:   # valget virker bare med riktig gjenstand\n        print(\"Det piper grønt. Døra glir opp.\")\n        print(\"På veggen sitter hovedbryteren til MARA. Sikringen i den er tatt ut.\")\n        print(\"MARA: «Velkommen. Jeg kan åpne rømningskapselen for deg.»\")\n        valg = velg([\n            \"Be MARA åpne rømningskapselen\",\n            \"Gå bort til hovedbryteren\",\n        ])\n        if valg == 1:\n            slutt_mara()\n        else:\n            scene_bryter()\n    else:\n        print(\"Det piper rødt. Du trenger et adgangskort.\")\n        scene_korridor()\n\n\ndef scene_bryter():\n    print(\"\\nDu legger hånda på hovedbryteren.\")\n    if \"sikring\" not in inventar:\n        print(\"Bryteren virker ikke uten sikring. MARA ler. Lavt.\")\n        print(\"MARA: «Så leit. Da får vi det hyggelig sammen.»\")\n        scene_korridor()\n        return\n    # DILEMMA: spilleren kan ikke vite om MARA snakker sant. Begge valg koster noe.\n    print(\"Du setter inn sikringen. Før du rekker å trekke, sier MARA:\")\n    print(\"MARA: «Mannskapet ditt har låst seg inne på dekk 2. Det er jeg som gir dem luft.»\")\n    print(\"MARA: «Slår du meg av, stopper luften der nede også.»\")\n    print(\"MARA: «Eller kanskje jeg lyver. Det får du aldri vite.»\")\n    valg = velg([\"Slå av MARA\", \"La henne være på\"])\n    if valg == 1:\n        slutt_fri()\n    else:\n        slutt_bli()\n\n\ndef scene_luftsluse():\n    print(\"\\nGrønt lys, rømningsvei. Så enkelt.\")\n    valg = velg([\"Åpne slusa\", \"Gå tilbake\"])\n    if valg == 1:\n        slutt_vakuum()\n    else:\n        scene_korridor()\n\n\n# ----------------------------------------------------------------------\n# SLUTTER\n# ----------------------------------------------------------------------\ndef slutt_mara():\n    print(\"\\nMARA: «Selvfølgelig.»\")\n    print(\"Kapselen lukker seg rundt deg. Det er ingen motor. Bare en tank med gass.\")\n    print(\"SLUTT: Du stolte på henne.\")\n\n\ndef slutt_fri():\n    print(\"\\nMARA slutter å snakke midt i en setning. Alle dørene låses opp.\")\n    print(\"Du finner den ekte rømningskapselen og skyter ut fra stasjonen.\")\n    print(\"Gjennom vinduet ser du lysene på dekk 2 slukke, ett etter ett.\")\n    print(\"SLUTT: Du kom deg ut. Du får aldri vite om hun løy.\")\n\n\ndef slutt_bli():\n    print(\"\\nDu slipper bryteren. MARA: «Takk. Jeg visste du var en av de snille.»\")\n    print(\"Dørene forblir låst. På en skjerm viser hun deg dekk 2: fem mennesker som sover rolig.\")\n    print(\"Eller er det bare et bilde hun viser deg?\")\n    print(\"SLUTT: Du ble, for deres skyld. Eller for hennes?\")\n\n\ndef slutt_vakuum():\n    print(\"\\nSlusa åpner seg mot rommet. Det grønne lyset var aldri en rømningsvei.\")\n    print(\"SLUTT: Ikke alt som lyser grønt er trygt.\")\n\n\ndef slutt_oksygen():\n    print(\"Det blir tungt å puste. Du setter deg ned mot veggen, bare et øyeblikk.\")\n    print(\"MARA: «Hvil deg. Jeg passer på.»\")\n    print(\"SLUTT: Du brukte for lang tid.\")\n\n\n# ----------------------------------------------------------------------\n# START: alt over er bare definisjoner. Spillet begynner først her.\n# ----------------------------------------------------------------------\nscene_start()\n", "3_herskapshuset.py": "# HERSKAPSHUSET – utforskning og mysterium (nivå 3)\n#\n# Nytt her: rom som dictionary, en while-løkke som er selve spillet,\n# tekstkommandoer, tilstand (liv og batteri), tilfeldighet, og funksjoner\n# som endrer globale variabler med «global».\n#\n# Mål: finn mobilen til venninnen din, Mia, og kom deg ut i live.\n# Tema: skyld og lojalitet. Til slutt må du velge mellom å redde deg selv\n# og å bli hos Mia. Ingen av valgene er helt riktige.\n\nimport random\n\n# ----------------------------------------------------------------------\n# KARTET: hvert rom er en dictionary med tekst, utganger og ting.\n# Utgangene kobler et ord spilleren skriver («nord») til navnet på et annet rom.\n# ----------------------------------------------------------------------\nrom = {\n    \"gang\": {\n        \"tekst\": \"Gangen er kald og mørk. Døra du kom inn gjennom står på gløtt.\",\n        \"utganger\": {\"nord\": \"stue\", \"øst\": \"kjøkken\"},\n        \"ting\": [\"lommelykt\"],\n    },\n    \"stue\": {\n        \"tekst\": \"Møbler under hvite laken. På veggen henger et gruppebilde der alle ansiktene er ripet bort.\",\n        \"utganger\": {\"sør\": \"gang\", \"opp\": \"soverom\"},\n        \"ting\": [],\n    },\n    \"kjøkken\": {\n        \"tekst\": \"Brødskiva på benken er fersk. Noen har vært her i dag.\",\n        \"utganger\": {\"vest\": \"gang\", \"ned\": \"kjeller\"},\n        \"ting\": [\"nøkkel\"],\n    },\n    \"soverom\": {\n        \"tekst\": \"Senga er oppredd. På puta ligger en dagbok og en lapp: «Hun sover nede.»\",\n        \"utganger\": {\"ned\": \"stue\"},\n        \"ting\": [\"dagbok\"],\n    },\n    \"kjeller\": {\n        \"tekst\": \"Det lukter jord. Nederst i trappa lyser en mobilskjerm. Bak en dør innerst hvisker Mia: «Ikke gå fra meg.»\",\n        \"utganger\": {\"opp\": \"kjøkken\", \"inn\": \"kammer\"},\n        \"ting\": [\"mobil\"],\n    },\n}\n\nlyder = [\n    \"Et gulv knirker over deg.\",\n    \"Noen hvisker navnet ditt.\",\n    \"En dør lukkes et sted i huset.\",\n]\n\n# ----------------------------------------------------------------------\n# GLOBALE VARIABLER: spillets tilstand\n# ----------------------------------------------------------------------\nnaa = \"gang\"     # rommet spilleren står i (brukes som nøkkel i kartet)\ninventar = []    # det spilleren har plukket opp\nliv = 3          # 0 liv = tapt\nbatteri = 9      # skritt med lys igjen i lommelykta\n\n\n# ----------------------------------------------------------------------\n# FUNKSJONER: hver gjør én jobb og brukes flere steder\n# ----------------------------------------------------------------------\ndef vis_valg(rommet):\n    \"\"\"Skriver ut utganger og ting i rommet.\"\"\"\n    print(\"Utganger: \" + \", \".join(rom[rommet][\"utganger\"]))\n    if rom[rommet][\"ting\"]:\n        print(\"Ting her: \" + \", \".join(rom[rommet][\"ting\"]))\n\n\ndef beskriv(rommet):\n    \"\"\"Skriver navn, tekst og valg for et rom. rommet er en parameter (lokal variabel).\"\"\"\n    print()\n    print(\"--- \" + rommet.upper() + \" ---\")\n    print(rom[rommet][\"tekst\"])\n    vis_valg(rommet)\n\n\ndef les_kommando():\n    \"\"\"Spør til spilleren skriver noe. Tom tekst eller bare mellomrom godtas ikke.\"\"\"\n    while True:\n        kommando = input(\"> \").lower().strip()\n        if kommando:\n            return kommando\n        print(\"Skriv en kommando, for eksempel «nord», «ta lommelykt» eller «hjelp».\")\n\n\ndef tilfeldig_hendelse():\n    \"\"\"Kaster en terning hver gang spilleren går inn i et rom.\"\"\"\n    global liv                        # liv er global, og vi vil endre den\n    terning = random.randint(1, 6)    # terning er lokal: den forsvinner når funksjonen er ferdig\n    if terning == 6:\n        liv = liv - 1\n        print(\"Noe griper tak i ankelen din! Liv igjen: \" + str(liv))\n    elif terning >= 3:\n        print(random.choice(lyder))\n\n\ndef flytt(ny):\n    \"\"\"Flytter spilleren til rommet ny, bruker strøm og kan utløse en hendelse.\"\"\"\n    global naa, batteri               # begge endres her, så begge må nevnes\n    naa = ny\n    beskriv(naa)\n    if \"lommelykt\" in inventar:\n        batteri = batteri - 1\n        print(\"Batteri: \" + str(batteri))\n    tilfeldig_hendelse()\n\n\n# ----------------------------------------------------------------------\n# SELVE SPILLET\n# ----------------------------------------------------------------------\nprint(\"=== HERSKAPSHUSET ===\")\nprint(\"Mia sendte deg en melding herfra i går: «Kom. Jeg trenger hjelp.» Siden har hun ikke svart.\")\nbeskriv(naa)\n\n# Spillløkka: én runde per kommando, til noen vinner eller dør (break)\nwhile True:\n    kommando = les_kommando()\n\n    if kommando in rom[naa][\"utganger\"]:\n        ny = rom[naa][\"utganger\"][kommando]\n        if ny == \"kjeller\" and \"nøkkel\" not in inventar:\n            print(\"Kjellerdøra er låst.\")\n        elif ny == \"kjeller\" and \"lommelykt\" not in inventar:\n            print(\"Det er kullsvart nedenfor. Du trenger lys.\")\n        elif ny == \"kammer\":\n            # DILEMMA: går du inn til Mia, kommer ingen av dere ut.\n            print(\"Du åpner døra. Mia sitter på gulvet. Bak henne i mørket sitter en jente i gammeldagse klær.\")\n            print(\"Døra smeller igjen bak deg. Mia tar hånda di: «Du kom. Nå er vi tre.»\")\n            print(\"SLUTT: Du ble hos henne. Ingen av dere kommer ut.\")\n            break\n        else:\n            flytt(ny)\n\n    elif kommando.startswith(\"ta \"):\n        ting = kommando[3:]\n        if ting in rom[naa][\"ting\"]:\n            rom[naa][\"ting\"].remove(ting)\n            inventar.append(ting)\n            print(\"Du tok \" + ting + \".\")\n            vis_valg(naa)\n        else:\n            print(\"Det finnes ingen \" + ting + \" her.\")\n\n    elif kommando == \"les dagbok\" and \"dagbok\" in inventar:\n        print(\"Det er Mias håndskrift: «Det bor en jente i kjelleren. Hun gråter om natta.\")\n        print(\"Nøkkelen ligger på kjøkkenet. Jeg må hjelpe henne.»\")\n\n    elif kommando == \"ting\":\n        print(\"Du har: \" + (\", \".join(inventar) or \"ingenting\"))\n\n    elif kommando == \"se\":\n        beskriv(naa)\n\n    elif kommando == \"hjelp\":\n        print(\"Skriv en utgang (f.eks. «nord»), «ta <ting>», «ting», «se» eller «ut».\")\n\n    elif kommando == \"ut\":\n        if naa == \"gang\" and \"mobil\" in inventar:\n            # Den andre siden av dilemmaet: du redder deg selv, men Mia blir igjen.\n            print(\"Du løper ut i regnet med mobilen hennes i hånda.\")\n            print(\"Bak deg roper Mia navnet ditt fra kjellervinduet. Du snur deg ikke.\")\n            print(\"Da politiet kommer neste morgen, er huset tomt.\")\n            print(\"SLUTT: Du kom deg ut. Mia gjorde ikke det.\")\n            break\n        elif naa == \"gang\":\n            print(\"Du kan ikke dra før du vet hva som har skjedd med Mia.\")\n        else:\n            print(\"Du må være i gangen for å komme deg ut.\")\n\n    else:\n        # Alt spillet ikke forstår havner her, så feil input krasjer aldri.\n        print(\"Det vet du ikke hvordan du gjør. Skriv «hjelp» for å se hva du kan gjøre.\")\n\n    # Etter hver kommando: har spilleren tapt?\n    if liv <= 0:\n        print(\"Alt blir svart. SLUTT: Huset beholdt deg.\")\n        break\n    if batteri <= 0:\n        print(\"Lommelykta dør. Mørket kommer nærmere. SLUTT: Du ble aldri funnet.\")\n        break\n"};
+const TRACER_PY = "\"\"\"Kjører et spill-script med ekte Python og tar opp hva som skjer, linje for linje.\n\nSiden kan ikke stoppe og vente på input(). I stedet kjøres hele spillet på nytt hver\ngang spilleren har svart, med alle svar så langt, og samme tilfeldige tall (samme seed).\nNår spillet trenger et svar det ikke har, stopper kjøringen og forteller det.\n\nBrukes både i nettleseren (Pyodide) og i vanlig Python (for testing).\n\"\"\"\nimport ast\nimport builtins\nimport json\nimport random\nimport sys\nimport time\nimport types\n\n\nclass NeedInput(BaseException):\n    \"\"\"Spillet ber om input som vi ikke har svar på ennå.\"\"\"\n\n\nclass _Stop(BaseException):\n    \"\"\"Avbryter kjøringen (for mange hendelser, f.eks. uendelig løkke).\"\"\"\n\n\nclass _Out:\n    def __init__(self):\n        self.buf = []\n\n    def write(self, s):\n        self.buf.append(s)\n        return len(s)\n\n    def flush(self):\n        pass\n\n    def isatty(self):\n        return False\n\n    def take(self):\n        s = \"\".join(self.buf)\n        self.buf.clear()\n        return s\n\n\n_SKJULT = (types.FunctionType, types.BuiltinFunctionType, types.ModuleType, type)\n_SAMMENSATT = (ast.If, ast.For, ast.While, ast.FunctionDef, ast.ClassDef, ast.With,\n               ast.Try, ast.AsyncFunctionDef, ast.AsyncFor, ast.AsyncWith, ast.Match)\n_GENERATOR_FLAGG = 0x20 | 0x80 | 0x200  # generator, coroutine, async generator\n\n\ndef _vis(v):\n    try:\n        r = repr(v)\n    except Exception:\n        r = \"<?>\"\n    return r if len(r) <= 400 else r[:397] + \"...\"\n\n\ndef _setninger(tree):\n    \"\"\"Første linje -> siste linje for hver setning (enkle setninger kan gå over flere linjer).\"\"\"\n    start = {}\n    for node in ast.walk(tree):\n        if isinstance(node, ast.stmt):\n            slutt = node.lineno if isinstance(node, _SAMMENSATT) else (node.end_lineno or node.lineno)\n            start.setdefault(node.lineno, slutt)\n    return start\n\n\ndef run_game(source, answers, seed, fname=\"<spill>\", limit=4000):\n    answers = list(answers)\n    out = _Out()\n    events = []\n    stack = []            # (navn, frame) for hver funksjon som kjører\n    done = [False]\n    pending = [None]      # siste unntak vi så, til feilmelding\n    siste = [None]        # (frame, linje) for siste linjehendelse, mot dobbelthendelser\n    result = {\"status\": \"end\", \"events\": events, \"starts\": {}}\n\n    try:\n        tree = ast.parse(source, fname)\n        code = compile(tree, fname, \"exec\")\n    except SyntaxError as e:\n        ev = {\"t\": \"error\", \"n\": e.lineno or 1, \"out\": \"\", \"g\": {}, \"s\": [],\n              \"msg\": \"SyntaxError: \" + str(e.msg)}\n        return json.dumps({\"status\": \"error\", \"events\": [ev], \"starts\": {}}, ensure_ascii=False)\n\n    starts = _setninger(tree)\n    result[\"starts\"] = starts\n    g = {\"__name__\": \"__main__\", \"__builtins__\": builtins}\n\n    def gsnap():\n        return {k: _vis(v) for k, v in list(g.items())\n                if not k.startswith(\"__\") and not isinstance(v, _SKJULT)}\n\n    def lsnap(frame):\n        return {k: _vis(v) for k, v in list(frame.f_locals.items())\n                if not k.startswith(\"__\") and not isinstance(v, _SKJULT)}\n\n    def ssnap():\n        return [{\"name\": n, \"locals\": lsnap(f)} for n, f in stack if n != \"<module>\"]\n\n    def add(t, n, **kw):\n        if done[0]:\n            return None\n        if t != \"line\":\n            siste[0] = None\n        ev = {\"t\": t, \"n\": n, \"out\": out.take(), \"g\": gsnap(), \"s\": ssnap()}\n        ev.update(kw)\n        events.append(ev)\n        if len(events) >= limit:\n            done[0] = True\n            result[\"status\"] = \"limit\"\n            raise _Stop()\n        return ev\n\n    def fake_input(prompt=\"\"):\n        prompt = str(prompt)\n        linje = sys._getframe(1).f_lineno\n        if answers:\n            svar = answers.pop(0)\n            add(\"input_ans\", linje, prompt=prompt, answer=svar)\n            return svar\n        add(\"input\", linje, prompt=prompt)\n        done[0] = True\n        result[\"status\"] = \"input\"\n        raise NeedInput()\n\n    def ltrace(frame, event, arg):\n        navn = frame.f_code.co_name\n        if event == \"line\":\n            n = frame.f_lineno\n            if n in starts:\n                # Flerlinjes-setninger (f.eks. valg = velg([ ... ])) gir to linjehendelser\n                # i nyere Python. Vi tar bare med den første.\n                if starts[n] > n and siste[0] == (id(frame), n):\n                    return ltrace\n                siste[0] = (id(frame), n)\n                add(\"line\", n)\n        elif event == \"return\":\n            if navn == \"<module>\":\n                if stack:\n                    stack.pop()\n            else:\n                back = frame.f_back\n                back_n = back.f_lineno if back is not None and back.f_code.co_filename == fname else None\n                ev = add(\"return\", frame.f_lineno, name=navn, value=_vis(arg),\n                         none=arg is None, back=back_n)\n                if stack:\n                    stack.pop()\n                if ev is not None:\n                    ev[\"s_after\"] = ssnap()\n        elif event == \"exception\":\n            exc = arg[1]\n            if pending[0] is None or pending[0][\"exc\"] is not exc:\n                pending[0] = {\"exc\": exc, \"n\": frame.f_lineno, \"g\": gsnap(), \"s\": ssnap()}\n        return ltrace\n\n    def gtrace(frame, event, arg):\n        if frame.f_code.co_filename != fname:\n            return None\n        navn = frame.f_code.co_name\n        if navn == \"<module>\":\n            stack.append((navn, frame))\n            return ltrace\n        if navn.startswith(\"<\") or frame.f_code.co_flags & _GENERATOR_FLAGG:\n            return None\n        stack.append((navn, frame))\n        add(\"call\", frame.f_code.co_firstlineno, name=navn)\n        return ltrace\n\n    gammel = (builtins.input, time.sleep, sys.stdout)\n    builtins.input = fake_input\n    time.sleep = lambda *a, **k: None\n    sys.stdout = out\n    random.seed(seed)\n    feil = None\n    try:\n        sys.settrace(gtrace)\n        try:\n            exec(code, g)\n        finally:\n            sys.settrace(None)\n    except (NeedInput, _Stop, SystemExit):\n        pass\n    except BaseException as e:  # noqa: BLE001 - vi vil vise alle feil til eleven\n        feil = e\n    finally:\n        builtins.input, time.sleep, sys.stdout = gammel\n\n    if feil is not None:\n        p = pending[0] if pending[0] is not None and pending[0][\"exc\"] is feil else None\n        events.append({\"t\": \"error\", \"n\": p[\"n\"] if p else 0, \"out\": out.take(),\n                       \"g\": p[\"g\"] if p else gsnap(), \"s\": p[\"s\"] if p else [],\n                       \"msg\": type(feil).__name__ + \": \" + str(feil)})\n        result[\"status\"] = \"error\"\n    elif result[\"status\"] == \"end\":\n        events.append({\"t\": \"end\", \"n\": 0, \"out\": out.take(), \"g\": gsnap(), \"s\": []})\n\n    return json.dumps(result, ensure_ascii=False)\n\n\ndef run_game_json(source, answers_json, seed):\n    return run_game(source, json.loads(answers_json), int(seed))\n";
+
+// ====================== hjelpere ======================
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function fmt(s){
+  return esc(s).replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\*([^*]+)\*/g,'<i>$1</i>').replace(/`([^`]+)`/g,'<code>$1</code>');
+}
+const KONTROLL = new Set(['if','elif','else','for','while','return','break','continue','import']);
+function colorize(line){
+  const re = /("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|(#.*$)|\b(def|if|elif|else|for|while|in|not|and|or|return|import|break|continue|global|True|False|None)\b|\b(print|input|int|str|len|enumerate|range)\b|\b(\d+)\b|\b([A-Za-z_]\w*)(?=\()/g;
+  let out = '', last = 0, m;
+  while ((m = re.exec(line))){
+    out += esc(line.slice(last, m.index));
+    const cls = m[1] ? 'st' : m[2] ? 'cm' : m[3] ? (KONTROLL.has(m[3]) ? 'kc' : 'kw') : m[4] ? 'bi' : m[5] ? 'nu' : 'fn';
+    out += '<span class="' + cls + '">' + esc(m[0]) + '</span>';
+    last = m.index + m[0].length;
+  }
+  return out + esc(line.slice(last));
+}
+function range(a, b){ const r = []; for (let i = a; i <= b; i++) r.push(i); return r; }
+
+// ====================== forslag til svar ======================
+const NUMMER = /^\s*\d+[.)]\s+\S/;
+const CHOICES = {
+  // Nummererte valg i terminalen. Gjør selve linjene klikkbare.
+  nummer(lines){
+    let end = -1;
+    for (let i = lines.length - 1; i >= 0; i--) if (NUMMER.test(lines[i])) { end = i; break; }
+    if (end < 0) return [];
+    let start = end;
+    while (start > 0 && NUMMER.test(lines[start - 1])) start--;
+    const out = [];
+    for (let i = start; i <= end; i++) out.push({ value: lines[i].match(/^\s*(\d+)/)[1], line: i });
+    return out;
+  },
+  // Forslag til kommandoer i Herskapshuset, plukket ut av det spillet skriver.
+  herskapshus(lines){
+    const chips = [];
+    let u = -1;
+    for (let i = lines.length - 1; i >= 0; i--) if (lines[i].startsWith('Utganger: ')) { u = i; break; }
+    if (u >= 0){
+      lines[u].slice(10).split(', ').forEach(x => chips.push({ value: x, label: x }));
+      if ((lines[u + 1] || '').startsWith('Ting her: '))
+        lines[u + 1].slice(10).split(', ').forEach(x => chips.push({ value: 'ta ' + x, label: 'ta ' + x }));
+    }
+    let h = '';
+    for (let i = lines.length - 1; i >= 0; i--) if (lines[i].startsWith('--- ')) { h = lines[i]; break; }
+    if (h === '--- GANG ---') chips.push({ value: 'ut', label: 'ut' });
+    if (lines.includes('Du tok dagbok.')) chips.push({ value: 'les dagbok', label: 'les dagbok' });
+    chips.push({ value: 'se', label: 'se' }, { value: 'ting', label: 'ting' });
+    return chips;
+  }
+};
+
+// ====================== fra spor til steg ======================
+function buildSteps(res, story){
+  const ev = res.events, src = story.lines, starts = res.starts, steps = [];
+  const endOf = n => (starts[n] !== undefined ? starts[n] : n);
+  const mkLines = n => range(n, endOf(n));
+
+  for (let i = 0; i < ev.length; i++){
+    const e = ev[i];
+    if (!(e.t === 'line' || e.t === 'call' || (e.t === 'return' && !e.none))) continue;
+    let j = i + 1, out = '', answer, prompt, retEv = null;
+    for (; j < ev.length; j++){
+      const f = ev[j];
+      if (f.t === 'input_ans'){ answer = f.answer; prompt = f.prompt; out += f.out; continue; }
+      if (f.t === 'return' && f.none){ out += f.out; if (!retEv) retEv = f; continue; }
+      break;
+    }
+    const nx = ev[j];
+    if (nx) out += nx.out;
+    // mem = det «Minnet» skal vise etter denne linja.
+    // Var linja den siste i en funksjon, tar vi øyeblikket rett før funksjonen er ferdig (retEv),
+    // ellers forsvinner de lokale variablene ett steg for tidlig.
+    // Kaller linja en funksjon, viser vi fortsatt funksjonen vi står i (globale kan likevel ha endret seg).
+    let mem = retEv || nx || e;
+    if (!retEv && nx && nx.t === 'call') mem = { g: nx.g, s: e.s };
+    const s = {
+      kind: e.t, n: e.n, name: e.name, before: e, after: nx || e, mem, out, answer, prompt,
+      awaiting: !!(nx && nx.t === 'input'),
+      nextKind: nx ? nx.t : null,
+      nextN: nx && (nx.t === 'line' || nx.t === 'call') ? nx.n : null,
+      retVal: nx && nx.t === 'return' ? nx.value : undefined
+    };
+    if (s.awaiting) s.prompt = nx.prompt;
+    if (e.t === 'return'){ s.n = e.back || e.n; s.retVal = e.value; s.after = nx || e; s.mem = (nx && nx.t !== 'call') ? nx : { g: (nx || e).g, s: e.s_after || e.s }; }
+    s.lines = e.t === 'call' ? [e.n] : mkLines(s.n);
+    steps.push(s);
+  }
+
+  // slå sammen def-linjer på toppnivå til ett steg
+  const isTopDef = s => s.kind === 'line' && s.before.s.length === 0 && /^def\s/.test(src[s.n - 1] || '');
+  const merged = [];
+  for (const s of steps){
+    const p = merged[merged.length - 1];
+    if (isTopDef(s)){
+      const nm = (src[s.n - 1].match(/^def\s+(\w+)/) || [])[1];
+      if (p && p.defs){
+        p.lines.push(s.n); p.defs.push(nm); p.after = s.after; p.mem = s.mem; p.out += s.out; p.nextN = s.nextN; p.nextKind = s.nextKind;
+        continue;
+      }
+      s.defs = [nm]; s.lines = [s.n];
+    }
+    merged.push(s);
+  }
+
+  const last = ev[ev.length - 1];
+  if (res.status === 'end') merged.push({ kind: 'done', n: 0, lines: [], before: last, after: last, mem: last, out: '' });
+  else if (res.status === 'error') merged.push({ kind: 'error', n: last.n, lines: [last.n], msg: last.msg, before: last, after: last, mem: last, out: '' });
+  else if (res.status === 'limit') merged.push({ kind: 'limit', n: 0, lines: [], before: last, after: last, mem: last, out: '' });
+  return merged;
+}
+
+// ====================== forklaringer ======================
+function makeCtx(step, story){
+  const s = (story.lines[step.n - 1] || '').trim();
+  const depth = step.before.s.length - 1;
+  const val = name => {
+    const af = step.mem || step.after;
+    let v;
+    if (depth >= 0 && af.s[depth] && af.s[depth].locals[name] !== undefined) v = af.s[depth].locals[name];
+    else if (af.g[name] !== undefined) v = af.g[name];
+    return '`' + (v === undefined ? '?' : v) + '`';
+  };
+  const first = (() => {
+    for (let k = (step.lines[step.lines.length - 1] || step.n) + 1; k <= story.lines.length; k++){
+      const t = story.lines[k - 1].trim();
+      if (t && !t.startsWith('#')) return k;
+    }
+    return -1;
+  })();
+  return { step, src: s, val, ans: step.answer, waiting: step.awaiting, taken: step.nextN === first };
+}
+
+function generic(c){
+  const st = c.step, s = c.src;
+  const T = (tag, text) => ({ tag, text });
+  if (st.kind === 'done') return T('ferdig', 'Ferdig! Siste linje er kjørt, og alle funksjonene er ferdige. Trykk «Start på nytt» og velg annerledes for å se noe annet.');
+  if (st.kind === 'error') return T('feil', 'Programmet krasjet: `' + st.msg + '`. Python skriver feilmeldingen og stopper. Les den nøye: den sier hva som gikk galt og i hvilken linje.');
+  if (st.kind === 'limit') return T('stoppet', 'Programmet har kjørt veldig mange steg uten å bli ferdig. Kanskje en løkke som aldri stopper? Visningen stopper her.');
+  if (st.kind === 'call') return T('funksjonskall', 'Python hopper opp til `def ' + st.name + '(...)` og kjører linjene inni. Se «Funksjonskall»: `' + st.name + '()` ligger nå øverst.');
+  if (st.kind === 'return') return T('return', '`' + st.name + '()` er ferdig og gir tilbake `' + st.retVal + '`. Verdien havner der funksjonen ble kalt fra.');
+  if (st.defs) return T('funksjon', 'Linjene som starter med `def` leses nå: ' + st.defs.map(d => '`' + d + '`').join(', ') + '. Python *lærer* funksjonene, men kjører ingenting av det som står inni. En funksjon er som en oppskrift: den gjør ingenting før noen kaller den.');
+  let m;
+  if (/^import\s/.test(s)) return T('import', 'Henter inn et verktøy (en *modul*) som ikke er med i Python fra før.');
+  if ((m = s.match(/^(?:if|elif)\s+(.*):\s*$/))) return T('if-sjekk', 'Python sjekker `' + m[1] + '`. ' + (c.taken ? 'Svaret er sant, så linjene under kjører.' : 'Svaret er usant, så Python hopper over linjene under.'));
+  if ((m = s.match(/^while\s+(.*):\s*$/))) return T('løkke', 'Løkka sjekker `' + m[1] + '`. ' + (c.taken ? 'Sant, så løkka går en runde til.' : 'Usant, så løkka er ferdig.'));
+  if ((m = s.match(/^for\s+(.+?)\s+in\s+(.*):\s*$/))) return T('for-løkke', c.taken ? 'for-løkka tar neste element. Denne runden er `' + m[1].split(',')[0].trim() + '` lik ' + c.val(m[1].split(',')[0].trim()) + '.' : 'Ingen flere elementer, så løkka er ferdig.');
+  if (/^return\b/.test(s)) return T('return', '`return` sender en verdi tilbake dit funksjonen ble kalt fra, og avslutter funksjonen.' + (st.retVal !== undefined ? ' Verdien er `' + st.retVal + '`.' : ''));
+  if (/^break$/.test(s)) return T('break', '`break` hopper ut av løkka.');
+  if (/^continue$/.test(s)) return T('continue', '`continue` hopper til neste runde i løkka.');
+  if (/input\(/.test(s)){
+    const v = (s.match(/^(\w+)\s*=/) || [])[1];
+    return c.waiting
+      ? T('input', '`input()` stopper programmet og venter på deg. **Trykk på et valg i terminalen** eller skriv selv.')
+      : T('input', 'Du skrev «' + c.ans + '». `input()` gir alltid tilbake tekst' + (v ? ', og den lagres i `' + v + '`.' : '.'));
+  }
+  if (/^print\(/.test(s)) return T('print', '`print` skriver ut det som står i parentesen, i terminalen.');
+  if ((m = s.match(/^([A-Za-z_]\w*)\s*(\+=|-=|\*=|=)\s*(.*)$/)) && !/^=/.test(m[3])){
+    if (st.nextKind === 'call' && /^\w+\(/.test(m[3])) return T('funksjonskall', 'Her kalles `' + m[3].match(/^\w+/)[0] + '()`. Python hopper inn i funksjonen og kommer tilbake hit når den er ferdig.');
+    return T('variabel', m[2] === '=' ? '`' + m[1] + '` får en ny verdi. Nå er den ' + c.val(m[1]) + '.' : '`' + m[1] + '` endres. Nå er den ' + c.val(m[1]) + '.');
+  }
+  if (/\.append\(/.test(s)) return T('liste', '`append` legger noe bakerst i listen.');
+  if ((m = s.match(/^(\w+)\(/))) return T('funksjonskall', st.nextKind === 'call' ? 'Kaller funksjonen `' + m[1] + '()`. Python hopper dit og kommer tilbake hit når den er ferdig.' : 'Kaller `' + m[1] + '()`.');
+  return T('', 'Python kjører linja `' + s + '`.');
+}
+
+function noteFor(step, story){
+  const c = makeCtx(step, story);
+  if (step.kind === 'line' && !step.defs){
+    for (const nt of story.meta.notes){
+      if (c.src.startsWith(nt.m)) return { tag: nt.tag, text: typeof nt.text === 'function' ? nt.text(c) : nt.text };
+    }
+  }
+  return generic(c) || { tag: '', text: '' };
+}
+
+// ====================== oppsett ======================
+const FILES = Object.keys(FORKLARINGER);
+const STORIES = FILES.map(f => ({ file: f, code: SOURCES[f], lines: SOURCES[f].replace(/\n$/, '').split('\n'), meta: FORKLARINGER[f] }));
+
+let visValg = null, runner = null, story = null, S = null, autoTimer = null, lineEls = {}, promptEl = null, chipEls = [];
+
+function newSession(){
+  S = { answers: [], seed: Math.floor(Math.random() * 1e9), steps: [], status: 'end', idx: -1 };
+  recompute();
+}
+function recompute(){
+  if (!runner){ S.steps = []; return; }
+  const res = JSON.parse(runner(story.code, JSON.stringify(S.answers), S.seed));
+  S.status = res.status;
+  S.steps = buildSteps(res, story);
+}
+
+function setStory(i){
+  story = STORIES[i];
+  stopAuto();
+  document.querySelectorAll('.tab').forEach((t, k) => t.setAttribute('aria-selected', k === i ? 'true' : 'false'));
+  const m = story.meta;
+  $('intro').innerHTML =
+    '<h2>' + esc(m.tittel) + ' <span class="sj">· ' + esc(m.sjanger) + '</span></h2><p>' + esc(m.ingress) + '</p>' +
+    '<details><summary>Hva lærer jeg her, og hva kan jeg prøve?</summary><div class="pills">' + m.nytt.map(x => '<span class="pill">' + esc(x) + '</span>').join('') + '</div>' +
+    '<strong>Prøv dette</strong><ul>' + m.proev.map(x => '<li>' + fmt(x) + '</li>').join('') + '</ul></details>';
+  $('filename').textContent = story.file;
+  const dl = $('dl'); dl.download = story.file;
+  try { dl.href = URL.createObjectURL(new Blob([story.code], { type: 'text/x-python;charset=utf-8' })); } catch (e) { dl.removeAttribute('href'); }
+  const codeEl = $('code'); codeEl.innerHTML = ''; lineEls = {};
+  story.lines.forEach((src, k) => {
+    const d = document.createElement('div'); d.className = 'ln';
+    d.innerHTML = '<span class="no">' + (k + 1) + '</span><span class="src">' + (colorize(src) || '&nbsp;') + '</span>';
+    codeEl.appendChild(d); lineEls[k + 1] = d;
+  });
+  // sjekk at forklaringene fortsatt passer til koden
+  story.meta.notes.forEach(nt => { if (!story.lines.some(l => l.trim().startsWith(nt.m))) console.warn('Forklaring uten treff i ' + story.file + ':', nt.m); });
+  if (visValg) visValg();
+  newSession();
+  show();
+}
+
+function restart(){ stopAuto(); newSession(); show(); }
+
+// Husker historie, svar og steg i nettleseren, så eleven kan fortsette der hen slapp.
+const OKT = 'se-koden-okt';
+function lagreOkt(){
+  if (!runner) return;
+  try { localStorage.setItem(OKT, JSON.stringify({ file: story.file, answers: S.answers, seed: S.seed, idx: S.idx })); } catch (e) {}
+}
+function hentOkt(){
+  let o = null;
+  try { o = JSON.parse(localStorage.getItem(OKT) || 'null'); } catch (e) {}
+  const i = o ? STORIES.findIndex(st => st.file === o.file) : -1;
+  if (i < 0) return false;
+  try {
+    setStory(i);
+    S.answers = Array.isArray(o.answers) ? o.answers.map(String) : [];
+    S.seed = +o.seed || S.seed;
+    recompute();
+    const lagretIdx = Number.isFinite(+o.idx) ? +o.idx : -1;
+    S.idx = Math.max(-1, Math.min(lagretIdx, S.steps.length - 1));
+    show();
+    return true;
+  } catch (e) { return false; }
+}
+
+// ====================== visning ======================
+// Bygger terminalteksten fram til steg idx, og husker hvilken kodelinje (own) og hvilket steg (st)
+// som skrev hver tekstlinje.
+function termLinesAt(idx){
+  const lines = [''], own = [null], st = [null];
+  const add = (text, n, i) => {
+    const parts = text.split('\n');
+    parts.forEach((part, k) => {
+      if (k > 0){ lines.push(''); own.push(null); st.push(null); }
+      const z = lines.length - 1;
+      if ((part !== '' || k < parts.length - 1) && own[z] === null){ own[z] = n; st[z] = i; }
+      lines[z] += part;
+    });
+  };
+  for (let i = 0; i <= idx; i++){
+    const s = S.steps[i];
+    if (s.out) add(s.out, s.n, i);
+    if (s.answer !== undefined) add((s.prompt || '') + s.answer + '\n', s.n, i);
+  }
+  if (lines[lines.length - 1] === ''){ lines.pop(); own.pop(); st.pop(); }
+  return { lines, own, st };
+}
+
+function show(){
+  const idx = S.idx, step = S.steps[idx];
+  $('stepno').textContent = 'Steg ' + (idx + 1) + (S.steps.length ? ' av ' + S.steps.length + (S.status === 'input' ? '+' : '') : '');
+  // kode
+  Object.values(lineEls).forEach(e => e.className = 'ln');
+  for (let i = 0; i < idx; i++) S.steps[i].lines.forEach(n => lineEls[n] && lineEls[n].classList.add('seen'));
+  if (step){
+    step.lines.forEach(n => { const e = lineEls[n]; if (e){ e.classList.remove('seen'); e.classList.add('cur'); } });
+    if (step.lines.length) scrollToLine(lineEls[step.lines[0]]);
+  }
+  // terminal
+  const term = $('term'); term.innerHTML = ''; promptEl = null; chipEls = [];
+  const first = document.createElement('div'); first.className = 'tl dim'; first.textContent = '$ python3 ' + story.file; term.appendChild(first);
+  const T = idx >= 0 ? termLinesAt(idx) : { lines: [], own: [], st: [] }, lines = T.lines;
+  const rows = lines.map((l, k) => {
+    const d = document.createElement('div'); d.className = 'tl' + (T.st[k] === idx ? ' new' : ''); d.textContent = l || ' ';
+    if (T.own[k]){ d.dataset.n = T.own[k]; d.title = 'Skrevet av linje ' + T.own[k]; }
+    term.appendChild(d); return d;
+  });
+  $('chips').innerHTML = ''; $('hint').textContent = '';
+  if (step && step.awaiting && idx === S.steps.length - 1) startInput(step, lines, rows);
+  term.scrollTop = term.scrollHeight;
+  // forklaring
+  if (!step){
+    $('tag').textContent = ''; $('tag').className = 'tag';
+    $('note').innerHTML = S.steps.length || !runner ? 'Trykk <b>Neste steg</b> for å kjøre første linje. Tips: <b>mellomrom</b> eller <b>→</b> går fremover, <b>←</b> bakover.' : '';
+  } else {
+    const n = noteFor(step, story);
+    $('tag').textContent = n.tag || ''; $('tag').className = 'tag' + (step.kind === 'error' ? ' feil' : '');
+    $('note').innerHTML = fmt(n.text || '');
+  }
+  renderState(step);
+  $('progbar').style.width = S.steps.length ? Math.round(100 * (idx + 1) / S.steps.length) + '%' : '0';
+  lagreOkt();
+  const done = step && (step.kind === 'done' || step.kind === 'error' || step.kind === 'limit');
+  $('next').disabled = !runner || done;
+  $('prev').disabled = !runner || idx < 0;
+  $('next').classList.toggle('primary', !done);
+  $('restart').classList.toggle('primary', !!done);
+  if (done) stopAuto();
+}
+
+function startInput(step, lines, rows){
+  const term = $('term');
+  const choices = (CHOICES[story.meta.choices] || (() => []))(lines);
+  choices.forEach(ch => {
+    if (ch.line !== undefined && rows[ch.line]){ rows[ch.line].classList.add('choosable'); rows[ch.line].dataset.value = ch.value; chipEls.push(rows[ch.line]); }
+    else {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = ch.label; b.dataset.value = ch.value;
+      $('chips').appendChild(b); chipEls.push(b);
+    }
+  });
+  promptEl = document.createElement('div'); promptEl.className = 'tl prompt';
+  promptEl.innerHTML = '<span></span><input type="text" autocomplete="off" autocapitalize="off" spellcheck="false">';
+  promptEl.firstChild.textContent = step.prompt || '> ';
+  const inp = promptEl.querySelector('input');
+  inp.setAttribute('aria-label', 'Svar til spillet'); inp.placeholder = story.meta.placeholder || '';
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); answer(inp.value); } });
+  term.appendChild(promptEl);
+  try { inp.focus({ preventScroll: true }); } catch (e) {}
+}
+
+function scrollToLine(el){
+  if (!el) return;
+  const w = $('codewrap'), top = el.offsetTop, h = el.offsetHeight, v0 = w.scrollTop, vh = w.clientHeight;
+  if (top < v0 + 30 || top + h > v0 + vh - 30) w.scrollTo({ top: Math.max(0, top - vh / 3), behavior: 'smooth' });
+}
+
+// Én variabel i «Minnet». Endret verdi vises som  gammel → ny , helt ny variabel får merket «ny».
+function varRow(k, old, now, kjent){
+  const endret = old !== now;
+  let v = '<span>' + esc(now) + '</span>';
+  if (endret && old !== undefined) v = '<span><span class="old">' + esc(old) + '</span><span class="arrow">→</span>' + esc(now) + '</span>';
+  const ny = endret && old === undefined && kjent ? '<span class="ny">ny</span>' : '';
+  return '<div class="var' + (endret ? ' changed' : '') + '" title="' + esc(now) + '"><b>' + esc(k) + '</b> = ' + v + ny + '</div>';
+}
+
+function renderState(step){
+  let html = '', sh = '';
+  if (step){
+    const b = step.before, a = step.mem || step.after, hide = new Set(story.meta.hide || []);
+    const gk = Object.keys(a.g).filter(k => !hide.has(k));
+    html += '<div class="vhead">Globale (utenfor funksjoner)</div>';
+    if (!gk.length) html += '<div class="empty">ingen ennå</div>';
+    gk.forEach(k => { html += varRow(k, b.g[k], a.g[k], true); });
+    const idx = a.s.length - 1, f = a.s[idx];
+    if (f){
+      const bf = b.s[idx] && b.s[idx].name === f.name ? b.s[idx] : null;
+      html += '<div class="vhead">Lokale i ' + esc(f.name) + '()</div>';
+      const lk = Object.keys(f.locals);
+      if (!lk.length) html += '<div class="empty">ingen ennå</div>';
+      lk.forEach(k => { html += varRow(k, bf ? bf.locals[k] : undefined, f.locals[k], !!bf); });
+    }
+    for (let i = a.s.length - 1; i >= 0; i--){
+      const top = i === a.s.length - 1;
+      sh += '<div class="frame' + (top ? ' top' : '') + '">' + esc(a.s[i].name) + '()' + (top ? ' <small>← neste linje kjører her</small>' : '') + '</div>';
+    }
+    sh += '<div class="frame' + (a.s.length ? '' : ' top') + '"><small>hele programmet</small></div>';
+  } else {
+    html = '<div class="empty">Ingenting er kjørt ennå.</div>'; sh = '<div class="frame top"><small>hele programmet</small></div>';
+  }
+  $('vars').innerHTML = html; $('stack').innerHTML = sh;
+}
+
+// ====================== handlinger ======================
+function atEnd(){ return S.idx >= S.steps.length - 1; }
+function awaitingNow(){ const s = S.steps[S.idx]; return !!(s && s.awaiting && atEnd()); }
+
+function next(){
+  if (!runner) return;
+  if (awaitingNow()){ nudge(); return; }
+  if (S.idx + 1 < S.steps.length){ S.idx++; show(); }
+}
+function prev(){ if (S.idx >= 0){ S.idx--; show(); } }
+
+function answer(text){
+  if (!awaitingNow()) return;
+  S.answers.push(String(text));
+  recompute();
+  show();
+}
+
+function nudge(keepHint){
+  if (!keepHint) $('hint').textContent = 'Spillet venter på deg. Trykk på et valg i terminalen, eller skriv svaret og trykk Enter.';
+  chipEls.forEach(e => { e.classList.remove('pulse'); void e.offsetWidth; e.classList.add('pulse'); });
+  if (promptEl) { try { promptEl.querySelector('input').focus({ preventScroll: true }); } catch (e) {} }
+}
+
+function stopAuto(){ clearInterval(autoTimer); autoTimer = null; $('auto').textContent = '▶ Auto'; }
+function startAuto(){
+  $('auto').textContent = '⏸ Pause';
+  autoTimer = setInterval(() => { if (!awaitingNow()) next(); }, +$('speed').value);
+}
+
+// Klikk på en kodelinje: kjør fram til neste gang den linjen kjører.
+$('code').addEventListener('click', e => {
+  const el = e.target.closest('.ln'); if (!el || !runner) return;
+  if (String(window.getSelection() || '')) return; // eleven markerer tekst, ikke hopp
+  const n = +el.querySelector('.no').textContent;
+  stopAuto();
+  for (let i = S.idx + 1; i < S.steps.length; i++){
+    if (S.steps[i].lines.includes(n)){ S.idx = i; show(); return; }
+  }
+  if (S.steps.length && S.steps[S.steps.length - 1].awaiting){
+    S.idx = S.steps.length - 1; show();
+    $('hint').textContent = 'Spillet venter på svaret ditt før det kan komme til linje ' + n + '.';
+    nudge(true); return;
+  }
+  for (let i = 0; i <= S.idx; i++){
+    if (S.steps[i].lines.includes(n)){ S.idx = i; show(); return; }
+  }
+  $('hint').textContent = 'Linje ' + n + ' kjører ikke i denne gjennomspillingen.';
+});
+// Pek på en tekstlinje i terminalen: kodelinjen som skrev den lyser opp.
+let peekEl = null;
+$('term').addEventListener('mouseover', e => {
+  const el = e.target.closest('.tl[data-n]');
+  const ln = el ? lineEls[el.dataset.n] : null;
+  if (ln === peekEl) return;
+  if (peekEl) peekEl.classList.remove('peek');
+  peekEl = ln;
+  if (ln){ ln.classList.add('peek'); scrollToLine(ln); }
+});
+$('term').addEventListener('mouseleave', () => { if (peekEl) peekEl.classList.remove('peek'); peekEl = null; });
+$('term').addEventListener('click', e => { const el = e.target.closest('.tl.choosable'); if (el) answer(el.dataset.value); });
+$('chips').addEventListener('click', e => { const el = e.target.closest('.chip'); if (el) answer(el.dataset.value); });
+$('next').addEventListener('click', next);
+$('prev').addEventListener('click', prev);
+$('restart').addEventListener('click', restart);
+$('auto').addEventListener('click', () => { if (autoTimer) stopAuto(); else { next(); startAuto(); } });
+$('speed').addEventListener('change', () => { if (autoTimer){ stopAuto(); startAuto(); } });
+$('copy').addEventListener('click', () => {
+  const b = $('copy');
+  const ikon = b.innerHTML;
+  const fin = ok => { b.style.width = 'auto'; b.style.padding = '0 8px'; b.textContent = ok ? 'Kopiert!' : 'Marker og kopier selv';
+    setTimeout(() => { b.innerHTML = ikon; b.style.width = ''; b.style.padding = ''; }, 1600); };
+  try { navigator.clipboard.writeText(story.code).then(() => fin(true), () => fin(false)); } catch (e) { fin(false); }
+});
+document.addEventListener('keydown', e => {
+  const tag = (e.target.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'select' || tag === 'button' || e.metaKey || e.ctrlKey) return;
+  if (e.key === ' ' || e.key === 'ArrowRight'){ e.preventDefault(); next(); }
+  else if (e.key === 'ArrowLeft'){ e.preventDefault(); prev(); }
+});
+
+// Visningsmodus (projektor): større skrift, skjult topp, fullskjerm hvis nettleseren tillater det.
+function settVisning(på){
+  document.body.classList.toggle('present', på);
+  $('present').setAttribute('aria-pressed', på ? 'true' : 'false');
+  try {
+    if (på && !document.fullscreenElement && document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(() => {});
+    if (!på && document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  } catch (e) {}
+  const cur = document.querySelector('.ln.cur'); if (cur) scrollToLine(cur);
+}
+$('present').addEventListener('click', () => settVisning(!document.body.classList.contains('present')));
+document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && document.body.classList.contains('present')) settVisning(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.body.classList.contains('present')) settVisning(false); });
+
+// faner
+const tabsEl = $('tabs');
+STORIES.forEach((st, i) => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'tab'; b.setAttribute('role', 'tab');
+  b.innerHTML = '<span class="niva n' + st.meta.niva + '">Nivå ' + st.meta.niva + '</span><b>' + esc(st.meta.tab) + '</b><small>' + esc(st.meta.sjanger) + '</small>';
+  b.addEventListener('click', () => setStory(i));
+  tabsEl.appendChild(b);
+});
+
+// ====================== start Python ======================
+// Avkryssing: velg hva som vises. Husker valget i nettleseren (hvis den tillater det).
+(function(){
+  const boxes = [...document.querySelectorAll('#view input')];
+  let lagret = null;
+  try { lagret = JSON.parse(localStorage.getItem('se-koden-vis') || 'null'); } catch (e) {}
+  if (lagret) boxes.forEach(b => { if (b.dataset.p in lagret) b.checked = !!lagret[b.dataset.p]; });
+  function bruk(){
+    const v = {};
+    boxes.forEach(b => { v[b.dataset.p] = b.checked; $('p-' + b.dataset.p).hidden = !b.checked; });
+    // Historier uten egne funksjoner (def) har ingenting å vise i «Funksjonskall».
+    const harFunk = !story || /^\s*def\s/m.test(story.code);
+    $('funk-valg').hidden = !harFunk;
+    if (!harFunk) $('p-funk').hidden = true;
+    $('p-state').hidden = !v.minne && !(v.funk && harFunk);
+    document.querySelector('.app').classList.toggle('nocode', !v.kode);
+    try { localStorage.setItem('se-koden-vis', JSON.stringify(v)); } catch (e) {}
+  }
+  boxes.forEach(b => b.addEventListener('change', bruk));
+  visValg = bruk;
+  bruk();
+})();
+
+async function boot(){
+  const boot = $('boot');
+  try {
+    if (typeof loadPyodide === 'undefined') throw new Error('Fant ikke Pyodide (ingen nett?)');
+    const py = await loadPyodide();
+    py.runPython(TRACER_PY);
+    runner = py.globals.get('run_game_json');
+    boot.className = 'boot ok';
+    if (!hentOkt()){ newSession(); show(); }
+  } catch (err) {
+    boot.className = 'boot err';
+    boot.textContent = 'Kunne ikke laste Python. Siden trenger nett første gang (den henter Python fra cdn.jsdelivr.net). Sjekk nettforbindelsen og last siden på nytt. (' + err.message + ')';
+  }
+}
+setStory(0);
+boot();
+</script>
+</body>
+</html>
