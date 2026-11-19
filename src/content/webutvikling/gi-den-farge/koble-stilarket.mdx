@@ -1,5 +1,6 @@
-I oppgavene til nå har vi koblet `index.html` og `style.css` sammen for deg i bakgrunnen. På din
-egen maskin skjer ikke det av seg selv – HTML-fila må selv si fra om at den har et stilark.
+I oppgavene til nå har vi koblet `index.html` og `style.css` sammen for deg i bakgrunnen. I ditt
+eget prosjekt limte du inn en linje i leksjon 2 som gjorde det samme. Nå skal du lære hva den
+linja betyr – for HTML-fila må selv si fra om at den har et stilark.
 
 ## Lenken til stilarket
 
@@ -17,14 +18,7 @@ Det gjør du med taggen `<link>`, inni `<head>`:
 - `href="style.css"` – filnavnet til stilarket. Det må være *nøyaktig* likt navnet på fila.
 
 `<link>` har ingen sluttag. Den har ikke noe innhold – den bare peker på en annen fil.
-
-<UnderPanseret tittel="rel og href er attributter">
-
-`rel` og `href` står inni starttaggen og gir ekstra informasjon om elementet. Slike tillegg heter
-**attributter**. Du har allerede brukt ett: `lang="no"` i `<html>`-taggen. Du kommer til å møte
-mange flere – blant annet når du skal lage lenker og sette inn bilder.
-
-</UnderPanseret>
+Tilleggene `rel` og `href` inni taggen ser vi nærmere på i modul 3.
 
 ## Koble dem sammen
 
@@ -60,13 +54,12 @@ riktig – med små bokstaver? Ligger `style.css` i samme mappe som `index.html`
 
 <GjorDetSelv>
 
-1. Åpne `webkurs` i VSCodium og start Live Server på `index.html`.
-2. Legg til `<link rel="stylesheet" href="style.css">` inni `<head>`.
-3. Åpne `style.css` (den tomme fila du lagde i modul 1) og gi `body` en bakgrunnsfarge.
-   Lagre, og se at siden endrer seg.
-4. Velg en skrifttype med reserver, og gi overskriftene en egen farge.
-5. Legg til minst én `<h2>`, og bruk `<strong>` eller `<em>` et sted i teksten.
-6. Sjekk at teksten fortsatt er lett å lese mot bakgrunnen.
+1. Sjekk at `<link rel="stylesheet" href="style.css">` står inni `<head>` i `index.html`, og at
+   `style.css` ligger i samme mappe.
+2. Prøv å skrive feil filnavn i `href`, lagre og se hva som skjer. Rett det opp igjen.
+3. Gå gjennom stilarket ditt: Har siden to–tre farger som passer sammen, og én skrifttype med
+   reserver?
+4. Sjekk at teksten fortsatt er lett å lese mot bakgrunnen.
 
 </GjorDetSelv>
 

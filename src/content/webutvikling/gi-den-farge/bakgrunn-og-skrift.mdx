@@ -75,11 +75,8 @@ p {
 <UnderPanseret tittel="Hvorfor fikk overskriftene også ny skrift?">
 
 Du satte `font-family` på `body`, men overskriftene og avsnittene byttet skrift de også. Det er
-fordi noen egenskaper **arves**: elementer inni `<body>` får samme verdi som `<body>` – med mindre
-de har en egen regel.
-
-Skrift og tekstfarge arves. Bakgrunnsfarge arves ikke – men siden bakgrunnen er gjennomsiktig som
-standard, ser du bakgrunnen til `<body>` gjennom den.
+fordi skrift og tekstfarge **arves**: elementer inni `<body>` får samme verdi som `<body>` – med
+mindre de har en egen regel. Mer om arv i modul 9.
 
 </UnderPanseret>
 
@@ -89,3 +86,12 @@ Hold deg til to–tre farger og én eller to skrifttyper. En side med ti farger 
 sjelden bra ut.
 
 </Tips>
+
+<GjorDetSelv>
+
+1. Gi `body` en bakgrunnsfarge i `style.css`.
+2. Velg en skrifttype med reserver – og en skriftfamilie til slutt i lista.
+3. Prøv en litt større skrift på avsnittene, for eksempel `18px`.
+4. Sjekk at teksten fortsatt er lett å lese mot bakgrunnen. Er den ikke det, endre `color` på `body`.
+
+</GjorDetSelv>

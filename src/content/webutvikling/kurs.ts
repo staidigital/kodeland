@@ -51,7 +51,7 @@ export const MODULER: Modul[] = [
     tittel: "Gi den farge!",
     ingress: "Ditt første stilark: farger, bakgrunn og skrift.",
     html: ["<strong>", "<em>", "<h2>–<h3>"],
-    css: ["style.css", "color", "background-color", "font-family", "font-size"],
+    css: ["style.css", "<link>", "color", "background-color", "font-family", "font-size"],
     teori: ["HTML, CSS og JavaScript – tre språk, tre jobber"],
     leksjoner: [
       { slug: "uthev-tekst", tittel: "Viktig, uthevet og underoverskrifter", minutter: 15 },
