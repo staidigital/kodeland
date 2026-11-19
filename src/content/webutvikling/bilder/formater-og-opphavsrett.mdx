@@ -1,0 +1,98 @@
+Bilder er det tyngste på de fleste nettsider. Et eneste bilde rett fra mobilkameraet kan veie mer
+enn hele resten av nettstedet til sammen. Og du kan ikke bruke hvilket som helst bilde du finner.
+
+## Hvert bilde er en egen forespørsel
+
+Husker du klient og tjener fra modul 4? Når nettleseren leser `<img src="bilder/fjell.jpg">`, sender
+den en ny forespørsel og venter på bildet. Hvert bilde må lastes ned – og jo større fila er, jo
+lenger tar det.
+
+Under ser du forespørslene for en enkel side med en logo og ett stort bilde. Prøv de forskjellige
+bildene og nettene:
+
+<Nettverksfane />
+
+<Quiz
+  sporsmal="Du bytter fra bildet rett fra kameraet til WebP-versjonen. Hva skjer?"
+  alternativer={[
+    "Bildet ser mye dårligere ut",
+    "Siden laster mange ganger raskere, og bildet ser omtrent likt ut på skjermen",
+    "Ingenting – nettleseren komprimerer bildet selv",
+  ]}
+  riktig={1}
+  forklaring="Kamerabildet er 4000 piksler bredt, men skjermen viser det bare 700–1600 piksler bredt. Resten er bortkastet. En komprimert versjon i riktig størrelse er en brøkdel av størrelsen, og ser like bra ut. Nettleseren komprimerer ingenting for deg – den laster ned akkurat den fila du ber om."
+/>
+
+## Bildeformater
+
+- **JPG** – til **fotografier**. Liten fil. Mister litt kvalitet når den komprimeres, men det ser
+  du sjelden. Kan ikke være gjennomsiktig.
+- **PNG** – til **logoer, skjermbilder og tegninger**. Skarpe kanter og gjennomsiktig bakgrunn. Blir
+  *stor* hvis du bruker den til foto: fjellbildet over er 37 kB som JPG, men over 1 MB som PNG.
+- **SVG** – til **logoer og ikoner**. Tegnet med kode, ikke piksler. Knivskarp i alle størrelser,
+  og bitteliten.
+- **WebP** – til **alt det over**. Et moderne format som er mindre enn både JPG og PNG, og kan være
+  gjennomsiktig.
+
+<Oppgave id="m5-format" />
+
+<UnderPanseret tittel="Hvor stort skal bildet være?">
+
+Et bilde trenger ikke være bredere enn det vises på skjermen – rundt 1600 piksler holder for et
+bilde som går over hele bredden, og et profilbilde klarer seg med noen hundre. Gjør bildet mindre
+*før* du legger det i prosjektet. Gratisverktøyet [Squoosh](https://squoosh.app/) gjør det rett i
+nettleseren: velg bredde og format, og se hvor mye fila krymper.
+
+Som tommelfingerregel bør et bilde på nettet sjelden være over **200 kB**.
+
+</UnderPanseret>
+
+## Opphavsrett
+
+At et bilde ligger på nettet, betyr ikke at du har lov til å bruke det. Den som har tatt et bilde
+eller laget en tegning, eier det – det kalles **opphavsrett**, og gjelder automatisk, uten at det
+står noe om det ved bildet.
+
+Bilder du *kan* bruke:
+
+- **Bilder du har tatt eller laget selv.**
+- **Bilder med fri lisens**, som mange bilder på [Unsplash](https://unsplash.com/),
+  [Pixabay](https://pixabay.com/) og Wikimedia Commons. Les lisensen – noen krever at du skriver
+  hvem som har tatt bildet.
+- **Bilder du har fått lov** av den som har tatt dem.
+
+Og husk **personvern**: Er det personer på bildet, må du ha lov av dem før du legger det ut.
+
+<Quiz
+  sporsmal="Du finner et perfekt bilde av en fotballspiller i et Google-søk. Kan du bruke det på nettsiden din?"
+  alternativer={[
+    "Ja, alt som ligger på nettet er gratis",
+    "Ja, hvis du skriver «Kilde: Google» under",
+    "Nei, ikke uten at du vet at du har lov – Google bare viser bilder som tilhører andre",
+  ]}
+  riktig={2}
+  forklaring="Google eier ikke bildene den viser deg – de tilhører fotografene. «Kilde: Google» gir deg ingen rettigheter. Finn heller et bilde med fri lisens, og krediter fotografen slik lisensen sier."
+/>
+
+<GjorDetSelv>
+
+1. Åpne siden din i Live Server, og åpne utviklerverktøyet med `F12` (eller `Cmd + Option + I` på Mac).
+2. Gå til fanen **Network**, og last siden på nytt. Finner du bildene dine i lista? Hvor store er
+   de?
+3. Er noen bilder over 200 kB? Gjør dem mindre med Squoosh, og lagre dem over de gamle.
+4. Sjekk at du har lov til å bruke alle bildene på siden din. Krediter fotografen i en
+   `<figcaption>` der lisensen krever det.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="m5-ferdig"
+  punkter={[
+    "Nettstedet mitt har minst to bilder, lagret i mappen bilder",
+    "Alle bildene har en god alt-tekst (eller alt=\"\" hvis de bare er pynt)",
+    "img { max-width: 100%; } står i style.css",
+    "Minst ett bilde står i en <figure> med <figcaption>",
+    "Ingen bilder er over 200 kB",
+    "Jeg har lov til å bruke alle bildene",
+  ]}
+/>

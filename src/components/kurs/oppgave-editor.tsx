@@ -5,6 +5,7 @@ import { html as htmlLang } from "@codemirror/lang-html";
 import { vscodeDark } from "@uiw/codemirror-theme-vscode";
 import CodeMirror from "@uiw/react-codemirror";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { KURSBILDER, type Kursbilde } from "@/content/webutvikling/kursbilder";
 import { løsSti, OPPGAVER } from "@/content/webutvikling/oppgaver";
 import { hentOppgave, lagreOppgave } from "./fremdrift";
 
@@ -12,8 +13,47 @@ const INDEX = "index.html";
 const CSS = "style.css";
 const FEIL = "404:";
 
+/** Et bilde som ikke finnes: nettleseren viser det som ødelagt, med alt-teksten. */
+const BRUTT_BILDE = "data:image/png;base64,AAAA";
+
+/**
+ * Peker bildestier til bildene som faktisk ligger i prosjektet. `fra` er fila stien står i
+ * (siden for <img>, style.css for url() i CSS). Feil sti gir et ødelagt bilde, som i en ekte nettleser.
+ */
+function bildeUrl(src: string, fra: string, bilder: readonly Kursbilde[]) {
+  if (/^(https?:|data:)/i.test(src.trim())) return src;
+  const mål = løsSti(src, fra);
+  return mål && (bilder as readonly string[]).includes(mål) ? KURSBILDER[mål as Kursbilde] : BRUTT_BILDE;
+}
+
+function erstattBilder(html: string, sti: string, bilder: readonly Kursbilde[]) {
+  return html.replace(/<img\b[^>]*>/gi, (tag) =>
+    tag.replace(
+      /\bsrc\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/i,
+      (_, a, b, c) => {
+        const src = a ?? b ?? c;
+        return `src="${bildeUrl(src, sti, bilder)}" data-sti="${src.replace(/"/g, "&quot;")}"`;
+      },
+    ),
+  );
+}
+
+const erstattCssBilder = (css: string, bilder: readonly Kursbilde[]) =>
+  css.replace(
+    /url\(\s*(["']?)([^"')]*)\1\s*\)/gi,
+    (_, __, src: string) => `url("${bildeUrl(src, "style.css", bilder)}")`,
+  );
+
 /** Setter sammen siden som vises i forhåndsvisningen. `sti` er filnavnet til siden, for relative stier. */
-function byggSide(html: string, css: string | undefined, lenket: boolean, sti: string) {
+function byggSide(
+  råHtml: string,
+  råCss: string | undefined,
+  lenket: boolean,
+  sti: string,
+  bilder: readonly Kursbilde[] = [],
+) {
+  const html = erstattBilder(råHtml, sti, bilder);
+  const css = råCss === undefined ? undefined : erstattCssBilder(råCss, bilder);
   if (css === undefined) return html;
   if (lenket) {
     // Som i en ekte nettleser: stilarket virker bare via <link rel="stylesheet" href="…">
@@ -62,7 +102,7 @@ export default function OppgaveEditor({ id }: { id: string }) {
   const lagSide = (side: string, f: Record<string, string>) =>
     side.startsWith(FEIL)
       ? feilside(side.slice(FEIL.length))
-      : byggSide(f[side] ?? "", f[CSS], def.lenketCss ?? false, side);
+      : byggSide(f[side] ?? "", f[CSS], def.lenketCss ?? false, side, def.bilder);
   const [srcDoc, setSrcDoc] = useState(() => lagSide(INDEX, filer));
   const [resultat, setResultat] = useState<boolean[]>([]);
   const [visHint, setVisHint] = useState(false);
@@ -186,6 +226,17 @@ export default function OppgaveEditor({ id }: { id: string }) {
               ↺
             </button>
           </div>
+          {def.bilder && def.bilder.length > 0 && (
+            <div className="oppgave__bilder" aria-label="Bilder i prosjektet">
+              {def.bilder.map((b) => (
+                <span key={b} className="oppgave__bilde">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- liten forhåndsvisning av kursbildet */}
+                  <img src={KURSBILDER[b]} alt="" />
+                  {b}
+                </span>
+              ))}
+            </div>
+          )}
           <CodeMirror
             key={fane}
             value={filer[fane] ?? ""}

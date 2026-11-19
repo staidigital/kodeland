@@ -1,0 +1,66 @@
+Noen bilder er innhold – et bilde fra turen, et profilbilde. Andre er bare pynt bak teksten. De
+siste legger du inn med CSS i stedet for HTML.
+
+## background-image
+
+Med `background-image` får et element et bilde som bakgrunn:
+
+```css
+body {
+  background-image: url("bilder/monster.png");
+}
+```
+
+Er bildet mindre enn elementet, gjentas det bortover og nedover – som fliser på et bad. Det er
+perfekt for mønstre.
+
+Til store bilder vil du heller at bildet skal dekke hele elementet, uten å gjentas:
+
+```css
+.topp {
+  background-image: url("bilder/fjell.jpg");
+  background-size: cover;
+}
+```
+
+`background-size: cover` skalerer bildet så det dekker hele elementet. Det som stikker utenfor,
+blir klippet bort.
+
+<Oppgave id="m5-bakgrunn" />
+
+<Tips>
+
+Gi alltid elementet en `background-color` i tillegg til bildet – en farge som ligner bildet. Den
+vises mens bildet lastes, og hvis det ikke lastes i det hele tatt. Uten den kan hvit tekst bli
+stående på hvit bakgrunn.
+
+</Tips>
+
+## Stien går fra CSS-fila
+
+Det er én felle med bakgrunnsbilder: stien i `url()` går fra **CSS-fila**, ikke fra HTML-siden.
+
+<Quiz
+  sporsmal="Stilarket ditt ligger i css/style.css, og bildet i bilder/fjell.jpg. Hva skal stå i url()?"
+  kode={"webkurs/\n├── index.html\n├── css/\n│   └── style.css\n└── bilder/\n    └── fjell.jpg"}
+  alternativer={['url("bilder/fjell.jpg")', 'url("../bilder/fjell.jpg")', 'url("css/bilder/fjell.jpg")']}
+  riktig={1}
+  forklaring="Stien starter der CSS-fila ligger, altså i css/. Derfor må du først opp én mappe med ../, og så inn i bilder/. I prosjektet ditt ligger style.css rett i webkurs, så der blir det bare bilder/fjell.jpg."
+/>
+
+<UnderPanseret tittel="Innhold eller pynt?">
+
+Et bakgrunnsbilde har ingen alt-tekst, og skjermlesere vet ikke at det finnes. Derfor: Er bildet
+*innhold* som brukeren trenger for å forstå siden, skal det være `<img>` med alt-tekst. Er det bare
+*pynt*, passer `background-image`.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Prøv et bakgrunnsbilde på `body` – et mønster eller et bilde med `background-size: cover`.
+2. Gi `body` en `background-color` som ligner bildet, i tilfelle bildet ikke lastes.
+3. Sjekk at teksten fortsatt er lett å lese. Er den ikke det, er bildet for urolig – fjern det
+   heller enn å ofre lesbarheten.
+
+</GjorDetSelv>

@@ -15,6 +15,11 @@ import m4FlereSider from "./lenker/flere-sider.mdx";
 import m4KlientOgTjener from "./lenker/klient-og-tjener.mdx";
 import m4Lenker from "./lenker/lenker.mdx";
 import m4Meny from "./lenker/meny.mdx";
+import m5Bakgrunnsbilder from "./bilder/bakgrunnsbilder.mdx";
+import m5ForsteBilde from "./bilder/forste-bilde.mdx";
+import m5Formater from "./bilder/formater-og-opphavsrett.mdx";
+import m5Sjekkpunkt1 from "./bilder/sjekkpunkt-1.mdx";
+import m5StorrelseOgForm from "./bilder/storrelse-og-form.mdx";
 
 /**
  * Kobler leksjons-id (modul/leksjon) til MDX-fila.
@@ -38,4 +43,9 @@ export const LEKSJONER: Record<string, ComponentType> = {
   "lenker/flere-sider": m4FlereSider,
   "lenker/meny": m4Meny,
   "lenker/klient-og-tjener": m4KlientOgTjener,
+  "bilder/forste-bilde": m5ForsteBilde,
+  "bilder/storrelse-og-form": m5StorrelseOgForm,
+  "bilder/bakgrunnsbilder": m5Bakgrunnsbilder,
+  "bilder/formater-og-opphavsrett": m5Formater,
+  "bilder/sjekkpunkt-1": m5Sjekkpunkt1,
 };

@@ -1,0 +1,70 @@
+Tekst, farger, lister og lenker – nå mangler bare én ting før nettstedet ditt føles levende:
+**bilder**.
+
+## Taggen img
+
+Et bilde settes inn med `<img>`:
+
+```html
+<img src="bilder/fjell.jpg" alt="Solnedgang over fjell og fjord">
+```
+
+- `src` (*source*, kilde) – stien til bildefila. Akkurat som `href` i en lenke er den relativ:
+  `bilder/fjell.jpg` betyr «inn i mappen `bilder`, og finn `fjell.jpg`».
+- `alt` – en tekst som beskriver bildet, for den som ikke kan se det.
+
+`<img>` har ingen sluttag, akkurat som `<link>`. Den har ikke noe innhold – den *er* bildet.
+
+I oppgaven under ligger det tre bilder i prosjektet. Du ser dem i lista over koden.
+
+<Oppgave id="m5-bilde" />
+
+<UnderPanseret tittel="Bildet er ikke inni HTML-fila">
+
+HTML-fila inneholder bare *stien* til bildet – ikke selve bildet. Når nettleseren leser
+`<img src="bilder/fjell.jpg">`, sender den en ny forespørsel til tjeneren for å hente bildefila.
+Akkurat som med stilarket. Du får se det med egne øyne i leksjon 4.
+
+</UnderPanseret>
+
+## Alt-tekst
+
+Alt-teksten er for alle som ikke ser bildet: blinde og svaksynte som bruker skjermleser, folk med
+dårlig nett der bildet ikke lastes, og søkemotorer som Google. Den vises også når bildet er
+ødelagt.
+
+<Quiz
+  sporsmal="Bildet viser en hund som hopper etter en frisbee i parken. Hvilken alt-tekst er best?"
+  alternativer={[
+    "bilde",
+    "hund.jpg",
+    "Hund som hopper etter en frisbee i parken",
+    "Et bilde av en hund som hopper etter en frisbee i parken, tatt med mobilen min i sommer",
+  ]}
+  riktig={2}
+  forklaring="Beskriv det som er viktig på bildet, kort og presist. «Bilde» og filnavnet sier ingenting. Du trenger heller ikke skrive «et bilde av» – skjermleseren sier allerede at det er et bilde."
+/>
+
+<Tips>
+
+Er bildet bare pynt, og sier ingenting som ikke står i teksten fra før? Da skal det ha en *tom*
+alt-tekst: `alt=""`. Da hopper skjermleseren over det. Men `alt` skal alltid være med.
+
+</Tips>
+
+## Finn feilene
+
+Her vises ikke bildene. Logoen på forsiden er borte, og begge bildene på galleri-siden er
+ødelagte. Legg merke til at du ser alt-teksten der bildet skulle vært.
+
+<Oppgave id="m5-bilde-feil" />
+
+<GjorDetSelv>
+
+1. Finn et bilde du har tatt selv, eller et bilde du har lov til å bruke (mer om det i leksjon 4).
+2. Lagre det i mappen `bilder` i `webkurs`. Gi det et filnavn med små bokstaver og uten
+   mellomrom, for eksempel `tur.jpg`.
+3. Sett det inn på en av sidene dine med `<img>`, med en god alt-tekst.
+4. Vises det ikke? Sjekk stien: Hvor står du, og hvor ligger bildet?
+
+</GjorDetSelv>

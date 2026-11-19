@@ -1,0 +1,76 @@
+Bilder fra kamera og mobil er ofte enorme – mange tusen piksler brede. Uten CSS stikker de rett ut
+av siden. Nå skal du lære å temme dem.
+
+## Ikke bredere enn plassen
+
+Den viktigste regelen for bilder på nettet er denne:
+
+```css
+img {
+  max-width: 100%;
+}
+```
+
+`max-width: 100%` betyr «aldri bredere enn plassen du har». Er bildet mindre enn plassen, får det
+beholde sin egen størrelse. Er det større, krymper det.
+
+Vil du bestemme bredden selv, bruker du `width`, for eksempel `width: 150px`. Høyden regner
+nettleseren ut selv, så bildet ikke blir strukket.
+
+## Runde hjørner
+
+Med `border-radius` får bildet runde hjørner. Setter du den til `50%` på et kvadratisk bilde,
+blir det en sirkel – perfekt til profilbilder.
+
+```css
+.profil {
+  width: 150px;
+  border-radius: 50%;
+}
+```
+
+<Oppgave id="m5-storrelse" />
+
+<Quiz
+  sporsmal="Du setter img { width: 300px; height: 300px; } på et bilde som er 1600 × 1000 piksler. Hva skjer?"
+  alternativer={[
+    "Bildet blir kvadratisk og ser skvist ut",
+    "Nettleseren beskjærer bildet pent",
+    "Ingenting – bildet beholder formen sin",
+  ]}
+  riktig={0}
+  forklaring="Når du setter både bredde og høyde, gjør nettleseren akkurat det du ber om – også om bildet blir strukket. Sett bare én av dem, så regner nettleseren ut den andre."
+/>
+
+## Bilde med bildetekst
+
+Ofte vil du ha en tekst under bildet – en forklaring, eller hvem som har tatt det. Da bruker du
+`<figure>` rundt bildet, og `<figcaption>` til teksten:
+
+```html
+<figure>
+  <img src="bilder/fjell.jpg" alt="Solnedgang over fjell og fjord">
+  <figcaption>Utsikten fra toppen. Foto: Kim Nordmann</figcaption>
+</figure>
+```
+
+Slik ser det ut:
+
+<figure>
+  <img src="/kurs/bilder/fjell.jpg" alt="Solnedgang over fjell og fjord" />
+  <figcaption>Utsikten fra toppen. Illustrasjon laget for kurset.</figcaption>
+</figure>
+
+`<figure>` forteller at bildet og teksten hører sammen. En skjermleser leser bildeteksten sammen
+med bildet.
+
+<Oppgave id="m5-figur" />
+
+<GjorDetSelv>
+
+1. Legg `img { max-width: 100%; }` i `style.css`. Den regelen skal du ha på alle nettsteder du lager.
+2. Lag et profilbilde på `om-meg.html` med en egen klasse, en fast bredde og `border-radius: 50%`.
+3. Sett minst ett bilde inni en `<figure>` med en `<figcaption>`.
+4. Gjør nettleservinduet smalt og bredt. Holder bildene seg innenfor?
+
+</GjorDetSelv>

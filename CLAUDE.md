@@ -32,6 +32,7 @@ Ny leksjon:
 3. Kodeoppgaver med sjekker defineres i `oppgaver.ts`, med id-er som `m3-lister`. Fargehjelpere
    (kontrast, hsl/hex) ligger i `src/lib/farger.ts`. Oppgaver med flere HTML-sider bruker `sider`
    (filnavn → kode) og `løsSti()` for stier; de ekstra sidene lagres i `exercise_results.pages`.
+   Bilder i oppgaver: `bilder: [...]` med stier fra `kursbilder.ts` (filene ligger i `public/kurs/bilder/`).
    Funksjoner kan ikke sendes som props fra MDX, derfor ligger sjekkene der.
 4. Test oppgaven i nettleseren: skriv riktig og feil kode, og se at sjekkene reagerer riktig.
 

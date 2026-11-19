@@ -98,7 +98,13 @@ export const MODULER: Modul[] = [
     html: ["<img>", "alt", "<figure>"],
     css: ["width / max-width", "border-radius", "background-image"],
     teori: ["hvert bilde er en egen forespørsel", "bildeformater", "opphavsrett"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "forste-bilde", tittel: "Ditt første bilde", minutter: 25 },
+      { slug: "storrelse-og-form", tittel: "Størrelse og form", minutter: 25 },
+      { slug: "bakgrunnsbilder", tittel: "Bakgrunnsbilder", minutter: 20 },
+      { slug: "formater-og-opphavsrett", tittel: "Formater, filstørrelse og opphavsrett", minutter: 30 },
+      { slug: "sjekkpunkt-1", tittel: "Sjekkpunkt 1: Ditt nettsted", minutter: 90 },
+    ],
     sjekkpunkt: "Et nettsted med tre sider, meny, bilder og egen fargepalett.",
   },
   {

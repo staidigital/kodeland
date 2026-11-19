@@ -7,6 +7,7 @@
  */
 
 import { kontrast, lesRgb, rgbTilHsl, toneAvstand } from "@/lib/farger";
+import type { Kursbilde } from "./kursbilder";
 
 export type Sjekk = {
   tekst: string;
@@ -34,6 +35,8 @@ export type OppgaveDef = {
    * eller "sider/kontakt.html". Lenker mellom sidene virker i forhåndsvisningen.
    */
   sider?: Record<string, string>;
+  /** Bildene som ligger i prosjektet (se kursbilder.ts). Brukes av <img src> og url() i CSS. */
+  bilder?: Kursbilde[];
 };
 
 const PROSJEKT = "https://prosjekt.invalid/";
@@ -61,6 +64,21 @@ const lenkerTil = (side: Document | undefined, fra: string) =>
   [...(side?.querySelectorAll("a[href]") ?? [])]
     .map((a) => løsSti(a.getAttribute("href") ?? "", fra))
     .filter((x): x is string => x !== null);
+
+/** Vises bildet i forhåndsvisningen (ikke ødelagt)? */
+const vises = (img: Element) => (img as HTMLImageElement).complete && (img as HTMLImageElement).naturalWidth > 0;
+
+/** Peker alle <img> på siden på bilder i `bilder`, og er hvert av dem brukt minst én gang? */
+const bilderFinnes = (side: Document | undefined, fra: string, bilder: string[]) => {
+  const brukt = [...(side?.querySelectorAll("img") ?? [])].map((i) => løsSti(i.getAttribute("src") ?? "", fra));
+  return brukt.length > 0 && brukt.every((b) => b !== null && bilder.includes(b)) && bilder.every((b) => brukt.includes(b));
+};
+
+/** Alt-tekst som beskriver bildet – ikke tom, ikke bare «bilde» eller filnavnet. */
+const godAlt = (img: Element) => {
+  const alt = (img.getAttribute("alt") ?? "").trim();
+  return alt.length >= 5 && !/^(bilde|foto|image|picture)$/i.test(alt) && !/\.(jpe?g|png|webp|svg|gif)$/i.test(alt);
+};
 
 /** Har siden en <link rel="stylesheet"> som peker på style.css? */
 const harStilark = (side: Document | undefined, fra: string) =>
@@ -1199,5 +1217,259 @@ h1 {
       },
     ],
     hint: `Fra index.html: href="sider/kontakt.html". Fra kontakt.html må du først opp én mappe: href="../index.html" og href="../style.css".`,
+  },
+
+  // ── Modul 5: Bilder ─────────────────────────────────────────────────
+
+  "m5-bilde": {
+    html: `<h1>Turen til fjells</h1>
+<p>I sommerferien gikk vi på tur i fjellet.</p>
+`,
+    bilder: ["bilder/fjell.jpg", "bilder/logo.png", "bilder/profil.jpg"],
+    sjekker: [
+      {
+        tekst: "Siden viser bildet bilder/fjell.jpg",
+        test: (d) =>
+          [...d.querySelectorAll("img")].some(
+            (i) => løsSti(i.dataset.sti ?? "", "index.html") === "bilder/fjell.jpg" && vises(i),
+          ),
+      },
+      {
+        tekst: "Bildet har en alt-tekst som forteller hva det viser",
+        test: (d) => [...d.querySelectorAll("img")].some(godAlt),
+      },
+      {
+        tekst: "Ingen ødelagte bilder på siden",
+        test: (d) => [...d.querySelectorAll("img")].every(vises),
+      },
+    ],
+    hint: `<img src="bilder/fjell.jpg" alt="Solnedgang over fjell og fjord">`,
+  },
+
+  "m5-bilde-feil": {
+    html: `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Forside</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <img src="Bilder/logo.png" alt="Logoen til Fjellklubben">
+    <h1>Fjellklubben</h1>
+    <p><a href="sider/galleri.html">Se bilder fra turene våre</a></p>
+  </body>
+</html>
+`,
+    sider: {
+      "sider/galleri.html": `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Galleri</title>
+    <link rel="stylesheet" href="../style.css">
+  </head>
+  <body>
+    <p><a href="../index.html">Tilbake til forsiden</a></p>
+    <h1>Galleri</h1>
+    <img src="bilder/fjell.jpg" alt="Solnedgang over fjell og fjord">
+    <img src="../bilder/profil.jpeg" alt="Tegning av turlederen vår, Kim">
+  </body>
+</html>
+`,
+    },
+    css: `body {
+  background-color: #f1faee;
+  color: #1d3557;
+  font-family: Verdana, sans-serif;
+}
+
+img {
+  max-width: 100%;
+}
+`,
+    lenketCss: true,
+    bilder: ["bilder/fjell.jpg", "bilder/logo.png", "bilder/profil.jpg"],
+    sjekker: [
+      {
+        tekst: "Logoen vises på forsiden",
+        test: (_, s) => bilderFinnes(s["index.html"], "index.html", ["bilder/logo.png"]),
+      },
+      {
+        tekst: "Begge bildene vises på galleri-siden",
+        test: (_, s) =>
+          bilderFinnes(s["sider/galleri.html"], "sider/galleri.html", ["bilder/fjell.jpg", "bilder/profil.jpg"]),
+      },
+      {
+        tekst: "Alle bildene har fortsatt alt-tekst",
+        test: (_, s) => Object.values(s).every((side) => [...side.querySelectorAll("img")].every(godAlt)),
+      },
+    ],
+    hint: "Klikk deg rundt og se hvilke bilder som er ødelagte. Sjekk store bokstaver, filendelsen – og om du må opp én mappe med ../ fra galleri-siden.",
+  },
+
+  "m5-storrelse": {
+    html: `<h1>Om meg</h1>
+<img class="profil" src="bilder/profil.jpg" alt="Tegning av Kim som smiler">
+<p>Jeg heter Kim og liker å gå i fjellet.</p>
+<img src="bilder/fjell.jpg" alt="Solnedgang over fjell og fjord">
+`,
+    css: `body {
+  font-family: Verdana, sans-serif;
+}
+`,
+    bilder: ["bilder/fjell.jpg", "bilder/profil.jpg"],
+    sjekker: [
+      {
+        tekst: "Fjellbildet er ikke bredere enn siden",
+        test: (d) => {
+          const img = d.querySelector("img:not(.profil)");
+          return img !== null && vises(img) && img.getBoundingClientRect().width <= d.documentElement.clientWidth;
+        },
+      },
+      {
+        tekst: "Fjellbildet har riktige proporsjoner – det er ikke strukket",
+        test: (d) => {
+          const r = d.querySelector("img:not(.profil)")?.getBoundingClientRect();
+          return r !== undefined && r.height > 0 && Math.abs(r.width / r.height - 1.6) < 0.05;
+        },
+      },
+      {
+        tekst: "Profilbildet er mellom 100 og 200 piksler bredt",
+        test: (d) => {
+          const b = d.querySelector(".profil")?.getBoundingClientRect().width ?? 0;
+          return b >= 100 && b <= 200;
+        },
+      },
+      {
+        tekst: "Profilbildet er rundt",
+        test: (d) => {
+          const img = d.querySelector(".profil");
+          if (!img) return false;
+          const r = stil(img).borderTopLeftRadius;
+          const b = img.getBoundingClientRect().width;
+          return r.endsWith("%") ? parseFloat(r) >= 50 : parseFloat(r) >= b / 2;
+        },
+      },
+    ],
+    hint: "img { max-width: 100%; } for alle bilder, og .profil { width: 150px; border-radius: 50%; } for profilbildet.",
+  },
+
+  "m5-figur": {
+    html: `<h1>Turen</h1>
+<p>Sånn så det ut da vi kom fram til toppen.</p>
+<img src="bilder/fjell.jpg" alt="Solnedgang over fjell og fjord">
+<p>Foto: Kim Nordmann</p>
+`,
+    css: `img {
+  max-width: 100%;
+}
+`,
+    bilder: ["bilder/fjell.jpg"],
+    sjekker: [
+      {
+        tekst: "Bildet ligger inni en <figure>",
+        test: (d) => d.querySelector("figure img") !== null,
+      },
+      {
+        tekst: "Fotografen er kreditert i en <figcaption> inni samme <figure>",
+        test: (d) => /kim/i.test(tekst(d.querySelector("figure figcaption"))),
+      },
+      {
+        tekst: "Kreditteringen står ikke lenger i et eget avsnitt",
+        test: (d) => [...d.querySelectorAll("p")].every((p) => !/foto/i.test(tekst(p))),
+      },
+    ],
+    hint: "<figure> rundt både <img> og <figcaption>Foto: Kim Nordmann</figcaption>. Slett det gamle avsnittet.",
+  },
+
+  "m5-bakgrunn": {
+    html: `<h1 class="topp">Fjellklubben</h1>
+<p>Vi går på tur hver helg – bli med!</p>
+`,
+    css: `/* padding gir luft rundt teksten – det lærer du om i modul 6 */
+.topp {
+  padding: 60px 20px;
+  color: white;
+}
+`,
+    bilder: ["bilder/fjell.jpg", "bilder/monster.png"],
+    sjekker: [
+      {
+        tekst: "Hele siden har mønsteret bilder/monster.png som bakgrunn",
+        test: (d) => stil(d.body).backgroundImage.includes("monster.png"),
+      },
+      {
+        tekst: ".topp har fjellbildet som bakgrunn",
+        test: (d) => {
+          const el = d.querySelector(".topp");
+          return el !== null && stil(el).backgroundImage.includes("fjell.jpg");
+        },
+      },
+      {
+        tekst: "Fjellbildet dekker hele overskriften (background-size: cover)",
+        test: (d) => {
+          const el = d.querySelector(".topp");
+          return el !== null && stil(el).backgroundSize === "cover";
+        },
+      },
+      {
+        tekst: ".topp har en mørk bakgrunnsfarge i reserve, så teksten kan leses før bildet er lastet",
+        test: (d) => {
+          const el = d.querySelector(".topp");
+          return el !== null && harBakgrunn(el) && kontrast(lesRgb(stil(el).color), lesRgb(stil(el).backgroundColor)) >= 4.5;
+        },
+      },
+    ],
+    hint: `body { background-image: url("bilder/monster.png"); } og i .topp: background-image: url("bilder/fjell.jpg"); background-size: cover; background-color: #1d3557;`,
+  },
+
+  "m5-format": {
+    html: `<img class="logo" src="bilder/logo.jpg" alt="Logoen til Fjellklubben">
+<h1>Fjellklubben</h1>
+<img src="bilder/fjell-original.jpg" alt="Solnedgang over fjell og fjord">
+`,
+    css: `body {
+  background-color: #1d3557;
+  color: #f1faee;
+  font-family: Verdana, sans-serif;
+}
+
+.logo {
+  width: 100px;
+}
+
+img {
+  max-width: 100%;
+}
+`,
+    bilder: [
+      "bilder/logo.jpg",
+      "bilder/logo.png",
+      "bilder/logo.svg",
+      "bilder/fjell-original.jpg",
+      "bilder/fjell.png",
+      "bilder/fjell.jpg",
+      "bilder/fjell.webp",
+    ],
+    sjekker: [
+      {
+        tekst: "Logoen har gjennomsiktig bakgrunn (PNG eller SVG)",
+        test: (d) => {
+          const img = d.querySelector(".logo");
+          const fil = img && løsSti((img as HTMLElement).dataset.sti ?? "", "index.html");
+          return img !== null && vises(img) && (fil === "bilder/logo.png" || fil === "bilder/logo.svg");
+        },
+      },
+      {
+        tekst: "Fjellbildet er et komprimert bilde for nettet (JPG eller WebP i 1600 piksler)",
+        test: (d) => {
+          const img = d.querySelector("img:not(.logo)");
+          const fil = img && løsSti((img as HTMLElement).dataset.sti ?? "", "index.html");
+          return img !== null && vises(img) && (fil === "bilder/fjell.jpg" || fil === "bilder/fjell.webp");
+        },
+      },
+    ],
+    hint: "Se på listen over bilder i prosjektet. Bytt logo.jpg med logo.svg (eller logo.png), og fjell-original.jpg med fjell.webp (eller fjell.jpg).",
   },
 };
