@@ -2,7 +2,7 @@
 
 /**
  * Elevens fremdrift, lagret i nettleseren (localStorage).
- * Senere: synkes til Supabase når eleven er innlogget.
+ * Når eleven er innlogget, synker fremdrift-sync.ts den til Supabase.
  */
 
 import { useSyncExternalStore } from "react";
@@ -18,6 +18,8 @@ export type Fremdrift = {
   leksjoner: Record<string, LeksjonStatus>;
   oppgaver: Record<string, OppgaveStatus>;
   sjekklister: Record<string, boolean[]>;
+  /** Id til innlogget bruker fremdriften tilhører. Tom for anonyme. */
+  eier?: string;
 };
 
 const KEY = "kodeland:fremdrift:v1";
@@ -99,4 +101,31 @@ export function lagreSjekkliste(id: string, verdier: boolean[]) {
 /** Leser lagret oppgave direkte (kun i nettleseren). */
 export function hentOppgave(id: string): OppgaveStatus | undefined {
   return les().oppgaver[id];
+}
+
+/** For synkroniseringen: les hele fremdriften. */
+export function lesFremdrift(): Fremdrift {
+  return les();
+}
+
+/** For synkroniseringen: erstatt hele fremdriften. */
+export function erstattFremdrift(f: Fremdrift) {
+  skriv(f);
+}
+
+/** Varsles etter hver endring. Returnerer en funksjon som stopper lyttingen. */
+export function lyttPaEndringer(l: () => void) {
+  lyttere.add(l);
+  return () => {
+    lyttere.delete(l);
+  };
+}
+
+/** Sletter fremdriften i denne nettleseren (ved utlogging). */
+export function glemFremdrift() {
+  try {
+    localStorage.removeItem(KEY);
+  } catch {}
+  cache = TOM;
+  lyttere.forEach((l) => l());
 }

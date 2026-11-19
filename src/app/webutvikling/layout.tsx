@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
+import { BrukerMeny } from "@/components/kurs/bruker-meny";
 import "./kurs.css";
+import "../admin/admin.css";
 
 export const metadata: Metadata = {
   title: { default: "Webutvikling – Kodeland", template: "%s – Webutvikling – Kodeland" },
@@ -15,6 +18,11 @@ export default function KursLayout({ children }: LayoutProps<"/webutvikling">) {
           <span className="kurs-topp__klamme">&lt;/&gt;</span> Webutvikling
         </Link>
         <span className="kurs-topp__undertittel">HTML og CSS</span>
+        <span className="kurs-topp__hoyre">
+          <Suspense fallback={null}>
+            <BrukerMeny />
+          </Suspense>
+        </span>
       </header>
       {children}
     </div>

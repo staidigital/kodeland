@@ -99,8 +99,9 @@ export const OPPGAVER: Record<string, OppgaveDef> = {
 `,
     sjekker: [
       {
-        tekst: "Overskriften inneholder bare «Min side»",
-        test: (d) => tekst(d.querySelector("h1")) === "Min side",
+        tekst: "Det er bare én overskrift, og den inneholder «Min side»",
+        test: (d) =>
+          d.querySelectorAll("h1").length === 1 && tekst(d.querySelector("h1")) === "Min side",
       },
       {
         tekst: "Avsnittet ligger ikke lenger inni overskriften",
