@@ -508,6 +508,9 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 .leksjon-tekst > * + .boksmodell,
 .leksjon-tekst > * + .dom-tre,
 .leksjon-tekst > * + .skjermleser,
+.leksjon-tekst > * + .typografilab,
+.leksjon-tekst > * + .typeskala,
+.leksjon-tekst > * + blockquote,
 .leksjon-tekst > * + figure,
 .leksjon-tekst > * + .sjekkliste { margin-top: 1.6em; }
 .leksjon-tekst > .oppgave + *,
@@ -523,6 +526,8 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 .leksjon-tekst > .boksmodell + *,
 .leksjon-tekst > .dom-tre + *,
 .leksjon-tekst > .skjermleser + *,
+.leksjon-tekst > .typografilab + *,
+.leksjon-tekst > .typeskala + *,
 .leksjon-tekst > figure + * { margin-top: 1.6em; }
 
 /* Bokser */
@@ -697,7 +702,7 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
 .fil-ikon--bilde { background: var(--gronn); }
 
 /* Quiz, filnavn, sjekkliste: felles kort */
-.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner, .nettverksfane, .nettstedsjekker, .boksmodell, .dom-tre, .skjermleser {
+.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner, .nettverksfane, .nettstedsjekker, .boksmodell, .dom-tre, .skjermleser, .typografilab, .typeskala {
   padding: 18px 20px;
   border: 1px solid var(--linje);
   border-radius: 14px;
@@ -1327,6 +1332,38 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
 .sl-kode { margin-top: 10px; font-size: 14px; }
 .sl-kode summary { cursor: pointer; color: var(--dempet); }
 .sl-kode pre { margin-top: 6px; padding: 10px 12px; border-radius: 8px; background: var(--kode-bg); color: var(--kode-tekst); font-size: 12.5px; overflow-x: auto; }
+
+/* Typografilab og typografisk skala */
+.tl-kontroller, .ts-kontroller { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px 20px; margin-top: 8px; }
+.tl-skrifter { display: flex; flex-wrap: wrap; gap: 6px; align-self: end; }
+.tl-ark, .ts-ark {
+  position: relative;
+  overflow: hidden;
+  margin-top: 14px;
+  padding: 18px 20px;
+  border-radius: 10px;
+  background: #fdfcf8;
+  color: #222;
+}
+.tl-ark p { margin: 0; }
+.tl-maal { position: absolute; visibility: hidden; white-space: nowrap; }
+.tl-dom { list-style: none !important; margin: 12px 0 0 !important; padding: 0 !important; display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+.tl-dom li { margin: 0 !important; padding-left: 22px; position: relative; }
+.tl-dom li::before { position: absolute; left: 0; font-weight: 800; }
+.tl-dom li.ok::before { content: "✓"; color: var(--gronn); }
+.tl-dom li.feil::before { content: "!"; color: var(--rod); left: 4px; }
+.ts-forhold { display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+.ts-forhold select { padding: 6px 10px; border: 1px solid var(--linje-sterk); border-radius: 8px; background: var(--bg); color: inherit; font: inherit; }
+.ts-rad { display: grid; grid-template-columns: 110px minmax(0, 1fr); align-items: baseline; gap: 12px; padding: 6px 0; border-bottom: 1px solid #ece8de; }
+.ts-rad:last-child { border-bottom: 0; }
+.ts-merke { display: flex; flex-direction: column; color: #777; font-size: 12px; font-family: var(--font-geist-mono), monospace; }
+.ts-merke code { color: #c0392b; font-weight: 700; font-size: 13px; }
+.ts-tekst { font-family: Georgia, serif; line-height: 1.2; overflow-wrap: anywhere; }
+.ts-forklaring { margin: 10px 0 0; font-size: 15px; color: var(--dempet); }
+@media (max-width: 520px) { .ts-rad { grid-template-columns: 1fr; gap: 2px; } .ts-merke { flex-direction: row; gap: 8px; } }
+
+/* Sitater i leksjonsteksten */
+.leksjon-tekst blockquote { margin: 0; padding: 4px 0 4px 18px; border-left: 4px solid var(--linje-sterk); color: var(--dempet); font-style: italic; }
 
 /* Figurer i leksjonsteksten */
 .leksjon-tekst figure { margin: 0; }

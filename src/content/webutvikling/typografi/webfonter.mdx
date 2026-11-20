@@ -1,0 +1,58 @@
+I modul 2 lærte du at `font-family` bare kan bruke skrifter som finnes på maskinen til den som
+besøker siden. Med **webfonter** sender du skrifta med nettsiden – da ser alle den samme skrifta.
+
+## Google Fonts
+
+Den enkleste måten å bruke webfonter på er [Google Fonts](https://fonts.google.com/), som har over
+tusen gratis skrifter:
+
+1. Finn en skrift, og trykk **Get font** og deretter **Get embed code**.
+2. Velg vektene du trenger – for eksempel bare *Regular 400* og *Bold 700*. Hver ekstra vekt er en fil
+   til som må lastes ned.
+3. Kopier `<link>`-taggen inn i `<head>`, *før* lenken til ditt eget stilark.
+4. Bruk skrifta med `font-family`, med en reserve til slutt:
+
+```html
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@700&display=swap">
+```
+
+```css
+h1 {
+  font-family: "Lora", Georgia, serif;
+}
+```
+
+Reserven brukes mens fonten lastes ned, og hvis den ikke kan lastes. Velg en reserve som ligner, så
+siden ikke hopper for mye når fonten kommer.
+
+<Oppgave id="m8-webfont" />
+
+## Vekter
+
+`font-weight` styrer hvor tykk skrifta er, fra `100` (tynn) til `900` (svart). `400` er vanlig, og
+`700` er fet – `bold` betyr det samme. Men vekten må finnes i fonten du har lastet ned: ber du om
+`font-weight: 300` uten å ha hentet vekt 300, jukser nettleseren og lager en falsk vekt.
+
+## Kombiner skrifter
+
+En klassisk kombinasjon er én skrift til overskrifter og én til brødtekst. Hold deg til **to**. En
+skrift *med* føtter (serif) til overskrifter og en *uten* (sans-serif) til tekst – eller omvendt – gir
+ofte en fin kontrast.
+
+<UnderPanseret tittel="Webfonter og personvern">
+
+Når siden din henter fonter fra Google, sender hver besøkende en forespørsel til Googles tjenere – og
+Google får vite IP-adressen deres. Mange nettsteder i Europa laster derfor heller ned fontfilene og
+legger dem i prosjektmappen, så alt hentes fra deres egen tjener. Det gjøres med `@font-face` i CSS,
+og Google Fonts lar deg laste ned filene. Til skoleprosjektet ditt holder det fint å bruke lenken.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Finn to skrifter på Google Fonts som passer nettstedet ditt: én til overskrifter og én til tekst.
+2. Legg `<link>`-taggen inn i `<head>` på *alle* sidene, før lenken til `style.css`.
+3. Bruk skriftene i `style.css`, med gode reserver.
+4. Åpne Network-fanen og last siden på nytt. Finner du fontfilene? Hvor store er de?
+
+</GjorDetSelv>

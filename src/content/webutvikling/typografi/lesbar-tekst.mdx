@@ -1,0 +1,70 @@
+Det meste på nettet er tekst. Hvor god en nettside er, handler derfor mye om én ting: hvor lett det
+er å lese den. Det heter **typografi**, og det er tre ting som betyr mest.
+
+## Prøv selv
+
+Teksten under er vanskelig å lese. Juster de tre glidebryterne til den føles behagelig – og se hva
+som skjer når du går for langt den andre veien.
+
+<Typografilab />
+
+## Linjeavstand
+
+`line-height` bestemmer hvor høy hver linje er, og dermed hvor mye luft det er mellom linjene. Den
+skrives ofte *uten* enhet:
+
+```css
+body {
+  line-height: 1.6;
+}
+```
+
+`1.6` betyr 1,6 ganger skriftstørrelsen. Det fine med å skrive det uten enhet, er at det følger med
+når skriftstørrelsen endres: store overskrifter og små fotnoter får den samme luftige rytmen.
+
+For brødtekst er **1,4–1,7** et godt sted å starte. Overskrifter trenger mindre, rundt **1,1–1,3** –
+store bokstaver med mye luft mellom linjene ser ut som to separate overskrifter.
+
+## Linjelengde
+
+Lange linjer er slitsomme: øyet mister tråden når det skal finne starten på neste linje. Korte linjer
+er hakkete. De fleste leser best med **45–75 tegn** per linje.
+
+Den enkleste måten å styre det på, er enheten `ch`. `1ch` er bredden på tegnet «0» i skrifta, så
+`65ch` er omtrent 65 tegn:
+
+```css
+main {
+  max-width: 65ch;
+  margin: 0 auto;
+}
+```
+
+<Oppgave id="m8-lesbar" />
+
+<Tips>
+
+Forhåndsvisningen i oppgaven er smal, så der ser du ikke forskjellen på `max-width`. Prøv heller i
+typografilaben over, eller på din egen side i en stor nettleser.
+
+</Tips>
+
+<Quiz
+  sporsmal="Hvorfor er aviser trykket i smale spalter, og ikke over hele siden?"
+  alternativer={[
+    "For å få plass til flere annonser",
+    "Fordi korte linjer er raskere og lettere å lese enn veldig lange",
+    "Fordi trykkeriene ikke klarte å trykke bredere",
+  ]}
+  riktig={1}
+  forklaring="En avisside er altfor bred til én linje. Ved å dele den i spalter får hver linje en lengde som er lett å lese – akkurat det max-width gjør på nettet."
+/>
+
+<GjorDetSelv>
+
+1. Gi `body` på nettstedet ditt en `line-height` mellom 1,4 og 1,7.
+2. Gi overskriftene en mindre `line-height`, rundt 1,2.
+3. Begrens bredden på innholdet med `max-width` i `ch`, og sentrer det med `margin: 0 auto`.
+4. Åpne siden i et stort vindu. Hvor mange tegn er det per linje nå?
+
+</GjorDetSelv>

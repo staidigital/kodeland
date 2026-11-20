@@ -161,7 +161,13 @@ export const MODULER: Modul[] = [
     html: ["<blockquote>", "spesialtegn"],
     css: ["webfonter", "rem og em", "line-height", "linjelengde"],
     teori: ["typografisk skala"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "lesbar-tekst", tittel: "Tekst som er god å lese", minutter: 25 },
+      { slug: "rem-og-em", tittel: "rem og em", minutter: 20 },
+      { slug: "typografisk-skala", tittel: "Typografisk skala", minutter: 20 },
+      { slug: "webfonter", tittel: "Webfonter", minutter: 25 },
+      { slug: "sitater-og-tegn", tittel: "Sitater og spesialtegn", minutter: 20 },
+    ],
   },
   {
     slug: "selektorer",

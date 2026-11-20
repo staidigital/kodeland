@@ -29,6 +29,11 @@ import m7DomTreet from "./semantikk/dom-treet.mdx";
 import m7SectionOgArticle from "./semantikk/section-og-article.mdx";
 import m7StilPaStrukturen from "./semantikk/stil-pa-strukturen.mdx";
 import m7UniversellUtforming from "./semantikk/universell-utforming.mdx";
+import m8LesbarTekst from "./typografi/lesbar-tekst.mdx";
+import m8RemOgEm from "./typografi/rem-og-em.mdx";
+import m8SitaterOgTegn from "./typografi/sitater-og-tegn.mdx";
+import m8TypografiskSkala from "./typografi/typografisk-skala.mdx";
+import m8Webfonter from "./typografi/webfonter.mdx";
 
 /**
  * Kobler leksjons-id (modul/leksjon) til MDX-fila.
@@ -66,4 +71,9 @@ export const LEKSJONER: Record<string, ComponentType> = {
   "semantikk/stil-pa-strukturen": m7StilPaStrukturen,
   "semantikk/dom-treet": m7DomTreet,
   "semantikk/universell-utforming": m7UniversellUtforming,
+  "typografi/lesbar-tekst": m8LesbarTekst,
+  "typografi/rem-og-em": m8RemOgEm,
+  "typografi/typografisk-skala": m8TypografiskSkala,
+  "typografi/webfonter": m8Webfonter,
+  "typografi/sitater-og-tegn": m8SitaterOgTegn,
 };

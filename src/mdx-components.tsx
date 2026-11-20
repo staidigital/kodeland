@@ -13,6 +13,8 @@ import { Oppgave } from "@/components/kurs/oppgave";
 import { Quiz } from "@/components/kurs/quiz";
 import { Sjekkliste } from "@/components/kurs/sjekkliste";
 import { Skjermleser } from "@/components/kurs/skjermleser";
+import { Typeskala } from "@/components/kurs/typeskala";
+import { Typografilab } from "@/components/kurs/typografilab";
 import { Stifinner } from "@/components/kurs/stifinner";
 
 /** Komponenter som kan brukes direkte i alle .mdx-leksjoner uten import. */
@@ -32,6 +34,8 @@ const components: MDXComponents = {
   Boksmodell,
   DomTre,
   Skjermleser,
+  Typografilab,
+  Typeskala,
   Mappebygger,
   Sjekkliste,
 };

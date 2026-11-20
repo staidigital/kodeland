@@ -1948,4 +1948,261 @@ img {
     ],
     hint: "Seks feil: lang på <html>, header/main, <h3> som skulle vært <h2>, alt på bildet, lenketeksten «her», og den lysegrå tekstfargen.",
   },
+
+  // ── Modul 8: Typografi ──────────────────────────────────────────────
+
+  "m8-lesbar": {
+    html: `<main>
+  <h1>Turen til Trolltunga – en lang og fin dag i fjellet</h1>
+  <p>Vi startet fra Skjeggedal før sola var oppe. Første del av turen er bratt, og vi tok mange pauser for å se utover Ringedalsvatnet. Etter et par timer flatet det ut, og vi gikk over store svaberg med snøflekker her og der.</p>
+  <p>Da vi endelig kom fram til Trolltunga, var det kø for å ta bilde. Men det var verdt ventetiden. Utsikten over vannet sju hundre meter under er noe av det fineste jeg har sett.</p>
+</main>
+`,
+    css: `body {
+  font-family: Georgia, serif;
+  line-height: 1.1;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Avsnittene har en linjeavstand mellom 1,4 og 1,8",
+        test: (d) => {
+          const p = d.querySelector("p");
+          if (!p) return false;
+          const forhold = parseFloat(stil(p).lineHeight) / px(p);
+          return forhold >= 1.4 && forhold <= 1.8;
+        },
+      },
+      {
+        tekst: "Overskriften har tettere linjeavstand enn avsnittene",
+        test: (d) => {
+          const h1 = d.querySelector("h1");
+          const p = d.querySelector("p");
+          if (!h1 || !p) return false;
+          return parseFloat(stil(h1).lineHeight) / px(h1) < parseFloat(stil(p).lineHeight) / px(p) - 0.15;
+        },
+      },
+      {
+        tekst: "<main> har en max-width mellom 45ch og 75ch",
+        test: (d) => {
+          const main = d.querySelector("main");
+          return (
+            main !== null &&
+            regler(d).some((r) => {
+              const m = /^([\d.]+)ch$/.exec(r.style.maxWidth);
+              return m !== null && main.matches(r.selectorText) && Number(m[1]) >= 45 && Number(m[1]) <= 75;
+            })
+          );
+        },
+      },
+    ],
+    hint: "body { line-height: 1.6; } h1 { line-height: 1.2; } main { max-width: 65ch; margin: 0 auto; }",
+  },
+
+  "m8-rem": {
+    html: `<h1>Klubbavisa</h1>
+<h2>Høstens turer</h2>
+<p>Vi har planlagt seks turer denne høsten, fra korte ettermiddagsturer til en helgetur med telt.</p>
+<p class="liten">Sist oppdatert 1. september</p>
+`,
+    css: `h1 {
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+p {
+  font-size: 18px;
+}
+
+.liten {
+  font-size: 14px;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Skriftstørrelsene står i rem – ikke i px",
+        test: (d) =>
+          !/font-size\s*:\s*[\d.]+px/i.test(stilarkTekst(d)) &&
+          regler(d).filter((r) => r.style.fontSize).every((r) => r.style.fontSize.endsWith("rem")),
+      },
+      {
+        tekst: "Størrelsene er de samme som før: 32, 24, 18 og 14 piksler",
+        test: (d) =>
+          px(d.querySelector("h1")) === 32 &&
+          px(d.querySelector("h2")) === 24 &&
+          px(d.querySelector("p:not(.liten)")) === 18 &&
+          px(d.querySelector(".liten")) === 14,
+      },
+      {
+        tekst: "Når brukeren gjør teksten større i nettleseren, blir alt større",
+        test: (d) => {
+          const rot = d.documentElement;
+          const før = rot.style.fontSize;
+          rot.style.fontSize = "20px";
+          const ok = px(d.querySelector("h1")) === 40 && px(d.querySelector(".liten")) === 17.5;
+          rot.style.fontSize = før;
+          return ok;
+        },
+      },
+    ],
+    hint: "Del på 16: 32px = 2rem, 24px = 1.5rem, 18px = 1.125rem og 14px = 0.875rem.",
+  },
+
+  "m8-skala": {
+    html: `<h1>Fjellturer i Vestland</h1>
+<h2>Ulriken fra sør</h2>
+<h3>Hva du trenger</h3>
+<p>Gode sko, niste og vann. Turen tar rundt tre timer.</p>
+`,
+    css: `p {
+  font-size: 1rem;
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Hvert nivå er større enn nivået under: p < h3 < h2 < h1",
+        test: (d) => {
+          const s = ["p", "h3", "h2", "h1"].map((t) => px(d.querySelector(t)));
+          return s.every((x, i) => i === 0 || x > s[i - 1]);
+        },
+      },
+      {
+        tekst: "Hvert trinn er mellom 1,1 og 1,65 ganger større enn trinnet under",
+        test: (d) => {
+          const s = ["p", "h3", "h2", "h1"].map((t) => px(d.querySelector(t)));
+          return s.slice(1).every((x, i) => x / s[i] >= 1.1 && x / s[i] <= 1.65);
+        },
+      },
+      {
+        tekst: "Forholdet er omtrent det samme hele veien",
+        test: (d) => {
+          const s = ["p", "h3", "h2", "h1"].map((t) => px(d.querySelector(t)));
+          const f = s.slice(1).map((x, i) => x / s[i]);
+          return Math.max(...f) - Math.min(...f) <= 0.08;
+        },
+      },
+    ],
+    hint: "Med forholdet 1,25: h3 { font-size: 1.25rem; } h2 { font-size: 1.563rem; } h1 { font-size: 1.953rem; }",
+  },
+
+  "m8-webfont": {
+    html: `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Fjellklubben</title>
+  </head>
+  <body>
+    <h1>Fjellklubben</h1>
+    <p>Vi går på tur hver helg, hele året. Alle er velkomne – du trenger bare gode sko.</p>
+  </body>
+</html>
+`,
+    css: `body {
+  font-family: Georgia, serif;
+  line-height: 1.6;
+}
+`,
+    sjekker: [
+      {
+        tekst: "En <link> i <head> henter en font fra Google Fonts",
+        test: (d) => d.querySelector('head link[href*="fonts.googleapis.com"]') !== null,
+      },
+      {
+        tekst: "Overskriften bruker fonten fra lenken, med en reserve til slutt",
+        test: (d) => {
+          const href = d.querySelector('link[href*="fonts.googleapis.com"]')?.getAttribute("href") ?? "";
+          const fonter = [...href.matchAll(/family=([^:&]+)/g)].map((m) => decodeURIComponent(m[1]).replace(/\+/g, " ").toLowerCase());
+          const h1 = d.querySelector("h1");
+          if (!h1) return false;
+          const liste = stil(h1).fontFamily.split(",").map((f) => f.trim().replace(/["']/g, "").toLowerCase());
+          return fonter.includes(liste[0]) && /^(serif|sans-serif|monospace|cursive|system-ui)$/.test(liste.at(-1) ?? "");
+        },
+      },
+      {
+        tekst: "Brødteksten bruker en annen skrift enn overskriften",
+        test: (d) => {
+          const h1 = d.querySelector("h1");
+          const p = d.querySelector("p");
+          return h1 !== null && p !== null && stil(h1).fontFamily !== stil(p).fontFamily;
+        },
+      },
+    ],
+    hint: `I <head>: <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@700&display=swap">. I CSS: h1 { font-family: "Lora", serif; }`,
+  },
+
+  "m8-sitat": {
+    html: `<h1>Ukas ordtak</h1>
+<p>Før du pakker sekken, er det lurt å huske hva de gamle sa:</p>
+<p>Det finnes ikke dårlig vær, bare dårlige klær. – Norsk ordtak</p>
+`,
+    css: `body {
+  font-family: Georgia, serif;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Sitatet står i en <blockquote>",
+        test: (d) => /dårlig vær/i.test(tekst(d.querySelector("blockquote"))),
+      },
+      {
+        tekst: "Hvem som har sagt det, står i en <footer> eller <cite> inni sitatet",
+        test: (d) => /ordtak/i.test(tekst(d.querySelector("blockquote footer, blockquote cite"))),
+      },
+      {
+        tekst: "Sitatet har en strek på venstre side, og luft mellom streken og teksten",
+        test: (d) => {
+          const b = d.querySelector("blockquote");
+          if (!b) return false;
+          const s = stil(b);
+          return parseFloat(s.borderLeftWidth) >= 3 && s.borderLeftStyle !== "none" && parseFloat(s.paddingLeft) >= 8;
+        },
+      },
+    ],
+    hint: `<blockquote><p>Det finnes ikke dårlig vær, bare dårlige klær.</p><footer>– Norsk ordtak</footer></blockquote>, og blockquote { border-left: 4px solid #a8dadc; padding-left: 16px; }`,
+  },
+
+  "m8-tegn": {
+    html: `<h1>HTML-tips</h1>
+<p>Et avsnitt starter med <p> og slutter med </p>.</p>
+<p>Mindre enn skrives som <, og større enn som >.</p>
+<footer>
+  <p>(c) 2026 Kim</p>
+</footer>
+`,
+    css: `footer {
+  font-size: 0.875rem;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Teksten viser <p> og </p> som tekst",
+        test: (d) => [...d.querySelectorAll("p")].some((p) => tekst(p).includes("<p>") && tekst(p).includes("</p>")),
+      },
+      {
+        tekst: "Det er bare tre avsnitt: to tips og bunnteksten",
+        test: (d) => d.querySelectorAll("p").length === 3 && [...d.querySelectorAll("p")].every((p) => tekst(p).length > 2),
+      },
+      {
+        tekst: "Bunnteksten har et ekte ©-tegn",
+        test: (d) => tekst(d.querySelector("footer")).includes("©") && !/\(c\)/i.test(tekst(d.querySelector("footer"))),
+      },
+    ],
+    hint: "Skriv &lt; for < og &gt; for >. &copy; blir ©.",
+  },
 };

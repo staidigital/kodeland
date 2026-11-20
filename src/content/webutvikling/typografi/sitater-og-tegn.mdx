@@ -1,0 +1,81 @@
+To siste ting om tekst: hvordan du viser sitater, og hvordan du skriver tegn som HTML ellers ville
+misforstått.
+
+## Sitater
+
+Et sitat som står for seg selv, legger du i `<blockquote>`. Hvem som sa det, kan stå i en `<footer>`
+inni sitatet:
+
+```html
+<blockquote>
+  <p>Det finnes ikke dårlig vær, bare dårlige klær.</p>
+  <footer>– Norsk ordtak</footer>
+</blockquote>
+```
+
+Slik ser det ut med litt CSS:
+
+<blockquote>
+  Det finnes ikke dårlig vær, bare dårlige klær. – Norsk ordtak
+</blockquote>
+
+Nettleseren gir `<blockquote>` et innrykk. Den klassiske stilen er en strek på venstre side:
+
+```css
+blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 4px solid #a8dadc;
+  font-style: italic;
+}
+```
+
+<Oppgave id="m8-sitat" />
+
+## Spesialtegn
+
+Noen tegn betyr noe spesielt i HTML. Skriver du `<p>` midt i en tekst, tror nettleseren at det er en
+tagg. For å *vise* tegnet, skriver du det som en **tegnreferanse**: et `&`, et navn og et `;`.
+
+- `&lt;` blir **{"<"}** (*less than*)
+- `&gt;` blir **{">"}** (*greater than*)
+- `&amp;` blir **&**
+- `&copy;` blir **©**
+- `&nbsp;` blir et mellomrom som aldri brytes over to linjer – fint mellom tall og enhet, som `10&nbsp;km`.
+
+Æ, ø, å, «sitattegn» og emojier kan du skrive rett inn, så lenge siden har `<meta charset="utf-8">`.
+
+<Oppgave id="m8-tegn" />
+
+<Quiz
+  sporsmal="Hva vises på siden?"
+  kode={"<p>Bruk &lt;h1&gt; til hovedoverskriften.</p>"}
+  alternativer={[
+    "Bruk &lt;h1&gt; til hovedoverskriften.",
+    "Bruk <h1> til hovedoverskriften.",
+    "Bruk, og så resten av teksten som en stor overskrift",
+  ]}
+  riktig={1}
+  forklaring="&lt; og &gt; blir til < og > på siden. Nettleseren tolker dem ikke som en tagg, så du ser selve tegnene."
+/>
+
+<GjorDetSelv>
+
+1. Finn et sitat som passer nettstedet ditt, og legg det i en `<blockquote>` med en `<footer>`.
+2. Style sitatet med en strek på venstre side, `padding` og gjerne en annen skrift.
+3. Legg `&copy;`, året og navnet ditt i `<footer>` nederst på sidene.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="m8-ferdig"
+  punkter={[
+    "Brødteksten har line-height mellom 1,4 og 1,7, og overskriftene litt mindre",
+    "Innholdet har en max-width, så linjene ikke blir for lange",
+    "Alle skriftstørrelser står i rem",
+    "Overskriftene følger en typografisk skala",
+    "Nettstedet bruker en eller to webfonter, med reserver",
+    "Jeg har brukt <blockquote> til et sitat",
+    "Jeg vet hvordan jeg viser < og > og © på en side",
+  ]}
+/>

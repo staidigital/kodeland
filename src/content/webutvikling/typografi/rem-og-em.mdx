@@ -1,0 +1,64 @@
+Til nå har du skrevet skriftstørrelser i piksler, `px`. Det virker – men det overser noe viktig:
+mange brukere har stilt inn større tekst i nettleseren sin, fordi de ser dårlig eller sitter langt
+fra skjermen.
+
+## rem – i forhold til brukerens innstilling
+
+`rem` betyr *root em*: en ganger skriftstørrelsen til rotelementet, `<html>`. Den er som standard
+16px – men den følger brukerens innstilling i nettleseren.
+
+```css
+h1 {
+  font-size: 2rem;     /* 2 × 16px = 32px */
+}
+
+p {
+  font-size: 1.125rem; /* 1,125 × 16px = 18px */
+}
+```
+
+Har brukeren stilt inn 20px i nettleseren, blir `2rem` 40px – og hele siden vokser i takt.
+Skriver du `32px`, blir overskriften 32px uansett. Brukeren som trengte større tekst, får det ikke.
+
+For å regne fra px til rem deler du på 16: `24px` → `24 / 16` → `1.5rem`.
+
+<Oppgave id="m8-rem" />
+
+## em – i forhold til forelderen
+
+`em` ligner, men regnes ut fra skriftstørrelsen til *elementet selv* – som den har arvet fra forelderen.
+
+```css
+.ingress {
+  font-size: 1.25em;   /* 1,25 × forelderens størrelse */
+  margin-bottom: 1em;  /* like mye luft som én linje tekst */
+}
+```
+
+`em` er nyttig til luft som skal vokse sammen med teksten, som `padding` på en knapp. Men til
+skriftstørrelser kan det fort bli rotete, fordi verdiene ganges med hverandre når elementer ligger inni
+hverandre.
+
+<Quiz
+  sporsmal="<section> har font-size: 1.5em, og et avsnitt inni den har også font-size: 1.5em. Hvor stort blir avsnittet, når body er 16px?"
+  alternativer={["24px", "36px", "16px", "1.5px"]}
+  riktig={1}
+  forklaring="Section blir 1,5 × 16 = 24px. Avsnittet er 1,5 ganger forelderen sin, altså 1,5 × 24 = 36px. Med rem ville begge blitt 24px – derfor bruker vi helst rem til skriftstørrelser."
+/>
+
+<UnderPanseret tittel="Prøv det selv">
+
+I Chrome finner du innstillingen under **Innstillinger → Utseende → Skriftstørrelse**, og i Firefox
+under **Innstillinger → Generelt → Fonter**. Sett den til *Veldig stor*, og besøk noen nettsider.
+Noen vokser pent med – andre gjør det ikke i det hele tatt. Nå vet du hvorfor.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Gå gjennom `style.css` og bytt ut alle skriftstørrelser i `px` med `rem`.
+2. Sjekk at nettstedet ser likt ut som før.
+3. Gjør skriften større i nettleserinnstillingene, og se at nettstedet ditt vokser med. Sett den
+   tilbake etterpå.
+
+</GjorDetSelv>
