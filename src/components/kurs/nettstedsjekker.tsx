@@ -50,10 +50,10 @@ const IKON = { ok: "✓", advarsel: "!", feil: "✗" } as const;
 const kb = (b: number) => (b >= 1_000_000 ? `${(b / 1_000_000).toFixed(1).replace(".", ",")} MB` : `${Math.round(b / 1000)} kB`);
 
 /**
- * Sjekker studentens webkurs-mappe mot kravene i sjekkpunkt 1.
+ * Sjekker studentens webkurs-mappe mot kravene i et sjekkpunkt (1 eller 2).
  * Filene leses lokalt i nettleseren – ingenting lastes opp.
  */
-export function Nettstedsjekker() {
+export function Nettstedsjekker({ sjekkpunkt = 1 }: { sjekkpunkt?: 1 | 2 }) {
   const input = useRef<HTMLInputElement>(null);
   const [svar, setSvar] = useState<{ resultater: Sjekkresultat[]; oversikt: Oversikt; rot: string } | null>(null);
   const [feil, setFeil] = useState<string | null>(null);
@@ -86,7 +86,7 @@ export function Nettstedsjekker() {
             tekst: LES_TEKST.test(f.sti) && f.fil.size < MAKS_TEKST ? await f.fil.text() : undefined,
           })),
       );
-      setSvar({ ...sjekkNettsted(filer, tilRgb), rot: rot || "mappen du valgte/" });
+      setSvar({ ...sjekkNettsted(filer, tilRgb, sjekkpunkt), rot: rot || "mappen du valgte/" });
     } catch {
       setFeil("Noe gikk galt da mappen skulle leses. Prøv å velge den på nytt.");
     } finally {

@@ -45,7 +45,7 @@ Kolonnen «Pensum» viser hvilke kapitler i Webutvikling-101 modulen henter stof
 | 7 | **Semantisk struktur** ✅ | `header`, `nav`, `main`, `section`, `article`, `footer` | stil på header, meny og bunntekst | DOM-treet; skjermlesere; universell utforming (lovkrav); `class` og `id` | 8, 9 |
 | 8 | **Typografi** ✅ | `blockquote`, spesialtegn | webfonter, `rem`/`em`, `line-height`, linjelengde | typografisk skala | 4, 13 |
 | 9 | **Selektorer og kaskaden** ✅ | tabeller, `dl` | kombinatorer, `:nth-child` (stripete tabeller), `:focus`, arv, spesifisitet | hvorfor CSS «ikke virker» | 7, 11 |
-| 🏁 | **Sjekkpunkt 2:** nettstedet med semantisk struktur, typografi og stil | | | | |
+| 🏁 | **Sjekkpunkt 2:** nettstedet med semantisk struktur, typografi og stil ✅ | | | | |
 | 10 | **Display og flyt** | – | `block`/`inline`, vannrett meny, `overflow` | normal flyt | 15 |
 | 11 | **Flexbox** | – | `display: flex`, `justify-content`, `align-items`, `gap`, `flex-wrap` | – | 17 |
 | 12 | **Grid og posisjonering** | – | grid, `fr`, `grid-template-areas`, `sticky`, `relative`/`absolute` | når bruker du hva? | 16, 18 |
@@ -83,7 +83,7 @@ vises mellom modulene i oversikten og heter «Sjekkpunkt N» i stedet for «Modu
 | `<Typeskala />` | Velg grunnstørrelse og forhold, og se `p`, `h3`, `h2` og `h1` i en typografisk skala, med CSS i `rem`. |
 | `<Selektorlab />` | Skriv en selektor og se hvilke elementer i en eksempelside den treffer, med ferdige eksempler på kombinatorer og pseudoklasser. |
 | `<Spesifisitetsspill />` | Åtte runder: to regler treffer samme element – gjett fargen. Forklaringen viser spesifisiteten (`src/lib/spesifisitet.ts`). |
-| `<Nettstedsjekker />` | Studenten velger eller drar inn `webkurs`-mappen sin, og får den sjekket mot kravene i sjekkpunkt 1 (filnavn, grunnstruktur, lenker, meny, bilder, farger). Alt skjer lokalt i nettleseren. Sjekkene står i `src/lib/nettstedsjekk.ts`. |
+| `<Nettstedsjekker />` | Studenten velger eller drar inn `webkurs`-mappen sin, og får den sjekket mot kravene i sjekkpunkt 1 (filnavn, grunnstruktur, lenker, meny, bilder, farger). Med `sjekkpunkt={2}` sjekker den også struktur, boksmodell, typografi, fokusmarkering og `!important`. Alt skjer lokalt i nettleseren. Sjekkene står i `src/lib/nettstedsjekk.ts`. |
 
 Oppgavetyper vi bruker: endre koden, **finn feilen** (ødelagt kode som skal fikses), **hva gjør
 denne koden?** (som `<Quiz>` med kode), og frie lekeplasser (oppgave uten sjekker).
@@ -102,7 +102,7 @@ denne koden?** (som `<Quiz>` med kode), og frie lekeplasser (oppgave uten sjekke
   fremdriften der. Studenter registreres med fornavn eller initialer, ikke fullt navn.
 - Passord lages automatisk og lagres kryptert, så læreren kan vise dem igjen.
 - Innlevering skjer foreløpig utenfor nettsiden (læringslogg o.l.). Sjekkpunktene er beskrevet,
-  men ikke bygget som innleveringer på siden. Sjekkpunkt 1 har `<Nettstedsjekker />`, så studenten
-  kan sjekke sitt eget nettsted før innlevering; resultatet lagres ikke.
+  men ikke bygget som innleveringer på siden. Sjekkpunkt 1 og 2 har `<Nettstedsjekker />`, så
+  studenten kan sjekke sitt eget nettsted før innlevering; resultatet lagres ikke.
 - Ideer videre: vurderingskriterier (lav/middels/høy) per sjekkpunkt, sjekklister og
   nettstedsjekkens resultat synket til lærerpanelet, og strukturert medstudentvurdering.

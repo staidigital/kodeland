@@ -193,7 +193,7 @@ export const MODULER: Modul[] = [
     html: [],
     css: [],
     teori: [],
-    leksjoner: [],
+    leksjoner: [{ slug: "struktur-og-stil", tittel: "Struktur og stil", minutter: 90 }],
   },
   {
     slug: "display",

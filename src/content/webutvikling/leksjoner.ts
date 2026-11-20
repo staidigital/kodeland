@@ -20,6 +20,7 @@ import m5ForsteBilde from "./bilder/forste-bilde.mdx";
 import m5Formater from "./bilder/formater-og-opphavsrett.mdx";
 import m5StorrelseOgForm from "./bilder/storrelse-og-form.mdx";
 import s1DittNettsted from "./sjekkpunkt-1/ditt-nettsted.mdx";
+import s2StrukturOgStil from "./sjekkpunkt-2/struktur-og-stil.mdx";
 import m6AltErBokser from "./boksmodellen/alt-er-bokser.mdx";
 import m6BoxSizing from "./boksmodellen/box-sizing.mdx";
 import m6Margin from "./boksmodellen/margin.mdx";
@@ -84,4 +85,5 @@ export const LEKSJONER: Record<string, ComponentType> = {
   "selektorer/kombinatorer": m9Kombinatorer,
   "selektorer/pseudoklasser": m9Pseudoklasser,
   "selektorer/kaskaden": m9Kaskaden,
+  "sjekkpunkt-2/struktur-og-stil": s2StrukturOgStil,
 };

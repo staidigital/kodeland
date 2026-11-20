@@ -1,5 +1,6 @@
 /**
- * Sjekker studentens eget nettsted (webkurs-mappen) mot kravene i sjekkpunkt 1.
+ * Sjekker studentens eget nettsted (webkurs-mappen) mot kravene i et sjekkpunkt.
+ * Sjekkpunkt 2 tar med alt fra sjekkpunkt 1, og i tillegg struktur, boksmodell, typografi og selektorer.
  * Kjører i nettleseren: bruker DOMParser og CSSStyleSheet. Ingenting sendes noe sted.
  */
 
@@ -17,7 +18,15 @@ export type NettstedFil = {
 export type Status = "ok" | "advarsel" | "feil";
 
 export type Sjekkresultat = {
-  gruppe: "Prosjektmappen" | "Sidene" | "Lenker og meny" | "Bilder" | "Stil og farger";
+  gruppe:
+    | "Prosjektmappen"
+    | "Sidene"
+    | "Lenker og meny"
+    | "Bilder"
+    | "Stil og farger"
+    | "Struktur"
+    | "Boksmodell og typografi"
+    | "Selektorer og universell utforming";
   tittel: string;
   status: Status;
   /** Hva som er galt (eller hva som er bra), én linje per funn. */
@@ -38,6 +47,15 @@ const L = {
   bilde: { tittel: "Ditt første bilde (modul 5)", href: "/webutvikling/bilder/forste-bilde" },
   storrelse: { tittel: "Størrelse og form (modul 5)", href: "/webutvikling/bilder/storrelse-og-form" },
   formater: { tittel: "Formater og filstørrelse (modul 5)", href: "/webutvikling/bilder/formater-og-opphavsrett" },
+  boxSizing: { tittel: "box-sizing og utviklerverktøyet (modul 6)", href: "/webutvikling/boksmodellen/box-sizing" },
+  margin: { tittel: "Margin og sentrering (modul 6)", href: "/webutvikling/boksmodellen/margin" },
+  semantikk: { tittel: "Bokser med mening (modul 7)", href: "/webutvikling/semantikk/bokser-med-mening" },
+  uu: { tittel: "Universell utforming (modul 7)", href: "/webutvikling/semantikk/universell-utforming" },
+  lesbar: { tittel: "Tekst som er god å lese (modul 8)", href: "/webutvikling/typografi/lesbar-tekst" },
+  rem: { tittel: "rem og em (modul 8)", href: "/webutvikling/typografi/rem-og-em" },
+  webfonter: { tittel: "Webfonter (modul 8)", href: "/webutvikling/typografi/webfonter" },
+  focus: { tittel: ":nth-child og :focus (modul 9)", href: "/webutvikling/selektorer/pseudoklasser" },
+  kaskaden: { tittel: "Arv og kaskaden (modul 9)", href: "/webutvikling/selektorer/kaskaden" },
 };
 
 /** Nettleseren gjør hex om til rgb(); vis det som hex igjen, slik studenten skrev det. */
@@ -77,6 +95,8 @@ export function sjekkNettsted(
   filer: NettstedFil[],
   /** Gjør en CSS-farge (navn, hex, hsl …) om til RGB. */
   tilRgb: (farge: string) => Rgb | null,
+  /** Hvilket sjekkpunkt det sjekkes mot. 2 tar med alt fra 1, og mer. */
+  sjekkpunkt: 1 | 2 = 1,
 ): { resultater: Sjekkresultat[]; oversikt: Oversikt } {
   const finnes = new Map(filer.map((f) => [f.sti, f]));
   const sm = new Map(filer.map((f) => [f.sti.toLowerCase(), f.sti]));
@@ -333,6 +353,8 @@ export function sjekkNettsted(
     leksjon: L.farger,
   });
 
+  if (sjekkpunkt >= 2) r.push(...sjekkpunkt2(sider.map((x) => [x.sti, dom.get(x.sti)!] as const), regler, cssTekst));
+
   return {
     resultater: r,
     oversikt: {
@@ -341,4 +363,150 @@ export function sjekkNettsted(
       byte: filer.reduce((s, f) => s + f.storrelse, 0),
     },
   };
+}
+
+const GENERISK = /^(serif|sans-serif|monospace|cursive|fantasy|system-ui|ui-serif|ui-sans-serif|ui-monospace|inherit|initial)$/i;
+
+/** Kravene som kommer i tillegg i sjekkpunkt 2 (modul 6–9). */
+function sjekkpunkt2(
+  sider: (readonly [string, Document])[],
+  regler: CSSStyleRule[],
+  cssTekst: string,
+): Sjekkresultat[] {
+  const r: Sjekkresultat[] = [];
+
+  // ── Struktur (modul 7) ─────────────────────────────────────────────────
+  const mangler = sider.flatMap(([sti, d]) => {
+    const borte = ["header", "nav", "main", "footer"].filter((t) => !d.querySelector(t));
+    const flereMain = d.querySelectorAll("main").length > 1;
+    return [
+      ...(borte.length ? [`${sti} mangler ${borte.map((t) => `<${t}>`).join(", ")}`] : []),
+      ...(flereMain ? [`${sti} har mer enn én <main>`] : []),
+    ];
+  });
+  r.push({
+    gruppe: "Struktur",
+    tittel: "Alle sidene har <header>, <nav>, <main> og <footer>",
+    status: mangler.length ? "feil" : "ok",
+    detaljer: mangler,
+    leksjon: L.semantikk,
+  });
+
+  const hopp = sider.flatMap(([sti, d]) => {
+    const nivå = [...d.querySelectorAll("h1, h2, h3, h4, h5, h6")].map((h) => Number(h.tagName[1]));
+    const feil = nivå.findIndex((n, i) => (i === 0 ? n !== 1 : n > nivå[i - 1] + 1));
+    if (feil < 0) return [];
+    return [
+      feil === 0
+        ? `${sti} starter med <h${nivå[0]}> i stedet for <h1>`
+        : `${sti}: <h${nivå[feil]}> kommer rett etter <h${nivå[feil - 1]}>`,
+    ];
+  });
+  r.push({
+    gruppe: "Struktur",
+    tittel: "Overskriftene hopper ikke over nivåer",
+    status: hopp.length ? "feil" : "ok",
+    detaljer: hopp,
+    leksjon: L.uu,
+  });
+
+  // ── Boksmodell og typografi (modul 6 og 8) ─────────────────────────────
+  const borderBox = regler.some((x) => x.selectorText.includes("*") && x.style.boxSizing === "border-box");
+  r.push({
+    gruppe: "Boksmodell og typografi",
+    tittel: "box-sizing: border-box på alle elementer",
+    status: borderBox ? "ok" : "advarsel",
+    detaljer: borderBox ? [] : ["Fant ingen regel som *, *::before, *::after { box-sizing: border-box; }."],
+    leksjon: L.boxSizing,
+  });
+
+  const sentrert = regler.some(
+    (x) =>
+      !/(^|[\s,>+~])img\b/i.test(x.selectorText) &&
+      x.style.maxWidth !== "" &&
+      x.style.maxWidth !== "none" &&
+      x.style.marginLeft === "auto" &&
+      x.style.marginRight === "auto",
+  );
+  r.push({
+    gruppe: "Boksmodell og typografi",
+    tittel: "Innholdet har en maksbredde og står midt på siden",
+    status: sentrert ? "ok" : "advarsel",
+    detaljer: sentrert ? [] : ["Fant ingen regel med både max-width og margin: 0 auto."],
+    leksjon: L.margin,
+  });
+
+  let linje = "";
+  for (const x of regler) if (/(^|,)\s*(body|html|main)\s*(,|$)/i.test(x.selectorText) && x.style.lineHeight) linje = x.style.lineHeight;
+  const linjeTall = /^[\d.]+$/.test(linje) ? Number(linje) : null;
+  r.push({
+    gruppe: "Boksmodell og typografi",
+    tittel: "Brødteksten har god linjeavstand (1,4–1,8)",
+    status: linjeTall !== null && linjeTall >= 1.4 && linjeTall <= 1.8 ? "ok" : "advarsel",
+    detaljer: !linje
+      ? ["Fant ingen line-height på body."]
+      : linjeTall === null
+        ? [`line-height er ${linje}. Skriv den uten enhet, for eksempel 1.6.`]
+        : linjeTall < 1.4 || linjeTall > 1.8
+          ? [`line-height er ${String(linjeTall).replace(".", ",")}.`]
+          : [],
+    leksjon: L.lesbar,
+  });
+
+  const pxStørrelser = [...cssTekst.matchAll(/font-size\s*:\s*([\d.]+px)/gi)].map((m) => m[1]);
+  r.push({
+    gruppe: "Boksmodell og typografi",
+    tittel: "Skriftstørrelsene står i rem",
+    status: pxStørrelser.length ? "advarsel" : "ok",
+    detaljer: pxStørrelser.length ? [`Fant font-size i px: ${[...new Set(pxStørrelser)].join(", ")}.`] : [],
+    leksjon: L.rem,
+  });
+
+  const utenReserve = [
+    ...new Set(
+      regler
+        .map((x) => x.style.fontFamily)
+        .filter((f) => f && !GENERISK.test(f.split(",").at(-1)!.trim().replace(/["']/g, ""))),
+    ),
+  ];
+  r.push({
+    gruppe: "Boksmodell og typografi",
+    tittel: "Alle skrifter har en reserve til slutt (serif, sans-serif …)",
+    status: utenReserve.length ? "advarsel" : "ok",
+    detaljer: utenReserve.map((f) => `font-family: ${f}`),
+    leksjon: L.webfonter,
+  });
+
+  // ── Selektorer og universell utforming (modul 9) ───────────────────────
+  const focusRegler = regler.filter((x) => /:focus/.test(x.selectorText));
+  const fjernet = focusRegler.filter(
+    (x) =>
+      (x.style.outlineStyle === "none" || x.style.outlineWidth === "0px") &&
+      !x.style.boxShadow &&
+      !x.style.backgroundColor &&
+      !x.style.textDecorationLine,
+  );
+  const egenStil = focusRegler.some((x) => x.style.length > 0 && !fjernet.includes(x));
+  r.push({
+    gruppe: "Selektorer og universell utforming",
+    tittel: "Lenkene har en synlig fokusmarkering",
+    status: fjernet.length ? "feil" : egenStil ? "ok" : "advarsel",
+    detaljer: fjernet.length
+      ? fjernet.map((x) => `${x.selectorText} fjerner fokusmarkeringen uten å erstatte den.`)
+      : egenStil
+        ? []
+        : ["Fant ingen :focus- eller :focus-visible-regel. Nettleserens egen markering virker, men en tydelig egen er bedre."],
+    leksjon: L.focus,
+  });
+
+  const important = (cssTekst.match(/!\s*important/gi) ?? []).length;
+  r.push({
+    gruppe: "Selektorer og universell utforming",
+    tittel: "Stilarket klarer seg uten !important",
+    status: important ? "advarsel" : "ok",
+    detaljer: important ? [`Fant !important ${important} ${important === 1 ? "gang" : "ganger"}.`] : [],
+    leksjon: L.kaskaden,
+  });
+
+  return r;
 }
