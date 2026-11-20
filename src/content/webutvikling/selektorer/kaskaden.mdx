@@ -1,0 +1,89 @@
+«Jeg skrev det i CSS-en, men det virker ikke!» Alle som har skrevet CSS, har sagt det. Som regel
+virker CSS-en helt fint – det er bare en *annen* regel som vinner. Nå skal du lære reglene for hvem som
+vinner. De heter **kaskaden** – det er C-en i CSS (*Cascading Style Sheets*).
+
+## Arv
+
+Noen egenskaper **arves**: setter du dem på et element, får alle elementene inni samme verdi, med
+mindre de har en egen regel. Du så det i modul 2, da `font-family` på `body` ga hele siden ny skrift.
+
+- **Arves:** `color`, `font-family`, `font-size`, `line-height`, `text-align` – det meste som har med tekst
+  å gjøre.
+- **Arves ikke:** `background-color`, `border`, `padding`, `margin`, `width` – det meste som har med
+  boksen å gjøre.
+
+Det gir mening: du vil at teksten i en artikkel skal ha samme skrift som resten – men du vil ikke at
+hvert eneste avsnitt i en boks med kant skal få sin egen kant.
+
+<Quiz
+  sporsmal="Du setter border: 2px solid red på <main>. Får avsnittene inni også en rød kant?"
+  alternativer={["Ja, alle elementer inni arver kanten", "Nei, border arves ikke", "Bare det første avsnittet"]}
+  riktig={1}
+  forklaring="border er en boks-egenskap, og arves ikke. Bare <main> får kanten. color og font-family ville derimot blitt arvet."
+/>
+
+## Spesifisitet
+
+Når to regler treffer samme element og setter samme egenskap, vinner den **mest spesifikke** – den som
+peker mest presist på elementet. Nettleseren teller tre ting i selektoren:
+
+1. **id-er** – `#meny`
+2. **klasser**, attributter og pseudoklasser – `.knapp`, `[type]`, `:hover`
+3. **tagger** – `a`, `nav`, `li`
+
+Tallene skrives som (id, klasse, tagg). `#meny a` blir (1, 0, 1), og `.knapp` blir (0, 1, 0). Den
+som har høyest tall *lengst til venstre*, vinner – én id slår hundre klasser.
+
+Er spesifisiteten **lik**, vinner regelen som står **sist** i CSS-en.
+
+<Spesifisitetsspill />
+
+## Finn feilen
+
+Knappen «Bli medlem» skulle vært rød – regelen står jo der. Finn ut hvorfor den ikke virker, og
+fiks det uten `!important`.
+
+<Oppgave id="m9-kaskade" />
+
+<UnderPanseret tittel="!important – nødbremsen">
+
+Skriver du `!important` etter en verdi, vinner den over alt annet. Det er fristende når noe ikke
+virker. Men da har du bare skjult problemet – og neste gang må du bruke `!important` en gang til for å
+slå den første. Bruk det nesten aldri. Gjør heller selektoren riktig.
+
+</UnderPanseret>
+
+## Når CSS «ikke virker»
+
+Gå gjennom denne lista før du gir opp:
+
+1. **Er fila koblet til?** Står `<link>` med riktig sti? (Modul 2 og 4.)
+2. **Er det en skrivefeil?** Mangler et semikolon eller en krøllparentes? Er egenskapen stavet riktig?
+3. **Treffer selektoren?** Prøv den i Console: `document.querySelectorAll("…")`.
+4. **Vinner en annen regel?** Inspiser elementet i utviklerverktøyet. Under **Styles** er reglene som
+   tapte, *strøket over* – og du ser hvilken regel som vant.
+5. **Er egenskapen arvet fra et sted?** Under **Computed** kan du klikke på en verdi og se hvor den kommer
+   fra.
+
+<GjorDetSelv>
+
+1. Åpne utviklerverktøyet på nettstedet ditt, og inspiser en lenke i menyen. Finner du regler som er
+   strøket over?
+2. Søk etter `!important` i `style.css`. Står det noen der, prøv å fjerne dem og løs det med selektoren i
+   stedet.
+3. Bytt ut lange selektorer med kortere, og sjekk at alt fortsatt ser likt ut.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="m9-ferdig"
+  punkter={[
+    "Jeg har laget en tabell med caption, thead og tbody",
+    "Jeg vet når jeg skal bruke <dl>",
+    "Jeg har brukt minst én kombinator, som nav a, ul > li eller h2 + p",
+    "Tabellen min har stripete rader med :nth-child",
+    "Lenkene har en tydelig :focus-visible-stil, og ingen outline: none",
+    "Jeg kan regne ut spesifisiteten til en selektor",
+    "Jeg vet hvordan jeg finner ut hvilken regel som vinner, i utviklerverktøyet",
+  ]}
+/>

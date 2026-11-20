@@ -11,8 +11,10 @@ import { Nettstedsjekker } from "@/components/kurs/nettstedsjekker";
 import { Nettverksfane } from "@/components/kurs/nettverksfane";
 import { Oppgave } from "@/components/kurs/oppgave";
 import { Quiz } from "@/components/kurs/quiz";
+import { Selektorlab } from "@/components/kurs/selektorlab";
 import { Sjekkliste } from "@/components/kurs/sjekkliste";
 import { Skjermleser } from "@/components/kurs/skjermleser";
+import { Spesifisitetsspill } from "@/components/kurs/spesifisitetsspill";
 import { Typeskala } from "@/components/kurs/typeskala";
 import { Typografilab } from "@/components/kurs/typografilab";
 import { Stifinner } from "@/components/kurs/stifinner";
@@ -36,6 +38,8 @@ const components: MDXComponents = {
   Skjermleser,
   Typografilab,
   Typeskala,
+  Selektorlab,
+  Spesifisitetsspill,
   Mappebygger,
   Sjekkliste,
 };

@@ -177,7 +177,12 @@ export const MODULER: Modul[] = [
     html: ["tabeller", "<dl>"],
     css: ["kombinatorer", ":nth-child", ":focus", "arv", "spesifisitet"],
     teori: ["kaskaden"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "tabeller-og-lister", tittel: "Tabeller og definisjonslister", minutter: 30 },
+      { slug: "kombinatorer", tittel: "Kombinatorer", minutter: 25 },
+      { slug: "pseudoklasser", tittel: ":nth-child og :focus", minutter: 25 },
+      { slug: "kaskaden", tittel: "Arv og kaskaden", minutter: 30 },
+    ],
   },
   {
     slug: "sjekkpunkt-2",

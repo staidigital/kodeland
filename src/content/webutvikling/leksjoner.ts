@@ -34,6 +34,10 @@ import m8RemOgEm from "./typografi/rem-og-em.mdx";
 import m8SitaterOgTegn from "./typografi/sitater-og-tegn.mdx";
 import m8TypografiskSkala from "./typografi/typografisk-skala.mdx";
 import m8Webfonter from "./typografi/webfonter.mdx";
+import m9Kaskaden from "./selektorer/kaskaden.mdx";
+import m9Kombinatorer from "./selektorer/kombinatorer.mdx";
+import m9Pseudoklasser from "./selektorer/pseudoklasser.mdx";
+import m9TabellerOgLister from "./selektorer/tabeller-og-lister.mdx";
 
 /**
  * Kobler leksjons-id (modul/leksjon) til MDX-fila.
@@ -76,4 +80,8 @@ export const LEKSJONER: Record<string, ComponentType> = {
   "typografi/typografisk-skala": m8TypografiskSkala,
   "typografi/webfonter": m8Webfonter,
   "typografi/sitater-og-tegn": m8SitaterOgTegn,
+  "selektorer/tabeller-og-lister": m9TabellerOgLister,
+  "selektorer/kombinatorer": m9Kombinatorer,
+  "selektorer/pseudoklasser": m9Pseudoklasser,
+  "selektorer/kaskaden": m9Kaskaden,
 };

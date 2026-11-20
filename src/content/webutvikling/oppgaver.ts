@@ -2205,4 +2205,264 @@ h1 {
     ],
     hint: "Skriv &lt; for < og &gt; for >. &copy; blir ©.",
   },
+
+  // ── Modul 9: Selektorer og kaskaden ─────────────────────────────────
+
+  "m9-tabell": {
+    html: `<h1>Høstens turer</h1>
+<p>5. oktober: Fløyen, 1 time, lett</p>
+<p>12. oktober: Ulriken, 3 timer, middels</p>
+<p>19. oktober: Stoltzekleiven, 1 time, krevende</p>
+`,
+    css: `table {
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #a8dadc;
+  padding: 4px 10px;
+  text-align: left;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Turene står i en <table> med en <caption>",
+        test: (d) => tekst(d.querySelector("table > caption")).length > 0,
+      },
+      {
+        tekst: "<thead> har overskrifter (<th>) for dato, tur, tid og vanskelighet",
+        test: (d) => d.querySelectorAll("thead th").length >= 4,
+      },
+      {
+        tekst: "<tbody> har én rad per tur, med en celle under hver overskrift",
+        test: (d) => {
+          const th = d.querySelectorAll("thead th").length;
+          const rader = [...d.querySelectorAll("tbody tr")];
+          return rader.length === 3 && rader.every((r) => r.querySelectorAll("td").length === th);
+        },
+      },
+      {
+        tekst: "Turene står ikke lenger i avsnitt",
+        test: (d) => [...d.querySelectorAll("p")].every((p) => !/oktober/i.test(tekst(p))),
+      },
+    ],
+    hint: "<table><caption>…</caption><thead><tr><th>Dato</th><th>Tur</th><th>Tid</th><th>Vanskelighet</th></tr></thead><tbody><tr><td>5. oktober</td>…</tr></tbody></table>",
+  },
+
+  "m9-dl": {
+    html: `<h1>Ordliste for fjellet</h1>
+<p>Varde: En steinhaug som viser hvor stien går.</p>
+<p>Tregrense: Høyden der skogen slutter.</p>
+<p>Dagstur: En tur uten overnatting.</p>
+`,
+    css: `dt {
+  font-weight: bold;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Ordene står i en <dl> som <dt>",
+        test: (d) => {
+          const dt = [...d.querySelectorAll("dl > dt")].map((x) => tekst(x).toLowerCase());
+          return ["varde", "tregrense", "dagstur"].every((o) => dt.some((x) => x.startsWith(o)));
+        },
+      },
+      {
+        tekst: "Hvert ord følges av forklaringen sin i en <dd>",
+        test: (d) => {
+          const dt = [...d.querySelectorAll("dl > dt")];
+          return dt.length === 3 && dt.every((x) => x.nextElementSibling?.tagName === "DD" && tekst(x.nextElementSibling).length > 5);
+        },
+      },
+      {
+        tekst: "Ingen kolon eller avsnitt igjen",
+        test: (d) => d.querySelectorAll("p").length === 0 && ![...d.querySelectorAll("dt")].some((x) => tekst(x).includes(":")),
+      },
+    ],
+    hint: "<dl><dt>Varde</dt><dd>En steinhaug som viser hvor stien går.</dd> … </dl>",
+  },
+
+  "m9-kombinator": {
+    html: `<nav>
+  <ul class="meny">
+    <li><a href="#">Forside</a></li>
+    <li><a href="#">Turer</a>
+      <ul>
+        <li><a href="#">Fjell</a></li>
+        <li><a href="#">Skog</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<article>
+  <h2>Ulriken</h2>
+  <p>Bergens høyeste fjell, 643 meter over havet.</p>
+  <p>Ta <a href="#">Ulriksbanen</a> opp, og gå ned.</p>
+</article>
+`,
+    css: ``,
+    sjekker: [
+      {
+        tekst: "Lenker inni artikkelen er fete – menylenkene er det ikke",
+        test: (d) => {
+          const vekt = (a: Element) => Number(stil(a).fontWeight);
+          return (
+            [...d.querySelectorAll("article a")].every((a) => vekt(a) >= 600) &&
+            [...d.querySelectorAll("nav a")].every((a) => vekt(a) < 600)
+          );
+        },
+      },
+      {
+        tekst: "Bare de øverste menypunktene har bakgrunnsfarge – ikke de i undermenyen",
+        test: (d) =>
+          [...d.querySelectorAll(".meny > li")].every(harBakgrunn) &&
+          [...d.querySelectorAll(".meny li li")].every((li) => !harBakgrunn(li)),
+      },
+      {
+        tekst: "Avsnittet rett etter overskriften er større enn de andre avsnittene",
+        test: (d) => {
+          const første = d.querySelector("h2 + p");
+          const andre = d.querySelector("h2 + p ~ p");
+          return første !== null && andre !== null && px(første) > px(andre);
+        },
+      },
+    ],
+    hint: "article a { font-weight: bold; } .meny > li { background-color: #f1faee; } h2 + p { font-size: 1.25rem; }",
+  },
+
+  "m9-stripete": {
+    html: `<table>
+  <caption>Turer i høst</caption>
+  <thead>
+    <tr><th>Tur</th><th>Timer</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Fløyen</td><td>1</td></tr>
+    <tr><td>Ulriken</td><td>3</td></tr>
+    <tr><td>Stoltzekleiven</td><td>1</td></tr>
+    <tr><td>Rundemanen</td><td>4</td></tr>
+    <tr><td>Lyderhorn</td><td>2</td></tr>
+  </tbody>
+</table>
+`,
+    css: `table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 6px 10px;
+  text-align: left;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Annenhver rad i <tbody> har en annen bakgrunnsfarge",
+        test: (d) => {
+          const bg = [...d.querySelectorAll("tbody tr")].map((r) => synligBakgrunn(r.querySelector("td")).join());
+          return bg.length === 5 && bg[0] !== bg[1] && bg[0] === bg[2] && bg[2] === bg[4] && bg[1] === bg[3];
+        },
+      },
+      {
+        tekst: "Overskriftsraden skiller seg ut fra radene under",
+        test: (d) => {
+          const th = synligBakgrunn(d.querySelector("th")).join();
+          return [...d.querySelectorAll("tbody td")].every((td) => synligBakgrunn(td).join() !== th);
+        },
+      },
+      {
+        tekst: "All tekst i tabellen er lett å lese",
+        test: (d) => [...d.querySelectorAll("th, td")].every((c) => lesbar(c)),
+      },
+    ],
+    hint: "tbody tr:nth-child(even) { background-color: #f1faee; } th { background-color: #1d3557; color: white; }",
+  },
+
+  "m9-focus": {
+    html: `<nav>
+  <a href="#">Turer</a>
+  <a href="#">Om oss</a>
+  <a href="#">Kontakt</a>
+</nav>
+<p>Prøv å klikke i forhåndsvisningen og trykke Tab – ser du hvilken lenke du står på?</p>
+`,
+    css: `nav a {
+  color: #1d3557;
+  text-decoration: none;
+  margin-right: 12px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: none;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Ingen regel fjerner fokusmarkeringen",
+        test: (d) =>
+          !regler(d).some(
+            (r) => /:focus/.test(r.selectorText) && (r.style.outlineStyle === "none" || r.style.outlineWidth === "0px"),
+          ),
+      },
+      {
+        tekst: "Lenkene har en tydelig egen stil når de har fokus",
+        test: (d) =>
+          regler(d).some(
+            (r) =>
+              /\ba:focus(-visible)?\b/.test(r.selectorText) &&
+              ["outline-style", "outline", "background-color", "box-shadow", "text-decoration-line"].some(
+                (e) => r.style.getPropertyValue(e) !== "" && r.style.getPropertyValue(e) !== "none",
+              ),
+          ),
+      },
+    ],
+    hint: "Slett a:focus { outline: none; }. Lag heller: a:focus-visible { outline: 3px solid #e63946; outline-offset: 2px; }",
+  },
+
+  "m9-kaskade": {
+    html: `<nav id="meny">
+  <a href="#">Turer</a>
+  <a href="#">Om oss</a>
+  <a href="#" class="knapp">Bli medlem</a>
+</nav>
+`,
+    css: `#meny a {
+  color: #1d3557;
+  background-color: transparent;
+  padding: 6px 10px;
+  text-decoration: none;
+}
+
+.knapp {
+  color: white;
+  background-color: #e63946;
+  border-radius: 6px;
+}
+`,
+    sjekker: [
+      {
+        tekst: "«Bli medlem» er en rød knapp med hvit tekst",
+        test: (d) => {
+          const k = d.querySelector(".knapp");
+          return k !== null && stil(k).backgroundColor === "rgb(230, 57, 70)" && farge(k) === "rgb(255, 255, 255)";
+        },
+      },
+      {
+        tekst: "De andre lenkene er som før",
+        test: (d) =>
+          [...d.querySelectorAll("#meny a:not(.knapp)")].every(
+            (a) => farge(a) === "rgb(29, 53, 87)" && !harBakgrunn(a),
+          ),
+      },
+      {
+        tekst: "Uten !important",
+        test: (d) => !/!\s*important/i.test(stilarkTekst(d)),
+      },
+    ],
+    hint: "#meny a har spesifisiteten (1, 0, 1), og .knapp bare (0, 1, 0). Gjør knapp-regelen sterkere: #meny .knapp har (1, 1, 0).",
+  },
 };

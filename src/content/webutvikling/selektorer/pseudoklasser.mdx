@@ -1,0 +1,57 @@
+Du kjenner allerede `a:hover`. Det `:hover` er, heter en **pseudoklasse**: den treffer elementer
+ut fra *tilstanden* eller *plassen* deres, ikke ut fra hva som står i HTML-en.
+
+## Plassering: first-child, last-child og nth-child
+
+- `li:first-child` – den første `<li>` blant søsknene sine.
+- `li:last-child` – den siste.
+- `tr:nth-child(2)` – nummer to.
+- `tr:nth-child(even)` – nummer 2, 4, 6… (*partall*), og `odd` for 1, 3, 5… (*oddetall*).
+- `li:nth-child(3n)` – hver tredje: 3, 6, 9…
+
+Den klassiske bruken er **stripete tabeller**, som gjør det mye lettere å følge en rad med øynene:
+
+```css
+tbody tr:nth-child(even) {
+  background-color: #f1faee;
+}
+```
+
+<Oppgave id="m9-stripete" />
+
+<Quiz
+  sporsmal="Hvilke elementer treffer li:nth-child(odd) i en liste med fem punkter?"
+  alternativer={["2 og 4", "1, 3 og 5", "Bare det første"]}
+  riktig={1}
+  forklaring="odd betyr oddetall: 1, 3 og 5. Tellingen starter på 1, ikke 0."
+/>
+
+## Tilstand: hover, focus og focus-visible
+
+- `:hover` – musepekeren er over elementet.
+- `:focus` – elementet har **fokus**: det er dit tastaturet peker. Du flytter fokus med `Tab`.
+- `:focus-visible` – som `:focus`, men bare når nettleseren mener markeringen trengs – typisk når du
+  bruker tastaturet, og ikke når du klikker med musa.
+
+Nettleseren tegner en ring rundt elementet som har fokus. Mange synes den er stygg og fjerner den
+med `outline: none` – og da vet ikke tastaturbrukere lenger hvor de er på siden. Det er en av de
+vanligste UU-feilene på nettet.
+
+<Oppgave id="m9-focus" />
+
+<UnderPanseret tittel="Hvem bruker tastaturet?">
+
+Folk som ikke kan bruke mus – fordi de har nedsatt motorikk, er blinde og bruker skjermleser, eller har
+en brukket arm. Og mange som *kan* bruke mus, men er raskere med tastaturet. Fokusmarkeringen er
+deres musepeker. WCAG krever at den er synlig.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Lag stripete rader i tabellen din med `:nth-child(even)`.
+2. Klikk i adressefeltet på nettstedet ditt, og trykk `Tab` gjentatte ganger. Ser du hele tiden hvor du
+   er?
+3. Gi lenkene dine en tydelig `:focus-visible`-stil, for eksempel en `outline` i en farge fra paletten.
+
+</GjorDetSelv>
