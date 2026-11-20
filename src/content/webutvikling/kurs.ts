@@ -246,7 +246,11 @@ export const MODULER: Modul[] = [
     html: ["viewport-meta"],
     css: ["media queries", "mobile first", "relative enheter"],
     teori: ["du vet ikke hvilken skjerm brukeren har"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "ulike-skjermer", tittel: "Du vet ikke hvilken skjerm", minutter: 25 },
+      { slug: "media-queries", tittel: "Media queries", minutter: 30 },
+      { slug: "mobil-forst", tittel: "Mobil først", minutter: 30 },
+    ],
   },
   {
     slug: "publiser",

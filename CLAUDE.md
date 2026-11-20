@@ -36,6 +36,8 @@ Ny leksjon:
    (kontrast, hsl/hex) ligger i `src/lib/farger.ts`. Oppgaver med flere HTML-sider bruker `sider`
    (filnavn → kode) og `løsSti()` (`src/lib/stier.ts`) for stier; de ekstra sidene lagres i `exercise_results.pages`.
    Bilder i oppgaver: `bilder: [...]` med stier fra `kursbilder.ts` (filene ligger i `public/kurs/bilder/`).
+   Responsive oppgaver: `responsiv: true` gir knapper for skjermbredde, og `iBredde(d, px, fn)` lar en sjekk
+   teste en bestemt bredde.
    Funksjoner kan ikke sendes som props fra MDX, derfor ligger sjekkene der.
 4. Test oppgaven i nettleseren: skriv riktig og feil kode, og se at sjekkene reagerer riktig.
 

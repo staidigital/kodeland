@@ -515,6 +515,7 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 .leksjon-tekst > * + .flytlab,
 .leksjon-tekst > * + .flekslab,
 .leksjon-tekst > * + .gridlab,
+.leksjon-tekst > * + .skjermbredde,
 .leksjon-tekst > * + blockquote,
 .leksjon-tekst > * + figure,
 .leksjon-tekst > * + .sjekkliste { margin-top: 1.6em; }
@@ -538,6 +539,7 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 .leksjon-tekst > .flytlab + *,
 .leksjon-tekst > .flekslab + *,
 .leksjon-tekst > .gridlab + *,
+.leksjon-tekst > .skjermbredde + *,
 .leksjon-tekst > figure + * { margin-top: 1.6em; }
 
 /* Bokser */
@@ -678,7 +680,33 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 .oppgave__tilbake:hover:not(:disabled) { background: var(--linje); }
 .oppgave__tilbake:disabled { opacity: 0.35; cursor: default; }
 .oppgave__adresse--feil { color: var(--rod); }
+.oppgave__flate { position: relative; flex: 1; display: flex; min-height: 220px; overflow: hidden; background: var(--bg); }
 .oppgave__iframe { flex: 1; width: 100%; min-height: 220px; border: 0; background: #fff; }
+.oppgave__flate .oppgave__iframe[style] { flex: none; }
+.oppgave__bredder {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--linje);
+  background: var(--bg);
+  font-size: 12px;
+}
+.oppgave__bredder button {
+  display: inline-flex;
+  gap: 4px;
+  padding: 3px 8px;
+  border: 1px solid var(--linje-sterk);
+  border-radius: 6px;
+  background: var(--kort);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.oppgave__bredder button span { color: var(--dempet); font-family: var(--font-geist-mono), monospace; }
+.oppgave__bredder button[aria-pressed="true"] { border-color: var(--tekst); font-weight: 600; }
+.oppgave__skala { margin-left: auto; color: var(--dempet); }
 
 .oppgave__sjekker {
   padding: 14px 18px;
@@ -712,7 +740,7 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
 .fil-ikon--bilde { background: var(--gronn); }
 
 /* Quiz, filnavn, sjekkliste: felles kort */
-.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner, .nettverksfane, .nettstedsjekker, .boksmodell, .dom-tre, .skjermleser, .typografilab, .typeskala, .selektorlab, .spesifisitetsspill, .flytlab, .flekslab, .gridlab {
+.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner, .nettverksfane, .nettstedsjekker, .boksmodell, .dom-tre, .skjermleser, .typografilab, .typeskala, .selektorlab, .spesifisitetsspill, .flytlab, .flekslab, .gridlab, .skjermbredde {
   padding: 18px 20px;
   border: 1px solid var(--linje);
   border-radius: 14px;
@@ -1487,6 +1515,17 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
   font-size: 14px;
   overflow-wrap: anywhere;
 }
+
+/* Skjermbredde */
+.sb-px { color: var(--dempet); font-family: var(--font-geist-mono), monospace; font-size: 12px; }
+.sb-flate { position: relative; overflow: hidden; margin-top: 12px; border-radius: 10px; background: var(--bg); }
+.sb-ramme { position: absolute; top: 2px; left: 0; border: 1px solid var(--linje-sterk); background: #fff; transform-origin: 0 0; }
+.sb-skala { margin: 6px 0 0; color: var(--dempet); font-size: 13px; }
+.sb-sporringer { list-style: none !important; margin: 12px 0 0 !important; padding: 0 !important; display: flex; flex-direction: column; gap: 6px; font-size: 15px; }
+.sb-sporringer li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 0 !important; padding: 6px 10px; border-radius: 8px; color: var(--dempet); background: var(--bg); }
+.sb-sporringer li.aktiv { color: var(--tekst); background: var(--gronn-myk); }
+.sb-merke { min-width: 150px; font-size: 13px; font-weight: 700; }
+.sb-sporringer li.aktiv .sb-merke::before { content: "✓ "; color: var(--gronn); }
 
 /* Tabeller og definisjonslister i leksjonsteksten */
 .leksjon-tekst table { border-collapse: collapse; font-size: 15px; }

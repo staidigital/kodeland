@@ -1,0 +1,68 @@
+Du kan skrive media queries på to måter: lage PC-versjonen først og *ta bort* ting for mobil med
+`max-width`, eller lage mobilversjonen først og *legge til* for større skjermer med `min-width`. Den andre
+måten heter **mobil først** (*mobile first*), og den er nesten alltid best.
+
+## Hvorfor mobil først?
+
+- **Mobiloppsettet er det enkleste.** Som regel står alt under hverandre – det er jo normal flyt! Du trenger
+  nesten ingen CSS.
+- **Du legger til, i stedet for å ta bort.** Det er lettere å legge til kolonner når det blir plass, enn å
+  overstyre og nullstille et avansert PC-oppsett for hver mobil.
+- **De fleste bruker mobil.** Da er det smart at det er den som er grunnoppsettet.
+
+```css
+/* Grunnoppsett: mobil */
+header {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Større skjermer */
+@media (min-width: 700px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+```
+
+<Oppgave id="m13-mobil-forst" />
+
+<UnderPanseret tittel="Ikke bare bredden">
+
+Media queries kan spørre om mer enn bredden. `@media (prefers-color-scheme: dark)` gjelder når brukeren har
+valgt mørkt tema i systemet sitt – denne nettsiden bruker den. `@media (prefers-reduced-motion: reduce)`
+gjelder når brukeren har bedt om mindre animasjon, fordi bevegelse kan gi kvalme eller svimmelhet.
+`@media print` gjelder når siden skrives ut.
+
+</UnderPanseret>
+
+<Tips>
+
+Enhetsmodus i utviklerverktøyet er en god etterligning, men ikke helt det samme som en ekte mobil –
+fingre er tykkere enn en musepeker, og skjermen er mindre enn du tror. Når du publiserer nettstedet i
+modul 14, kan du endelig teste det på din egen mobil.
+
+</Tips>
+
+<GjorDetSelv>
+
+1. Se gjennom `style.css`: står mobiloppsettet først, med `min-width` for større skjermer?
+2. Gjør menyen din mobilvennlig: på en smal skjerm kan den stå under logoen og bryte over flere linjer med
+   `flex-wrap: wrap`.
+3. Sjekk at ingen sider må rulles sidelengs på 360 piksler.
+4. Test hele nettstedet i enhetsmodus med en mobil, et nettbrett og en stor skjerm.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="m13-ferdig"
+  punkter={[
+    "Alle sidene har viewport-taggen i <head>",
+    "Ingen faste bredder i piksler som er bredere enn en mobil",
+    "Siden må ikke rulles sidelengs på 360 piksler",
+    "Stilarket er mobil først, med media queries som bruker min-width",
+    "Bruddpunktene er valgt etter innholdet, ikke etter bestemte telefoner",
+    "Jeg har testet nettstedet i enhetsmodus i utviklerverktøyet",
+  ]}
+/>

@@ -16,6 +16,7 @@ import { Oppgave } from "@/components/kurs/oppgave";
 import { Quiz } from "@/components/kurs/quiz";
 import { Selektorlab } from "@/components/kurs/selektorlab";
 import { Sjekkliste } from "@/components/kurs/sjekkliste";
+import { Skjermbredde } from "@/components/kurs/skjermbredde";
 import { Skjermleser } from "@/components/kurs/skjermleser";
 import { Spesifisitetsspill } from "@/components/kurs/spesifisitetsspill";
 import { Typeskala } from "@/components/kurs/typeskala";
@@ -46,6 +47,7 @@ const components: MDXComponents = {
   Flytlab,
   Flekslab,
   Gridlab,
+  Skjermbredde,
   Mappebygger,
   Sjekkliste,
 };

@@ -83,6 +83,14 @@ const feilside = (fil: string) => `<!DOCTYPE html>
 
 const ikon = (fil: string) => (fil.endsWith(".css") ? "css" : "html");
 
+/** Skjermbreddene studenten kan prøve i oppgaver med responsiv: true. null = tilpass ruta. */
+const BREDDER = [
+  { navn: "Mobil", px: 360 },
+  { navn: "Nettbrett", px: 768 },
+  { navn: "PC", px: 1100 },
+  { navn: "Tilpass", px: null },
+] as const;
+
 export default function OppgaveEditor({ id }: { id: string }) {
   const def = OPPGAVER[id];
   const lagret = useMemo(() => hentOppgave(id), [id]);
@@ -109,6 +117,18 @@ export default function OppgaveEditor({ id }: { id: string }) {
   const [visHint, setVisHint] = useState(false);
   const iframe = useRef<HTMLIFrameElement>(null);
   const forrigeBestatt = useRef(lagret?.passed ?? false);
+  // Skjermbredde i responsive oppgaver. Brede skjermer skaleres ned så de får plass i ruta.
+  const [bredde, setBredde] = useState<number | null>(null);
+  const flate = useRef<HTMLDivElement>(null);
+  const [plass, setPlass] = useState({ b: 0, h: 0 });
+  useEffect(() => {
+    const el = flate.current;
+    if (!el || !def.responsiv) return;
+    const obs = new ResizeObserver(([e]) => setPlass({ b: e.contentRect.width, h: e.contentRect.height }));
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [def.responsiv]);
+  const skala = bredde && plass.b ? Math.min(1, plass.b / bredde) : 1;
 
   // Oppdater forhåndsvisningen og lagre koden litt etter at studenten slutter å skrive.
   useEffect(() => {
@@ -273,14 +293,50 @@ export default function OppgaveEditor({ id }: { id: string }) {
               {adresse}
             </span>
           </div>
-          <iframe
-            ref={iframe}
-            title="Forhåndsvisning"
-            sandbox="allow-same-origin"
-            srcDoc={srcDoc}
-            onLoad={sjekk}
-            className="oppgave__iframe"
-          />
+          {def.responsiv && (
+            <div className="oppgave__bredder" role="group" aria-label="Skjermbredde">
+              {BREDDER.map((b) => (
+                <button
+                  key={b.navn}
+                  aria-pressed={bredde === b.px}
+                  onClick={() => {
+                    // Mål ruta nå også, i tilfelle ResizeObserver ikke har rapportert ennå.
+                    const r = flate.current?.getBoundingClientRect();
+                    if (r) setPlass({ b: r.width, h: r.height });
+                    setBredde(b.px);
+                  }}
+                >
+                  {b.navn}
+                  {b.px && <span>{b.px}px</span>}
+                </button>
+              ))}
+              {bredde && skala < 1 && <span className="oppgave__skala">vist i {Math.round(skala * 100)} %</span>}
+            </div>
+          )}
+          <div ref={flate} className="oppgave__flate">
+            <iframe
+              ref={iframe}
+              title="Forhåndsvisning"
+              sandbox="allow-same-origin"
+              srcDoc={srcDoc}
+              onLoad={sjekk}
+              className="oppgave__iframe"
+              style={
+                bredde
+                  ? {
+                      // Ut av flyten, så den skalerte rammen ikke gjør ruta høyere (og høyere …).
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: bredde,
+                      height: plass.h ? plass.h / skala : undefined,
+                      transform: skala < 1 ? `scale(${skala})` : undefined,
+                      transformOrigin: "0 0",
+                    }
+                  : undefined
+              }
+            />
+          </div>
         </div>
       </div>
 

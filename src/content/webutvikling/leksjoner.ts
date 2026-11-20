@@ -49,6 +49,9 @@ import m12GridTemplateAreas from "./grid/grid-template-areas.mdx";
 import m12NarBrukerDuHva from "./grid/nar-bruker-du-hva.mdx";
 import m12Posisjonering from "./grid/posisjonering.mdx";
 import m12RaderOgKolonner from "./grid/rader-og-kolonner.mdx";
+import m13MediaQueries from "./responsivt/media-queries.mdx";
+import m13MobilForst from "./responsivt/mobil-forst.mdx";
+import m13UlikeSkjermer from "./responsivt/ulike-skjermer.mdx";
 
 /**
  * Kobler leksjons-id (modul/leksjon) til MDX-fila.
@@ -106,4 +109,7 @@ export const LEKSJONER: Record<string, ComponentType> = {
   "grid/grid-template-areas": m12GridTemplateAreas,
   "grid/posisjonering": m12Posisjonering,
   "grid/nar-bruker-du-hva": m12NarBrukerDuHva,
+  "responsivt/ulike-skjermer": m13UlikeSkjermer,
+  "responsivt/media-queries": m13MediaQueries,
+  "responsivt/mobil-forst": m13MobilForst,
 };

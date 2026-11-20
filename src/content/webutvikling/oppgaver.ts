@@ -38,6 +38,8 @@ export type OppgaveDef = {
   sider?: Record<string, string>;
   /** Bildene som ligger i prosjektet (se kursbilder.ts). Brukes av <img src> og url() i CSS. */
   bilder?: Kursbilde[];
+  /** Vis knapper for skjermbredde (mobil, nettbrett, PC) over forhåndsvisningen. */
+  responsiv?: boolean;
 };
 
 /** Filene lenkene på en side peker på (lenker ut av prosjektet er tatt bort). */
@@ -45,6 +47,35 @@ const lenkerTil = (side: Document | undefined, fra: string) =>
   [...(side?.querySelectorAll("a[href]") ?? [])]
     .map((a) => løsSti(a.getAttribute("href") ?? "", fra))
     .filter((x): x is string => x !== null);
+
+/**
+ * Kjør `fn` mens forhåndsvisningen er `bredde` piksler bred, og sett bredden tilbake etterpå.
+ * Media queries i siden svarer på den nye bredden.
+ */
+function iBredde<T>(d: Document, bredde: number, fn: () => T): T {
+  const ramme = d.defaultView?.frameElement as HTMLElement | null;
+  if (!ramme) return fn();
+  const før = { width: ramme.style.width, transform: ramme.style.transform };
+  ramme.style.width = `${bredde}px`;
+  ramme.style.transform = "none";
+  void d.documentElement.getBoundingClientRect(); // tving ny layout med den nye bredden
+  try {
+    return fn();
+  } finally {
+    ramme.style.width = før.width;
+    ramme.style.transform = før.transform;
+  }
+}
+
+/** Antall kolonner elementene står i (forskjellige venstrekanter). */
+const kolonner = (d: Document, selektor: string) =>
+  new Set([...d.querySelectorAll(selektor)].map((x) => Math.round(x.getBoundingClientRect().left))).size;
+
+/** Alle @media-regler i stilarkene. */
+const mediaRegler = (d: Document) =>
+  [...d.styleSheets].flatMap((ark) =>
+    [...ark.cssRules].filter((r): r is CSSMediaRule => r instanceof d.defaultView!.CSSMediaRule),
+  );
 
 /** Vises bildet i forhåndsvisningen (ikke ødelagt)? */
 const vises = (img: Element) => (img as HTMLImageElement).complete && (img as HTMLImageElement).naturalWidth > 0;
@@ -3308,5 +3339,190 @@ main {
       },
     ],
     hint: "header { display: flex; justify-content: space-between; } .turer { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; } .kort { position: relative; } .merke { position: absolute; top: 8px; right: 8px; }",
+  },
+
+  // ── Modul 13: Responsivt design ─────────────────────────────────────
+
+  "m13-viewport": {
+    html: `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Fjellklubben</title>
+  </head>
+  <body>
+    <div class="innhold">
+      <h1>Fjellklubben</h1>
+      <p>Vi går på tur hver helg, hele året. Alle er velkomne – du trenger bare gode sko og litt niste.</p>
+      <img src="bilder/fjell.jpg" alt="Solnedgang over fjell og fjord">
+    </div>
+  </body>
+</html>
+`,
+    css: `body {
+  font-family: Verdana, sans-serif;
+}
+
+.innhold {
+  width: 800px;
+  margin: 0 auto;
+}
+`,
+    bilder: ["bilder/fjell.jpg"],
+    responsiv: true,
+    sjekker: [
+      {
+        tekst: "<head> har viewport-taggen med width=device-width og initial-scale=1",
+        test: (d) => {
+          const m = d.querySelector('head meta[name="viewport"]')?.getAttribute("content")?.replace(/\s/g, "") ?? "";
+          return m.includes("width=device-width") && m.includes("initial-scale=1");
+        },
+      },
+      {
+        tekst: "På en mobil (360px) må man ikke rulle sidelengs",
+        test: (d) => iBredde(d, 360, () => d.documentElement.scrollWidth <= 361),
+      },
+      {
+        tekst: "På en stor skjerm er innholdet fortsatt høyst 800px bredt, og midt på",
+        test: (d) =>
+          iBredde(d, 1200, () => {
+            const r = d.querySelector(".innhold")?.getBoundingClientRect();
+            return r !== undefined && r.width <= 801 && Math.abs(r.left - (1200 - r.right)) <= 2;
+          }),
+      },
+    ],
+    hint: `<meta name="viewport" content="width=device-width, initial-scale=1"> i <head>. I CSS: bytt width med max-width, og legg til img { max-width: 100%; }.`,
+  },
+
+  "m13-media": {
+    html: `<h1>Turer i høst</h1>
+<div class="kort-rad">
+  <article class="kort">Fløyen</article>
+  <article class="kort">Ulriken</article>
+  <article class="kort">Stoltzen</article>
+  <article class="kort">Lyderhorn</article>
+</div>
+`,
+    css: `.kort-rad {
+  display: grid;
+  gap: 12px;
+}
+
+.kort {
+  padding: 12px;
+  background-color: #a8dadc;
+}
+`,
+    responsiv: true,
+    sjekker: [
+      {
+        tekst: "På mobil (360px) står kortene under hverandre",
+        test: (d) => iBredde(d, 360, () => kolonner(d, ".kort") === 1),
+      },
+      {
+        tekst: "Fra 700px står de i to kolonner",
+        test: (d) => iBredde(d, 768, () => kolonner(d, ".kort") === 2) && iBredde(d, 690, () => kolonner(d, ".kort") === 1),
+      },
+      {
+        tekst: "Fra 1000px står alle fire på én rad",
+        test: (d) => iBredde(d, 1100, () => kolonner(d, ".kort") === 4) && iBredde(d, 990, () => kolonner(d, ".kort") === 2),
+      },
+      {
+        tekst: "Stilarket bruker media queries med min-width",
+        test: (d) => mediaRegler(d).filter((r) => /min-width/.test(r.conditionText)).length >= 2,
+      },
+    ],
+    hint: "@media (min-width: 700px) { .kort-rad { grid-template-columns: 1fr 1fr; } } og @media (min-width: 1000px) { .kort-rad { grid-template-columns: repeat(4, 1fr); } }",
+  },
+
+  "m13-mobil-forst": {
+    html: `<header>
+  <a class="logo" href="#">Fjellklubben</a>
+  <nav>
+    <a href="#">Turer</a>
+    <a href="#">Om oss</a>
+    <a href="#">Kontakt</a>
+  </nav>
+</header>
+<main>
+  <h1>Velkommen på tur!</h1>
+  <p>Vi går på tur hver helg, hele året.</p>
+</main>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #1d3557;
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+nav {
+  display: flex;
+  gap: 24px;
+}
+
+main {
+  padding: 0 16px;
+}
+
+h1 {
+  font-size: 3.5rem;
+}
+`,
+    responsiv: true,
+    sjekker: [
+      {
+        tekst: "På mobil (360px) står logoen over menyen, og ingenting stikker ut",
+        test: (d) =>
+          iBredde(d, 360, () => {
+            const l = d.querySelector(".logo")?.getBoundingClientRect();
+            const n = d.querySelector("header nav")?.getBoundingClientRect();
+            return l !== undefined && n !== undefined && l.bottom <= n.top + 1 && d.documentElement.scrollWidth <= 361;
+          }),
+      },
+      {
+        tekst: "På mobil er overskriften høyst 2,25rem (36px)",
+        test: (d) => iBredde(d, 360, () => px(d.querySelector("h1")) <= 36),
+      },
+      {
+        tekst: "På PC (1100px) står logoen og menyen på én linje, med menyen til høyre",
+        test: (d) =>
+          iBredde(d, 1100, () => {
+            const h = d.querySelector("header");
+            const l = d.querySelector(".logo")?.getBoundingClientRect();
+            const n = d.querySelector("header nav")?.getBoundingClientRect();
+            if (!h || !l || !n) return false;
+            return Math.abs(l.top + l.height / 2 - (n.top + n.height / 2)) <= 3 && 1100 - parseFloat(stil(h).paddingRight) - n.right <= 2;
+          }),
+      },
+      {
+        tekst: "På PC er overskriften større enn på mobil",
+        test: (d) => iBredde(d, 1100, () => px(d.querySelector("h1"))) > iBredde(d, 360, () => px(d.querySelector("h1"))),
+      },
+      {
+        tekst: "Mobil først: grunnreglene er for mobil, og media queriene bruker min-width",
+        test: (d) => {
+          const m = mediaRegler(d);
+          return m.length > 0 && m.every((r) => /min-width/.test(r.conditionText) && !/max-width/.test(r.conditionText));
+        },
+      },
+    ],
+    hint: "Skriv mobiloppsettet først: header { flex-direction: column; align-items: flex-start; } h1 { font-size: 2rem; }. Legg så PC-oppsettet i @media (min-width: 700px) { header { flex-direction: row; align-items: center; } h1 { font-size: 3.5rem; } }.",
   },
 };

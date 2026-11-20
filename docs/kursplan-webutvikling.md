@@ -49,7 +49,7 @@ Kolonnen «Pensum» viser hvilke kapitler i Webutvikling-101 modulen henter stof
 | 10 | **Display og flyt** ✅ | – | `block`/`inline`, vannrett meny, `overflow` | normal flyt | 15 |
 | 11 | **Flexbox** ✅ | – | `display: flex`, `justify-content`, `align-items`, `gap`, `flex-wrap` | – | 17 |
 | 12 | **Grid og posisjonering** ✅ | – | grid, `fr`, `grid-template-areas`, `sticky`, `relative`/`absolute` | når bruker du hva? | 16, 18 |
-| 13 | **Responsivt design** | viewport-meta | media queries, mobile first, relative enheter | du vet ikke hvilken skjerm brukeren har | 19 |
+| 13 | **Responsivt design** ✅ | viewport-meta | media queries, mobile first, relative enheter | du vet ikke hvilken skjerm brukeren har | 19 |
 | 🚀 | **14. Publiser!** | validering | kontrastsjekk | hosting; domener og DNS; nå ligger *din* side på en tjener (knytter tilbake til modul 4) | 1 (+ nytt) |
 
 ✅ = leksjoner skrevet. Modul 1–5 tilsvarer omtrent første periode, og studentene ender med et
@@ -64,7 +64,7 @@ vises mellom modulene i oversikten og heter «Sjekkpunkt N» i stedet for «Modu
 
 | Komponent | Bruk |
 |---|---|
-| `<Oppgave id="…" />` | Kodeeditor (index.html, ev. flere sider og style.css) med forhåndsvisning og automatiske sjekker. Lenker mellom sidene virker, og feil sti gir 404. Bilder fra `kursbilder.ts` kan ligge i prosjektet, og feil sti gir ødelagt bilde. Definisjonene ligger i `oppgaver.ts`. |
+| `<Oppgave id="…" />` | Kodeeditor (index.html, ev. flere sider og style.css) med forhåndsvisning og automatiske sjekker. Lenker mellom sidene virker, og feil sti gir 404. Bilder fra `kursbilder.ts` kan ligge i prosjektet, og feil sti gir ødelagt bilde. Med `responsiv: true` får forhåndsvisningen knapper for skjermbredde, og sjekkene kan teste flere bredder med `iBredde()`. Definisjonene ligger i `oppgaver.ts`. |
 | `<Quiz sporsmal kode alternativer riktig forklaring />` | Gjett-først: studenten velger, så kommer forklaringen. Bra før en ny ting vises. |
 | `<UnderPanseret tittel="…">` | Kort teoriboks. Hovedverktøyet for å spre teorien. |
 | `<Tips>` | Små tips. |
@@ -86,6 +86,7 @@ vises mellom modulene i oversikten og heter «Sjekkpunkt N» i stedet for «Modu
 | `<Flytlab />` | Tre bokser midt i en tekst: bytt `display` mellom `inline`, `block`, `inline-block` og `none`, og se hvordan de legger seg i flyten. |
 | `<Flekslab />` | Sandkasse for flexbox: `flex-direction`, `justify-content`, `align-items`, `flex-wrap`, `gap` og antall bokser, med hovedakse og tverrakse tegnet inn. |
 | `<Gridlab />` | Sandkasse for grid: kolonner med `fr`, `repeat` og `auto-fit` (med justerbar containerbredde), og et helt sideoppsett med `grid-template-areas` som studenten skriver selv. |
+| `<Skjermbredde />` | Glidebryter for skjermbredden på en mobil-først-side, som viser hvilke media queries som er aktive. Brede skjermer skaleres ned så de får plass. |
 | `<Nettstedsjekker />` | Studenten velger eller drar inn `webkurs`-mappen sin, og får den sjekket mot kravene i sjekkpunkt 1 (filnavn, grunnstruktur, lenker, meny, bilder, farger). Med `sjekkpunkt={2}` sjekker den også struktur, boksmodell, typografi, fokusmarkering og `!important`. Alt skjer lokalt i nettleseren. Sjekkene står i `src/lib/nettstedsjekk.ts`. |
 
 Oppgavetyper vi bruker: endre koden, **finn feilen** (ødelagt kode som skal fikses), **hva gjør
@@ -94,7 +95,6 @@ denne koden?** (som `<Quiz>` med kode), og frie lekeplasser (oppgave uten sjekke
 **Ideer som ikke er bygget ennå**, med modulen de hører til:
 
 - `<KlientTjener />` igjen ved publisering, med DNS-oppslag og en ekte tjener (modul 14)
-- Skjermbredde-glidebryter for å teste media queries (modul 13)
 
 ## Innlogging og lærerpanel
 

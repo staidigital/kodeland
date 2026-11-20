@@ -1,0 +1,60 @@
+Relative enheter tar deg langt. Men noen ganger må oppsettet *endre seg*: tre kolonner på en PC
+er for trangt på en mobil, der det heller bør være én. Til det har CSS **media queries**.
+
+## Regler som bare gjelder noen ganger
+
+En media query er en blokk med CSS-regler som bare gjelder når et krav er oppfylt:
+
+```css
+.kort-rad {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 700px) {
+  .kort-rad {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+```
+
+Les det slik: *Når skjermen er minst 700 piksler bred, skal kortene stå i to kolonner.* På smalere skjermer
+gjelder bare regelen over, og kortene står under hverandre.
+
+Reglene inni en media query er vanlige CSS-regler, og kaskaden virker som før: står media queryen etter den
+vanlige regelen, vinner den når den gjelder.
+
+## Prøv selv
+
+Dra i bredden, og se hvilke media queries som slår inn:
+
+<Skjermbredde />
+
+<Quiz
+  sporsmal="Skjermen er 800 piksler bred. Hvilke regler gjelder for .kort?"
+  kode={".kort { width: 100%; }\n\n@media (min-width: 600px) {\n  .kort { width: 50%; }\n}\n\n@media (min-width: 900px) {\n  .kort { width: 33%; }\n}"}
+  alternativer={["100%", "50%", "33%"]}
+  riktig={1}
+  forklaring="800 er minst 600, så den første media queryen gjelder og gir 50%. Men 800 er ikke minst 900, så den siste gjelder ikke. Ved 1000 piksler ville begge gjeldt, og den siste – 33% – vunnet."
+/>
+
+## Hvor skal bruddpunktene være?
+
+Bredden der oppsettet endrer seg, kalles et **bruddpunkt** (*breakpoint*). Det er fristende å velge breddene
+til bestemte telefoner, men det finnes tusenvis av skjermstørrelser. Gjør heller slik:
+
+1. Start smalt, og gjør vinduet sakte bredere.
+2. Når siden begynner å se rar ut – for lange linjer, for mye tom plass, kort som kunne stått ved siden av
+   hverandre – legger du inn et bruddpunkt akkurat der.
+
+Det er *innholdet* som bestemmer bruddpunktene, ikke telefonene.
+
+<Oppgave id="m13-media" />
+
+<GjorDetSelv>
+
+1. Gjør nettleservinduet sakte smalere og bredere med nettstedet ditt. Hvor begynner det å se rart ut?
+2. Legg inn ett eller to bruddpunkter med `@media (min-width: …)` der det trengs.
+3. Test med enhetsmodus i utviklerverktøyet (`Ctrl + Shift + M`).
+
+</GjorDetSelv>

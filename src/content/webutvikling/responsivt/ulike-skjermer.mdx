@@ -1,0 +1,57 @@
+Du lager nettstedet ditt på en PC. Men på mange nettsteder kommer over halvparten av de besøkende fra
+en mobil. Andre bruker nettbrett, en stor skjerm på jobb, eller en TV. Du vet ikke hvilken skjerm
+brukeren har – så siden må virke på alle. Det kalles **responsivt design**.
+
+## Problemet
+
+En side som er laget for en bred skjerm, får to problemer på en mobil:
+
+- **Ting stikker ut.** En boks med `width: 800px` eller et bilde på 1600 piksler er bredere enn en mobil på
+  rundt 360–430 piksler, og man må rulle sidelengs.
+- **Alt blir bittelite.** Mobilnettlesere later som skjermen er rundt 980 piksler bred, og zoomer ut for å få
+  plass – så teksten blir umulig å lese uten å zoome.
+
+## Viewport-taggen
+
+Det andre problemet løser du med én linje i `<head>`, på alle sidene:
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1">
+```
+
+Den sier til mobilen: *Ikke lat som du er en PC. Bruk din egen bredde, og ikke zoom.* Uten den virker
+ingenting av det du lærer i denne modulen på en ekte mobil.
+
+## Relative enheter
+
+Det første problemet løser du ved å slutte å bruke faste bredder. Du kjenner allerede verktøyene:
+
+- `max-width` i stedet for `width` – «aldri bredere enn», men gjerne smalere (modul 5 og 6).
+- `%` – en del av forelderen. `width: 50%` er halvparten.
+- `rem` – i forhold til brukerens skriftstørrelse (modul 8).
+- `fr` og `minmax()` – grid som tilpasser seg (modul 12).
+- `vw` og `vh` – en hundredel av bredden og høyden på vinduet. `100vh` er hele skjermhøyden.
+
+<Quiz
+  sporsmal="Hvilken regel gjør at en boks kan være 800 piksler bred på en PC, men krymper på en mobil?"
+  alternativer={["width: 800px", "max-width: 800px", "min-width: 800px"]}
+  riktig={1}
+  forklaring="max-width setter et tak, men lar boksen være smalere når det ikke er plass. width: 800px er alltid 800 piksler – også på en mobil som bare er 360 bred. min-width gjør det motsatte: aldri smalere enn 800."
+/>
+
+## Fiks siden
+
+Oppgaven under har knapper for skjermbredde over forhåndsvisningen. Prøv **Mobil** før og etter at du har
+rettet koden.
+
+<Oppgave id="m13-viewport" />
+
+<GjorDetSelv>
+
+1. Sjekk at alle sidene dine har viewport-taggen i `<head>`.
+2. Søk etter `width:` i `style.css`. Er det faste bredder i piksler som burde vært `max-width`?
+3. Åpne nettstedet i nettleseren, og trykk `Ctrl + Shift + M` (`Cmd + Shift + M` på Mac) i
+   utviklerverktøyet. Da får du **enhetsmodus**: velg en mobil øverst, og se nettstedet ditt slik det ser ut
+   der. Må man rulle sidelengs noe sted?
+
+</GjorDetSelv>
