@@ -462,7 +462,8 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 }
 .leksjon-tekst pre,
 .quiz__kode,
-.fv-kode {
+.fv-kode,
+.bm-kode {
   overflow-x: auto;
   padding: 16px 18px;
   border-radius: 12px;
@@ -504,6 +505,7 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 .leksjon-tekst > * + .stifinner,
 .leksjon-tekst > * + .nettverksfane,
 .leksjon-tekst > * + .nettstedsjekker,
+.leksjon-tekst > * + .boksmodell,
 .leksjon-tekst > * + figure,
 .leksjon-tekst > * + .sjekkliste { margin-top: 1.6em; }
 .leksjon-tekst > .oppgave + *,
@@ -516,6 +518,7 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 .leksjon-tekst > .stifinner + *,
 .leksjon-tekst > .nettverksfane + *,
 .leksjon-tekst > .nettstedsjekker + *,
+.leksjon-tekst > .boksmodell + *,
 .leksjon-tekst > figure + * { margin-top: 1.6em; }
 
 /* Bokser */
@@ -690,7 +693,7 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
 .fil-ikon--bilde { background: var(--gronn); }
 
 /* Quiz, filnavn, sjekkliste: felles kort */
-.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner, .nettverksfane, .nettstedsjekker {
+.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner, .nettverksfane, .nettstedsjekker, .boksmodell {
   padding: 18px 20px;
   border: 1px solid var(--linje);
   border-radius: 14px;
@@ -1189,6 +1192,53 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
 .ns-detaljer { margin: 4px 0 0 !important; padding-left: 1.1em !important; font-size: 14px; overflow-wrap: anywhere; }
 .ns-detaljer li + li { margin-top: 2px !important; }
 .ns-leksjon { display: inline-block; margin-top: 4px; font-size: 14px; }
+
+/* Boksmodellen. Farger som i utviklerverktøyet: margin oransje, border gul, padding grønn, innhold blå. */
+.boksmodell {
+  --bm-margin: #f9cc9d;
+  --bm-border: #fddd9b;
+  --bm-padding: #c3d08b;
+  --bm-innhold: #8cb6c0;
+}
+.bm-flate { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 16px; margin-top: 8px; }
+@media (max-width: 640px) { .bm-flate { grid-template-columns: 1fr; } }
+.bm-glidere { display: flex; flex-direction: column; gap: 12px; }
+.bm-glider { display: grid; grid-template-columns: 1fr 48px; gap: 4px 10px; align-items: center; font-size: 15px; }
+.bm-glider__navn { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; }
+.bm-glider__navn::before { content: ""; width: 12px; height: 12px; border-radius: 3px; background: var(--bm-farge); }
+.bm-glider--padding { --bm-farge: var(--bm-padding); }
+.bm-glider--border { --bm-farge: var(--bm-border); }
+.bm-glider--margin { --bm-farge: var(--bm-margin); }
+.bm-glider input { width: 100%; accent-color: var(--tekst); }
+.bm-glider__verdi { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--font-geist-mono), monospace; font-size: 13px; }
+.bm-bryter { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; }
+.bm-bryter input { width: 17px; height: 17px; accent-color: var(--tekst); }
+.bm-diagram { font-family: var(--font-geist-mono), monospace; font-size: 11px; color: #222; }
+.bm-lag { position: relative; padding: 20px 16px 12px; border: 1px dashed rgb(0 0 0 / 0.35); text-align: center; }
+.bm-lag--margin { background: var(--bm-margin); border-style: dashed; }
+.bm-lag--border { background: var(--bm-border); border-style: solid; border-color: #222; }
+.bm-lag--padding { background: var(--bm-padding); }
+.bm-lag--innhold { padding: 12px 6px; background: var(--bm-innhold); border-style: solid; font-weight: 700; }
+.bm-etikett { position: absolute; top: 3px; left: 6px; }
+.bm-tall { position: absolute; top: 3px; left: 50%; transform: translateX(-50%); font-weight: 700; }
+.bm-scene {
+  overflow: hidden;
+  margin-top: 16px;
+  border: 1px solid var(--linje);
+  border-radius: 10px;
+  background: repeating-linear-gradient(45deg, var(--bg), var(--bg) 8px, var(--kort) 8px, var(--kort) 16px);
+}
+.bm-boks {
+  border: 0 solid #1d3557;
+  background: #a8dadc;
+  color: #1d3557;
+  font-size: 15px;
+  transition: all 0.15s;
+}
+.bm-nabo { padding: 6px 10px; background: var(--linje); color: var(--dempet); font-size: 13px; }
+.bm-regnestykke { margin: 12px 0 0; font-size: 15px; }
+.bm-forklaring { color: var(--dempet); font-size: 14px; }
+.bm-kode { margin-top: 10px; }
 
 /* Figurer i leksjonsteksten */
 .leksjon-tekst figure { margin: 0; }

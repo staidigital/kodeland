@@ -129,8 +129,13 @@ export const MODULER: Modul[] = [
     ingress: "Alt er firkanter. Lær å styre luften rundt og inni dem.",
     html: ["<div>"],
     css: ["padding", "margin", "border", "box-sizing"],
-    teori: ["utviklerverktøyet"],
-    leksjoner: [],
+    teori: ["alt er firkanter", "utviklerverktøyet"],
+    leksjoner: [
+      { slug: "alt-er-bokser", tittel: "Alt er bokser", minutter: 20 },
+      { slug: "padding-og-border", tittel: "Padding og border", minutter: 25 },
+      { slug: "margin", tittel: "Margin og sentrering", minutter: 25 },
+      { slug: "box-sizing", tittel: "box-sizing og utviklerverktøyet", minutter: 30 },
+    ],
   },
   {
     slug: "semantikk",

@@ -1,0 +1,68 @@
+Når du gir en boks en bakgrunnsfarge, ser du fort et problem: teksten klistrer seg helt inntil
+kanten. Den trenger luft.
+
+## Boksmodellen
+
+Hver boks består av fire lag, innenfra og ut:
+
+1. **Innholdet** – teksten eller bildet.
+2. **Padding** – luft *inni* boksen, mellom innholdet og kanten. Bakgrunnsfargen fyller den.
+3. **Border** – selve kanten rundt boksen.
+4. **Margin** – luft *utenfor* boksen, mellom den og naboene. Den er alltid gjennomsiktig.
+
+Prøv glidebryterne, og se hvordan boksen endrer seg:
+
+<Boksmodell />
+
+## Padding
+
+```css
+.kort {
+  padding: 16px;
+}
+```
+
+`padding: 16px` gir 16 piksler luft på alle fire sider. Du kan også gi sidene forskjellig verdi:
+
+- `padding: 10px 20px;` – 10px oppe og nede, 20px til venstre og høyre.
+- `padding: 10px 20px 30px 40px;` – oppe, høyre, nede, venstre. Med klokka, fra klokka tolv.
+- `padding-top: 10px;` – bare én side. Det finnes også `-right`, `-bottom` og `-left`.
+
+<Quiz
+  sporsmal="Hvilken side får 5px i padding: 20px 5px 10px 0;?"
+  alternativer={["Oppe", "Høyre", "Nede", "Venstre"]}
+  riktig={1}
+  forklaring="Rekkefølgen er alltid med klokka fra toppen: oppe (20px), høyre (5px), nede (10px), venstre (0)."
+/>
+
+## Border
+
+En kant har tre deler: tykkelse, stil og farge.
+
+```css
+.kort {
+  border: 2px solid #a8dadc;
+}
+```
+
+Stilen kan være `solid` (heltrukket), `dashed` (stiplet), `dotted` (prikker) og noen få til. Uten
+stil blir det ingen kant – selv om du har skrevet tykkelse og farge.
+
+Du kjenner allerede `border-radius` fra profilbildet i modul 5. Den virker på alle bokser:
+
+<Oppgave id="m6-padding" />
+
+<Tips>
+
+Vil du bare ha en strek på én side, for eksempel under overskrifter? Bruk `border-bottom: 2px solid
+#e63946;`.
+
+</Tips>
+
+<GjorDetSelv>
+
+1. Gi boksene du lagde i forrige leksjon `padding`, så teksten ikke klistrer seg til kanten.
+2. Prøv en `border` – og en `border-radius`.
+3. Prøv `border-bottom` under `<h1>` eller `<h2>`.
+
+</GjorDetSelv>

@@ -1453,4 +1453,211 @@ img {
     ],
     hint: "Se på listen over bilder i prosjektet. Bytt logo.jpg med logo.svg (eller logo.png), og fjell-original.jpg med fjell.webp (eller fjell.jpg).",
   },
+
+  // ── Modul 6: Boksmodellen ───────────────────────────────────────────
+
+  "m6-se-boksene": {
+    html: `<h1>Alt er bokser</h1>
+<p>Hvert element på siden er en firkant – også de du ikke ser.</p>
+<ul>
+  <li>Overskrifter</li>
+  <li>Avsnitt</li>
+  <li>Lister og punkter</li>
+</ul>
+<p>Selv <strong>ord inni tekst</strong> og <a href="#">lenker</a> har en boks.</p>
+`,
+    css: `* {
+  outline: 2px solid tomato;
+}
+`,
+  },
+
+  "m6-div": {
+    html: `<h1>Ukas turer</h1>
+<h2>Lørdag: Fløyen</h2>
+<p>En rolig tur for hele familien. Vi møtes ved Fløibanen klokka 11.</p>
+<h2>Søndag: Ulriken</h2>
+<p>En brattere tur med flott utsikt. Ta med gode sko!</p>
+`,
+    css: `.kort {
+  background-color: #f1faee;
+  border: 2px solid #a8dadc;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Det er to <div class=\"kort\">",
+        test: (d) => d.querySelectorAll("div.kort").length === 2,
+      },
+      {
+        tekst: "Hvert kort har én turbeskrivelse: en <h2> og et avsnitt",
+        test: (d) => {
+          const k = [...d.querySelectorAll("div.kort")];
+          return k.length === 2 && k.every((x) => x.querySelectorAll("h2").length === 1 && x.querySelector("p") !== null);
+        },
+      },
+      {
+        tekst: "Hovedoverskriften står utenfor kortene",
+        test: (d) => {
+          const h1 = d.querySelector("h1");
+          return h1 !== null && h1.closest(".kort") === null;
+        },
+      },
+    ],
+    hint: `<div class="kort"> rett før <h2>Lørdag …, og </div> rett etter avsnittet. Det samme for søndag.`,
+  },
+
+  "m6-padding": {
+    html: `<h1>Ukas turer</h1>
+<div class="kort">
+  <h2>Lørdag: Fløyen</h2>
+  <p>En rolig tur for hele familien. Vi møtes ved Fløibanen klokka 11.</p>
+</div>
+<div class="kort">
+  <h2>Søndag: Ulriken</h2>
+  <p>En brattere tur med flott utsikt. Ta med gode sko!</p>
+</div>
+`,
+    css: `.kort {
+  background-color: #f1faee;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Kortene har minst 12px padding på alle sider",
+        test: (d) => {
+          const k = d.querySelector(".kort");
+          if (!k) return false;
+          const s = stil(k);
+          return [s.paddingTop, s.paddingRight, s.paddingBottom, s.paddingLeft].every((p) => parseFloat(p) >= 12);
+        },
+      },
+      {
+        tekst: "Kortene har en kant (border)",
+        test: (d) => {
+          const k = d.querySelector(".kort");
+          return k !== null && parseFloat(stil(k).borderTopWidth) >= 1 && stil(k).borderTopStyle !== "none";
+        },
+      },
+      {
+        tekst: "Kortene har runde hjørner",
+        test: (d) => {
+          const k = d.querySelector(".kort");
+          return k !== null && parseFloat(stil(k).borderTopLeftRadius) > 0;
+        },
+      },
+    ],
+    hint: ".kort { padding: 16px; border: 2px solid #a8dadc; border-radius: 10px; }",
+  },
+
+  "m6-margin": {
+    html: `<div class="innhold">
+  <h1>Ukas turer</h1>
+  <div class="kort">
+    <h2>Lørdag: Fløyen</h2>
+    <p>En rolig tur for hele familien.</p>
+  </div>
+  <div class="kort">
+    <h2>Søndag: Ulriken</h2>
+    <p>En brattere tur med flott utsikt.</p>
+  </div>
+</div>
+`,
+    css: `body {
+  background-color: #a8dadc;
+  font-family: Verdana, sans-serif;
+}
+
+.innhold {
+  background-color: white;
+  padding: 16px;
+}
+
+.kort {
+  background-color: #f1faee;
+  padding: 16px;
+  border: 2px solid #1d3557;
+  border-radius: 8px;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Det er minst 16px luft mellom de to kortene",
+        test: (d) => {
+          const [a, b] = [...d.querySelectorAll(".kort")].map((k) => k.getBoundingClientRect());
+          return a !== undefined && b !== undefined && b.top - a.bottom >= 16;
+        },
+      },
+      {
+        tekst: ".innhold har en max-width, så den ikke fyller hele bredden",
+        test: (d) => {
+          const el = d.querySelector(".innhold");
+          return el !== null && stil(el).maxWidth !== "none" && el.getBoundingClientRect().width < d.documentElement.clientWidth - 40;
+        },
+      },
+      {
+        tekst: ".innhold står midt på siden",
+        test: (d) => {
+          const r = d.querySelector(".innhold")?.getBoundingClientRect();
+          if (!r) return false;
+          const venstre = r.left;
+          const høyre = d.documentElement.clientWidth - r.right;
+          return venstre > 10 && Math.abs(venstre - høyre) <= 2;
+        },
+      },
+    ],
+    hint: ".kort { margin-bottom: 20px; } og .innhold { max-width: 240px; margin: 0 auto; }",
+  },
+
+  "m6-box-sizing": {
+    html: `<h1>Hvorfor stikker den ut?</h1>
+<div class="ramme">
+  <div class="boks">Jeg skal være akkurat like bred som rammen.</div>
+</div>
+`,
+    css: `.ramme {
+  border: 3px dashed #1d3557;
+  padding: 10px;
+}
+
+.boks {
+  width: 100%;
+  padding: 20px;
+  border: 5px solid #e63946;
+  background-color: #f1faee;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Boksen holder seg innenfor rammen",
+        test: (d) => {
+          const ramme = d.querySelector(".ramme");
+          const boks = d.querySelector(".boks");
+          if (!ramme || !boks) return false;
+          const r = ramme.getBoundingClientRect();
+          const s = stil(ramme);
+          const innerHøyre = r.right - parseFloat(s.borderRightWidth) - parseFloat(s.paddingRight);
+          return boks.getBoundingClientRect().right <= innerHøyre + 0.5;
+        },
+      },
+      {
+        tekst: "Boksen har fortsatt width: 100%, 20px padding og 5px kant",
+        test: (d) => {
+          const b = d.querySelector(".boks");
+          if (!b) return false;
+          const s = stil(b);
+          const regel = regler(d).some((r) => b.matches(r.selectorText) && r.style.width === "100%");
+          return regel && parseFloat(s.paddingLeft) >= 20 && parseFloat(s.borderLeftWidth) >= 5;
+        },
+      },
+      {
+        tekst: "Boksen bruker box-sizing: border-box",
+        test: (d) => {
+          const b = d.querySelector(".boks");
+          return b !== null && stil(b).boxSizing === "border-box";
+        },
+      },
+    ],
+    hint: "Legg til box-sizing: border-box; – på .boks, eller enda bedre på alle elementer med * { box-sizing: border-box; }",
+  },
 };
