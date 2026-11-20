@@ -231,7 +231,12 @@ export const MODULER: Modul[] = [
     html: [],
     css: ["grid", "fr", "grid-template-areas", "sticky", "relative / absolute"],
     teori: ["når bruker du hva?"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "rader-og-kolonner", tittel: "Rader og kolonner", minutter: 25 },
+      { slug: "grid-template-areas", tittel: "Sideoppsett med grid-template-areas", minutter: 30 },
+      { slug: "posisjonering", tittel: "relative, absolute og sticky", minutter: 30 },
+      { slug: "nar-bruker-du-hva", tittel: "Når bruker du hva?", minutter: 20 },
+    ],
   },
   {
     slug: "responsivt",

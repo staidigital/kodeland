@@ -1,0 +1,61 @@
+Det mest elegante med grid er at du kan *tegne* sideoppsettet ditt rett i CSS-en, med navn på
+områdene.
+
+## Gi områdene navn
+
+Først sier du hvilket område hvert element skal i, med `grid-area`:
+
+```css
+.topp    { grid-area: topp; }
+.meny    { grid-area: meny; }
+.innhold { grid-area: innhold; }
+.bunn    { grid-area: bunn; }
+```
+
+Så tegner du oppsettet på forelderen med `grid-template-areas`. Hver rad står i anførselstegn, og hvert
+ord er én rute:
+
+```css
+.side {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-areas:
+    "topp  topp"
+    "meny  innhold"
+    "bunn  bunn";
+  gap: 8px;
+}
+```
+
+Står samme navn i flere ruter ved siden av hverandre, går området over alle. Her går toppen og bunnen
+over begge kolonnene, mens menyen og innholdet deler raden i midten.
+
+Prøv selv i laben – velg **Områder**, og prøv å flytte menyen til høyre, eller legg til `side`:
+
+<Gridlab />
+
+<Tips>
+
+Et punktum `.` i stedet for et navn er en tom rute. Og hvert område må være et rektangel – du kan ikke
+lage en L-form.
+
+</Tips>
+
+<Oppgave id="m12-oppsett" />
+
+<UnderPanseret tittel="Rekkefølgen i HTML betyr fortsatt noe">
+
+Med grid kan du plassere elementene hvor som helst på skjermen, uansett hvor de står i HTML-en. Men
+skjermlesere og tastaturet følger HTML-rekkefølgen, ikke skjermen. Står menyen sist i HTML-en men
+først på skjermen, hopper tastaturbrukere rundt på en forvirrende måte. Hold HTML-en i en logisk
+rekkefølge, og bruk grid til å *plassere*, ikke til å *stokke om*.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Tegn sideoppsettet ditt på papir som ruter: topp, meny, innhold, kanskje en sidekolonne, og bunn.
+2. Gi `<header>`, `<nav>`, `<main>` og `<footer>` hver sin `grid-area`.
+3. Lag oppsettet med `grid-template-areas` på `<body>` eller på en `<div>` rundt alt.
+
+</GjorDetSelv>

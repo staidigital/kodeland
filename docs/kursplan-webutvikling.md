@@ -48,7 +48,7 @@ Kolonnen «Pensum» viser hvilke kapitler i Webutvikling-101 modulen henter stof
 | 🏁 | **Sjekkpunkt 2:** nettstedet med semantisk struktur, typografi og stil ✅ | | | | |
 | 10 | **Display og flyt** ✅ | – | `block`/`inline`, vannrett meny, `overflow` | normal flyt | 15 |
 | 11 | **Flexbox** ✅ | – | `display: flex`, `justify-content`, `align-items`, `gap`, `flex-wrap` | – | 17 |
-| 12 | **Grid og posisjonering** | – | grid, `fr`, `grid-template-areas`, `sticky`, `relative`/`absolute` | når bruker du hva? | 16, 18 |
+| 12 | **Grid og posisjonering** ✅ | – | grid, `fr`, `grid-template-areas`, `sticky`, `relative`/`absolute` | når bruker du hva? | 16, 18 |
 | 13 | **Responsivt design** | viewport-meta | media queries, mobile first, relative enheter | du vet ikke hvilken skjerm brukeren har | 19 |
 | 🚀 | **14. Publiser!** | validering | kontrastsjekk | hosting; domener og DNS; nå ligger *din* side på en tjener (knytter tilbake til modul 4) | 1 (+ nytt) |
 
@@ -85,6 +85,7 @@ vises mellom modulene i oversikten og heter «Sjekkpunkt N» i stedet for «Modu
 | `<Spesifisitetsspill />` | Åtte runder: to regler treffer samme element – gjett fargen. Forklaringen viser spesifisiteten (`src/lib/spesifisitet.ts`). |
 | `<Flytlab />` | Tre bokser midt i en tekst: bytt `display` mellom `inline`, `block`, `inline-block` og `none`, og se hvordan de legger seg i flyten. |
 | `<Flekslab />` | Sandkasse for flexbox: `flex-direction`, `justify-content`, `align-items`, `flex-wrap`, `gap` og antall bokser, med hovedakse og tverrakse tegnet inn. |
+| `<Gridlab />` | Sandkasse for grid: kolonner med `fr`, `repeat` og `auto-fit` (med justerbar containerbredde), og et helt sideoppsett med `grid-template-areas` som studenten skriver selv. |
 | `<Nettstedsjekker />` | Studenten velger eller drar inn `webkurs`-mappen sin, og får den sjekket mot kravene i sjekkpunkt 1 (filnavn, grunnstruktur, lenker, meny, bilder, farger). Med `sjekkpunkt={2}` sjekker den også struktur, boksmodell, typografi, fokusmarkering og `!important`. Alt skjer lokalt i nettleseren. Sjekkene står i `src/lib/nettstedsjekk.ts`. |
 
 Oppgavetyper vi bruker: endre koden, **finn feilen** (ødelagt kode som skal fikses), **hva gjør
@@ -93,8 +94,6 @@ denne koden?** (som `<Quiz>` med kode), og frie lekeplasser (oppgave uten sjekke
 **Ideer som ikke er bygget ennå**, med modulen de hører til:
 
 - `<KlientTjener />` igjen ved publisering, med DNS-oppslag og en ekte tjener (modul 14)
-- Sandkasse for grid, som `<Flekslab />` for flexbox (modul 12). Må være en egen idé, ikke en kopi
-  av eksisterende spill som Flexbox Froggy eller Grid Garden.
 - Skjermbredde-glidebryter for å teste media queries (modul 13)
 
 ## Innlogging og lærerpanel

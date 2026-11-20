@@ -1,0 +1,69 @@
+Flexbox legger ting etter hverandre i *én* retning. **Grid** tenker i to retninger samtidig: rader
+*og* kolonner, som et rutenett på et ark med ruter. Det gjør grid perfekt til sideoppsett og gallerier.
+
+## display: grid
+
+Akkurat som med flexbox er det forelderen som blir et grid. Så sier du hvor mange kolonner det skal
+være, og hvor brede de skal være:
+
+```css
+.rutenett {
+  display: grid;
+  grid-template-columns: 200px 200px 200px;
+  gap: 12px;
+}
+```
+
+Barna fyller rutene i rekkefølge: først første rad fra venstre mot høyre, så neste rad. Nye rader lages
+automatisk når det trengs.
+
+## fr – en del av plassen
+
+Faste piksler blir fort for brede eller for smale. Grid har en egen enhet for det: `fr` (*fraction*),
+en del av plassen som er til overs.
+
+- `1fr 1fr 1fr` – tre like brede kolonner.
+- `1fr 2fr 1fr` – den midterste er dobbelt så bred som de andre.
+- `200px 1fr` – en fast meny på 200 piksler, og resten til innholdet.
+- `repeat(4, 1fr)` – kort for `1fr 1fr 1fr 1fr`.
+
+Prøv i laben:
+
+<Gridlab />
+
+<Oppgave id="m12-kolonner" />
+
+## Kolonner som tilpasser seg selv
+
+Det kanskje nyttigste trikset i hele CSS:
+
+```css
+.galleri {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+```
+
+Les det slik: *Lag så mange kolonner som det er plass til (`auto-fit`). Hver kolonne er minst 150
+piksler, og deler likt på resten (`minmax(150px, 1fr)`).* På en bred skjerm får du mange kolonner, på
+en mobil kanskje bare én – uten en eneste media query. Prøv det i laben: velg
+`repeat(auto-fit, minmax(100px, 1fr))` og dra i bredden.
+
+<Oppgave id="m12-autofit" />
+
+<Quiz
+  sporsmal="Et grid har grid-template-columns: 1fr 1fr 1fr og 7 elementer. Hvor mange rader blir det?"
+  alternativer={["1", "2", "3", "7"]}
+  riktig={2}
+  forklaring="Tre i hver rad: 3 + 3 + 1. Det sjuende elementet starter en tredje rad, og grid lager den automatisk."
+/>
+
+<GjorDetSelv>
+
+1. Lag et galleri eller en samling kort på nettstedet ditt med `repeat(auto-fit, minmax(…, 1fr))`.
+2. Dra i nettleservinduet og se kolonnene komme og gå.
+3. Inspiser griddet i utviklerverktøyet og klikk på **grid**-merket: da tegnes rutenettet inn med
+   nummererte linjer.
+
+</GjorDetSelv>

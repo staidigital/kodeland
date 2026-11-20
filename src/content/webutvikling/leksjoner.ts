@@ -45,6 +45,10 @@ import m10VannrettMeny from "./display/vannrett-meny.mdx";
 import m11BokserPaRad from "./flexbox/bokser-pa-rad.mdx";
 import m11JustifyOgAlign from "./flexbox/justify-og-align.mdx";
 import m11WrapOgFlex from "./flexbox/wrap-og-flex.mdx";
+import m12GridTemplateAreas from "./grid/grid-template-areas.mdx";
+import m12NarBrukerDuHva from "./grid/nar-bruker-du-hva.mdx";
+import m12Posisjonering from "./grid/posisjonering.mdx";
+import m12RaderOgKolonner from "./grid/rader-og-kolonner.mdx";
 
 /**
  * Kobler leksjons-id (modul/leksjon) til MDX-fila.
@@ -98,4 +102,8 @@ export const LEKSJONER: Record<string, ComponentType> = {
   "flexbox/bokser-pa-rad": m11BokserPaRad,
   "flexbox/justify-og-align": m11JustifyOgAlign,
   "flexbox/wrap-og-flex": m11WrapOgFlex,
+  "grid/rader-og-kolonner": m12RaderOgKolonner,
+  "grid/grid-template-areas": m12GridTemplateAreas,
+  "grid/posisjonering": m12Posisjonering,
+  "grid/nar-bruker-du-hva": m12NarBrukerDuHva,
 };

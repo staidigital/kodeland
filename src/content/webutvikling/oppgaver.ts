@@ -2941,4 +2941,372 @@ nav a {
     ],
     hint: "nav ul { display: flex; } .logg-inn { margin-left: auto; }",
   },
+
+  // ── Modul 12: Grid og posisjonering ─────────────────────────────────
+
+  "m12-kolonner": {
+    html: `<div class="rutenett">
+  <div class="boks">Meny</div>
+  <div class="boks">Innhold</div>
+  <div class="boks">Fakta</div>
+</div>
+`,
+    css: `.boks {
+  padding: 12px;
+  background-color: #a8dadc;
+}
+`,
+    sjekker: [
+      {
+        tekst: ".rutenett er et grid",
+        test: (d) => {
+          const r = d.querySelector(".rutenett");
+          return r !== null && stil(r).display === "grid";
+        },
+      },
+      {
+        tekst: "De tre boksene står i tre kolonner ved siden av hverandre",
+        test: (d) => {
+          const b = [...d.querySelectorAll(".boks")].map((x) => x.getBoundingClientRect());
+          return b.length === 3 && b.every((x) => Math.abs(x.top - b[0].top) < 1) && b[0].left < b[1].left && b[1].left < b[2].left;
+        },
+      },
+      {
+        tekst: "Den midterste kolonnen er dobbelt så bred som de andre",
+        test: (d) => {
+          const b = [...d.querySelectorAll(".boks")].map((x) => x.getBoundingClientRect().width);
+          return b.length === 3 && Math.abs(b[1] / b[0] - 2) < 0.05 && Math.abs(b[1] / b[2] - 2) < 0.05;
+        },
+      },
+      {
+        tekst: "Det er minst 10px mellomrom mellom kolonnene",
+        test: (d) => {
+          const b = [...d.querySelectorAll(".boks")].map((x) => x.getBoundingClientRect());
+          return b.length === 3 && b[1].left - b[0].right >= 10 && b[2].left - b[1].right >= 10;
+        },
+      },
+    ],
+    hint: ".rutenett { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 12px; }",
+  },
+
+  "m12-autofit": {
+    html: `<div class="galleri">
+  <div class="kort">Fløyen</div>
+  <div class="kort">Ulriken</div>
+  <div class="kort">Stoltzen</div>
+  <div class="kort">Lyderhorn</div>
+  <div class="kort">Rundemanen</div>
+  <div class="kort">Sandviken</div>
+</div>
+`,
+    css: `.kort {
+  height: 70px;
+  padding: 8px;
+  background-color: #f4a261;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Galleriet er et grid med repeat(auto-fit, minmax(…))",
+        test: (d) =>
+          regler(d).some((r) => /repeat\(\s*auto-(fit|fill)\s*,\s*minmax\(/.test(r.style.gridTemplateColumns)) &&
+          stil(d.querySelector(".galleri")!).display === "grid",
+      },
+      {
+        tekst: "Ingen kort stikker ut, og de er minst 100 piksler brede",
+        test: (d) => {
+          const g = d.querySelector(".galleri")?.getBoundingClientRect();
+          const k = [...d.querySelectorAll(".kort")].map((x) => x.getBoundingClientRect());
+          return g !== undefined && k.length === 6 && k.every((x) => x.right <= g.right + 0.5 && x.width >= 100);
+        },
+      },
+      {
+        tekst: "Antallet kolonner tilpasser seg bredden – flere når det er plass, færre når det er trangt",
+        test: (d) => {
+          const g = d.querySelector<HTMLElement>(".galleri");
+          if (!g) return false;
+          const kolonner = (bredde: string) => {
+            g.style.width = bredde;
+            return new Set([...d.querySelectorAll(".kort")].map((x) => Math.round(x.getBoundingClientRect().left))).size;
+          };
+          const før = g.style.width;
+          const smal = kolonner("220px");
+          const bred = kolonner("700px");
+          g.style.width = før;
+          return bred > smal && smal >= 1;
+        },
+      },
+    ],
+    hint: ".galleri { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }",
+  },
+
+  "m12-oppsett": {
+    html: `<div class="side">
+  <header class="topp">Fjellklubben</header>
+  <nav class="meny">Meny</nav>
+  <main class="innhold">Her kommer innholdet.</main>
+  <footer class="bunn">© 2026 Fjellklubben</footer>
+</div>
+`,
+    css: `.side {
+  min-height: 300px;
+  gap: 8px;
+}
+
+.topp { background-color: #1d3557; color: white; padding: 12px; }
+.meny { background-color: #457b9d; color: white; padding: 12px; }
+.innhold { background-color: #f1faee; padding: 12px; }
+.bunn { background-color: #264653; color: white; padding: 12px; }
+`,
+    sjekker: [
+      {
+        tekst: ".side er et grid med grid-template-areas",
+        test: (d) => {
+          const s = d.querySelector(".side");
+          return s !== null && stil(s).display === "grid" && stil(s).gridTemplateAreas !== "none";
+        },
+      },
+      {
+        tekst: "Toppen og bunnen går over hele bredden",
+        test: (d) => {
+          const s = d.querySelector(".side")?.getBoundingClientRect();
+          return (
+            s !== undefined &&
+            [".topp", ".bunn"].every((k) => {
+              const r = d.querySelector(k)?.getBoundingClientRect();
+              return r !== undefined && Math.abs(r.left - s.left) < 1 && Math.abs(r.right - s.right) < 1;
+            })
+          );
+        },
+      },
+      {
+        tekst: "Menyen står til venstre for innholdet, på samme rad – og innholdet er bredest",
+        test: (d) => {
+          const m = d.querySelector(".meny")?.getBoundingClientRect();
+          const i = d.querySelector(".innhold")?.getBoundingClientRect();
+          return m !== undefined && i !== undefined && Math.abs(m.top - i.top) < 1 && m.right <= i.left && i.width > m.width;
+        },
+      },
+      {
+        tekst: "Rekkefølgen er topp, så meny og innhold, så bunn",
+        test: (d) => {
+          const [t, m, b] = [".topp", ".meny", ".bunn"].map((k) => d.querySelector(k)?.getBoundingClientRect());
+          return t !== undefined && m !== undefined && b !== undefined && t.bottom <= m.top && m.bottom <= b.top;
+        },
+      },
+    ],
+    hint: `.side { display: grid; grid-template-columns: 100px 1fr; grid-template-areas: "topp topp" "meny innhold" "bunn bunn"; } og .topp { grid-area: topp; } osv.`,
+  },
+
+  "m12-merke": {
+    html: `<article class="kort">
+  <span class="merke">Ny!</span>
+  <h2>Rundemanen</h2>
+  <p>En ny tur i programmet, med flott utsikt over hele byen.</p>
+</article>
+`,
+    css: `.kort {
+  max-width: 260px;
+  padding: 16px;
+  background-color: #f1faee;
+  border: 2px solid #a8dadc;
+  border-radius: 10px;
+}
+
+.kort h2 {
+  margin-top: 0;
+}
+
+.merke {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: #e63946;
+  color: white;
+  font-weight: bold;
+}
+`,
+    sjekker: [
+      {
+        tekst: ".merke er absolute, og .kort er utgangspunktet (position: relative)",
+        test: (d) => {
+          const m = d.querySelector(".merke");
+          const k = d.querySelector(".kort");
+          return m !== null && k !== null && stil(m).position === "absolute" && stil(k).position !== "static";
+        },
+      },
+      {
+        tekst: "Merket sitter i øvre høyre hjørne av kortet",
+        test: (d) => {
+          const m = d.querySelector(".merke")?.getBoundingClientRect();
+          const k = d.querySelector(".kort")?.getBoundingClientRect();
+          return (
+            m !== undefined && k !== undefined &&
+            m.right <= k.right + 12 && k.right - m.right <= 16 &&
+            m.top >= k.top - 12 && m.top - k.top <= 16
+          );
+        },
+      },
+      {
+        tekst: "Overskriften er ikke dyttet ned av merket",
+        test: (d) => {
+          const h = d.querySelector(".kort h2")?.getBoundingClientRect();
+          const k = d.querySelector(".kort")?.getBoundingClientRect();
+          return h !== undefined && k !== undefined && h.top - k.top <= 22;
+        },
+      },
+    ],
+    hint: ".kort { position: relative; } .merke { position: absolute; top: 8px; right: 8px; }",
+  },
+
+  "m12-sticky": {
+    html: `<header>Fjellklubben</header>
+<main>
+  <h1>Alle turene våre</h1>
+  <p>Fløyen – en rolig tur for hele familien.</p>
+  <p>Ulriken – Bergens høyeste fjell.</p>
+  <p>Stoltzekleiven – over 800 trappetrinn.</p>
+  <p>Lyderhorn – fin utsikt mot havet.</p>
+  <p>Rundemanen – med de gamle radiomastene.</p>
+  <p>Sandviksfjellet – bratt og kort.</p>
+  <p>Løvstakken – utsikt over sentrum.</p>
+  <p>Damsgårdsfjellet – en skjult perle.</p>
+  <p>Vidden – fra Fløyen til Ulriken.</p>
+  <p>Gullfjellet – det høyeste av de sju fjellene.</p>
+</main>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+}
+
+header {
+  padding: 12px 16px;
+  background-color: #1d3557;
+  color: white;
+  font-weight: bold;
+}
+
+main {
+  padding: 0 16px;
+}
+
+p {
+  margin: 0 0 40px;
+}
+`,
+    sjekker: [
+      {
+        tekst: "<header> er sticky, med top: 0",
+        test: (d) => {
+          const h = d.querySelector("header");
+          return h !== null && stil(h).position === "sticky" && stil(h).top === "0px";
+        },
+      },
+      {
+        tekst: "Toppen blir liggende øverst når du ruller nedover",
+        test: (d) => {
+          const h = d.querySelector("header");
+          const rull = d.scrollingElement;
+          if (!h || !rull) return false;
+          const før = rull.scrollTop;
+          rull.scrollTop = 300;
+          const ok = rull.scrollTop > 100 && Math.abs(h.getBoundingClientRect().top) < 1;
+          rull.scrollTop = før;
+          return ok;
+        },
+      },
+    ],
+    hint: "header { position: sticky; top: 0; }",
+  },
+
+  "m12-velg": {
+    html: `<header>
+  <a class="logo" href="#">Fjellklubben</a>
+  <nav>
+    <a href="#">Turer</a>
+    <a href="#">Om oss</a>
+  </nav>
+</header>
+<main>
+  <div class="turer">
+    <article class="kort"><span class="merke">Ny!</span><h2>Fløyen</h2></article>
+    <article class="kort"><h2>Ulriken</h2></article>
+    <article class="kort"><h2>Stoltzen</h2></article>
+    <article class="kort"><h2>Lyderhorn</h2></article>
+  </div>
+</main>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+}
+
+header {
+  padding: 12px 16px;
+  background-color: #1d3557;
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+}
+
+main {
+  padding: 16px;
+}
+
+.kort {
+  padding: 12px;
+  background-color: #f1faee;
+  border-radius: 8px;
+}
+
+.kort h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.merke {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-color: #e63946;
+  color: white;
+  font-size: 0.75rem;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Toppen: logoen til venstre og menyen til høyre",
+        test: (d) => {
+          const h = d.querySelector("header");
+          const l = d.querySelector(".logo")?.getBoundingClientRect();
+          const n = d.querySelector("header nav")?.getBoundingClientRect();
+          if (!h || !l || !n) return false;
+          const r = h.getBoundingClientRect();
+          return Math.abs(l.top - n.top) < 12 && Math.abs(r.right - parseFloat(stil(h).paddingRight) - n.right) <= 2 && n.left > l.right;
+        },
+      },
+      {
+        tekst: "Turkortene står i et grid med to kolonner",
+        test: (d) => {
+          const t = d.querySelector(".turer");
+          const venstre = new Set([...d.querySelectorAll(".kort")].map((k) => Math.round(k.getBoundingClientRect().left)));
+          return t !== null && stil(t).display === "grid" && venstre.size === 2;
+        },
+      },
+      {
+        tekst: "«Ny!»-merket sitter i øvre høyre hjørne av sitt kort",
+        test: (d) => {
+          const m = d.querySelector(".merke");
+          const k = m?.closest(".kort")?.getBoundingClientRect();
+          const r = m?.getBoundingClientRect();
+          return (
+            m !== null && m !== undefined && k !== undefined && r !== undefined &&
+            stil(m).position === "absolute" && k.right - r.right <= 16 && r.right <= k.right + 12 && r.top - k.top <= 16
+          );
+        },
+      },
+    ],
+    hint: "header { display: flex; justify-content: space-between; } .turer { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; } .kort { position: relative; } .merke { position: absolute; top: 8px; right: 8px; }",
+  },
 };

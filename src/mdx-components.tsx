@@ -6,6 +6,7 @@ import { Fargevelger } from "@/components/kurs/fargevelger";
 import { Filnavn } from "@/components/kurs/filnavn";
 import { Flekslab } from "@/components/kurs/flekslab";
 import { Flytlab } from "@/components/kurs/flytlab";
+import { Gridlab } from "@/components/kurs/gridlab";
 import { KlientTjener } from "@/components/kurs/klient-tjener";
 import { MdxKode } from "@/components/kurs/kodefarger";
 import { Mappebygger } from "@/components/kurs/mappebygger";
@@ -44,6 +45,7 @@ const components: MDXComponents = {
   Spesifisitetsspill,
   Flytlab,
   Flekslab,
+  Gridlab,
   Mappebygger,
   Sjekkliste,
 };
