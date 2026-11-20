@@ -2465,4 +2465,195 @@ a:focus {
     ],
     hint: "#meny a har spesifisiteten (1, 0, 1), og .knapp bare (0, 1, 0). Gjør knapp-regelen sterkere: #meny .knapp har (1, 1, 0).",
   },
+
+  // ── Modul 10: Display og flyt ───────────────────────────────────────
+
+  "m10-merkelapper": {
+    html: `<h1>Ulriken</h1>
+<p>
+  <span class="merke">Bratt</span>
+  <span class="merke">3 timer</span>
+  <span class="merke">Utsikt</span>
+</p>
+<p>Bergens høyeste fjell, med utsikt over hele byen.</p>
+`,
+    css: `p {
+  margin: 4px 0;
+}
+
+.merke {
+  background-color: #a8dadc;
+  color: #1d3557;
+  padding: 10px 14px;
+  margin: 12px 4px;
+  border-radius: 999px;
+}
+`,
+    sjekker: [
+      {
+        tekst: ".merke er inline-block",
+        test: (d) => {
+          const m = [...d.querySelectorAll(".merke")];
+          return m.length === 3 && m.every((x) => stil(x).display === "inline-block");
+        },
+      },
+      {
+        tekst: "Merkelappene står fortsatt ved siden av hverandre",
+        test: (d) => {
+          const t = [...d.querySelectorAll(".merke")].map((x) => x.getBoundingClientRect().top);
+          return t.length === 3 && t.every((x) => Math.abs(x - t[0]) < 1);
+        },
+      },
+      {
+        tekst: "Avsnittet under blir ikke dekket av merkelappene",
+        test: (d) => {
+          const bunn = Math.max(...[...d.querySelectorAll(".merke")].map((x) => x.getBoundingClientRect().bottom));
+          const p = d.querySelectorAll("p")[1];
+          return p !== undefined && p.getBoundingClientRect().top >= bunn;
+        },
+      },
+    ],
+    hint: "Legg til display: inline-block; i .merke-regelen.",
+  },
+
+  "m10-meny": {
+    html: `<header>
+  <nav>
+    <ul>
+      <li><a href="#">Forside</a></li>
+      <li><a href="#">Turer</a></li>
+      <li><a href="#">Om oss</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <h1>Fjellklubben</h1>
+</main>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: #1d3557;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Menypunktene står ved siden av hverandre",
+        test: (d) => {
+          const r = [...d.querySelectorAll("nav li")].map((x) => x.getBoundingClientRect());
+          return r.length === 3 && r.every((x) => Math.abs(x.top - r[0].top) < 1) && r[0].left < r[1].left && r[1].left < r[2].left;
+        },
+      },
+      {
+        tekst: "Hver lenke er en boks med padding, minst 40 piksler høy",
+        test: (d) => {
+          const a = [...d.querySelectorAll("nav a")];
+          return a.length === 3 && a.every((x) => stil(x).display !== "inline" && x.getBoundingClientRect().height >= 40);
+        },
+      },
+      {
+        tekst: "Den blå menylinja er like høy som lenkene",
+        test: (d) => {
+          const ul = d.querySelector("nav ul")?.getBoundingClientRect();
+          const a = d.querySelector("nav a")?.getBoundingClientRect();
+          return ul !== undefined && a !== undefined && ul.height >= a.height - 1;
+        },
+      },
+      {
+        tekst: "Lenkene endrer seg når musa er over",
+        test: (d) =>
+          regler(d).some(
+            (r) => /\ba:hover\b/.test(r.selectorText) && (r.style.backgroundColor !== "" || r.style.color !== "" || r.style.textDecorationLine !== ""),
+          ),
+      },
+    ],
+    hint: "nav li { display: inline-block; } nav a { display: inline-block; padding: 12px 16px; } nav a:hover { background-color: #457b9d; }",
+  },
+
+  "m10-overflow": {
+    html: `<h1>Gjestebok</h1>
+<div class="boks">
+  <p>Takk for en fin tur! Vi kommer gjerne igjen.</p>
+  <p>Se bildene mine: https://www.eksempel.no/bilder/2026/fjellturmedfjellklubbentilulrikenioktober.html</p>
+  <p>Fantastisk utsikt fra toppen. Litt bratt i starten, men verdt det.</p>
+  <p>Neste gang tar vi med kakao til alle!</p>
+</div>
+<p>Skriv gjerne en hilsen du også.</p>
+`,
+    css: `.boks {
+  height: 120px;
+  padding: 10px;
+  border: 2px solid #1d3557;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Boksen er fortsatt 120 piksler høy",
+        test: (d) => {
+          const b = d.querySelector(".boks");
+          return b !== null && Math.abs(parseFloat(stil(b).height) - 120) < 1;
+        },
+      },
+      {
+        tekst: "Teksten flyter ikke ut av boksen – man kan rulle i den i stedet",
+        test: (d) => {
+          const b = d.querySelector(".boks");
+          return b !== null && ["auto", "scroll"].includes(stil(b).overflowY);
+        },
+      },
+      {
+        tekst: "Den lange adressen bryter over flere linjer i stedet for å stikke ut til siden",
+        test: (d) => {
+          const b = d.querySelector(".boks");
+          return b !== null && b.scrollWidth <= b.clientWidth + 1;
+        },
+      },
+    ],
+    hint: ".boks { overflow: auto; overflow-wrap: anywhere; }",
+  },
+
+  "m10-skjul": {
+    html: `<h1>Turer i høst</h1>
+<p class="melding">Påmeldingen åpner 1. september.</p>
+<p>Lørdag: Fløyen. Vi møtes ved Fløibanen klokka 11.</p>
+<p>Søndag: Ulriken. Ta med gode sko!</p>
+`,
+    css: `.melding {
+  background-color: #fdf3d0;
+  padding: 10px;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Meldingen om påmelding vises ikke lenger",
+        test: (d) => {
+          const m = d.querySelector(".melding");
+          return m !== null && (stil(m).display === "none" || stil(m).visibility === "hidden");
+        },
+      },
+      {
+        tekst: "Det står ikke igjen noe tomt hull der meldingen var",
+        test: (d) => {
+          const m = d.querySelector(".melding");
+          return m !== null && stil(m).display === "none";
+        },
+      },
+      {
+        tekst: "Meldingen er fortsatt i HTML-en – den er bare skjult med CSS",
+        test: (d) => tekst(d.querySelector(".melding")).includes("Påmeldingen"),
+      },
+    ],
+    hint: ".melding { display: none; } – ikke visibility: hidden, som lar plassen stå tom.",
+  },
 };

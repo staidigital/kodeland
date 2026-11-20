@@ -1,0 +1,62 @@
+I modul 7 lagde du en meny som sto nedover. Nå vet du hvorfor: hver `<li>` er en blokk, og blokker
+stables. Nå skal du legge menyen bortover.
+
+## Menypunktene ved siden av hverandre
+
+Gjør menypunktene til `inline-block`, så legger de seg på rad:
+
+```css
+nav li {
+  display: inline-block;
+}
+```
+
+## Store, klikkbare lenker
+
+En lenke er inline, så padding oppe og nede skyver ikke noe unna, og bare selve teksten er klikkbar.
+Gjør lenken til `inline-block`, og gi den padding – da blir hele den fargede flaten klikkbar:
+
+```css
+nav a {
+  display: inline-block;
+  padding: 12px 16px;
+}
+
+nav a:hover {
+  background-color: #457b9d;
+}
+```
+
+Store klikkflater er viktige: på mobil treffer man med fingeren, ikke med en presis musepeker. WCAG
+anbefaler klikkflater på minst 24 × 24 piksler, og gjerne 44 × 44.
+
+<Oppgave id="m10-meny" />
+
+<Tips>
+
+Ser du et lite mellomrom mellom menypunktene som du ikke har bedt om? Det er mellomrommet og
+linjeskiftet mellom `</li>` og `<li>` i HTML-en – inline-block-bokser oppfører seg som ord, og ord har
+mellomrom mellom seg. I neste modul lærer du flexbox, som ikke har dette problemet, og som er den
+vanligste måten å lage menyer på i dag.
+
+</Tips>
+
+<Quiz
+  sporsmal="Hvorfor gjør vi lenkene til inline-block, og ikke bare li-ene?"
+  alternativer={[
+    "Fordi lenker ikke kan være inline",
+    "For at padding skal gjøre hele flaten klikkbar og skyve menylinja ut",
+    "Fordi li-er ikke kan ha display",
+  ]}
+  riktig={1}
+  forklaring="Padding på en inline-lenke tegnes, men tar ikke plass. Som inline-block blir lenken en ekte boks: menylinja vokser rundt den, og hele flaten – ikke bare teksten – er en del av lenken."
+/>
+
+<GjorDetSelv>
+
+1. Gjør menyen på nettstedet ditt vannrett med `inline-block` på `li` og `a`.
+2. Gi lenkene padding og en `:hover`-farge, og sjekk at `:focus-visible`-stilen fra modul 9 fortsatt
+   synes.
+3. Gjør vinduet smalt. Hva skjer med menyen når det ikke er plass? (Det fikser vi i modul 13.)
+
+</GjorDetSelv>

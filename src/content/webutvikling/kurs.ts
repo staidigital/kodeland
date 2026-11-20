@@ -203,7 +203,11 @@ export const MODULER: Modul[] = [
     html: [],
     css: ["block og inline", "vannrett meny", "overflow"],
     teori: ["normal flyt"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "normal-flyt", tittel: "Normal flyt", minutter: 25 },
+      { slug: "vannrett-meny", tittel: "Vannrett meny", minutter: 25 },
+      { slug: "skjule-og-overflow", tittel: "Skjule og flyte over", minutter: 25 },
+    ],
   },
   {
     slug: "flexbox",

@@ -1,0 +1,59 @@
+Har du lurt på hvorfor overskrifter alltid havner på en ny linje, mens lenker legger seg pent inni
+teksten? Eller hvorfor `margin-top` ikke virker på en lenke? Svaret heter **normal flyt** – reglene
+nettleseren følger når du ikke har bedt om noe annet.
+
+## To slags bokser
+
+I modul 6 så du at alt er bokser. Men boksene oppfører seg på to forskjellige måter:
+
+- **Blokker** (`display: block`) – `<h1>`, `<p>`, `<div>`, `<ul>`, `<section>` og de fleste store elementer.
+  De starter på en ny linje og tar *hele bredden* de har. De stables nedover, som klosser i et tårn.
+- **Linjeelementer** (`display: inline`) – `<a>`, `<strong>`, `<em>`, `<span>` og `<img>`. De legger seg
+  *inni* teksten, etter hverandre bortover, som ord i en setning.
+
+Normal flyt er rett og slett at blokkene stables ovenfra og ned, og at linjeelementene flyter bortover
+inni blokkene.
+
+## Display bestemmer
+
+Med `display` kan du endre hvordan en boks oppfører seg. Prøv selv:
+
+<Flytlab />
+
+Legg merke til hva som skjer med boks A når den er `inline`: `width` blir ignorert, og den blå
+bakgrunnen fra padding legger seg *over* linjene rundt, uten å skyve dem unna. Linjeelementer bryr
+seg bare om bredden på teksten sin.
+
+`inline-block` er det beste fra begge verdener: boksen ligger i linja, men `width`, `padding` og
+`margin` virker som på en blokk.
+
+<Quiz
+  sporsmal="Du gir en lenke margin-top: 20px, men ingenting skjer. Hvorfor?"
+  alternativer={[
+    "Lenker kan ikke ha margin",
+    "Lenker er inline, og inline-elementer ignorerer margin oppe og nede",
+    "Du må skrive margin i rem",
+  ]}
+  riktig={1}
+  forklaring="<a> er inline som standard. Margin og padding til sidene virker, men margin oppe og nede ignoreres, og padding oppe og nede skyver ikke noe unna. Gjør lenken til inline-block eller block, så virker det."
+/>
+
+<Oppgave id="m10-merkelapper" />
+
+<UnderPanseret tittel="Hvorfor er det sånn?">
+
+HTML ble laget for dokumenter: overskrifter, avsnitt og lister med noen uthevede ord og lenker inni.
+Normal flyt er akkurat det – slik en tekst i en bok eller avis flyter. Først senere ble nettet brukt
+til apper og avanserte oppsett, og da kom `inline-block`, og etter hvert flexbox og grid, som du lærer
+i de neste modulene.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Inspiser en lenke og et avsnitt på nettstedet ditt i utviklerverktøyet. Under **Computed** finner
+   du `display`. Hva står det?
+2. Lag noen små merkelapper med `<span class="…">` og `display: inline-block`, for eksempel for
+   kategorier eller stikkord.
+
+</GjorDetSelv>

@@ -39,6 +39,9 @@ import m9Kaskaden from "./selektorer/kaskaden.mdx";
 import m9Kombinatorer from "./selektorer/kombinatorer.mdx";
 import m9Pseudoklasser from "./selektorer/pseudoklasser.mdx";
 import m9TabellerOgLister from "./selektorer/tabeller-og-lister.mdx";
+import m10NormalFlyt from "./display/normal-flyt.mdx";
+import m10SkjuleOgOverflow from "./display/skjule-og-overflow.mdx";
+import m10VannrettMeny from "./display/vannrett-meny.mdx";
 
 /**
  * Kobler leksjons-id (modul/leksjon) til MDX-fila.
@@ -86,4 +89,7 @@ export const LEKSJONER: Record<string, ComponentType> = {
   "selektorer/pseudoklasser": m9Pseudoklasser,
   "selektorer/kaskaden": m9Kaskaden,
   "sjekkpunkt-2/struktur-og-stil": s2StrukturOgStil,
+  "display/normal-flyt": m10NormalFlyt,
+  "display/vannrett-meny": m10VannrettMeny,
+  "display/skjule-og-overflow": m10SkjuleOgOverflow,
 };
