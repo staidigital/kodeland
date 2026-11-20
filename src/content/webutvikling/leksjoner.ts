@@ -24,6 +24,11 @@ import m6AltErBokser from "./boksmodellen/alt-er-bokser.mdx";
 import m6BoxSizing from "./boksmodellen/box-sizing.mdx";
 import m6Margin from "./boksmodellen/margin.mdx";
 import m6PaddingOgBorder from "./boksmodellen/padding-og-border.mdx";
+import m7BokserMedMening from "./semantikk/bokser-med-mening.mdx";
+import m7DomTreet from "./semantikk/dom-treet.mdx";
+import m7SectionOgArticle from "./semantikk/section-og-article.mdx";
+import m7StilPaStrukturen from "./semantikk/stil-pa-strukturen.mdx";
+import m7UniversellUtforming from "./semantikk/universell-utforming.mdx";
 
 /**
  * Kobler leksjons-id (modul/leksjon) til MDX-fila.
@@ -56,4 +61,9 @@ export const LEKSJONER: Record<string, ComponentType> = {
   "boksmodellen/padding-og-border": m6PaddingOgBorder,
   "boksmodellen/margin": m6Margin,
   "boksmodellen/box-sizing": m6BoxSizing,
+  "semantikk/bokser-med-mening": m7BokserMedMening,
+  "semantikk/section-og-article": m7SectionOgArticle,
+  "semantikk/stil-pa-strukturen": m7StilPaStrukturen,
+  "semantikk/dom-treet": m7DomTreet,
+  "semantikk/universell-utforming": m7UniversellUtforming,
 };

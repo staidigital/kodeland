@@ -42,7 +42,7 @@ Kolonnen «Pensum» viser hvilke kapitler i Webutvikling-101 modulen henter stof
 | 5 | **Bilder** ✅ | `img`, `alt`, `figure` | `width`/`max-width`, `border-radius`, `background-image` | hvert bilde er en egen forespørsel (Network-fanen); formater; filstørrelse; opphavsrett | 6, 12 |
 | 🏁 | **Sjekkpunkt 1:** nettsted med tre sider, meny, bilder og egen fargepalett ✅ | | | | (9) |
 | 6 | **Boksmodellen** ✅ | `div` | `padding`, `margin`, `border`, `box-sizing` | alt er firkanter; utviklerverktøyet | 10, 14 |
-| 7 | **Semantisk struktur** | `header`, `nav`, `main`, `section`, `article`, `footer` | stil på header, meny og bunntekst | DOM-treet; skjermlesere; universell utforming (lovkrav); `class` og `id` | 8, 9 |
+| 7 | **Semantisk struktur** ✅ | `header`, `nav`, `main`, `section`, `article`, `footer` | stil på header, meny og bunntekst | DOM-treet; skjermlesere; universell utforming (lovkrav); `class` og `id` | 8, 9 |
 | 8 | **Typografi** | `blockquote`, spesialtegn | webfonter, `rem`/`em`, `line-height`, linjelengde | typografisk skala | 4, 13 |
 | 9 | **Selektorer og kaskaden** | tabeller, `dl` | kombinatorer, `:nth-child` (stripete tabeller), `:focus`, arv, spesifisitet | hvorfor CSS «ikke virker» | 7, 11 |
 | 🏁 | **Sjekkpunkt 2:** nettstedet med semantisk struktur, typografi og stil | | | | |
@@ -77,6 +77,8 @@ vises mellom modulene i oversikten og heter «Sjekkpunkt N» i stedet for «Modu
 | `<Stifinner />` | Velg siden du står på og fila du vil til, og se den relative stien bygges opp ledd for ledd. |
 | `<Nettverksfane />` | Forenklet Network-fane: forespørslene for en side med ekte filstørrelser, ulike bildeformater og nett. |
 | `<Boksmodell />` | Glidebrytere for `padding`, `border` og `margin`, diagram i utviklerverktøyets farger, en ekte boks og regnestykket for bredden – med og uten `box-sizing: border-box`. |
+| `<DomTre />` | Skriv HTML og se DOM-treet. Hold musa over en node for å se elementet, forelder, barn og søsken. |
+| `<Skjermleser />` | Samme side bygget med div-er og med semantiske tagger: landemerker, overskrifter og lenker slik en skjermleser finner dem. |
 | `<Nettstedsjekker />` | Studenten velger eller drar inn `webkurs`-mappen sin, og får den sjekket mot kravene i sjekkpunkt 1 (filnavn, grunnstruktur, lenker, meny, bilder, farger). Alt skjer lokalt i nettleseren. Sjekkene står i `src/lib/nettstedsjekk.ts`. |
 
 Oppgavetyper vi bruker: endre koden, **finn feilen** (ødelagt kode som skal fikses), **hva gjør

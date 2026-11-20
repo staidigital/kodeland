@@ -506,6 +506,8 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 .leksjon-tekst > * + .nettverksfane,
 .leksjon-tekst > * + .nettstedsjekker,
 .leksjon-tekst > * + .boksmodell,
+.leksjon-tekst > * + .dom-tre,
+.leksjon-tekst > * + .skjermleser,
 .leksjon-tekst > * + figure,
 .leksjon-tekst > * + .sjekkliste { margin-top: 1.6em; }
 .leksjon-tekst > .oppgave + *,
@@ -519,6 +521,8 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 .leksjon-tekst > .nettverksfane + *,
 .leksjon-tekst > .nettstedsjekker + *,
 .leksjon-tekst > .boksmodell + *,
+.leksjon-tekst > .dom-tre + *,
+.leksjon-tekst > .skjermleser + *,
 .leksjon-tekst > figure + * { margin-top: 1.6em; }
 
 /* Bokser */
@@ -693,7 +697,7 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
 .fil-ikon--bilde { background: var(--gronn); }
 
 /* Quiz, filnavn, sjekkliste: felles kort */
-.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner, .nettverksfane, .nettstedsjekker, .boksmodell {
+.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner, .nettverksfane, .nettstedsjekker, .boksmodell, .dom-tre, .skjermleser {
   padding: 18px 20px;
   border: 1px solid var(--linje);
   border-radius: 14px;
@@ -1239,6 +1243,90 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
 .bm-regnestykke { margin: 12px 0 0; font-size: 15px; }
 .bm-forklaring { color: var(--dempet); font-size: 14px; }
 .bm-kode { margin-top: 10px; }
+
+/* DOM-treet */
+.leksjon-tekst > .dom-tre { max-width: 1000px; width: min(1000px, calc(100vw - 260px - 64px)); }
+@media (max-width: 900px) { .leksjon-tekst > .dom-tre { width: 100%; } }
+.dt-flate { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; margin-top: 8px; }
+@media (max-width: 700px) { .dt-flate { grid-template-columns: 1fr; } }
+.dt-kode { display: flex; flex-direction: column; gap: 4px; }
+.dt-kode textarea {
+  flex: 1;
+  min-height: 300px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--kode-bg);
+  color: var(--kode-tekst);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  resize: vertical;
+  tab-size: 2;
+}
+.dt-hoyre { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.dt-tre {
+  overflow: auto;
+  max-height: 300px;
+  padding: 8px 10px;
+  border: 1px solid var(--linje);
+  border-radius: 10px;
+  background: var(--bg);
+}
+.dt-tre ul { list-style: none !important; margin: 0 !important; padding: 0 0 0 16px !important; }
+.dt-tre ul.dt-rot { padding-left: 0 !important; }
+.dt-tre li { position: relative; margin: 0 !important; }
+.dt-tre ul ul li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -10px;
+  width: 8px;
+  height: 0.95em;
+  border-left: 1px solid var(--linje-sterk);
+  border-bottom: 1px solid var(--linje-sterk);
+}
+.dt-node {
+  display: inline-flex;
+  gap: 2px;
+  margin: 1px 0;
+  padding: 0 6px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: var(--html-myk);
+  color: var(--html);
+  font: 600 12.5px/1.6 var(--font-geist-mono), monospace;
+  cursor: pointer;
+}
+.dt-node--rot { cursor: default; background: var(--linje); color: var(--tekst); }
+.dt-node--valgt { border-color: var(--rod); background: var(--rod-myk); color: var(--rod); }
+.dt-id { color: var(--teori); }
+.dt-klasse { color: var(--css); }
+.dt-tekst { color: var(--dempet); font-size: 12.5px; }
+.dt-info { min-height: 2.8em; margin: 0; font-size: 14px; }
+.dt-visning { width: 100%; height: 190px; border: 1px solid var(--linje); border-radius: 10px; background: #fff; }
+
+/* Skjermleser */
+.sl-forklaring { margin: 12px 0 0; font-size: 15px; }
+.sl-paneler { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-top: 12px; }
+.sl-panel { padding: 10px 12px; border: 1px solid var(--linje); border-radius: 10px; background: var(--bg); font-size: 14px; }
+.sl-panel h3 {
+  margin: 0 0 6px !important;
+  color: var(--dempet);
+  font-size: 12px !important;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.sl-panel ol { margin: 0 !important; padding-left: 1.3em !important; }
+.sl-panel li + li { margin-top: 2px !important; }
+.sl-niva { color: var(--dempet); font-size: 12px; }
+.sl-tom { margin: 0; color: var(--rod); }
+.sl-darlig { color: var(--rod); font-weight: 600; }
+.sl-ekstra { margin: 6px 0 0; color: var(--dempet); font-size: 13px; }
+.sl-kode { margin-top: 10px; font-size: 14px; }
+.sl-kode summary { cursor: pointer; color: var(--dempet); }
+.sl-kode pre { margin-top: 6px; padding: 10px 12px; border-radius: 8px; background: var(--kode-bg); color: var(--kode-tekst); font-size: 12.5px; overflow-x: auto; }
 
 /* Figurer i leksjonsteksten */
 .leksjon-tekst figure { margin: 0; }

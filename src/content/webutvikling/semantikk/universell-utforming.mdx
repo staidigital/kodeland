@@ -1,0 +1,74 @@
+Mange har en funksjonsnedsettelse – nedsatt syn, hørsel, motorikk eller konsentrasjon. Og alle har
+det en gang iblant: en brukket arm, solskinn på skjermen, en bråkete buss. En nettside som virker
+for alle, er **universelt utformet**.
+
+## Hvordan bruker blinde nettet?
+
+Mange blinde og svaksynte bruker en **skjermleser**: et program som leser opp det som står på
+skjermen, og som styres med tastaturet. Skjermleseren ser ikke fargene eller oppsettet ditt – den
+leser *taggene*. Se forskjellen:
+
+<Skjermleser />
+
+<Quiz
+  sporsmal="En skjermleserbruker trykker på tasten for «neste overskrift» på siden bygget med div-er. Hva skjer?"
+  alternativer={[
+    "Skjermleseren hopper til «Neste tur: Fløyen»",
+    "Ingenting – siden har ingen overskrifter, bare tekst som ser stor ut",
+    "Skjermleseren leser opp all CSS-en",
+  ]}
+  riktig={1}
+  forklaring='En <div class="stor"> ser ut som en overskrift for den som ser, men for skjermleseren er det bare tekst. Bare <h1>–<h6> er overskrifter.'
+/>
+
+## Det er et krav i loven
+
+I Norge er det lovpålagt at nettsteder skal være universelt utformet. Kravene bygger på **WCAG**
+(*Web Content Accessibility Guidelines*), internasjonale retningslinjer for tilgjengelige nettsider.
+De gjelder både offentlige nettsteder, som kommunen og NAV, og private, som nettbutikker. Det er
+[Tilsynet for universell utforming av ikt](https://www.uutilsynet.no/) som passer på at reglene blir
+fulgt.
+
+Mye av det du allerede har lært, står i WCAG:
+
+- **Tekstalternativ** – alt-tekst på bilder (modul 5).
+- **Kontrast** – minst 4,5:1 for vanlig tekst (modul 3).
+- **Struktur** – riktige overskrifter, lister og semantiske tagger (modul 1, 3 og 7).
+- **Lenker** – lenketekster som sier hvor de går (modul 4).
+- **Språk** – `lang="no"` på `<html>`, så skjermleseren uttaler teksten riktig (modul 1).
+
+## Finn feilene
+
+Denne siden har seks feil som gjør den vanskelig å bruke for mange. Finn og rett dem alle.
+
+<Oppgave id="m7-uu" />
+
+<UnderPanseret tittel="Test med tastaturet">
+
+Ikke alle kan bruke mus. Prøv å bruke nettstedet ditt bare med tastaturet: trykk `Tab` for å hoppe
+fra lenke til lenke, og `Enter` for å følge en lenke. Ser du hele tiden hvor du er? Kommer du til
+alle sidene? Det er en av de enkleste og viktigste testene du kan gjøre.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Gå gjennom sidene dine med punktlista over. Har alle bildene alt-tekst? Er kontrasten god nok?
+   Går overskriftene i riktig rekkefølge?
+2. Test nettstedet bare med tastaturet, med `Tab` og `Enter`.
+3. Kjør gjerne nettstedsjekkeren fra sjekkpunkt 1 på mappen din igjen.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="m7-ferdig"
+  punkter={[
+    "Alle sidene mine har <header>, <nav>, <main> og <footer>",
+    "Jeg har brukt <section> eller <article> der det passer",
+    "Topp, meny og bunn er stylet med farger fra paletten min",
+    "Menyen har ingen kulepunkter, og lenkene har en :hover-effekt",
+    "Jeg vet hva forelder, barn og søsken er i DOM-treet",
+    "Jeg har brukt en id og en lenke med # til å hoppe innad på en side",
+    "Jeg har testet nettstedet med bare tastaturet",
+  ]}
+/>

@@ -1660,4 +1660,292 @@ img {
     ],
     hint: "Legg til box-sizing: border-box; – på .boks, eller enda bedre på alle elementer med * { box-sizing: border-box; }",
   },
+
+  // ── Modul 7: Semantisk struktur ─────────────────────────────────────
+
+  "m7-skjelett": {
+    html: `<div class="topp">
+  <h1>Fjellklubben</h1>
+  <div class="meny">
+    <ul>
+      <li><a href="#">Turer</a></li>
+      <li><a href="#">Om oss</a></li>
+    </ul>
+  </div>
+</div>
+<div class="innhold">
+  <h2>Neste tur</h2>
+  <p>Vi går til Fløyen på lørdag. Bli med!</p>
+</div>
+<div class="bunn">
+  <p>Fjellklubben 2026</p>
+</div>
+`,
+    sjekker: [
+      {
+        tekst: "Toppen er en <header> med <h1> inni",
+        test: (d) => d.querySelector("header h1") !== null,
+      },
+      {
+        tekst: "Menyen er en <nav> med lista inni",
+        test: (d) => d.querySelector("nav ul a") !== null,
+      },
+      {
+        tekst: "Hovedinnholdet står i én <main>",
+        test: (d) => d.querySelectorAll("main").length === 1 && d.querySelector("main h2") !== null,
+      },
+      {
+        tekst: "Bunnteksten står i en <footer>, utenfor <main>",
+        test: (d) => {
+          const f = d.querySelector("footer");
+          return f !== null && f.closest("main") === null && tekst(f).length > 0;
+        },
+      },
+      {
+        tekst: "Det er ingen <div> igjen",
+        test: (d) => d.querySelectorAll("div").length === 0,
+      },
+    ],
+    hint: "Bytt <div class=\"topp\"> med <header>, <div class=\"meny\"> med <nav>, <div class=\"innhold\"> med <main> og <div class=\"bunn\"> med <footer>. Husk sluttaggene også!",
+  },
+
+  "m7-artikler": {
+    html: `<header>
+  <h1>Kims turblogg</h1>
+</header>
+<main>
+  <h2>Siste innlegg</h2>
+  <div class="innlegg">
+    <h3>Første tur med ny sekk</h3>
+    <p>I helga testet jeg den nye sekken på Ulriken.</p>
+  </div>
+  <div class="innlegg">
+    <h3>Slik pakker du til fjellet</h3>
+    <p>Ullundertøy, niste og ekstra sokker. Alltid.</p>
+  </div>
+  <div class="innlegg">
+    <h3>Fem flotte utsiktspunkter</h3>
+    <p>Her er favorittene mine rundt Bergen.</p>
+  </div>
+  <h2>Om bloggen</h2>
+  <p>Jeg skriver om tur og friluftsliv.</p>
+</main>
+`,
+    sjekker: [
+      {
+        tekst: "De tre innleggene er hver sin <article> med overskrift",
+        test: (d) => {
+          const a = [...d.querySelectorAll("article")];
+          return a.length === 3 && a.every((x) => x.querySelector("h3") !== null);
+        },
+      },
+      {
+        tekst: "«Siste innlegg» og de tre innleggene står i en <section>",
+        test: (d) =>
+          [...d.querySelectorAll("section")].some(
+            (s) => /siste/i.test(tekst(s.querySelector("h2"))) && s.querySelectorAll("article").length === 3,
+          ),
+      },
+      {
+        tekst: "«Om bloggen» er en egen <section>",
+        test: (d) =>
+          [...d.querySelectorAll("section")].some(
+            (s) => /om bloggen/i.test(tekst(s.querySelector("h2"))) && s.querySelector("article") === null,
+          ),
+      },
+      {
+        tekst: "Det er ingen <div> igjen",
+        test: (d) => d.querySelectorAll("div").length === 0,
+      },
+    ],
+    hint: "Hvert <div class=\"innlegg\"> blir <article>. Pakk så «Siste innlegg» og de tre artiklene inn i én <section>, og «Om bloggen» med avsnittet i en annen.",
+  },
+
+  "m7-stil": {
+    html: `<header>
+  <h1>Fjellklubben</h1>
+  <nav>
+    <ul>
+      <li><a href="#">Turer</a></li>
+      <li><a href="#">Om oss</a></li>
+      <li><a href="#">Kontakt</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <h2>Neste tur</h2>
+  <p>Vi går til Fløyen på lørdag. Bli med!</p>
+</main>
+<footer>
+  <p>Fjellklubben 2026 · Laget av Kim</p>
+</footer>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+  color: #1d3557;
+}
+
+main {
+  padding: 16px;
+}
+`,
+    sjekker: [
+      {
+        tekst: "<header> har bakgrunnsfarge og padding",
+        test: (d) => {
+          const h = d.querySelector("header");
+          return h !== null && harBakgrunn(h) && parseFloat(stil(h).paddingLeft) >= 8;
+        },
+      },
+      {
+        tekst: "Menyen har ingen kulepunkter",
+        test: (d) => {
+          const ul = d.querySelector("nav ul");
+          return ul !== null && stil(ul).listStyleType === "none";
+        },
+      },
+      {
+        tekst: "Menylenkene er ikke understreket, og er lette å lese mot bakgrunnen",
+        test: (d) => {
+          const a = [...d.querySelectorAll("nav a")];
+          return a.length > 0 && a.every((x) => stil(x).textDecorationLine === "none" && lesbar(x));
+        },
+      },
+      {
+        tekst: "<footer> har bakgrunnsfarge, lesbar tekst og mindre skrift enn resten",
+        test: (d) => {
+          const f = d.querySelector("footer");
+          const p = d.querySelector("footer p");
+          return f !== null && p !== null && harBakgrunn(f) && lesbar(p) && px(p) < px(d.querySelector("main p"));
+        },
+      },
+    ],
+    hint: "header { background-color: #1d3557; color: white; padding: 16px; } nav ul { list-style: none; padding: 0; } nav a { color: white; text-decoration: none; } footer { background-color: #f1faee; padding: 16px; font-size: 14px; }",
+  },
+
+  "m7-id": {
+    html: `<header>
+  <h1>Fjellklubben</h1>
+  <nav>
+    <ul>
+      <li><a href="#">Turer</a></li>
+      <li><a href="#">Kontakt</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <section>
+    <h2>Turer</h2>
+    <p>Lørdag: Fløyen. Vi møtes ved Fløibanen klokka 11.</p>
+    <p>Søndag: Ulriken. Ta med gode sko, det er bratt.</p>
+    <p>Neste helg: Sandviksfjellet. Mer informasjon kommer.</p>
+    <p>I høstferien: tre dager i Jotunheimen, med overnatting på hytte.</p>
+  </section>
+  <section>
+    <h2>Kontakt</h2>
+    <p>Lurer du på noe? Spør en av turlederne.</p>
+  </section>
+</main>
+`,
+    css: `section {
+  padding: 12px;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Seksjonene har id-ene turer og kontakt",
+        test: (d) => d.getElementById("turer")?.tagName === "SECTION" && d.getElementById("kontakt")?.tagName === "SECTION",
+      },
+      {
+        tekst: "Menylenkene peker på #turer og #kontakt",
+        test: (d) => {
+          const h = [...d.querySelectorAll("nav a")].map((a) => a.getAttribute("href"));
+          return h.includes("#turer") && h.includes("#kontakt");
+        },
+      },
+      {
+        tekst: "Ingen id er brukt to ganger",
+        test: (d) => {
+          const ider = [...d.querySelectorAll("[id]")].map((e) => e.id);
+          return new Set(ider).size === ider.length;
+        },
+      },
+      {
+        tekst: "Kontakt-seksjonen er stylet med #kontakt i CSS",
+        test: (d) => {
+          const k = d.getElementById("kontakt");
+          return k !== null && regler(d).some((r) => /#kontakt\b/.test(r.selectorText) && r.style.length > 0) && harBakgrunn(k);
+        },
+      },
+    ],
+    hint: `<section id="kontakt"> og <a href="#kontakt">Kontakt</a>. I CSS: #kontakt { background-color: #f1faee; }`,
+  },
+
+  "m7-uu": {
+    html: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Fjellklubben</title>
+  </head>
+  <body>
+    <div class="topp">
+      <h1>Fjellklubben</h1>
+    </div>
+    <div class="innhold">
+      <h3>Neste tur</h3>
+      <img src="bilder/fjell.jpg">
+      <p>Vi går til Fløyen på lørdag. Påmelding <a href="#">her</a>.</p>
+    </div>
+  </body>
+</html>
+`,
+    css: `body {
+  font-family: Verdana, sans-serif;
+  color: #aaaaaa;
+}
+
+img {
+  max-width: 100%;
+}
+`,
+    bilder: ["bilder/fjell.jpg"],
+    sjekker: [
+      {
+        tekst: "<html> forteller at siden er på norsk",
+        test: (d) => /^(no|nb|nn)\b/i.test(d.documentElement.lang),
+      },
+      {
+        tekst: "Siden har <header> og <main> i stedet for div-er",
+        test: (d) => d.querySelector("header") !== null && d.querySelector("main") !== null,
+      },
+      {
+        tekst: "Overskriftene hopper ikke over nivåer",
+        test: (d) => {
+          const nivå = [...d.querySelectorAll("h1, h2, h3, h4, h5, h6")].map((h) => Number(h.tagName[1]));
+          return nivå[0] === 1 && nivå.every((n, i) => i === 0 || n <= nivå[i - 1] + 1);
+        },
+      },
+      {
+        tekst: "Bildet har en alt-tekst som beskriver det",
+        test: (d) => {
+          const img = [...d.querySelectorAll("img")];
+          return img.length > 0 && img.every(godAlt);
+        },
+      },
+      {
+        tekst: "Lenketeksten sier hvor lenken går",
+        test: (d) => {
+          const a = [...d.querySelectorAll("a")];
+          return a.length > 0 && a.every((x) => tekst(x).length > 3 && !/^(her|klikk her|les mer|link|lenke)$/i.test(tekst(x)));
+        },
+      },
+      {
+        tekst: "Teksten er lett å lese (kontrast minst 4,5:1)",
+        test: (d) => [...d.querySelectorAll("p")].every((p) => lesbar(p)),
+      },
+    ],
+    hint: "Seks feil: lang på <html>, header/main, <h3> som skulle vært <h2>, alt på bildet, lenketeksten «her», og den lysegrå tekstfargen.",
+  },
 };

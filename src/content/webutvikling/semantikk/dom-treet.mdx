@@ -1,0 +1,74 @@
+Når nettleseren leser HTML-en din, lager den et **tre** av alle elementene. Det treet heter
+**DOM-en** (*Document Object Model*), og det er det nettleseren egentlig tegner – og det CSS og
+JavaScript jobber med.
+
+## Elementer i elementer
+
+Hvert element ligger inni et annet. `<a>` ligger i `<li>`, som ligger i `<ul>`, som ligger i
+`<nav>`… Tegner du det opp, blir det et tre med `<body>` som stamme.
+
+Endre gjerne HTML-en, og hold musa over nodene i treet:
+
+<DomTre />
+
+Treet har sitt eget familiespråk:
+
+- **Forelder** – elementet et annet element ligger rett inni. `<nav>` er forelderen til `<ul>`.
+- **Barn** – elementene som ligger rett inni. `<li>`-ene er barna til `<ul>`.
+- **Søsken** – elementer med samme forelder. `<h1>` og `<nav>` er søsken inni `<header>`.
+
+<Quiz
+  sporsmal="Hvem er forelderen til <strong> her?"
+  kode={"<main>\n  <h2>Neste tur</h2>\n  <p>Vi går til <strong>Fløyen</strong>.</p>\n</main>"}
+  alternativer={["<main>", "<h2>", "<p>"]}
+  riktig={2}
+  forklaring="<strong> ligger rett inni <p>, så <p> er forelderen. <main> er besteforelderen – en forfar lenger opp i treet."
+/>
+
+<UnderPanseret tittel="Det er DOM-en du ser i utviklerverktøyet">
+
+Fanen **Elements** i utviklerverktøyet viser ikke HTML-fila di – den viser DOM-treet. Derfor kan du
+se `<tbody>` der du aldri skrev det, eller sluttagger nettleseren har lagt til for deg. Nettleseren
+har reparert koden din før den bygde treet.
+
+</UnderPanseret>
+
+## class og id
+
+Du kjenner `class` fra modul 3. Det finnes et attributt til som gir et element et navn: `id`.
+
+```html
+<section id="kontakt">
+  <h2>Kontakt</h2>
+</section>
+```
+
+- En **klasse** kan brukes på så mange elementer du vil, og et element kan ha flere klasser.
+  I CSS: `.kort`.
+- En **id** er unik: den skal finnes på *ett* element på siden – som et personnummer. I CSS: `#kontakt`.
+
+Id-er brukes mest til **lenker innad på siden**. En lenke med `#` foran id-en hopper rett dit:
+
+```html
+<a href="#kontakt">Kontakt oss</a>
+```
+
+Det virker også fra en annen side: `href="om-meg.html#kontakt"`.
+
+<Oppgave id="m7-id" />
+
+<Tips>
+
+Bruk klasser til styling, og id-er til å hoppe til et sted på siden. Da slipper du at en id-regel i CSS
+blir vanskelig å overstyre – mer om det i modul 9.
+
+</Tips>
+
+<GjorDetSelv>
+
+1. Åpne utviklerverktøyet på nettstedet ditt og se på treet i **Elements**. Klikk på de små
+   trekantene for å åpne og lukke grener.
+2. Gi en `<section>` på en av sidene dine en `id`, og lag en lenke dit fra menyen eller fra toppen av
+   siden.
+
+</GjorDetSelv>

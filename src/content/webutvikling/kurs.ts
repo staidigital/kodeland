@@ -145,7 +145,13 @@ export const MODULER: Modul[] = [
     html: ["<header>", "<nav>", "<main>", "<section>", "<article>", "<footer>"],
     css: ["stil på header, meny og bunntekst"],
     teori: ["DOM-treet", "skjermlesere", "universell utforming", "class og id"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "bokser-med-mening", tittel: "Bokser med mening", minutter: 25 },
+      { slug: "section-og-article", tittel: "section og article", minutter: 20 },
+      { slug: "stil-pa-strukturen", tittel: "Stil på topp, meny og bunn", minutter: 25 },
+      { slug: "dom-treet", tittel: "DOM-treet, class og id", minutter: 25 },
+      { slug: "universell-utforming", tittel: "Universell utforming", minutter: 30 },
+    ],
   },
   {
     slug: "typografi",

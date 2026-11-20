@@ -1,6 +1,7 @@
 import type { MDXComponents } from "mdx/types";
 import { GjorDetSelv, Tips, UnderPanseret } from "@/components/kurs/bokser";
 import { Boksmodell } from "@/components/kurs/boksmodell";
+import { DomTre } from "@/components/kurs/dom-tre";
 import { Fargevelger } from "@/components/kurs/fargevelger";
 import { Filnavn } from "@/components/kurs/filnavn";
 import { KlientTjener } from "@/components/kurs/klient-tjener";
@@ -11,6 +12,7 @@ import { Nettverksfane } from "@/components/kurs/nettverksfane";
 import { Oppgave } from "@/components/kurs/oppgave";
 import { Quiz } from "@/components/kurs/quiz";
 import { Sjekkliste } from "@/components/kurs/sjekkliste";
+import { Skjermleser } from "@/components/kurs/skjermleser";
 import { Stifinner } from "@/components/kurs/stifinner";
 
 /** Komponenter som kan brukes direkte i alle .mdx-leksjoner uten import. */
@@ -28,6 +30,8 @@ const components: MDXComponents = {
   Nettverksfane,
   Nettstedsjekker,
   Boksmodell,
+  DomTre,
+  Skjermleser,
   Mappebygger,
   Sjekkliste,
 };

@@ -1,0 +1,80 @@
+Nå som siden har en tydelig struktur, er det lett å style den. Du kan bruke taggene direkte som
+selektorer – `header`, `nav`, `main` og `footer` – uten å finne på klasser.
+
+## Topp og bunn
+
+```css
+header {
+  background-color: #1d3557;
+  color: white;
+  padding: 16px;
+}
+
+footer {
+  background-color: #f1faee;
+  padding: 16px;
+  font-size: 14px;
+}
+```
+
+<Tips>
+
+`body` har som standard litt margin rundt hele siden. Vil du at toppen og bunnen skal gå helt ut til
+kanten, setter du `body { margin: 0; }`. Da må du gi `main` padding i stedet, så teksten ikke klistrer
+seg til kanten.
+
+</Tips>
+
+## Menyen
+
+En meny skal sjelden se ut som en vanlig punktliste. To regler fjerner det som gjør den til en liste:
+
+```css
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+```
+
+- `list-style: none` fjerner kulepunktene.
+- `padding: 0` fjerner innrykket nettleseren gir lister.
+
+Legg merke til selektoren `nav ul`: den betyr *en `<ul>` som ligger inni en `<nav>`*. Andre lister på
+siden blir ikke berørt. På samme måte treffer `nav a` bare lenkene i menyen:
+
+```css
+nav a {
+  color: white;
+  text-decoration: none;
+}
+```
+
+<Oppgave id="m7-stil" />
+
+<Quiz
+  sporsmal="Hva treffer selektoren footer p?"
+  alternativer={[
+    "Alle <footer> og alle <p> på siden",
+    "Bare avsnitt som ligger inni en <footer>",
+    "Bare <footer> som ligger inni et avsnitt",
+  ]}
+  riktig={1}
+  forklaring="Et mellomrom mellom to selektorer betyr «inni». footer p er altså avsnitt som ligger et sted inni en <footer>. Mer om slike kombinasjoner i modul 9."
+/>
+
+<UnderPanseret tittel="Menyen står fortsatt nedover">
+
+Menypunktene ligger fortsatt under hverandre, fordi `<li>` er blokker. Å legge dem *bortover* krever
+at du endrer hvordan boksene flyter – det lærer du i modul 10 og 11. Foreløpig er en meny nedover helt
+i orden.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Gi `header` og `footer` på nettstedet ditt farger fra paletten din, og `padding`.
+2. Fjern kulepunktene og innrykket i menyen med `nav ul`.
+3. Style menylenkene med `nav a` og `nav a:hover`.
+4. Sjekk kontrasten: er teksten i toppen og bunnen lett å lese?
+
+</GjorDetSelv>
