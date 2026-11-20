@@ -42,6 +42,9 @@ import m9TabellerOgLister from "./selektorer/tabeller-og-lister.mdx";
 import m10NormalFlyt from "./display/normal-flyt.mdx";
 import m10SkjuleOgOverflow from "./display/skjule-og-overflow.mdx";
 import m10VannrettMeny from "./display/vannrett-meny.mdx";
+import m11BokserPaRad from "./flexbox/bokser-pa-rad.mdx";
+import m11JustifyOgAlign from "./flexbox/justify-og-align.mdx";
+import m11WrapOgFlex from "./flexbox/wrap-og-flex.mdx";
 
 /**
  * Kobler leksjons-id (modul/leksjon) til MDX-fila.
@@ -92,4 +95,7 @@ export const LEKSJONER: Record<string, ComponentType> = {
   "display/normal-flyt": m10NormalFlyt,
   "display/vannrett-meny": m10VannrettMeny,
   "display/skjule-og-overflow": m10SkjuleOgOverflow,
+  "flexbox/bokser-pa-rad": m11BokserPaRad,
+  "flexbox/justify-og-align": m11JustifyOgAlign,
+  "flexbox/wrap-og-flex": m11WrapOgFlex,
 };

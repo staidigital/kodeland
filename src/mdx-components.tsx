@@ -4,6 +4,7 @@ import { Boksmodell } from "@/components/kurs/boksmodell";
 import { DomTre } from "@/components/kurs/dom-tre";
 import { Fargevelger } from "@/components/kurs/fargevelger";
 import { Filnavn } from "@/components/kurs/filnavn";
+import { Flekslab } from "@/components/kurs/flekslab";
 import { Flytlab } from "@/components/kurs/flytlab";
 import { KlientTjener } from "@/components/kurs/klient-tjener";
 import { MdxKode } from "@/components/kurs/kodefarger";
@@ -42,6 +43,7 @@ const components: MDXComponents = {
   Selektorlab,
   Spesifisitetsspill,
   Flytlab,
+  Flekslab,
   Mappebygger,
   Sjekkliste,
 };

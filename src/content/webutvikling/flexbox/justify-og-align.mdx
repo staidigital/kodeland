@@ -1,0 +1,63 @@
+Det beste med flexbox er hvor lett det er å *plassere* ting: til venstre, til høyre, i midten
+eller jevnt fordelt. To egenskaper gjør nesten hele jobben.
+
+## justify-content – langs hovedaksen
+
+`justify-content` bestemmer hvor elementene havner langs hovedaksen, og hva som skjer med plassen
+som er til overs:
+
+- `flex-start` – samlet i starten (standard).
+- `center` – samlet i midten.
+- `flex-end` – samlet i slutten.
+- `space-between` – første helt i starten, siste helt i slutten, og jevn avstand imellom.
+- `space-around` og `space-evenly` – jevn avstand rundt alle.
+
+## align-items – langs tverraksen
+
+`align-items` bestemmer hvor elementene havner på tvers:
+
+- `stretch` – strekt ut så de fyller hele høyden (standard – derfor ble kortene like høye).
+- `flex-start`, `center` og `flex-end` – oppe, i midten eller nede.
+
+Prøv kombinasjonene i laben:
+
+<Flekslab />
+
+## Midt i – endelig
+
+Å plassere noe midt i en boks, både vannrett og loddrett, var lenge et av de vanskeligste problemene
+i CSS. Med flexbox er det tre linjer:
+
+```css
+.scene {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+```
+
+<Oppgave id="m11-sentrer" />
+
+## Logo til venstre, meny til høyre
+
+Nesten alle nettsider har det samme oppsettet i toppen: logoen til venstre og menyen til høyre. Det er
+`space-between` – den skyver det første elementet helt til venstre og det siste helt til høyre.
+
+<Oppgave id="m11-topp" />
+
+<Quiz
+  sporsmal="flex-direction er column. Hvilken egenskap plasserer da elementene vannrett?"
+  alternativer={["justify-content", "align-items", "Ingen av dem"]}
+  riktig={1}
+  forklaring="Med column går hovedaksen nedover, og tverraksen bortover. justify-content virker alltid langs hovedaksen, og align-items langs tverraksen – så nå er det align-items som styrer vannrett."
+/>
+
+<GjorDetSelv>
+
+1. Gjør `<header>` på nettstedet ditt til en flex-container med logoen eller overskriften til venstre og
+   menyen til høyre.
+2. Bruk `align-items: center`, så de står midt i høyden.
+3. Inspiser headeren i utviklerverktøyet. Ser du det lille **flex**-merket ved siden av elementet?
+   Klikk på det – da tegner nettleseren inn flex-oppsettet for deg.
+
+</GjorDetSelv>

@@ -1,0 +1,55 @@
+I modul 10 la du menyen bortover med `inline-block`. Det virket – men med små mellomrom du ikke
+hadde bedt om, og uten noen enkel måte å fordele plassen på. **Flexbox** er laget nettopp for dette:
+å legge bokser på rad eller i kolonne, og bestemme hvordan de skal fordele seg.
+
+## display: flex
+
+Du gjør en boks om til en **flex-container** med én linje:
+
+```css
+.kort-rad {
+  display: flex;
+  gap: 16px;
+}
+```
+
+Da skjer to ting med barna – **flex-elementene**:
+
+- De legger seg på rad, ved siden av hverandre – selv om de er blokker.
+- De blir like høye, som standard.
+
+`gap` gir mellomrom *mellom* elementene – ikke ytterst, og uten de rare mellomrommene fra `inline-block`.
+
+Legg merke til at det er *forelderen* som får `display: flex`. Barna trenger ingen ny CSS.
+
+<Oppgave id="m11-rad" />
+
+## Hovedakse og tverrakse
+
+Flexbox tenker i to retninger:
+
+- **Hovedaksen** – retningen elementene legger seg etter hverandre. Med `flex-direction: row` (standard)
+  går den bortover.
+- **Tverraksen** – på tvers av hovedaksen. Med `row` går den nedover.
+
+Med `flex-direction: column` snur du det hele: elementene legger seg nedover, og tverraksen går
+bortover. Prøv i laben – aksene er tegnet inn:
+
+<Flekslab />
+
+<Quiz
+  sporsmal="Hvilket element skal ha display: flex for at tre kort skal stå på rad?"
+  kode={'<div class="rad">\n  <div class="kort">…</div>\n  <div class="kort">…</div>\n  <div class="kort">…</div>\n</div>'}
+  alternativer={[".kort", ".rad", "Begge"]}
+  riktig={1}
+  forklaring="Det er forelderen, .rad, som blir flex-container. Barna, .kort, blir flex-elementer av seg selv."
+/>
+
+<GjorDetSelv>
+
+1. Finn et sted på nettstedet ditt der flere ting kunne stått ved siden av hverandre – kort, bilder
+   eller bokser med fakta.
+2. Pakk dem i en `<div>` (eller en `<section>`) med en klasse, og gi den `display: flex` og `gap`.
+3. Hva skjer når vinduet blir smalt? Det fikser du i siste leksjon i denne modulen.
+
+</GjorDetSelv>

@@ -2656,4 +2656,289 @@ nav a {
     ],
     hint: ".melding { display: none; } – ikke visibility: hidden, som lar plassen stå tom.",
   },
+
+  // ── Modul 11: Flexbox ───────────────────────────────────────────────
+
+  "m11-rad": {
+    html: `<h1>Ukas turer</h1>
+<div class="kort-rad">
+  <article class="kort">
+    <h2>Fløyen</h2>
+    <p>Lett, 1 time.</p>
+  </article>
+  <article class="kort">
+    <h2>Ulriken</h2>
+    <p>Middels, 3 timer.</p>
+  </article>
+  <article class="kort">
+    <h2>Stoltzen</h2>
+    <p>Krevende, 1 time.</p>
+  </article>
+</div>
+`,
+    css: `.kort {
+  padding: 10px;
+  background-color: #f1faee;
+  border: 2px solid #a8dadc;
+  border-radius: 8px;
+}
+
+.kort h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+`,
+    sjekker: [
+      {
+        tekst: ".kort-rad er en flex-container",
+        test: (d) => {
+          const r = d.querySelector(".kort-rad");
+          return r !== null && stil(r).display === "flex";
+        },
+      },
+      {
+        tekst: "Kortene står ved siden av hverandre",
+        test: (d) => {
+          const r = [...d.querySelectorAll(".kort")].map((k) => k.getBoundingClientRect());
+          return r.length === 3 && r.every((x) => Math.abs(x.top - r[0].top) < 1) && r[0].left < r[1].left && r[1].left < r[2].left;
+        },
+      },
+      {
+        tekst: "Det er minst 12px mellomrom mellom kortene",
+        test: (d) => {
+          const r = [...d.querySelectorAll(".kort")].map((k) => k.getBoundingClientRect());
+          return r.length === 3 && r[1].left - r[0].right >= 12 && r[2].left - r[1].right >= 12;
+        },
+      },
+    ],
+    hint: ".kort-rad { display: flex; gap: 16px; }",
+  },
+
+  "m11-sentrer": {
+    html: `<div class="scene">
+  <div class="boks">Midt i!</div>
+</div>
+`,
+    css: `.scene {
+  height: 200px;
+  background-color: #1d3557;
+}
+
+.boks {
+  width: 100px;
+  padding: 10px;
+  background-color: #f4a261;
+  text-align: center;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Boksen står midt på – vannrett",
+        test: (d) => {
+          const s = d.querySelector(".scene")?.getBoundingClientRect();
+          const b = d.querySelector(".boks")?.getBoundingClientRect();
+          return s !== undefined && b !== undefined && Math.abs(s.left + s.width / 2 - (b.left + b.width / 2)) <= 1;
+        },
+      },
+      {
+        tekst: "Boksen står midt på – loddrett",
+        test: (d) => {
+          const s = d.querySelector(".scene")?.getBoundingClientRect();
+          const b = d.querySelector(".boks")?.getBoundingClientRect();
+          return (
+            s !== undefined && b !== undefined &&
+            b.height < s.height - 20 &&
+            Math.abs(s.top + s.height / 2 - (b.top + b.height / 2)) <= 1
+          );
+        },
+      },
+      {
+        tekst: "Scenen er fortsatt 200 piksler høy, og boksen 100 piksler bred",
+        test: (d) => {
+          const s = d.querySelector(".scene")?.getBoundingClientRect();
+          const b = d.querySelector(".boks");
+          return s !== undefined && b !== null && Math.abs(s.height - 200) < 1 && parseFloat(stil(b).width) === 100;
+        },
+      },
+    ],
+    hint: ".scene { display: flex; justify-content: center; align-items: center; }",
+  },
+
+  "m11-topp": {
+    html: `<header>
+  <a href="#" class="logo">Fjellklubben</a>
+  <nav>
+    <a href="#">Turer</a>
+    <a href="#">Om oss</a>
+  </nav>
+</header>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+}
+
+header {
+  background-color: #1d3557;
+  padding: 12px 16px;
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+}
+
+.logo {
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Logoen står helt til venstre, og menyen helt til høyre",
+        test: (d) => {
+          const h = d.querySelector("header");
+          const l = d.querySelector(".logo")?.getBoundingClientRect();
+          const n = d.querySelector("nav")?.getBoundingClientRect();
+          if (!h || !l || !n) return false;
+          const r = h.getBoundingClientRect();
+          const p = parseFloat(stil(h).paddingLeft);
+          return Math.abs(l.left - (r.left + p)) <= 2 && Math.abs(r.right - p - n.right) <= 2 && n.left - l.right >= 8;
+        },
+      },
+      {
+        tekst: "Logoen og menyen er midtstilt i høyden (align-items: center)",
+        test: (d) => {
+          const h = d.querySelector("header");
+          const l = d.querySelector(".logo")?.getBoundingClientRect();
+          const n = d.querySelector("nav")?.getBoundingClientRect();
+          return (
+            h !== null && l !== undefined && n !== undefined &&
+            stil(h).alignItems === "center" &&
+            Math.abs(l.top + l.height / 2 - (n.top + n.height / 2)) <= 2
+          );
+        },
+      },
+      {
+        tekst: "Menylenkene har minst 10px mellomrom",
+        test: (d) => {
+          const a = [...d.querySelectorAll("nav a")].map((x) => x.getBoundingClientRect());
+          return a.length >= 2 && a.slice(1).every((x, i) => x.left - a[i].right >= 10);
+        },
+      },
+    ],
+    hint: "header { display: flex; justify-content: space-between; align-items: center; } nav { display: flex; gap: 16px; }",
+  },
+
+  "m11-wrap": {
+    html: `<h1>Bilder fra turene</h1>
+<div class="galleri">
+  <div class="kort">Fløyen</div>
+  <div class="kort">Ulriken</div>
+  <div class="kort">Stoltzen</div>
+  <div class="kort">Lyderhorn</div>
+  <div class="kort">Rundemanen</div>
+  <div class="kort">Sandviken</div>
+</div>
+`,
+    css: `.galleri {
+  display: flex;
+  gap: 10px;
+}
+
+.kort {
+  width: 140px;
+  height: 80px;
+  flex-shrink: 0;
+  padding: 8px;
+  background-color: #a8dadc;
+  color: #1d3557;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Ingen kort stikker ut av galleriet",
+        test: (d) => {
+          const g = d.querySelector(".galleri")?.getBoundingClientRect();
+          return g !== undefined && [...d.querySelectorAll(".kort")].every((k) => k.getBoundingClientRect().right <= g.right + 0.5);
+        },
+      },
+      {
+        tekst: "Kortene fordeler seg på flere rader",
+        test: (d) => new Set([...d.querySelectorAll(".kort")].map((k) => Math.round(k.getBoundingClientRect().top))).size >= 2,
+      },
+      {
+        tekst: "Det er mellomrom mellom radene også",
+        test: (d) => {
+          const k = [...d.querySelectorAll(".kort")].map((x) => x.getBoundingClientRect());
+          const andreRad = k.find((x) => x.top > k[0].bottom - 1);
+          return andreRad !== undefined && andreRad.top - k[0].bottom >= 8;
+        },
+      },
+      {
+        tekst: "Kortene er fortsatt 140 piksler brede",
+        test: (d) => [...d.querySelectorAll(".kort")].every((k) => parseFloat(stil(k).width) === 140),
+      },
+    ],
+    hint: ".galleri { flex-wrap: wrap; }",
+  },
+
+  "m11-meny": {
+    html: `<nav>
+  <ul>
+    <li><a href="#">Forside</a></li>
+    <li><a href="#">Turer</a></li>
+    <li class="logg-inn"><a href="#">Logg inn</a></li>
+  </ul>
+</nav>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: #1d3557;
+}
+
+nav a {
+  display: block;
+  padding: 12px 16px;
+  color: white;
+  text-decoration: none;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Lista i menyen er en flex-container",
+        test: (d) => {
+          const ul = d.querySelector("nav ul");
+          return ul !== null && stil(ul).display === "flex";
+        },
+      },
+      {
+        tekst: "Menypunktene står på rad",
+        test: (d) => {
+          const t = [...d.querySelectorAll("nav li")].map((x) => x.getBoundingClientRect().top);
+          return t.length === 3 && t.every((x) => Math.abs(x - t[0]) < 1);
+        },
+      },
+      {
+        tekst: "«Logg inn» står helt til høyre, med de andre til venstre",
+        test: (d) => {
+          const ul = d.querySelector("nav ul")?.getBoundingClientRect();
+          const li = [...d.querySelectorAll("nav li")].map((x) => x.getBoundingClientRect());
+          if (!ul || li.length !== 3) return false;
+          const [første, nestSiste, siste] = li;
+          return (
+            Math.abs(ul.right - siste.right) <= 1 && Math.abs(ul.left - første.left) <= 1 && siste.left - nestSiste.right > 30
+          );
+        },
+      },
+    ],
+    hint: "nav ul { display: flex; } .logg-inn { margin-left: auto; }",
+  },
 };

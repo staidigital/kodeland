@@ -513,6 +513,7 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 .leksjon-tekst > * + .selektorlab,
 .leksjon-tekst > * + .spesifisitetsspill,
 .leksjon-tekst > * + .flytlab,
+.leksjon-tekst > * + .flekslab,
 .leksjon-tekst > * + blockquote,
 .leksjon-tekst > * + figure,
 .leksjon-tekst > * + .sjekkliste { margin-top: 1.6em; }
@@ -534,6 +535,7 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 .leksjon-tekst > .selektorlab + *,
 .leksjon-tekst > .spesifisitetsspill + *,
 .leksjon-tekst > .flytlab + *,
+.leksjon-tekst > .flekslab + *,
 .leksjon-tekst > figure + * { margin-top: 1.6em; }
 
 /* Bokser */
@@ -708,7 +710,7 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
 .fil-ikon--bilde { background: var(--gronn); }
 
 /* Quiz, filnavn, sjekkliste: felles kort */
-.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner, .nettverksfane, .nettstedsjekker, .boksmodell, .dom-tre, .skjermleser, .typografilab, .typeskala, .selektorlab, .spesifisitetsspill, .flytlab {
+.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner, .nettverksfane, .nettstedsjekker, .boksmodell, .dom-tre, .skjermleser, .typografilab, .typeskala, .selektorlab, .spesifisitetsspill, .flytlab, .flekslab {
   padding: 18px 20px;
   border: 1px solid var(--linje);
   border-radius: 14px;
@@ -1412,6 +1414,40 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
   font: 16px/1.7 Georgia, serif;
 }
 .fl-boks { color: #fff; font: 700 14px/1.4 var(--font-geist-sans), sans-serif; outline: 2px dashed rgb(0 0 0 / 0.35); outline-offset: 0; }
+
+/* Fleks-lab */
+.fx-kontroller { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px 16px; margin-top: 8px; }
+.fx-valg { display: flex; flex-direction: column; gap: 4px; min-width: 0; font-size: 13px; }
+.fx-valg select { width: 100%; padding: 5px 8px; border: 1px solid var(--linje-sterk); border-radius: 8px; background: var(--bg); color: inherit; font: 13px var(--font-geist-mono), monospace; }
+.fx-scene { position: relative; margin-top: 14px; padding: 26px 10px 10px 26px; border-radius: 10px; background: var(--bg); }
+.fx-container {
+  height: 240px;
+  overflow: auto;
+  padding: 6px;
+  border: 2px dashed var(--linje-sterk);
+  border-radius: 8px;
+  background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgb(127 127 127 / 0.06) 8px, rgb(127 127 127 / 0.06) 16px);
+}
+.fx-boks {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+}
+.fx-akse { position: absolute; color: var(--dempet); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.fx-akse.vannrett { top: 6px; left: 26px; }
+.fx-akse.vannrett::after { content: " →"; }
+.fx-akse.vannrett.omvendt::after { content: ""; }
+.fx-akse.vannrett.omvendt::before { content: "← "; }
+.fx-akse.loddrett { left: 4px; top: 30px; writing-mode: vertical-rl; }
+.fx-akse.loddrett::after { content: " →"; }
+.fx-akse.loddrett.omvendt::after { content: ""; }
+.fx-akse.loddrett.omvendt::before { content: "← "; }
+.fx-akse--hoved { color: var(--html); }
+.fx-akse--tverr { color: var(--css); }
 
 /* Tabeller og definisjonslister i leksjonsteksten */
 .leksjon-tekst table { border-collapse: collapse; font-size: 15px; }

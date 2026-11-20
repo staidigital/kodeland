@@ -216,8 +216,12 @@ export const MODULER: Modul[] = [
     ingress: "Plasser elementer på rad og rekke – endelig enkelt.",
     html: [],
     css: ["display: flex", "justify-content", "align-items", "gap", "flex-wrap"],
-    teori: [],
-    leksjoner: [],
+    teori: ["hovedakse og tverrakse"],
+    leksjoner: [
+      { slug: "bokser-pa-rad", tittel: "Bokser på rad", minutter: 20 },
+      { slug: "justify-og-align", tittel: "justify-content og align-items", minutter: 30 },
+      { slug: "wrap-og-flex", tittel: "flex-wrap og flex: 1", minutter: 25 },
+    ],
   },
   {
     slug: "grid",

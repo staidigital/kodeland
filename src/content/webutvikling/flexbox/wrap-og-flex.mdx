@@ -1,0 +1,74 @@
+Til nå har alle flex-elementene fått plass på én rad. Men hva skjer når de ikke gjør det – på en
+smal mobilskjerm, for eksempel?
+
+## flex-wrap
+
+Som standard prøver flexbox å presse alle elementene inn på én rad, selv om de stikker ut. Med
+`flex-wrap: wrap` får de lov til å bryte over på en ny rad, akkurat som ord i en tekst:
+
+```css
+.galleri {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+```
+
+`gap` gjelder både mellom elementene på en rad og mellom radene.
+
+<Oppgave id="m11-wrap" />
+
+## flex: 1 – del på plassen
+
+Noen ganger vil du at elementene skal *vokse* og fylle plassen som er til overs. Det gjør du på
+elementene, ikke containeren:
+
+```css
+.kort {
+  flex: 1;
+}
+```
+
+`flex: 1` betyr «ta en like stor del av plassen som de andre». Gir du ett element `flex: 2`, får det
+dobbelt så mye av plassen som er til overs.
+
+En nyttig kombinasjon er `flex: 1 1 200px` sammen med `flex-wrap: wrap`: hvert kort vil være omtrent 200
+piksler, vokser for å fylle raden, og bryter til en ny rad når det ikke er plass. Da får du et rutenett
+som tilpasser seg skjermen – helt uten media queries.
+
+## Meny med flexbox
+
+Nå kan du lage menyen fra modul 10 på nytt – enklere og uten de rare mellomrommene. Og her er et
+triks: `margin-left: auto` på ett element skyver det, og alt etter det, helt til høyre. Perfekt til en
+«Logg inn»-knapp.
+
+<Oppgave id="m11-meny" />
+
+<UnderPanseret tittel="Flexbox eller grid?">
+
+Flexbox er laget for **én retning** om gangen: en rad med menypunkter, eller en kolonne med kort. Den
+er best når innholdet bestemmer størrelsen. I neste modul lærer du **grid**, som er laget for **to
+retninger** samtidig – rader og kolonner, som et ordentlig sideoppsett. Mange sider bruker begge:
+grid til hele siden, og flexbox inni de små delene.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Bytt ut `inline-block`-menyen din fra modul 10 med `display: flex` på `<ul>`.
+2. Gi kortene eller bildene dine `flex-wrap: wrap`, og gjør vinduet smalt. Bryter de pent?
+3. Prøv `flex: 1 1 200px` på kortene, og se hvordan de vokser og bryter.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="m11-ferdig"
+  punkter={[
+    "Jeg vet at display: flex settes på forelderen",
+    "Jeg vet forskjellen på hovedaksen og tverraksen",
+    "Toppen av nettstedet mitt har logo til venstre og meny til høyre med flexbox",
+    "Menyen min bruker flexbox og gap",
+    "Kort eller bilder bryter pent over flere rader på smale skjermer",
+    "Jeg har sett flex-merket i utviklerverktøyet",
+  ]}
+/>
