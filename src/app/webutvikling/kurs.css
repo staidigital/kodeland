@@ -75,8 +75,8 @@
 /* Topplinje */
 .kurs-topp {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
+  align-items: center;
+  gap: 10px 12px;
   padding: 14px 24px;
   border-bottom: 1px solid var(--linje);
   background: var(--kort);
@@ -94,6 +94,31 @@
   color: var(--dempet);
   font-size: 14px;
 }
+.kurs-topp__skille { color: var(--linje-sterk); font-size: 18px; }
+.kurs-topp__logo, .kurs-topp__hoyre { white-space: nowrap; }
+@media (max-width: 560px) {
+  .kurs-topp { padding: 12px 16px; gap: 8px; }
+  .kurs-topp__undertittel, .kurs-topp__klamme { display: none; }
+}
+@media (max-width: 370px) {
+  .kodeland-logo__navn { display: none; }
+}
+
+/* Kodeland-logoen (src/components/kodeland-logo.tsx) */
+.kodeland-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--tekst);
+  font-weight: 750;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  --kodeland-logo-tegn: var(--kort);
+}
+.kodeland-logo__merke { flex: none; transition: transform 0.15s; }
+.kodeland-logo:hover .kodeland-logo__merke { transform: rotate(-6deg); }
+@media (prefers-reduced-motion: reduce) { .kodeland-logo:hover .kodeland-logo__merke { transform: none; } }
+.innlogging__topp { display: flex; align-items: center; gap: 10px; margin: 0; }
 
 /* Knapper */
 .knapp {
