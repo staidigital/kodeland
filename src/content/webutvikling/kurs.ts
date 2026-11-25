@@ -260,7 +260,12 @@ export const MODULER: Modul[] = [
     html: ["validering"],
     css: ["kontrastsjekk"],
     teori: ["hosting", "domener og DNS", "nå ligger din side på en tjener"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "fra-mappe-til-nettsted", tittel: "Fra mappe til nettsted", minutter: 25 },
+      { slug: "validering", tittel: "Valider koden", minutter: 25 },
+      { slug: "siste-sjekk", tittel: "Siste sjekk", minutter: 25 },
+      { slug: "publiser", tittel: "Publiser!", minutter: 40 },
+    ],
     mål: "Ferdig, publisert nettsted.",
   },
 ];

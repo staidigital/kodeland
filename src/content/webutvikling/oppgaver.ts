@@ -15,8 +15,9 @@ export type Sjekk = {
   /**
    * `doc` er siden som vises i forhåndsvisningen (med CSS, så getComputedStyle virker).
    * `sider` er alle HTML-filene i oppgaven, lest inn uten CSS (filnavn → dokument).
+   * `kilde` er koden slik studenten skrev den (filnavn → tekst), før nettleseren har reparert den.
    */
-  test: (doc: Document, sider: Record<string, Document>) => boolean;
+  test: (doc: Document, sider: Record<string, Document>, kilde: Record<string, string>) => boolean;
 };
 
 export type OppgaveDef = {
@@ -3524,5 +3525,214 @@ h1 {
       },
     ],
     hint: "Skriv mobiloppsettet først: header { flex-direction: column; align-items: flex-start; } h1 { font-size: 2rem; }. Legg så PC-oppsettet i @media (min-width: 700px) { header { flex-direction: row; align-items: center; } h1 { font-size: 3.5rem; } }.",
+  },
+
+  // ── Modul 14: Publiser! ─────────────────────────────────────────────
+
+  "m14-stier": {
+    html: `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Fjellklubben</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <h1>Fjellklubben</h1>
+    <p><a href="/om-meg.html">Om klubben</a></p>
+    <img src="C:/Users/kim/Dokumenter/webkurs/bilder/fjell.jpg" alt="Solnedgang over fjell og fjord">
+  </body>
+</html>
+`,
+    sider: {
+      "om-meg.html": `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Om klubben</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Om klubben</h1>
+    <p><a href="file:///C:/Users/kim/Dokumenter/webkurs/index.html">Tilbake til forsiden</a></p>
+  </body>
+</html>
+`,
+    },
+    css: `body {
+  font-family: Verdana, sans-serif;
+  color: #1d3557;
+  background-color: #f1faee;
+}
+
+img {
+  max-width: 100%;
+}
+`,
+    lenketCss: true,
+    bilder: ["bilder/fjell.jpg"],
+    sjekker: [
+      {
+        tekst: "Ingen stier starter med /",
+        test: (_, s) =>
+          Object.values(s).every((side) =>
+            [...side.querySelectorAll("a[href], link[href], img[src]")].every(
+              (e) => !(e.getAttribute("href") ?? e.getAttribute("src") ?? "").trim().startsWith("/"),
+            ),
+          ),
+      },
+      {
+        tekst: "Ingen stier peker på din egen maskin (C:/ eller file:)",
+        test: (_, s) =>
+          Object.values(s).every((side) =>
+            [...side.querySelectorAll("a[href], link[href], img[src]")].every(
+              (e) => !/^(file:|[a-z]:[\\/])/i.test((e.getAttribute("href") ?? e.getAttribute("src") ?? "").trim()),
+            ),
+          ),
+      },
+      {
+        tekst: "Lenkene, stilarket og bildet virker fortsatt",
+        test: (_, s) =>
+          lenkerTil(s["index.html"], "index.html").includes("om-meg.html") &&
+          lenkerTil(s["om-meg.html"], "om-meg.html").includes("index.html") &&
+          harStilark(s["index.html"], "index.html") &&
+          bilderFinnes(s["index.html"], "index.html", ["bilder/fjell.jpg"]),
+      },
+    ],
+    hint: `Bruk relative stier: href="style.css", href="om-meg.html", src="bilder/fjell.jpg" og href="index.html".`,
+  },
+
+  "m14-valider": {
+    html: `<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <header id="topp">
+      <h1>Fjellklubben</h1>
+    </header>
+    <main id="topp">
+      <img src="bilder/fjell.jpg">
+      <p>Vi går på tur hver helg.
+      <p>Bli med du også!</p>
+      <li>Turer hver lørdag</li>
+    </main>
+  </body>
+</html>
+`,
+    css: `img {
+  max-width: 100%;
+}
+`,
+    bilder: ["bilder/fjell.jpg"],
+    sjekker: [
+      {
+        tekst: "Første linje er <!DOCTYPE html>",
+        test: (_, __, k) => /^\s*<!doctype html>/i.test(k["index.html"] ?? ""),
+      },
+      {
+        tekst: "<html> har lang, og <title> har innhold",
+        test: (d) => d.documentElement.lang.trim() !== "" && d.title.trim() !== "",
+      },
+      {
+        tekst: "Ingen id er brukt to ganger",
+        test: (d) => {
+          const ider = [...d.querySelectorAll("[id]")].map((e) => e.id);
+          return new Set(ider).size === ider.length;
+        },
+      },
+      {
+        tekst: "Bildet har alt-tekst",
+        test: (d) => [...d.querySelectorAll("img")].every(godAlt),
+      },
+      {
+        tekst: "Alle avsnitt er lukket med </p>",
+        test: (_, __, k) => {
+          const kode = k["index.html"] ?? "";
+          return (kode.match(/<p[\s>]/gi) ?? []).length === (kode.match(/<\/p>/gi) ?? []).length;
+        },
+      },
+      {
+        tekst: "<li> står bare inni en <ul> eller <ol>",
+        test: (d) => [...d.querySelectorAll("li")].every((li) => li.parentElement?.matches("ul, ol")),
+      },
+    ],
+    hint: "Seks feil: mangler <!DOCTYPE html>, lang på <html>, tom <title>, id=\"topp\" to ganger, ingen alt på bildet, et avsnitt uten </p> – og en <li> uten liste rundt.",
+  },
+
+  "m14-kontrast": {
+    html: `<header>
+  <h1>Fjellklubben</h1>
+</header>
+<main>
+  <p class="ingress">Bli med på tur hver helg!</p>
+  <p>Vi går i alle slags vær, og alle er velkomne.</p>
+  <a class="knapp" href="#">Meld deg på</a>
+</main>
+<footer>
+  <p>© 2026 Fjellklubben</p>
+</footer>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+  color: #888888;
+  background-color: #ffffff;
+}
+
+header {
+  padding: 8px 16px;
+  background-color: #a8dadc;
+  color: #ffffff;
+}
+
+main {
+  padding: 8px 16px 16px;
+}
+
+.ingress {
+  font-size: 1.25rem;
+  color: #f4a261;
+}
+
+.knapp {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background-color: #e9c46a;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+footer {
+  padding: 8px 16px;
+  background-color: #1d3557;
+  color: #457b9d;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Overskriften i toppen har minst 3:1 (stor tekst)",
+        test: (d) => lesbar(d.querySelector("header h1"), 3),
+      },
+      {
+        tekst: "Ingressen har minst 4,5:1",
+        test: (d) => lesbar(d.querySelector(".ingress")),
+      },
+      {
+        tekst: "Brødteksten har minst 4,5:1",
+        test: (d) => lesbar(d.querySelector("main p:not(.ingress)")),
+      },
+      {
+        tekst: "Knappen har minst 4,5:1",
+        test: (d) => lesbar(d.querySelector(".knapp")),
+      },
+      {
+        tekst: "Bunnteksten har minst 4,5:1",
+        test: (d) => lesbar(d.querySelector("footer p")),
+      },
+    ],
+    hint: "Gjør teksten mørkere på lyse bakgrunner (for eksempel #1d3557), og lysere på mørke (for eksempel #f1faee). Fargevelgeren fra modul 3 viser kontrasten.",
   },
 };

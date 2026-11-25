@@ -1009,6 +1009,8 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
   overflow-wrap: anywhere;
   transition: background-color 0.3s;
 }
+.kt-boks--dns { border-color: var(--teori); }
+.kt-boks--dns .kt-boks__tittel { color: var(--teori); }
 .kt-mappe li.funnet { background: var(--gronn-myk); color: var(--gronn); font-weight: 600; }
 .kt-mappe li.mangler { background: var(--rod-myk); color: var(--rod); font-weight: 600; }
 .kt-bane { position: relative; display: flex; align-items: center; min-height: 60px; }

@@ -1,0 +1,68 @@
+Nettstedet ditt finnes i dag bare på din egen maskin. Live Server viser det for deg – men ingen
+andre kan se det. I denne siste modulen skal du legge det ut på nettet, så hvem som helst kan
+åpne det, fra hvilken som helst skjerm.
+
+## Hosting: noen andres datamaskin
+
+I modul 4 lærte du at en nettside hentes fra en **tjener**: en datamaskin som står på hele døgnet og
+deler ut filer. Å legge ut et nettsted handler om å kopiere `webkurs`-mappen din over på en slik
+tjener. Det kalles **hosting**, og firmaene som gjør det, kalles **webhotell**.
+
+Nettstedet ditt består bare av HTML, CSS og bilder – filer som sendes akkurat slik de er. Det heter et
+**statisk nettsted**, og det kan legges ut gratis.
+
+I dette kurset bruker vi **GitHub Pages**. GitHub er stedet der programmerere over hele verden lagrer og
+deler kode, og GitHub Pages gjør filene dine om til et nettsted – gratis, med en adresse som
+`brukernavn.github.io`. Du lærer hvordan i siste leksjon. Det finnes også mange andre tjenester som gjør
+det samme, men fremgangsmåten er omtrent lik overalt.
+
+Du trenger en konto på GitHub. Den er gratis, men du må være gammel nok til å lage en – sjekk vilkårene,
+og hør med læreren din.
+
+<Quiz
+  sporsmal="Hva skjer med nettstedet på tjeneren når du endrer index.html på din egen maskin?"
+  alternativer={[
+    "Det oppdateres automatisk",
+    "Ingenting – du må laste opp den nye fila",
+    "Det blir slettet",
+  ]}
+  riktig={1}
+  forklaring="Tjeneren har sin egen kopi av filene. Den vet ingenting om maskinen din. Hver gang du endrer noe, må du laste opp på nytt."
+/>
+
+## Stier som bare virker på din maskin
+
+Stier er den vanligste grunnen til at et nettsted virker i Live Server, men ikke etter at det er lagt
+ut. To feil går igjen:
+
+- **Stier som peker på din egen maskin**, som `C:/Users/kim/Dokumenter/webkurs/bilder/fjell.jpg` eller
+  `file:///…`. De finnes bare hos deg – ingen andre har en mappe som heter `kim`.
+- **Stier som starter med `/`**, som `/style.css`. Skråstreken først betyr «fra roten av nettstedet».
+  Det virker i Live Server, men på GitHub Pages ligger nettstedet ofte i en undermappe, for eksempel
+  `brukernavn.github.io/webkurs/`. Da peker `/style.css` på `brukernavn.github.io/style.css` – feil sted.
+
+Bruk alltid **relative stier**: `style.css`, `om-meg.html`, `bilder/fjell.jpg`. Da virker nettstedet
+uansett hvor mappen havner.
+
+<Oppgave id="m14-stier" />
+
+<UnderPanseret tittel="Hva legger du ut?">
+
+Det du publiserer, kan alle se – også om flere år, og også om du sletter det, fordi andre kan ha
+lagret en kopi. Før du publiserer:
+
+- **Personopplysninger:** Ikke legg ut adressen, telefonnummeret eller fødselsdatoen din. Fornavnet
+  holder.
+- **Andre personer:** Har du bilder av andre, må de ha sagt ja til at bildet legges ut (modul 5).
+- **Opphavsrett:** Sjekk at du har lov til å bruke alle bildene og tekstene.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Søk gjennom alle HTML-filene og `style.css` etter `C:`, `file:` og stier som starter med `/`. Gjør
+   dem om til relative stier.
+2. Gå gjennom nettstedet og fjern personopplysninger du ikke vil dele med hele verden.
+3. Kjør nettstedsjekkeren fra sjekkpunkt 2 en gang til, og fiks det den finner.
+
+</GjorDetSelv>

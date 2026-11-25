@@ -50,7 +50,7 @@ Kolonnen «Pensum» viser hvilke kapitler i Webutvikling-101 modulen henter stof
 | 11 | **Flexbox** ✅ | – | `display: flex`, `justify-content`, `align-items`, `gap`, `flex-wrap` | – | 17 |
 | 12 | **Grid og posisjonering** ✅ | – | grid, `fr`, `grid-template-areas`, `sticky`, `relative`/`absolute` | når bruker du hva? | 16, 18 |
 | 13 | **Responsivt design** ✅ | viewport-meta | media queries, mobile first, relative enheter | du vet ikke hvilken skjerm brukeren har | 19 |
-| 🚀 | **14. Publiser!** | validering | kontrastsjekk | hosting; domener og DNS; nå ligger *din* side på en tjener (knytter tilbake til modul 4) | 1 (+ nytt) |
+| 🚀 | **14. Publiser!** ✅ | validering | kontrastsjekk | hosting; domener og DNS; nå ligger *din* side på en tjener (knytter tilbake til modul 4) | 1 (+ nytt) |
 
 ✅ = leksjoner skrevet. Modul 1–5 tilsvarer omtrent første periode, og studentene ender med et
 nettsted som faktisk har stil – i motsetning til pensumet, der sjekkpunkt 1 leveres uten CSS.
@@ -73,7 +73,7 @@ vises mellom modulene i oversikten og heter «Sjekkpunkt N» i stedet for «Modu
 | `<Mappebygger />` | Klikk filer på plass i `webkurs/` og `webkurs/bilder/`. |
 | `<Sjekkliste id punkter />` | Avkrysning som huskes. |
 | `<Fargevelger />` | HSL-glidere for tekst- og bakgrunnsfarge, med hex-kode, hsl-kode og kontrastmåler. |
-| `<KlientTjener />` | Forespørsel og svar mellom nettleser og tjener, steg for steg – også en lenke som gir 404. |
+| `<KlientTjener />` | Forespørsel og svar mellom nettleser og tjener, steg for steg – også en lenke som gir 404. Med `scenarier={["dns", …]}` vises også DNS-oppslaget når man skriver inn en adresse (modul 14). |
 | `<Stifinner />` | Velg siden du står på og fila du vil til, og se den relative stien bygges opp ledd for ledd. |
 | `<Nettverksfane />` | Forenklet Network-fane: forespørslene for en side med ekte filstørrelser, ulike bildeformater og nett. |
 | `<Boksmodell />` | Glidebrytere for `padding`, `border` og `margin`, diagram i utviklerverktøyets farger, en ekte boks og regnestykket for bredden – med og uten `box-sizing: border-box`. |
@@ -92,9 +92,8 @@ vises mellom modulene i oversikten og heter «Sjekkpunkt N» i stedet for «Modu
 Oppgavetyper vi bruker: endre koden, **finn feilen** (ødelagt kode som skal fikses), **hva gjør
 denne koden?** (som `<Quiz>` med kode), og frie lekeplasser (oppgave uten sjekker).
 
-**Ideer som ikke er bygget ennå**, med modulen de hører til:
-
-- `<KlientTjener />` igjen ved publisering, med DNS-oppslag og en ekte tjener (modul 14)
+**Ideer som ikke er bygget ennå:** ingen akkurat nå – alle ideene over er bygget. Skriv nye ideer
+her, med modulen de hører til.
 
 ## Innlogging og lærerpanel
 

@@ -1,0 +1,63 @@
+Nettleseren er snill. Den gjetter hva du mente når koden har feil, og viser siden likevel – det så du
+helt tilbake i modul 1. Men andre er ikke like snille: skjermlesere, søkemotorer og andre nettlesere
+kan gjette annerledes. Før du publiserer, bør du derfor **validere** koden: la et program sjekke at
+den følger reglene for HTML.
+
+## W3C-validatoren
+
+Organisasjonen som bestemmer reglene for HTML og CSS, heter **W3C**. De har en gratis validator på
+[validator.w3.org](https://validator.w3.org/):
+
+1. Velg fanen **Validate by File Upload**, og last opp `index.html` – eller **Validate by Direct
+   Input**, og lim inn koden.
+2. Trykk **Check**.
+3. Du får en liste med **Error** (feil som må fikses) og **Warning** (råd). Hver melding sier hvilken
+   linje det gjelder.
+
+Meldingene er på engelsk, men de er ofte lettere å forstå enn de ser ut:
+
+- *Element «li» not allowed as child of element «main»* – en `<li>` står utenfor en liste.
+- *Duplicate ID «topp»* – samme id er brukt to ganger.
+- *An «img» element must have an «alt» attribute* – bildet mangler alt-tekst.
+- *End tag for «body» seen, but there were unclosed elements* – noe er åpnet, men aldri lukket.
+
+<Tips>
+
+Start alltid med den *første* feilen. Én glemt sluttag kan gi ti feilmeldinger lenger ned, som
+forsvinner av seg selv når den første er rettet.
+
+</Tips>
+
+## Finn feilene
+
+Siden under ser helt grei ut i forhåndsvisningen. Men validatoren ville funnet seks feil. Finn og rett
+dem alle.
+
+<Oppgave id="m14-valider" />
+
+<Quiz
+  sporsmal="Siden ser helt riktig ut i nettleseren din. Hvorfor bør du likevel rette feilene validatoren finner?"
+  alternativer={[
+    "Fordi siden ellers ikke kan publiseres",
+    "Fordi andre nettlesere, skjermlesere og søkemotorer kan tolke feilene annerledes",
+    "Det trenger du ikke – det viktigste er at siden ser riktig ut",
+  ]}
+  riktig={1}
+  forklaring="Nettleseren din har gjettet seg fram til noe som ser riktig ut. Men en skjermleser kan lese en ulukket liste helt feil, og en annen nettleser kan gjette annerledes. Gyldig kode virker likt for alle."
+/>
+
+<UnderPanseret tittel="CSS kan også valideres">
+
+W3C har en egen validator for CSS på [jigsaw.w3.org/css-validator](https://jigsaw.w3.org/css-validator/).
+Den finner skrivefeil som `colour` og manglende semikolon – feil som nettleseren bare hopper over uten
+å si fra (modul 2).
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Valider alle HTML-sidene dine på [validator.w3.org](https://validator.w3.org/).
+2. Fiks alle feil (Error). Les gjennom advarslene (Warning) og fiks dem du forstår.
+3. Valider `style.css` med CSS-validatoren.
+
+</GjorDetSelv>

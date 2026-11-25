@@ -189,7 +189,7 @@ export default function OppgaveEditor({ id }: { id: string }) {
     );
     const r = def.sjekker.map((s) => {
       try {
-        return s.test(doc, sider);
+        return s.test(doc, sider, filer);
       } catch {
         return false;
       }

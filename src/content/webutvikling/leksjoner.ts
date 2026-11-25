@@ -52,6 +52,10 @@ import m12RaderOgKolonner from "./grid/rader-og-kolonner.mdx";
 import m13MediaQueries from "./responsivt/media-queries.mdx";
 import m13MobilForst from "./responsivt/mobil-forst.mdx";
 import m13UlikeSkjermer from "./responsivt/ulike-skjermer.mdx";
+import m14FraMappeTilNettsted from "./publiser/fra-mappe-til-nettsted.mdx";
+import m14Publiser from "./publiser/publiser.mdx";
+import m14SisteSjekk from "./publiser/siste-sjekk.mdx";
+import m14Validering from "./publiser/validering.mdx";
 
 /**
  * Kobler leksjons-id (modul/leksjon) til MDX-fila.
@@ -112,4 +116,8 @@ export const LEKSJONER: Record<string, ComponentType> = {
   "responsivt/ulike-skjermer": m13UlikeSkjermer,
   "responsivt/media-queries": m13MediaQueries,
   "responsivt/mobil-forst": m13MobilForst,
+  "publiser/fra-mappe-til-nettsted": m14FraMappeTilNettsted,
+  "publiser/validering": m14Validering,
+  "publiser/siste-sjekk": m14SisteSjekk,
+  "publiser/publiser": m14Publiser,
 };

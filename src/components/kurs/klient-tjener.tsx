@@ -5,6 +5,8 @@ import { useState } from "react";
 type Skjerm = "gammel" | "tom" | "uten-stil" | "ferdig" | "404";
 type Steg = {
   tekst: string;
+  /** Hvem nettleseren snakker med i dette steget. Standard er tjeneren med nettstedet. */
+  motpart?: "dns";
   /** Melding som går mellom nettleseren og tjeneren i dette steget. */
   melding?: { tekst: string; til: "tjener" | "klient"; feil?: boolean };
   /** Fil som lyser opp i tjenerens mappe. */
@@ -12,9 +14,76 @@ type Steg = {
   skjerm: Skjerm;
 };
 
-const SCENARIER: Record<"finnes" | "mangler", { lenke: string; steg: Steg[] }> = {
+type Scenario = "dns" | "finnes" | "mangler";
+
+const NAVN: Record<Scenario, string> = {
+  dns: "Skriv inn en adresse",
+  finnes: "Lenke som virker",
+  mangler: "Lenke med feil",
+};
+
+// Oppdiktede domener og IP-adresser fra adresseområdene som er satt av til eksempler (RFC 5737).
+const DNS_REGISTER = [
+  ["skolen.no", "198.51.100.7"],
+  ["minside.no", "192.0.2.44"],
+  ["klubben.no", "203.0.113.12"],
+];
+
+const SCENARIER: Record<Scenario, { lenke: string; side: string; tekst: string; steg: Steg[] }> = {
+  dns: {
+    lenke: "",
+    side: "Velkommen!",
+    tekst: "Vi går på tur hver helg …",
+    steg: [
+      {
+        tekst: "Du skriver minside.no i adressefeltet og trykker Enter. Men nettleseren vet ikke hvor minside.no er – datamaskiner på nettet finner hverandre med tall, IP-adresser.",
+        skjerm: "tom",
+      },
+      {
+        tekst: "Nettleseren spør derfor en DNS-tjener – en slags telefonkatalog for internett: «Hvilken IP-adresse har minside.no?»",
+        motpart: "dns",
+        melding: { tekst: "Hvor er minside.no?", til: "tjener" },
+        skjerm: "tom",
+      },
+      {
+        tekst: "DNS-tjeneren slår opp i registeret sitt. Der står domenet ditt, med IP-adressen til tjeneren der nettstedet ditt ligger.",
+        motpart: "dns",
+        fil: { navn: "minside.no", funnet: true },
+        skjerm: "tom",
+      },
+      {
+        tekst: "DNS-tjeneren svarer med IP-adressen.",
+        motpart: "dns",
+        melding: { tekst: "192.0.2.44", til: "klient" },
+        fil: { navn: "minside.no", funnet: true },
+        skjerm: "tom",
+      },
+      {
+        tekst: "Nå vet nettleseren hvor den skal. Den spør tjeneren på 192.0.2.44 om forsiden. Adressen har ikke noe filnavn – så tjeneren sender index.html (husker du modul 1?).",
+        melding: { tekst: "GET /", til: "tjener" },
+        skjerm: "tom",
+      },
+      {
+        tekst: "Tjeneren er en datamaskin hos firmaet du har lagt nettstedet hos. I mappen ligger akkurat de filene du lastet opp fra webkurs.",
+        fil: { navn: "index.html", funnet: true },
+        skjerm: "tom",
+      },
+      {
+        tekst: "Tjeneren sender index.html. Så hentes style.css og bildene, akkurat som i modul 4 – og siden vises.",
+        melding: { tekst: "200 OK + index.html", til: "klient" },
+        fil: { navn: "index.html", funnet: true },
+        skjerm: "ferdig",
+      },
+      {
+        tekst: "Neste gang du besøker siden, husker nettleseren IP-adressen en stund, og slipper å spørre DNS-tjeneren igjen. Alt dette skjer på en brøkdel av et sekund.",
+        skjerm: "ferdig",
+      },
+    ],
+  },
   finnes: {
     lenke: "om-meg.html",
+    side: "Om meg",
+    tekst: "Jeg heter Kim …",
     steg: [
       {
         tekst: "Du klikker på lenken «Om meg». Lenken peker på om-meg.html, så det er den fila nettleseren skal hente.",
@@ -55,6 +124,8 @@ const SCENARIER: Record<"finnes" | "mangler", { lenke: string; steg: Steg[] }> =
   },
   mangler: {
     lenke: "Om-Meg.html",
+    side: "Om meg",
+    tekst: "Jeg heter Kim …",
     steg: [
       {
         tekst: "Denne gangen er lenken skrevet med store bokstaver: Om-Meg.html.",
@@ -82,14 +153,17 @@ const SCENARIER: Record<"finnes" | "mangler", { lenke: string; steg: Steg[] }> =
 
 const MAPPE = ["index.html", "om-meg.html", "style.css"];
 
-/** Steg-for-steg: hva skjer mellom nettleseren og tjeneren når du klikker på en lenke? */
-export function KlientTjener() {
-  const [scenario, setScenario] = useState<"finnes" | "mangler">("finnes");
+/**
+ * Steg-for-steg: hva skjer mellom nettleseren og tjeneren når du klikker på en lenke?
+ * Med scenarier={["dns", …]} vises også DNS-oppslaget når du skriver inn en adresse.
+ */
+export function KlientTjener({ scenarier = ["finnes", "mangler"] }: { scenarier?: Scenario[] }) {
+  const [scenario, setScenario] = useState<Scenario>(scenarier[0]);
   const [i, setI] = useState(0);
-  const { lenke, steg } = SCENARIER[scenario];
+  const { lenke, side, tekst: sidetekst, steg } = SCENARIER[scenario];
   const s = steg[i];
 
-  const byttScenario = (n: "finnes" | "mangler") => {
+  const byttScenario = (n: Scenario) => {
     setScenario(n);
     setI(0);
   };
@@ -100,12 +174,11 @@ export function KlientTjener() {
     <div className="klient-tjener">
       <p className="quiz__etikett">🌐 Klient og tjener</p>
       <div className="kt-faner" role="tablist">
-        <button role="tab" aria-selected={scenario === "finnes"} className="fv-fane" onClick={() => byttScenario("finnes")}>
-          Lenke som virker
-        </button>
-        <button role="tab" aria-selected={scenario === "mangler"} className="fv-fane" onClick={() => byttScenario("mangler")}>
-          Lenke med feil
-        </button>
+        {scenarier.map((n) => (
+          <button key={n} role="tab" aria-selected={scenario === n} className="fv-fane" onClick={() => byttScenario(n)}>
+            {NAVN[n]}
+          </button>
+        ))}
       </div>
 
       <div className="kt-scene">
@@ -122,14 +195,14 @@ export function KlientTjener() {
             {s.skjerm === "tom" && <i>venter …</i>}
             {s.skjerm === "uten-stil" && (
               <>
-                <b>Om meg</b>
-                <span>Jeg heter Kim …</span>
+                <b>{side}</b>
+                <span>{sidetekst}</span>
               </>
             )}
             {s.skjerm === "ferdig" && (
               <>
-                <b>Om meg</b>
-                <span>Jeg heter Kim …</span>
+                <b>{side}</b>
+                <span>{sidetekst}</span>
               </>
             )}
             {s.skjerm === "404" && (
@@ -153,17 +226,32 @@ export function KlientTjener() {
           <span className="kt-linje" aria-hidden="true" />
         </div>
 
-        <div className="kt-boks">
-          <p className="kt-boks__tittel">Tjener <span>minside.no</span></p>
-          <ul className="kt-mappe">
-            {MAPPE.map((f) => (
-              <li key={f} className={s.fil?.funnet && s.fil.navn === f ? "funnet" : ""}>
-                {f}
-              </li>
-            ))}
-            {s.fil && !s.fil.funnet && <li className="mangler">{s.fil.navn} ?</li>}
-          </ul>
-        </div>
+        {s.motpart === "dns" ? (
+          <div className="kt-boks kt-boks--dns">
+            <p className="kt-boks__tittel">DNS-tjener <span>(katalogen)</span></p>
+            <ul className="kt-mappe">
+              {DNS_REGISTER.map(([domene, ip]) => (
+                <li key={domene} className={s.fil?.funnet && s.fil.navn === domene ? "funnet" : ""}>
+                  {domene} → {ip}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <div className="kt-boks">
+            <p className="kt-boks__tittel">
+              Tjener <span>{scenario === "dns" ? "192.0.2.44" : "minside.no"}</span>
+            </p>
+            <ul className="kt-mappe">
+              {MAPPE.map((f) => (
+                <li key={f} className={s.fil?.funnet && s.fil.navn === f ? "funnet" : ""}>
+                  {f}
+                </li>
+              ))}
+              {s.fil && !s.fil.funnet && <li className="mangler">{s.fil.navn} ?</li>}
+            </ul>
+          </div>
+        )}
       </div>
 
       <p className="kt-tekst" aria-live="polite">
