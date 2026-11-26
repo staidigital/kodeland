@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Kodeland",
-  description: "Kodeland bygges om. Nytt innhold er på vei.",
+  description: "Lær å kode – kurs i programmering for videregående, med oppgaver du løser rett i nettleseren.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

@@ -7,7 +7,7 @@ Nettsted for kodeundervisning på videregående (Vg1), laget med Next.js 16 (App
 
 | Rute | Hva |
 |---|---|
-| `/` | Midlertidig «work in progress»-forside. La den være til brukeren bestemmer noe annet. |
+| `/` | Forside med kursoversikt (`src/app/page.tsx`, stil i `globals.css`). Nye kurs legges i `KURS`; uten `href` vises de som «kommer snart». |
 | `/text-adventure` | Ferdig HTML-side (`src/content/text-adventure.html`) servert av en route handler. |
 | `/webutvikling` | Grunnkurs i HTML og CSS. **Les `docs/kursplan-webutvikling.md` før du jobber med kurset.** |
 | `/logg-inn`, `/admin` | Innlogging og lærerpanel. |
