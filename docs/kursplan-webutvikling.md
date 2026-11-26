@@ -51,6 +51,7 @@ Kolonnen «Pensum» viser hvilke kapitler i Webutvikling-101 modulen henter stof
 | 12 | **Grid og posisjonering** ✅ | – | grid, `fr`, `grid-template-areas`, `sticky`, `relative`/`absolute` | når bruker du hva? | 16, 18 |
 | 13 | **Responsivt design** ✅ | viewport-meta | media queries, mobile first, relative enheter | du vet ikke hvilken skjerm brukeren har | 19 |
 | 🚀 | **14. Publiser!** ✅ | validering | kontrastsjekk | hosting; domener og DNS; nå ligger *din* side på en tjener (knytter tilbake til modul 4) | 1 (+ nytt) |
+| 🏁 | **Sjekkpunkt 3:** ferdig nettsted – responsivt, med flexbox/grid, gyldig og publisert på GitHub Pages ✅ | | | | |
 
 ✅ = leksjoner skrevet. Modul 1–5 tilsvarer omtrent første periode, og studentene ender med et
 nettsted som faktisk har stil – i motsetning til pensumet, der sjekkpunkt 1 leveres uten CSS.
@@ -87,7 +88,7 @@ vises mellom modulene i oversikten og heter «Sjekkpunkt N» i stedet for «Modu
 | `<Flekslab />` | Sandkasse for flexbox: `flex-direction`, `justify-content`, `align-items`, `flex-wrap`, `gap` og antall bokser, med hovedakse og tverrakse tegnet inn. |
 | `<Gridlab />` | Sandkasse for grid: kolonner med `fr`, `repeat` og `auto-fit` (med justerbar containerbredde), og et helt sideoppsett med `grid-template-areas` som studenten skriver selv. |
 | `<Skjermbredde />` | Glidebryter for skjermbredden på en mobil-først-side, som viser hvilke media queries som er aktive. Brede skjermer skaleres ned så de får plass. |
-| `<Nettstedsjekker />` | Studenten velger eller drar inn `webkurs`-mappen sin, og får den sjekket mot kravene i sjekkpunkt 1 (filnavn, grunnstruktur, lenker, meny, bilder, farger). Med `sjekkpunkt={2}` sjekker den også struktur, boksmodell, typografi, fokusmarkering og `!important`. Alt skjer lokalt i nettleseren. Sjekkene står i `src/lib/nettstedsjekk.ts`. |
+| `<Nettstedsjekker />` | Studenten velger eller drar inn `webkurs`-mappen sin, og får den sjekket mot kravene i sjekkpunkt 1 (filnavn, grunnstruktur, lenker, meny, bilder, farger). Med `sjekkpunkt={2}` sjekker den også struktur, boksmodell, typografi, fokusmarkering og `!important`, og med `sjekkpunkt={3}` i tillegg viewport, media queries, faste bredder, flexbox/grid, stier, vanlige valideringsfeil og kontrast i topp, meny og bunn. Alt skjer lokalt i nettleseren. Sjekkene står i `src/lib/nettstedsjekk.ts`. |
 
 Oppgavetyper vi bruker: endre koden, **finn feilen** (ødelagt kode som skal fikses), **hva gjør
 denne koden?** (som `<Quiz>` med kode), og frie lekeplasser (oppgave uten sjekker).
@@ -102,7 +103,7 @@ her, med modulen de hører til.
   fremdriften der. Studenter registreres med fornavn eller initialer, ikke fullt navn.
 - Passord lages automatisk og lagres kryptert, så læreren kan vise dem igjen.
 - Innlevering skjer foreløpig utenfor nettsiden (læringslogg o.l.). Sjekkpunktene er beskrevet,
-  men ikke bygget som innleveringer på siden. Sjekkpunkt 1 og 2 har `<Nettstedsjekker />`, så
+  men ikke bygget som innleveringer på siden. Alle tre sjekkpunktene har `<Nettstedsjekker />`, så
   studenten kan sjekke sitt eget nettsted før innlevering; resultatet lagres ikke.
 - Ideer videre: vurderingskriterier (lav/middels/høy) per sjekkpunkt, sjekklister og
   nettstedsjekkens resultat synket til lærerpanelet, og strukturert medstudentvurdering.

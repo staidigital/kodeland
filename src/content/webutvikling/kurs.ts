@@ -266,7 +266,17 @@ export const MODULER: Modul[] = [
       { slug: "siste-sjekk", tittel: "Siste sjekk", minutter: 25 },
       { slug: "publiser", tittel: "Publiser!", minutter: 40 },
     ],
-    mål: "Ferdig, publisert nettsted.",
+  },
+  {
+    slug: "sjekkpunkt-3",
+    nr: 3,
+    type: "sjekkpunkt",
+    tittel: "Ferdig nettsted",
+    ingress: "Ditt nettsted – responsivt, gyldig og publisert på nettet.",
+    html: [],
+    css: [],
+    teori: [],
+    leksjoner: [{ slug: "ferdig-nettsted", tittel: "Ferdig nettsted", minutter: 120 }],
   },
 ];
 

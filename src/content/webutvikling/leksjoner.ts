@@ -21,6 +21,7 @@ import m5Formater from "./bilder/formater-og-opphavsrett.mdx";
 import m5StorrelseOgForm from "./bilder/storrelse-og-form.mdx";
 import s1DittNettsted from "./sjekkpunkt-1/ditt-nettsted.mdx";
 import s2StrukturOgStil from "./sjekkpunkt-2/struktur-og-stil.mdx";
+import s3FerdigNettsted from "./sjekkpunkt-3/ferdig-nettsted.mdx";
 import m6AltErBokser from "./boksmodellen/alt-er-bokser.mdx";
 import m6BoxSizing from "./boksmodellen/box-sizing.mdx";
 import m6Margin from "./boksmodellen/margin.mdx";
@@ -120,4 +121,5 @@ export const LEKSJONER: Record<string, ComponentType> = {
   "publiser/validering": m14Validering,
   "publiser/siste-sjekk": m14SisteSjekk,
   "publiser/publiser": m14Publiser,
+  "sjekkpunkt-3/ferdig-nettsted": s3FerdigNettsted,
 };

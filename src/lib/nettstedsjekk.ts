@@ -1,6 +1,7 @@
 /**
  * Sjekker studentens eget nettsted (webkurs-mappen) mot kravene i et sjekkpunkt.
  * Sjekkpunkt 2 tar med alt fra sjekkpunkt 1, og i tillegg struktur, boksmodell, typografi og selektorer.
+ * Sjekkpunkt 3 tar med alt fra 1 og 2, og i tillegg responsivt design, oppsett, stier, validering og kontrast.
  * Kjører i nettleseren: bruker DOMParser og CSSStyleSheet. Ingenting sendes noe sted.
  */
 
@@ -26,7 +27,10 @@ export type Sjekkresultat = {
     | "Stil og farger"
     | "Struktur"
     | "Boksmodell og typografi"
-    | "Selektorer og universell utforming";
+    | "Selektorer og universell utforming"
+    | "Responsivt design"
+    | "Oppsett med flexbox og grid"
+    | "Klar for publisering";
   tittel: string;
   status: Status;
   /** Hva som er galt (eller hva som er bra), én linje per funn. */
@@ -56,6 +60,15 @@ const L = {
   webfonter: { tittel: "Webfonter (modul 8)", href: "/webutvikling/typografi/webfonter" },
   focus: { tittel: ":nth-child og :focus (modul 9)", href: "/webutvikling/selektorer/pseudoklasser" },
   kaskaden: { tittel: "Arv og kaskaden (modul 9)", href: "/webutvikling/selektorer/kaskaden" },
+  flyt: { tittel: "Skjule og flyte over (modul 10)", href: "/webutvikling/display/skjule-og-overflow" },
+  flex: { tittel: "Bokser på rad (modul 11)", href: "/webutvikling/flexbox/bokser-pa-rad" },
+  hva: { tittel: "Når bruker du hva? (modul 12)", href: "/webutvikling/grid/nar-bruker-du-hva" },
+  viewport: { tittel: "Du vet ikke hvilken skjerm (modul 13)", href: "/webutvikling/responsivt/ulike-skjermer" },
+  media: { tittel: "Media queries (modul 13)", href: "/webutvikling/responsivt/media-queries" },
+  mobilForst: { tittel: "Mobil først (modul 13)", href: "/webutvikling/responsivt/mobil-forst" },
+  lokaleStier: { tittel: "Fra mappe til nettsted (modul 14)", href: "/webutvikling/publiser/fra-mappe-til-nettsted" },
+  validering: { tittel: "Valider koden (modul 14)", href: "/webutvikling/publiser/validering" },
+  sisteSjekk: { tittel: "Siste sjekk (modul 14)", href: "/webutvikling/publiser/siste-sjekk" },
 };
 
 /** Nettleseren gjør hex om til rgb(); vis det som hex igjen, slik studenten skrev det. */
@@ -95,8 +108,8 @@ export function sjekkNettsted(
   filer: NettstedFil[],
   /** Gjør en CSS-farge (navn, hex, hsl …) om til RGB. */
   tilRgb: (farge: string) => Rgb | null,
-  /** Hvilket sjekkpunkt det sjekkes mot. 2 tar med alt fra 1, og mer. */
-  sjekkpunkt: 1 | 2 = 1,
+  /** Hvilket sjekkpunkt det sjekkes mot. Hvert sjekkpunkt tar med alt fra de forrige, og mer. */
+  sjekkpunkt: 1 | 2 | 3 = 1,
 ): { resultater: Sjekkresultat[]; oversikt: Oversikt } {
   const finnes = new Map(filer.map((f) => [f.sti, f]));
   const sm = new Map(filer.map((f) => [f.sti.toLowerCase(), f.sti]));
@@ -353,7 +366,9 @@ export function sjekkNettsted(
     leksjon: L.farger,
   });
 
-  if (sjekkpunkt >= 2) r.push(...sjekkpunkt2(sider.map((x) => [x.sti, dom.get(x.sti)!] as const), regler, cssTekst));
+  const sideliste = sider.map((x) => [x.sti, dom.get(x.sti)!, x.tekst ?? ""] as const);
+  if (sjekkpunkt >= 2) r.push(...sjekkpunkt2(sideliste, regler, cssTekst));
+  if (sjekkpunkt >= 3) r.push(...sjekkpunkt3(sideliste, [...stilark].map((s) => finnes.get(s)!), tilRgb));
 
   return {
     resultater: r,
@@ -369,7 +384,7 @@ const GENERISK = /^(serif|sans-serif|monospace|cursive|fantasy|system-ui|ui-seri
 
 /** Kravene som kommer i tillegg i sjekkpunkt 2 (modul 6–9). */
 function sjekkpunkt2(
-  sider: (readonly [string, Document])[],
+  sider: (readonly [string, Document, string])[],
   regler: CSSStyleRule[],
   cssTekst: string,
 ): Sjekkresultat[] {
@@ -506,6 +521,167 @@ function sjekkpunkt2(
     status: important ? "advarsel" : "ok",
     detaljer: important ? [`Fant !important ${important} ${important === 1 ? "gang" : "ganger"}.`] : [],
     leksjon: L.kaskaden,
+  });
+
+  return r;
+}
+
+/** Alle stilregler i et stilark, også de inni @media – og selve @media-reglene. */
+function lesAlleRegler(tekst: string): { toppnivå: CSSStyleRule[]; alle: CSSStyleRule[]; media: CSSMediaRule[] } {
+  try {
+    const ark = new CSSStyleSheet();
+    ark.replaceSync(tekst);
+    const toppnivå = [...ark.cssRules].filter((r): r is CSSStyleRule => r instanceof CSSStyleRule);
+    const media = [...ark.cssRules].filter((r): r is CSSMediaRule => r instanceof CSSMediaRule);
+    const inni = media.flatMap((m) => [...m.cssRules].filter((r): r is CSSStyleRule => r instanceof CSSStyleRule));
+    return { toppnivå, alle: [...toppnivå, ...inni], media };
+  } catch {
+    return { toppnivå: [], alle: [], media: [] };
+  }
+}
+
+/** Er stien noe som bare finnes på studentens egen maskin, eller som peker på roten (/…)? */
+const lokalSti = (sti: string) => /^(file:|[a-z]:[\\/])/i.test(sti.trim());
+const rotSti = (sti: string) => sti.trim().startsWith("/") && !sti.trim().startsWith("//");
+
+/** Kravene som kommer i tillegg i sjekkpunkt 3 (modul 10–14). */
+function sjekkpunkt3(
+  sider: (readonly [string, Document, string])[],
+  stilark: NettstedFil[],
+  tilRgb: (farge: string) => Rgb | null,
+): Sjekkresultat[] {
+  const r: Sjekkresultat[] = [];
+  const css = stilark.map((f) => ({ sti: f.sti, ...lesAlleRegler(f.tekst ?? "") }));
+  const toppnivå = css.flatMap((c) => c.toppnivå);
+  const alle = css.flatMap((c) => c.alle);
+  const media = css.flatMap((c) => c.media);
+
+  // ── Responsivt design (modul 13) ───────────────────────────────────────
+  const utenViewport = sider
+    .filter(([, d]) => !/width=device-width/i.test(d.querySelector('meta[name="viewport"]')?.getAttribute("content") ?? ""))
+    .map(([sti]) => `${sti} mangler <meta name="viewport" content="width=device-width, initial-scale=1">`);
+  r.push({
+    gruppe: "Responsivt design",
+    tittel: "Alle sidene har viewport-taggen",
+    status: utenViewport.length ? "feil" : "ok",
+    detaljer: utenViewport,
+    leksjon: L.viewport,
+  });
+
+  const maxWidth = media.filter((m) => /max-width/i.test(m.conditionText));
+  r.push({
+    gruppe: "Responsivt design",
+    tittel: "Stilarket har media queries, og er mobil først (min-width)",
+    status: media.length === 0 || maxWidth.length ? "advarsel" : "ok",
+    detaljer:
+      media.length === 0
+        ? ["Fant ingen @media-regler. Endrer ikke oppsettet seg på store skjermer?"]
+        : maxWidth.map((m) => `@media ${m.conditionText} – skriv heller mobiloppsettet først, og bruk min-width`),
+    leksjon: media.length === 0 ? L.media : L.mobilForst,
+  });
+
+  const faste = toppnivå
+    .flatMap((x) =>
+      (["width", "min-width"] as const)
+        .map((e) => [e, x.style.getPropertyValue(e)] as const)
+        .filter(([, v]) => /^\d+(\.\d+)?px$/.test(v) && parseFloat(v) > 400)
+        .map(([e, v]) => `${x.selectorText} { ${e}: ${v} } – bredere enn en mobil. Bruk max-width, eller legg den i en media query.`),
+    );
+  r.push({
+    gruppe: "Responsivt design",
+    tittel: "Ingen faste bredder som er bredere enn en mobil",
+    status: faste.length ? "advarsel" : "ok",
+    detaljer: faste,
+    leksjon: L.viewport,
+  });
+
+  // ── Oppsett med flexbox og grid (modul 10–12) ──────────────────────────
+  const oppsett = alle.filter((x) => /^(inline-)?(flex|grid)$/.test(x.style.display));
+  r.push({
+    gruppe: "Oppsett med flexbox og grid",
+    tittel: "Nettstedet bruker flexbox eller grid til oppsettet",
+    status: oppsett.length ? "ok" : "advarsel",
+    detaljer: oppsett.length ? [] : ["Fant ingen display: flex eller display: grid i stilarket."],
+    leksjon: L.hva,
+  });
+
+  const toppOppsett = oppsett.some((x) => /(^|[\s,>+~])(header|nav)\b/i.test(x.selectorText));
+  r.push({
+    gruppe: "Oppsett med flexbox og grid",
+    tittel: "Toppen eller menyen er lagt opp med flexbox eller grid",
+    status: toppOppsett ? "ok" : "advarsel",
+    detaljer: toppOppsett ? [] : ["Fant ingen regel for header eller nav med display: flex eller grid."],
+    leksjon: L.flex,
+  });
+
+  // ── Klar for publisering (modul 14) ────────────────────────────────────
+  const dårligeStier: string[] = [];
+  for (const [sti, d] of sider) {
+    for (const e of d.querySelectorAll("a[href], link[href], img[src], script[src]")) {
+      const verdi = e.getAttribute("href") ?? e.getAttribute("src") ?? "";
+      if (lokalSti(verdi)) dårligeStier.push(`${sti}: «${verdi}» finnes bare på din maskin`);
+      else if (rotSti(verdi)) dårligeStier.push(`${sti}: «${verdi}» starter med / og virker ikke på GitHub Pages`);
+    }
+  }
+  for (const f of stilark) {
+    for (const m of (f.tekst ?? "").matchAll(/url\(\s*(["']?)([^"')]*)\1\s*\)/gi)) {
+      if (lokalSti(m[2])) dårligeStier.push(`${f.sti}: «${m[2]}» finnes bare på din maskin`);
+      else if (rotSti(m[2])) dårligeStier.push(`${f.sti}: «${m[2]}» starter med / og virker ikke på GitHub Pages`);
+    }
+  }
+  r.push({
+    gruppe: "Klar for publisering",
+    tittel: "Alle stier er relative – ingen C:/, file: eller / først",
+    status: dårligeStier.length ? "feil" : "ok",
+    detaljer: dårligeStier,
+    leksjon: L.lokaleStier,
+  });
+
+  const valideringsfeil = sider.flatMap(([sti, d, kilde]) => {
+    const funn: string[] = [];
+    const ider = [...d.querySelectorAll("[id]")].map((e) => e.id);
+    const doble = [...new Set(ider.filter((id, i) => ider.indexOf(id) !== i))];
+    if (doble.length) funn.push(`${sti}: id brukt mer enn én gang: ${doble.map((x) => `#${x}`).join(", ")}`);
+    if ([...d.querySelectorAll("li")].some((li) => !li.parentElement?.matches("ul, ol, menu"))) {
+      funn.push(`${sti}: en <li> står utenfor <ul> eller <ol>`);
+    }
+    const åpne = (kilde.match(/<p[\s>]/gi) ?? []).length;
+    const lukkede = (kilde.match(/<\/p>/gi) ?? []).length;
+    if (åpne !== lukkede) funn.push(`${sti}: ${åpne} <p> men ${lukkede} </p> – et avsnitt er ikke lukket`);
+    return funn;
+  });
+  r.push({
+    gruppe: "Klar for publisering",
+    tittel: "Ingen vanlige valideringsfeil (doble id-er, <li> uten liste, ulukkede avsnitt)",
+    status: valideringsfeil.length ? "feil" : "ok",
+    detaljer: valideringsfeil.length
+      ? [...valideringsfeil, "Sjekk også sidene på validator.w3.org – den finner mer enn dette."]
+      : [],
+    leksjon: L.validering,
+  });
+
+  // Tekstfarge og bakgrunn på topp, meny og bunn: den siste regelen som setter dem, vinner.
+  const deler = ["header", "nav", "footer"].flatMap((del) => {
+    let farge = "";
+    let bakgrunn = "";
+    for (const x of toppnivå) {
+      if (!new RegExp(`(^|,)\\s*${del}\\s*(,|$)`, "i").test(x.selectorText)) continue;
+      if (x.style.color) farge = x.style.color;
+      if (x.style.backgroundColor) bakgrunn = x.style.backgroundColor;
+    }
+    if (!farge || !bakgrunn) return [];
+    const a = tilRgb(farge);
+    const b = tilRgb(bakgrunn);
+    if (!a || !b) return [];
+    const forhold = kontrast(a, b);
+    return forhold < 4.5 ? [`${del}: tekst ${visFarge(farge)} på ${visFarge(bakgrunn)} gir ${forhold.toFixed(1).replace(".", ",")}:1`] : [];
+  });
+  r.push({
+    gruppe: "Klar for publisering",
+    tittel: "Toppen, menyen og bunnen har god kontrast (minst 4,5:1)",
+    status: deler.length ? "advarsel" : "ok",
+    detaljer: deler,
+    leksjon: L.sisteSjekk,
   });
 
   return r;
