@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
+import { KodelandLogo } from "@/components/kodeland-logo";
 import { BrukerMeny } from "@/components/kurs/bruker-meny";
 import "./kurs.css";
 import "../admin/admin.css";
@@ -14,6 +15,8 @@ export default function KursLayout({ children }: LayoutProps<"/webutvikling">) {
   return (
     <div className="kurs">
       <header className="kurs-topp">
+        <KodelandLogo />
+        <span className="kurs-topp__skille" aria-hidden="true">/</span>
         <Link href="/webutvikling" className="kurs-topp__logo">
           <span className="kurs-topp__klamme">&lt;/&gt;</span> Webutvikling
         </Link>

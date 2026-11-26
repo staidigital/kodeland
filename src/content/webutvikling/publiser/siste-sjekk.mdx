@@ -1,0 +1,52 @@
+Koden er gyldig. Nå skal du sjekke det brukeren faktisk opplever: Er teksten lett å lese? Virker
+siden for alle? Nettleseren har verktøy som gjør mye av jobben.
+
+## Kontrast
+
+Du har regnet kontrast siden modul 3. Husk kravene fra WCAG:
+
+- **Vanlig tekst:** minst **4,5:1**.
+- **Stor tekst** – fra rundt 24 piksler, eller 19 piksler og fet: minst **3:1**.
+
+I utviklerverktøyet kan du sjekke kontrasten på hvilket som helst element: Inspiser teksten, og klikk
+på den lille fargeruta ved siden av `color` under **Styles**. Fargevelgeren som åpnes, viser
+**Contrast ratio** – med én hake ✓ for 4,5:1 og to for 7:1.
+
+<Oppgave id="m14-kontrast" />
+
+<Tips>
+
+Lyse farger fra paletten er ofte fine som *bakgrunn*, men for svake som *tekst*. Har du en oransje eller
+lyseblå farge du liker, bruk den til bakgrunner, kanter og ikoner – og la teksten være mørk.
+
+</Tips>
+
+## Lighthouse
+
+Chrome og Edge har et innebygd verktøy som tester hele siden: **Lighthouse**.
+
+1. Åpne siden din, og åpne utviklerverktøyet.
+2. Finn fanen **Lighthouse** (den kan ligge bak `»`).
+3. Huk av for **Accessibility** (tilgjengelighet), og gjerne **Performance** og **Best practices**.
+4. Velg **Mobile**, og trykk **Analyze page load**.
+
+Du får en poengsum fra 0 til 100 for hver kategori, og en liste over det som kan bli bedre. Under
+**Accessibility** finner du kontrast, alt-tekster, lenketekster, språk og overskrifter – mye av det du
+har lært i dette kurset.
+
+<UnderPanseret tittel="100 poeng er ikke alt">
+
+Lighthouse sjekker det som kan sjekkes automatisk. Den vet ikke om alt-teksten faktisk beskriver
+bildet, eller om rekkefølgen gir mening. Full pott i Lighthouse betyr at du ikke har gjort de vanligste
+feilene – ikke at siden er perfekt. Test også selv: med tastaturet, med større tekst, og på mobil.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Kjør Lighthouse på alle sidene dine, i mobilmodus.
+2. Fiks alt som står under **Accessibility**.
+3. Se på **Performance**: Er det bilder som er for store? Gjør dem mindre (modul 5).
+4. Gå gjennom sjekklistene fra sjekkpunkt 1 og 2 en siste gang.
+
+</GjorDetSelv>

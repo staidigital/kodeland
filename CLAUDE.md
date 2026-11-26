@@ -7,7 +7,7 @@ Nettsted for kodeundervisning på videregående (Vg1), laget med Next.js 16 (App
 
 | Rute | Hva |
 |---|---|
-| `/` | Midlertidig «work in progress»-forside. La den være til brukeren bestemmer noe annet. |
+| `/` | Forside med kursoversikt (`src/app/page.tsx`, stil i `globals.css`). Nye kurs legges i `KURS`; uten `href` vises de som «kommer snart». |
 | `/text-adventure` | Ferdig HTML-side (`src/content/text-adventure.html`) servert av en route handler. |
 | `/webutvikling` | Grunnkurs i HTML og CSS. **Les `docs/kursplan-webutvikling.md` før du jobber med kurset.** |
 | `/logg-inn`, `/admin` | Innlogging og lærerpanel. |
@@ -36,6 +36,8 @@ Ny leksjon:
    (kontrast, hsl/hex) ligger i `src/lib/farger.ts`. Oppgaver med flere HTML-sider bruker `sider`
    (filnavn → kode) og `løsSti()` (`src/lib/stier.ts`) for stier; de ekstra sidene lagres i `exercise_results.pages`.
    Bilder i oppgaver: `bilder: [...]` med stier fra `kursbilder.ts` (filene ligger i `public/kurs/bilder/`).
+   Responsive oppgaver: `responsiv: true` gir knapper for skjermbredde, og `iBredde(d, px, fn)` lar en sjekk
+   teste en bestemt bredde.
    Funksjoner kan ikke sendes som props fra MDX, derfor ligger sjekkene der.
 4. Test oppgaven i nettleseren: skriv riktig og feil kode, og se at sjekkene reagerer riktig.
 

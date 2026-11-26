@@ -1,0 +1,73 @@
+I modul 6 lærte du at `<div>` er en boks uten mening. Den er nyttig, men en side bygget bare av
+div-er er som en bok uten kapitler og innholdsfortegnelse. Nå skal du lære bokser *med* mening.
+
+## Delene på en nettside
+
+Nesten alle nettsider har de samme delene: en topp med logo og meny, et hovedinnhold og en bunn.
+HTML har egne tagger for hver av dem:
+
+```html
+<header>
+  <h1>Fjellklubben</h1>
+  <nav>
+    <ul>
+      <li><a href="index.html">Forside</a></li>
+      <li><a href="turer.html">Turer</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h2>Neste tur</h2>
+  <p>Vi går til Fløyen på lørdag.</p>
+</main>
+
+<footer>
+  <p>Fjellklubben 2026</p>
+</footer>
+```
+
+- `<header>` – **toppen**: logo, navn og ofte menyen.
+- `<nav>` – **navigasjonen**: menyen med lenker til de andre sidene.
+- `<main>` – **hovedinnholdet**: det siden faktisk handler om. Bare én per side.
+- `<footer>` – **bunnen**: kontaktinfo, opphavsrett, lenker til personvern og lignende.
+
+Alle fire er blokker akkurat som `<div>` – de ser helt like ut før du gir dem CSS. Forskjellen er at
+de *betyr* noe.
+
+<Oppgave id="m7-skjelett" />
+
+<Quiz
+  sporsmal="Hva hører hjemme i <nav>?"
+  alternativer={[
+    "Alle lenker på siden",
+    "Hovedmenyen – lenkene brukeren bruker for å finne fram på nettstedet",
+    "Logoen",
+  ]}
+  riktig={1}
+  forklaring="<nav> er for navigasjon: hovedmenyen, og kanskje en meny i bunnen. En lenke inni en tekst er ikke navigasjon, og skal ikke i <nav>."
+/>
+
+<UnderPanseret tittel="Hvem leser taggene?">
+
+Det er ikke du som har bruk for `<nav>` – du ser jo at menyen er en meny. Men mange leser siden din
+uten å se den:
+
+- **Skjermlesere** lar blinde hoppe rett til `<main>` eller `<nav>`, i stedet for å lytte seg gjennom
+  hele toppen hver gang.
+- **Søkemotorer** forstår hva som er innholdet, og hva som bare er meny og bunntekst.
+- **Andre utviklere** – og deg selv om et halvt år – finner fram mye raskere i koden.
+
+Du får se hvordan en skjermleser «ser» siden i den siste leksjonen.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Åpne `index.html` i `webkurs`. Pakk logo/overskrift og meny inn i `<header>`, og menyen i `<nav>`.
+2. Pakk innholdet inn i `<main>`. Har du en `<div class="innhold">` fra modul 6, kan `<main>` erstatte
+   den – flytt klassen over, eller endre CSS-en til å bruke `main`.
+3. Lag en `<footer>` nederst, for eksempel med navnet ditt og året.
+4. Gjør det samme på alle sidene. Sjekk at alt fortsatt ser riktig ut.
+
+</GjorDetSelv>

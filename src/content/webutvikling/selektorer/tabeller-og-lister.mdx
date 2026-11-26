@@ -1,0 +1,82 @@
+Før vi går løs på selektorene, trenger vi litt mer HTML å øve på: tabeller og definisjonslister.
+Begge er strukturer for informasjon som hører sammen på en bestemt måte.
+
+## Tabeller
+
+En tabell er til **data i rader og kolonner** – en timeplan, en resultatliste, en prisliste.
+
+<table>
+  <caption>Høstens turer</caption>
+  <thead>
+    <tr><th>Dato</th><th>Tur</th><th>Tid</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>5. oktober</td><td>Fløyen</td><td>1 time</td></tr>
+    <tr><td>12. oktober</td><td>Ulriken</td><td>3 timer</td></tr>
+  </tbody>
+</table>
+
+```html
+<table>
+  <caption>Høstens turer</caption>
+  <thead>
+    <tr><th>Dato</th><th>Tur</th><th>Tid</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>5. oktober</td><td>Fløyen</td><td>1 time</td></tr>
+    <tr><td>12. oktober</td><td>Ulriken</td><td>3 timer</td></tr>
+  </tbody>
+</table>
+```
+
+- `<table>` – hele tabellen.
+- `<caption>` – tittelen på tabellen.
+- `<thead>` og `<tbody>` – hodet med overskriftene, og kroppen med dataene.
+- `<tr>` – en rad (*table row*).
+- `<th>` – en overskriftscelle (*table header*), og `<td>` – en vanlig celle (*table data*).
+
+<Oppgave id="m9-tabell" />
+
+<UnderPanseret tittel="Tabeller er ikke til oppsett">
+
+For mange år siden ble hele nettsider bygget som én stor tabell, for å få ting til å stå ved siden av
+hverandre. Det gjør vi ikke lenger. En skjermleser leser en tabell celle for celle – «rad 2, kolonne 3,
+Ulriken» – og da blir en tabell-side helt uforståelig. Til oppsett har vi flexbox og grid (modul 11
+og 12). Tabeller er bare for data.
+
+</UnderPanseret>
+
+## Definisjonslister
+
+En `<dl>` (*description list*) er til par av **begrep og forklaring** – en ordliste, ofte stilte
+spørsmål, eller fakta om noe:
+
+```html
+<dl>
+  <dt>Varde</dt>
+  <dd>En steinhaug som viser hvor stien går.</dd>
+  <dt>Tregrense</dt>
+  <dd>Høyden der skogen slutter.</dd>
+</dl>
+```
+
+- `<dt>` – begrepet (*description term*).
+- `<dd>` – forklaringen (*description details*). Nettleseren gir den et innrykk.
+
+<Oppgave id="m9-dl" />
+
+<Quiz
+  sporsmal="Du skal lage en side med informasjon om en tur: lengde, høydemeter, varighet og vanskelighetsgrad. Hva passer best?"
+  alternativer={["En <table> med én rad", "En <dl>", "Fire <p>-avsnitt"]}
+  riktig={1}
+  forklaring="Det er fire par med begrep og verdi – akkurat det en <dl> er til. En tabell passer når du har flere turer å sammenligne, med samme kolonner for hver."
+/>
+
+<GjorDetSelv>
+
+1. Finn noe på nettstedet ditt som er data i rader og kolonner – eller lag noe nytt, som en
+   oversikt over favorittspill, kamper eller turer – og lag det som en tabell.
+2. Gi tabellen en `<caption>`, og style cellene med `border` og `padding`.
+3. Prøv en `<dl>` til fakta eller en liten ordliste.
+
+</GjorDetSelv>

@@ -12,7 +12,9 @@ export function brukernavnTilEpost(brukernavn: string) {
 
 export type Bruker = {
   id: string;
+  /** Brukernavnet for studenter, og det som står før @ i e-postadressen for lærere. */
   brukernavn: string;
+  /** Visningsnavnet hvis det er satt, ellers det samme som brukernavn. */
   navn: string;
   rolle: "student" | "teacher";
   klasseId: string | null;
@@ -25,16 +27,20 @@ export async function hentBruker(): Promise<Bruker | null> {
   const { data } = await supabase.auth.getClaims();
   const id = data?.claims?.sub;
   if (!id) return null;
+  const epost = typeof data.claims.email === "string" ? data.claims.email : "";
   const { data: p } = await supabase
     .from("profiles")
     .select("username, display_name, role, class_id")
     .eq("id", id)
     .single();
   if (!p) return null;
+  // Studenter logger inn med brukernavnet (bak det ligger en intern adresse).
+  // Lærere logger inn med en ekte e-postadresse – vis det som står før @, ikke det interne brukernavnet.
+  const brukernavn = epost && !epost.endsWith(`@${ELEV_DOMENE}`) ? epost.split("@")[0] : p.username;
   return {
     id,
-    brukernavn: p.username,
-    navn: p.display_name || p.username,
+    brukernavn,
+    navn: p.display_name || brukernavn,
     rolle: p.role,
     klasseId: p.class_id,
   };

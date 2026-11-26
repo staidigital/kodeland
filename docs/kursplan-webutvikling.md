@@ -41,16 +41,17 @@ Kolonnen «Pensum» viser hvilke kapitler i Webutvikling-101 modulen henter stof
 | 4 | **Flere sider og lenker** ✅ | `a`, meny i `ul`, flere `.html`-filer | `:hover`, `text-decoration` | **klient og tjener**; hva skjer når du skriver inn en adresse; relative og absolutte stier | 1, 5, 11 |
 | 5 | **Bilder** ✅ | `img`, `alt`, `figure` | `width`/`max-width`, `border-radius`, `background-image` | hvert bilde er en egen forespørsel (Network-fanen); formater; filstørrelse; opphavsrett | 6, 12 |
 | 🏁 | **Sjekkpunkt 1:** nettsted med tre sider, meny, bilder og egen fargepalett ✅ | | | | (9) |
-| 6 | **Boksmodellen** | `div` | `padding`, `margin`, `border`, `box-sizing` | alt er firkanter; utviklerverktøyet | 10, 14 |
-| 7 | **Semantisk struktur** | `header`, `nav`, `main`, `section`, `article`, `footer` | stil på header, meny og bunntekst | DOM-treet; skjermlesere; universell utforming (lovkrav); `class` og `id` | 8, 9 |
-| 8 | **Typografi** | `blockquote`, spesialtegn | webfonter, `rem`/`em`, `line-height`, linjelengde | typografisk skala | 4, 13 |
-| 9 | **Selektorer og kaskaden** | tabeller, `dl` | kombinatorer, `:nth-child` (stripete tabeller), `:focus`, arv, spesifisitet | hvorfor CSS «ikke virker» | 7, 11 |
-| 🏁 | **Sjekkpunkt 2:** nettstedet med semantisk struktur, typografi og stil | | | | |
-| 10 | **Display og flyt** | – | `block`/`inline`, vannrett meny, `overflow` | normal flyt | 15 |
-| 11 | **Flexbox** | – | `display: flex`, `justify-content`, `align-items`, `gap`, `flex-wrap` | – | 17 |
-| 12 | **Grid og posisjonering** | – | grid, `fr`, `grid-template-areas`, `sticky`, `relative`/`absolute` | når bruker du hva? | 16, 18 |
-| 13 | **Responsivt design** | viewport-meta | media queries, mobile first, relative enheter | du vet ikke hvilken skjerm brukeren har | 19 |
-| 🚀 | **14. Publiser!** | validering | kontrastsjekk | hosting; domener og DNS; nå ligger *din* side på en tjener (knytter tilbake til modul 4) | 1 (+ nytt) |
+| 6 | **Boksmodellen** ✅ | `div` | `padding`, `margin`, `border`, `box-sizing` | alt er firkanter; utviklerverktøyet | 10, 14 |
+| 7 | **Semantisk struktur** ✅ | `header`, `nav`, `main`, `section`, `article`, `footer` | stil på header, meny og bunntekst | DOM-treet; skjermlesere; universell utforming (lovkrav); `class` og `id` | 8, 9 |
+| 8 | **Typografi** ✅ | `blockquote`, spesialtegn | webfonter, `rem`/`em`, `line-height`, linjelengde | typografisk skala | 4, 13 |
+| 9 | **Selektorer og kaskaden** ✅ | tabeller, `dl` | kombinatorer, `:nth-child` (stripete tabeller), `:focus`, arv, spesifisitet | hvorfor CSS «ikke virker» | 7, 11 |
+| 🏁 | **Sjekkpunkt 2:** nettstedet med semantisk struktur, typografi og stil ✅ | | | | |
+| 10 | **Display og flyt** ✅ | – | `block`/`inline`, vannrett meny, `overflow` | normal flyt | 15 |
+| 11 | **Flexbox** ✅ | – | `display: flex`, `justify-content`, `align-items`, `gap`, `flex-wrap` | – | 17 |
+| 12 | **Grid og posisjonering** ✅ | – | grid, `fr`, `grid-template-areas`, `sticky`, `relative`/`absolute` | når bruker du hva? | 16, 18 |
+| 13 | **Responsivt design** ✅ | viewport-meta | media queries, mobile first, relative enheter | du vet ikke hvilken skjerm brukeren har | 19 |
+| 🚀 | **14. Publiser!** ✅ | validering | kontrastsjekk | hosting; domener og DNS; nå ligger *din* side på en tjener (knytter tilbake til modul 4) | 1 (+ nytt) |
+| 🏁 | **Sjekkpunkt 3:** ferdig nettsted – responsivt, med flexbox/grid, gyldig og publisert på GitHub Pages ✅ | | | | |
 
 ✅ = leksjoner skrevet. Modul 1–5 tilsvarer omtrent første periode, og studentene ender med et
 nettsted som faktisk har stil – i motsetning til pensumet, der sjekkpunkt 1 leveres uten CSS.
@@ -64,7 +65,7 @@ vises mellom modulene i oversikten og heter «Sjekkpunkt N» i stedet for «Modu
 
 | Komponent | Bruk |
 |---|---|
-| `<Oppgave id="…" />` | Kodeeditor (index.html, ev. flere sider og style.css) med forhåndsvisning og automatiske sjekker. Lenker mellom sidene virker, og feil sti gir 404. Bilder fra `kursbilder.ts` kan ligge i prosjektet, og feil sti gir ødelagt bilde. Definisjonene ligger i `oppgaver.ts`. |
+| `<Oppgave id="…" />` | Kodeeditor (index.html, ev. flere sider og style.css) med forhåndsvisning og automatiske sjekker. Lenker mellom sidene virker, og feil sti gir 404. Bilder fra `kursbilder.ts` kan ligge i prosjektet, og feil sti gir ødelagt bilde. Med `responsiv: true` får forhåndsvisningen knapper for skjermbredde, og sjekkene kan teste flere bredder med `iBredde()`. Definisjonene ligger i `oppgaver.ts`. |
 | `<Quiz sporsmal kode alternativer riktig forklaring />` | Gjett-først: studenten velger, så kommer forklaringen. Bra før en ny ting vises. |
 | `<UnderPanseret tittel="…">` | Kort teoriboks. Hovedverktøyet for å spre teorien. |
 | `<Tips>` | Små tips. |
@@ -73,22 +74,27 @@ vises mellom modulene i oversikten og heter «Sjekkpunkt N» i stedet for «Modu
 | `<Mappebygger />` | Klikk filer på plass i `webkurs/` og `webkurs/bilder/`. |
 | `<Sjekkliste id punkter />` | Avkrysning som huskes. |
 | `<Fargevelger />` | HSL-glidere for tekst- og bakgrunnsfarge, med hex-kode, hsl-kode og kontrastmåler. |
-| `<KlientTjener />` | Forespørsel og svar mellom nettleser og tjener, steg for steg – også en lenke som gir 404. |
+| `<KlientTjener />` | Forespørsel og svar mellom nettleser og tjener, steg for steg – også en lenke som gir 404. Med `scenarier={["dns", …]}` vises også DNS-oppslaget når man skriver inn en adresse (modul 14). |
 | `<Stifinner />` | Velg siden du står på og fila du vil til, og se den relative stien bygges opp ledd for ledd. |
 | `<Nettverksfane />` | Forenklet Network-fane: forespørslene for en side med ekte filstørrelser, ulike bildeformater og nett. |
-| `<Nettstedsjekker />` | Studenten velger eller drar inn `webkurs`-mappen sin, og får den sjekket mot kravene i sjekkpunkt 1 (filnavn, grunnstruktur, lenker, meny, bilder, farger). Alt skjer lokalt i nettleseren. Sjekkene står i `src/lib/nettstedsjekk.ts`. |
+| `<Boksmodell />` | Glidebrytere for `padding`, `border` og `margin`, diagram i utviklerverktøyets farger, en ekte boks og regnestykket for bredden – med og uten `box-sizing: border-box`. |
+| `<DomTre />` | Skriv HTML og se DOM-treet. Hold musa over en node for å se elementet, forelder, barn og søsken. |
+| `<Skjermleser />` | Samme side bygget med div-er og med semantiske tagger: landemerker, overskrifter og lenker slik en skjermleser finner dem. |
+| `<Typografilab />` | Glidere for skriftstørrelse, linjeavstand og linjelengde, og valg av skrift – med tegn per linje regnet ut, og en vurdering. |
+| `<Typeskala />` | Velg grunnstørrelse og forhold, og se `p`, `h3`, `h2` og `h1` i en typografisk skala, med CSS i `rem`. |
+| `<Selektorlab />` | Skriv en selektor og se hvilke elementer i en eksempelside den treffer, med ferdige eksempler på kombinatorer og pseudoklasser. |
+| `<Spesifisitetsspill />` | Åtte runder: to regler treffer samme element – gjett fargen. Forklaringen viser spesifisiteten (`src/lib/spesifisitet.ts`). |
+| `<Flytlab />` | Tre bokser midt i en tekst: bytt `display` mellom `inline`, `block`, `inline-block` og `none`, og se hvordan de legger seg i flyten. |
+| `<Flekslab />` | Sandkasse for flexbox: `flex-direction`, `justify-content`, `align-items`, `flex-wrap`, `gap` og antall bokser, med hovedakse og tverrakse tegnet inn. |
+| `<Gridlab />` | Sandkasse for grid: kolonner med `fr`, `repeat` og `auto-fit` (med justerbar containerbredde), og et helt sideoppsett med `grid-template-areas` som studenten skriver selv. |
+| `<Skjermbredde />` | Glidebryter for skjermbredden på en mobil-først-side, som viser hvilke media queries som er aktive. Brede skjermer skaleres ned så de får plass. |
+| `<Nettstedsjekker />` | Studenten velger eller drar inn `webkurs`-mappen sin, og får den sjekket mot kravene i sjekkpunkt 1 (filnavn, grunnstruktur, lenker, meny, bilder, farger). Med `sjekkpunkt={2}` sjekker den også struktur, boksmodell, typografi, fokusmarkering og `!important`, og med `sjekkpunkt={3}` i tillegg viewport, media queries, faste bredder, flexbox/grid, stier, vanlige valideringsfeil og kontrast i topp, meny og bunn. Alt skjer lokalt i nettleseren. Sjekkene står i `src/lib/nettstedsjekk.ts`. |
 
 Oppgavetyper vi bruker: endre koden, **finn feilen** (ødelagt kode som skal fikses), **hva gjør
 denne koden?** (som `<Quiz>` med kode), og frie lekeplasser (oppgave uten sjekker).
 
-**Ideer som ikke er bygget ennå**, med modulen de hører til:
-
-- `<KlientTjener />` igjen ved publisering, med DNS-oppslag og en ekte tjener (modul 14)
-- Boksmodell med glidebrytere for `padding`, `border` og `margin` (modul 6)
-- Spesifisitetsspill: to CSS-regler møtes, gjett hvem som vinner (modul 9)
-- Sandkasse eller lite spill for flexbox og grid (modul 11–12). Må være en egen idé, ikke en
-  kopi av eksisterende spill som Flexbox Froggy.
-- Skjermbredde-glidebryter for å teste media queries (modul 13)
+**Ideer som ikke er bygget ennå:** ingen akkurat nå – alle ideene over er bygget. Skriv nye ideer
+her, med modulen de hører til.
 
 ## Innlogging og lærerpanel
 
@@ -97,7 +103,7 @@ denne koden?** (som `<Quiz>` med kode), og frie lekeplasser (oppgave uten sjekke
   fremdriften der. Studenter registreres med fornavn eller initialer, ikke fullt navn.
 - Passord lages automatisk og lagres kryptert, så læreren kan vise dem igjen.
 - Innlevering skjer foreløpig utenfor nettsiden (læringslogg o.l.). Sjekkpunktene er beskrevet,
-  men ikke bygget som innleveringer på siden. Sjekkpunkt 1 har `<Nettstedsjekker />`, så studenten
-  kan sjekke sitt eget nettsted før innlevering; resultatet lagres ikke.
+  men ikke bygget som innleveringer på siden. Alle tre sjekkpunktene har `<Nettstedsjekker />`, så
+  studenten kan sjekke sitt eget nettsted før innlevering; resultatet lagres ikke.
 - Ideer videre: vurderingskriterier (lav/middels/høy) per sjekkpunkt, sjekklister og
   nettstedsjekkens resultat synket til lærerpanelet, og strukturert medstudentvurdering.

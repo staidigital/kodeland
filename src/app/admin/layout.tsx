@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
+import { KodelandLogo } from "@/components/kodeland-logo";
 import { BrukerMeny } from "@/components/kurs/bruker-meny";
 import "../webutvikling/kurs.css";
 import "./admin.css";
@@ -17,6 +18,8 @@ export default function AdminLayout({ children }: LayoutProps<"/admin">) {
   return (
     <div className="kurs">
       <header className="kurs-topp">
+        <KodelandLogo />
+        <span className="kurs-topp__skille" aria-hidden="true">/</span>
         <Link href="/admin" className="kurs-topp__logo">
           <span className="kurs-topp__klamme">&lt;/&gt;</span> Lærerpanel
         </Link>

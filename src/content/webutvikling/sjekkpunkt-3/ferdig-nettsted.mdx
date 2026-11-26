@@ -1,0 +1,93 @@
+Dette er det siste sjekkpunktet. Siden sjekkpunkt 2 har du lært å plassere ting med flexbox og grid,
+å lage sider som virker på alle skjermer, og å gjøre nettstedet klart for publisering. Nå skal du
+bruke alt sammen – og levere et nettsted som ligger ute på nettet.
+
+## Oppgaven
+
+Bygg videre på nettstedet fra sjekkpunkt 1 og 2. Alt derfra skal fortsatt være på plass. I tillegg skal
+nettstedet nå ha:
+
+- **Et ordentlig oppsett** – toppen og menyen lagt opp med flexbox, og kort, bilder eller innhold i
+  kolonner med flexbox eller grid. Gjerne et merke eller en sticky topp med `position`. *(Modul 10–12)*
+- **Responsivt design** – viewport-taggen på alle sidene, et mobiloppsett som grunnlag, og media queries
+  med `min-width` som gjør oppsettet bredere når det er plass. Ingen sidelengs rulling på en mobil.
+  *(Modul 13)*
+- **Klart for publisering** – relative stier overalt, gyldig HTML og god kontrast i alle deler av siden.
+  *(Modul 14)*
+- **Publisert** – nettstedet ligger ute på GitHub Pages, og du har testet det på en ekte mobil. *(Modul 14)*
+
+## Planlegg før du koder
+
+1. **Tegn sidene i to størrelser:** én skisse for mobil, og én for en stor skjerm. Hva står under
+   hverandre på mobilen, og hva kan stå ved siden av hverandre når det er plass?
+2. **Velg verktøy for hver del:** flexbox for toppen og menyen, grid for kort og galleri, og vanlig flyt
+   for teksten. Se på «Når bruker du hva?» fra modul 12 hvis du er usikker.
+3. **Skriv mobiloppsettet først**, og legg til media queries for større skjermer etterpå.
+4. **Publiser tidlig.** Legg nettstedet ut på GitHub Pages med en gang, og last opp på nytt underveis. Da
+   oppdager du feil med stier og filnavn mens det fortsatt er lett å rette dem.
+
+<Tips>
+
+Bruk enhetsmodus i utviklerverktøyet hele veien (`Ctrl + Shift + M`, eller `Cmd + Shift + M` på Mac). Dra i
+bredden fra smal til bred, og legg inn et bruddpunkt der oppsettet begynner å se rart ut.
+
+</Tips>
+
+## Sjekk arbeidet ditt
+
+Nettstedsjekkeren for sjekkpunkt 3 sjekker alt fra sjekkpunkt 1 og 2, og i tillegg viewport-taggen,
+media queries, faste bredder, flexbox og grid, stier, vanlige valideringsfeil og kontrasten i toppen,
+menyen og bunnen. Velg `webkurs`-mappen – den samme som du lastet opp til GitHub.
+
+<Nettstedsjekker sjekkpunkt={3} />
+
+Sjekkeren ser på filene i mappen din. Den vet ikke om nettstedet virker etter at det er lagt ut, eller om
+det er fint å bruke. Det må du sjekke på selve nettstedet:
+
+<UnderPanseret tittel="Siste test – på det publiserte nettstedet">
+
+- **På mobilen din:** Åpne adressen på GitHub Pages. Kan du lese alt uten å zoome? Kan du trykke på
+  lenkene uten å bomme? Må du rulle sidelengs noe sted?
+- **Alle lenker og bilder:** Klikk deg gjennom hele nettstedet. Feil med store og små bokstaver i
+  filnavn dukker ofte opp først nå.
+- **Validator:** Lim inn adressen på [validator.w3.org](https://validator.w3.org/) under **Validate by
+  URI**. Da sjekkes siden slik den faktisk ligger ute.
+- **Lighthouse:** Kjør Lighthouse i mobilmodus på det publiserte nettstedet, og se særlig på
+  **Accessibility**.
+- **Tastaturet:** Kommer du til alt med `Tab`, og ser du hele tiden hvor du er?
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Bygg ferdig nettstedet ditt i `webkurs`, og publiser det på GitHub Pages.
+2. Kjør nettstedsjekkeren og testene over, og fiks det du finner. Husk å laste opp på nytt.
+3. Send adressen til en medstudent. Be dem åpne den på mobilen sin, og gi deg to ting som er bra, og én
+   ting som kan bli bedre.
+4. Fiks det du fikk tilbakemelding på, og lever adressen slik læreren din har bestemt.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="sjekkpunkt-3"
+  punkter={[
+    "Alt fra sjekkpunkt 1 og 2 er fortsatt på plass",
+    "Toppen og menyen er lagt opp med flexbox",
+    "Kort, bilder eller innhold står i kolonner med flexbox eller grid på store skjermer",
+    "Alle sidene har viewport-taggen",
+    "Stilarket er mobil først, med media queries som bruker min-width",
+    "Nettstedet må ikke rulles sidelengs på en mobil",
+    "Alle stier er relative, og sidene er validert uten feil",
+    "All tekst har god nok kontrast, også i toppen, menyen og bunnen",
+    "Nettstedet er publisert på GitHub Pages",
+    "Jeg har testet det publiserte nettstedet på en ekte mobil",
+    "En medstudent har gitt meg tilbakemelding",
+  ]}
+/>
+
+## Gratulerer!
+
+Du har gått fra én linje med HTML til et ekte nettsted på nettet – med flere sider, bilder, egen stil,
+god struktur og et oppsett som virker på alle skjermer. Det du har lært – HTML, CSS, stier, klient og
+tjener, universell utforming – er grunnmuren for alt annet på nettet. Herfra kan du lære JavaScript,
+lage nettsteder for andre, eller bare fortsette å gjøre ditt eget nettsted bedre.

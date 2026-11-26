@@ -1,0 +1,63 @@
+Padding er luft *inni* boksen. **Margin** er luft *utenfor* – mellom boksen og alt rundt den.
+
+## Luft mellom boksene
+
+```css
+.kort {
+  margin-bottom: 20px;
+}
+```
+
+Margin skrives på akkurat samme måte som padding: `margin: 20px` på alle sider, `margin: 10px 20px`
+for oppe/nede og sidene, og `margin-top`, `margin-right` og så videre for én side.
+
+Forskjellen ser du når boksen har en bakgrunn: padding blir farget, margin gjør det ikke.
+
+## Midt på siden
+
+På store skjermer blir tekst som går over hele bredden, tung å lese. Derfor setter vi ofte en
+maksbredde på innholdet, og plasserer det midt på:
+
+```css
+.innhold {
+  max-width: 700px;
+  margin: 0 auto;
+}
+```
+
+- `max-width: 700px` – aldri bredere enn 700 piksler.
+- `margin: 0 auto` – ingen margin oppe og nede, og **automatisk** margin på sidene. Nettleseren
+  fordeler plassen som er til overs likt på venstre og høyre side – og da havner boksen i midten.
+
+Forhåndsvisningen i oppgaven er smal, så der må du bruke en mindre `max-width`, for eksempel
+`240px`. Ellers er det ingen plass til overs å fordele.
+
+<Oppgave id="m6-margin" />
+
+<Quiz
+  sporsmal="Hva skjer om du skriver margin: auto; på et avsnitt uten max-width eller width?"
+  alternativer={[
+    "Avsnittet havner midt på siden",
+    "Ingenting synlig – avsnittet fyller allerede hele bredden, så det er ingen plass å fordele",
+    "Avsnittet forsvinner",
+  ]}
+  riktig={1}
+  forklaring="auto fordeler plassen som er til overs. Et blokkelement fyller hele bredden, så det er ingenting til overs. Derfor trenger du max-width (eller width) for at margin: 0 auto skal virke."
+/>
+
+<UnderPanseret tittel="Margin som forsvinner">
+
+Gir du ett avsnitt `margin-bottom: 20px` og avsnittet under `margin-top: 30px`, blir det ikke 50px
+mellom dem – bare 30px. Margin over og under bokser **slås sammen**, og den største vinner. Det
+heter *margin collapse*, og er grunnen til at luften mellom ting av og til blir mindre enn du
+regnet med. Padding og margin på sidene slås aldri sammen.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Pakk alt innholdet i `<body>` på sidene dine inn i en `<div class="innhold">`.
+2. Gi den `max-width: 800px;` og `margin: 0 auto;`, og se hvordan nettstedet ser ut på en stor skjerm.
+3. Gi `padding` til `.innhold`, så teksten ikke klistrer seg til kanten på smale skjermer.
+
+</GjorDetSelv>

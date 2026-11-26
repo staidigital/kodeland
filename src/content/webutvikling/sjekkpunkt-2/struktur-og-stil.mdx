@@ -1,0 +1,81 @@
+Siden sjekkpunkt 1 har du lært boksmodellen, semantisk struktur, typografi og hvordan kaskaden
+virker. Nettstedet ditt fungerer allerede – nå skal det bli *godt*: ryddig i koden, lett å lese og
+mulig å bruke for alle.
+
+## Oppgaven
+
+Bygg videre på nettstedet fra sjekkpunkt 1. I tillegg til kravene derfra skal det nå ha:
+
+- **Semantisk struktur** – `<header>`, `<nav>`, `<main>` og `<footer>` på alle sidene, og `<section>` eller
+  `<article>` der det passer. Overskriftene går i riktig rekkefølge. *(Modul 7)*
+- **Luft og orden** – `box-sizing: border-box`, innholdet midt på siden med en maksbredde, og padding og
+  margin som gir luft rundt og mellom tingene. *(Modul 6)*
+- **God typografi** – brødtekst med linjeavstand 1,4–1,7, linjer på 45–75 tegn, skriftstørrelser i `rem`
+  som følger en skala, og en eller to webfonter med reserver. *(Modul 8)*
+- **Gjennomtenkt CSS** – stil på topp, meny og bunn, en tydelig `:focus-visible` på lenkene, og ingen
+  `!important`. Minst én tabell eller definisjonsliste der det passer innholdet. *(Modul 9)*
+
+## Planlegg før du koder
+
+1. **Tegn sidene som bokser.** Hvor er toppen, menyen, hovedinnholdet og bunnen? Hvilke deler av
+   innholdet er en `<section>`, og hva står på egne ben som en `<article>`?
+2. **Rydd i stilarket.** Del `style.css` inn med kommentarer: *Grunnoppsett*, *Topp og meny*, *Innhold*,
+   *Bunn*. Legg `box-sizing`-regelen og reglene for `body` øverst.
+3. **Velg typografi.** Finn en eller to skrifter, og velg en skala med typografilaben og skalaen fra
+   modul 8.
+4. **Gjør én side ferdig først**, og kopier strukturen til de andre.
+
+<Tips>
+
+Bruk utviklerverktøyet hele veien. Er det for lite luft et sted? Inspiser elementet, og prøv deg fram
+med `padding` og `margin` rett i **Styles** før du skriver det inn i fila.
+
+</Tips>
+
+## Sjekk arbeidet ditt
+
+Nettstedsjekkeren for sjekkpunkt 2 sjekker alt fra sjekkpunkt 1, og i tillegg strukturen,
+boksmodellen, typografien og fokusmarkeringen.
+
+<Nettstedsjekker sjekkpunkt={2} />
+
+Sjekkeren ser bare på koden. Om sidene er pene, om strukturen gir mening og om teksten er lett å
+lese, må du vurdere selv – sammen med en medstudent.
+
+<UnderPanseret tittel="Test som en utvikler">
+
+- **Bare tastatur:** Klikk i adressefeltet og trykk `Tab` gjennom hele siden. Ser du hele tiden hvor du
+  er? Kommer du til alle lenkene?
+- **Større tekst:** Gjør skriften større i nettleserinnstillingene. Vokser siden pent med, eller
+  blir noe kuttet eller overlappet?
+- **Zoom til 200 %:** Trykk `Ctrl` og `+` (`Cmd` og `+` på Mac) til zoomen er 200 %. Kan du fortsatt
+  bruke siden?
+- **Uten CSS:** Kommenter ut `<link>` til stilarket et øyeblikk. Gir siden fortsatt mening, med
+  overskrifter, lister og avsnitt i riktig rekkefølge? Det er omtrent slik en skjermleser opplever den.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Bygg videre på nettstedet ditt i `webkurs`, steg for steg.
+2. Kjør nettstedsjekkeren og testene over, og fiks det du finner.
+3. Bytt nettsted med en medstudent. Gi hverandre to ting som er bra, og én ting som kan bli bedre.
+4. Fiks det du fikk tilbakemelding på, og lever slik læreren din har bestemt.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="sjekkpunkt-2"
+  punkter={[
+    "Alt fra sjekkpunkt 1 er fortsatt på plass",
+    "Alle sidene har <header>, <nav>, <main> og <footer>, og overskriftene går i riktig rekkefølge",
+    "box-sizing: border-box står øverst i style.css",
+    "Innholdet har en maksbredde og står midt på siden",
+    "Brødteksten har god linjeavstand, og linjene er ikke for lange",
+    "Skriftstørrelsene står i rem og følger en skala",
+    "Nettstedet bruker en eller to webfonter med reserver",
+    "Lenkene har en tydelig :focus-visible, og stilarket har ingen !important",
+    "Jeg har testet nettstedet bare med tastaturet, og med større tekst",
+    "En medstudent har gitt meg tilbakemelding",
+  ]}
+/>

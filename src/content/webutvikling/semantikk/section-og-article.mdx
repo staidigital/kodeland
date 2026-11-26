@@ -1,0 +1,53 @@
+`<main>` sier hvor hovedinnholdet er. Men innholdet har ofte sine egne deler. Til det finnes to
+tagger til: `<section>` og `<article>`.
+
+## article – noe som står på egne ben
+
+En `<article>` er innhold som gir mening alene – også om du klipper det ut og legger det et annet
+sted. Tenk på et blogginnlegg, en nyhetssak, et produkt i en nettbutikk eller en kommentar.
+
+```html
+<article>
+  <h3>Første tur med ny sekk</h3>
+  <p>I helga testet jeg den nye sekken på Ulriken.</p>
+</article>
+```
+
+## section – en del av noe større
+
+En `<section>` er en del av siden som handler om ett tema, og som har sin egen overskrift. Tenk på
+den som et kapittel.
+
+```html
+<section>
+  <h2>Siste innlegg</h2>
+  <article>…</article>
+  <article>…</article>
+</section>
+```
+
+<Quiz
+  sporsmal="Du lager en nettbutikk. Hvert produkt har bilde, navn og pris. Hvilken tagg passer for hvert produkt?"
+  alternativer={["<section>", "<article>", "<nav>", "<div>"]}
+  riktig={1}
+  forklaring="Et produkt står på egne ben – du kan vise det på forsiden, i en kategori eller i et søk, og det gir mening alene. Da er det en <article>. Hele lista med produkter kunne vært en <section>."
+/>
+
+<Oppgave id="m7-artikler" />
+
+<Tips>
+
+Usikker på om noe er en `<section>` eller en `<article>`? Spør deg selv: *Ville dette gitt mening
+alene, på en helt annen side?* Ja – `<article>`. Nei, det er bare en del av denne siden –
+`<section>`. Og har delen ingen overskrift, er den sannsynligvis bare en `<div>`.
+
+</Tips>
+
+<GjorDetSelv>
+
+1. Se gjennom sidene dine. Er det deler med egen overskrift som kan bli `<section>`?
+2. Har du noe som står på egne ben – en hobby, en tur, et spill du anbefaler? Gjør det til en
+   `<article>`.
+3. Sjekk at overskriftene fortsatt går i riktig rekkefølge: `<h1>`, så `<h2>`, så `<h3>`.
+
+</GjorDetSelv>

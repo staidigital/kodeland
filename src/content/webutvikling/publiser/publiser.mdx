@@ -1,0 +1,131 @@
+Nå er det tid. Nettstedet ditt er gyldig, lett å lese, virker på alle skjermer – og skal ut på nettet.
+
+## Hva skjer når noen skriver inn adressen din?
+
+I modul 4 så du hva som skjer når du klikker på en lenke. Når noen skriver inn adressen til nettstedet
+ditt for første gang, skjer det én ting til før det: nettleseren må finne ut *hvor* tjeneren er.
+
+<KlientTjener scenarier={["dns", "finnes", "mangler"]} />
+
+## Domener
+
+Adressen til et nettsted, som `minside.no`, heter et **domenenavn**. Det er laget for mennesker – maskiner
+bruker IP-adresser. **DNS** (*Domain Name System*) er katalogen som kobler dem sammen.
+
+Med GitHub Pages får du en adresse *under* GitHubs domene – et **underdomene** – med brukernavnet ditt:
+`brukernavn.github.io`. Det er helt fint for et skoleprosjekt.
+
+Vil du ha et eget domene, som `kimsfjellklubb.no`, må du kjøpe det hos en **registrar** – et firma som
+selger domener – og betale for det hvert år. Så kobler du domenet til GitHub Pages, og DNS sørger for at
+adressen peker på riktig tjener.
+
+<Quiz
+  sporsmal="Du flytter nettstedet ditt til et nytt webhotell med en ny IP-adresse. Hva må du endre for at minside.no skal virke?"
+  alternativer={[
+    "Alle lenkene på nettstedet",
+    "DNS-oppføringen for domenet, så den peker på den nye IP-adressen",
+    "Ingenting",
+  ]}
+  riktig={1}
+  forklaring="Domenet er bare et navn i DNS-katalogen. Peker du det på den nye tjeneren, finner alle fram dit – og fordi du har brukt relative stier, virker lenkene uansett."
+/>
+
+## Publiser med GitHub Pages
+
+Det finnes mange tjenester som kan publisere et nettsted, men vi bruker GitHub Pages. Du trenger bare en
+nettleser – ingen ekstra programmer.
+
+### 1. Lag en konto
+
+Gå til [github.com](https://github.com/) og trykk **Sign up**. Velg brukernavnet med omhu: det blir en del
+av adressen til nettstedet ditt, `brukernavn.github.io`. Du trenger ikke bruke fullt navn – og det er lurt
+å la være.
+
+### 2. Lag et repository
+
+Et **repository** («repo») er en mappe på GitHub, med all historikken til filene i den.
+
+1. Trykk på **+** øverst til høyre, og velg **New repository**.
+2. Skriv `webkurs` som **Repository name**.
+3. Velg **Public**. GitHub Pages er gratis for offentlige repositories – det betyr også at alle kan se
+   koden din.
+4. Trykk **Create repository**.
+
+### 3. Last opp filene
+
+1. På den nye, tomme siden står det en lenke: **uploading an existing file**. Klikk på den.
+2. Åpne `webkurs`-mappen på maskinen din. Merk alt som ligger *inni* den – `index.html`, de andre sidene,
+   `style.css` og mappen `bilder` – og dra det inn i nettleservinduet.
+3. Vent til alle filene er lastet opp, og trykk **Commit changes** nederst.
+
+Det viktigste: `index.html` skal ligge øverst i repositoriet, ikke inni en mappe. Dra derfor innholdet i
+`webkurs`, ikke selve mappen.
+
+### 4. Slå på GitHub Pages
+
+1. Gå til **Settings** i repositoriet (tannhjulet i menyen øverst), og velg **Pages** i menyen til venstre.
+2. Under **Build and deployment** og **Source**: velg **Deploy from a branch**.
+3. Under **Branch**: velg **main** og **/ (root)**, og trykk **Save**.
+4. Vent et minutt eller to, og last siden på nytt. Øverst står det nå at nettstedet ditt er publisert,
+   med adressen: `https://brukernavn.github.io/webkurs/`.
+
+### 5. Når du endrer noe
+
+Endre filene på maskinen din som før, og test i Live Server. Når du er fornøyd, går du til repositoriet,
+velger **Add file → Upload files**, og drar inn filene du har endret. Filer med samme navn blir erstattet.
+Trykk **Commit changes**, og etter et minutt eller to er den nye versjonen ute.
+
+<Tips>
+
+Får du en 404-side? Sjekk dette:
+
+- Ligger `index.html` øverst i repositoriet – ikke inni en mappe?
+- Har alle filnavnene små bokstaver, og stemmer de med lenkene? GitHub Pages skiller på store og små
+  bokstaver, selv om maskinen din kanskje ikke gjør det.
+- Har du ventet et par minutter? Den første publiseringen kan ta litt tid.
+
+</Tips>
+
+<UnderPanseret tittel="Hva betyr «commit»?">
+
+GitHub bygger på **Git**, et verktøy som programmerere bruker til å holde orden på endringer i koden. Hver
+gang du trykker **Commit changes**, lagrer GitHub et øyeblikksbilde av alle filene, med tidspunkt. Du kan
+se hele historikken under **Commits**, og hente fram en gammel versjon hvis du ødelegger noe. Profesjonelle
+utviklere bruker Git hver eneste dag – og nå har du tatt de første stegene selv.
+
+</UnderPanseret>
+
+<UnderPanseret tittel="Nå ligger din side på en tjener">
+
+Tenk over hva som skjer når en venn åpner nettstedet ditt på mobilen: Mobilen spør DNS om adressen,
+sender en forespørsel over nettet til en av GitHubs tjenere, og får tilbake akkurat de filene
+du skrev – `index.html`, `style.css` og bildene. Nettleseren på mobilen leser HTML-en ovenfra og ned,
+henter stilarket, og tegner siden med media queriene for mobil. Alt du har lært i kurset, skjer på et
+øyeblikk.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Publiser nettstedet ditt med GitHub Pages, steg for steg som over.
+2. Åpne det på din egen mobil, og send adressen til noen du kjenner.
+3. Klikk deg gjennom alle sidene på mobilen. Virker alle lenkene og bildene?
+4. Fant du noe som må fikses? Rett det på maskinen din, og last opp de endrede filene på nytt.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="m14-ferdig"
+  punkter={[
+    "Alle stier er relative – ingen C:/, file: eller / først",
+    "Ingen personopplysninger eller bilder jeg ikke har lov til å bruke",
+    "Alle sidene er validert, uten feil",
+    "All tekst har god nok kontrast",
+    "Jeg har kjørt Lighthouse og fikset det den fant under Accessibility",
+    "Nettstedet er publisert på GitHub Pages, og jeg har adressen",
+    "Jeg har testet det publiserte nettstedet på en mobil",
+    "Jeg kan forklare hva som skjer fra noen skriver inn adressen til siden vises",
+  ]}
+/>
+
+Nå gjenstår bare én ting: det siste sjekkpunktet, der du gjør nettstedet ditt helt ferdig.

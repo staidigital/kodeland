@@ -129,8 +129,13 @@ export const MODULER: Modul[] = [
     ingress: "Alt er firkanter. Lær å styre luften rundt og inni dem.",
     html: ["<div>"],
     css: ["padding", "margin", "border", "box-sizing"],
-    teori: ["utviklerverktøyet"],
-    leksjoner: [],
+    teori: ["alt er firkanter", "utviklerverktøyet"],
+    leksjoner: [
+      { slug: "alt-er-bokser", tittel: "Alt er bokser", minutter: 20 },
+      { slug: "padding-og-border", tittel: "Padding og border", minutter: 25 },
+      { slug: "margin", tittel: "Margin og sentrering", minutter: 25 },
+      { slug: "box-sizing", tittel: "box-sizing og utviklerverktøyet", minutter: 30 },
+    ],
   },
   {
     slug: "semantikk",
@@ -140,7 +145,13 @@ export const MODULER: Modul[] = [
     html: ["<header>", "<nav>", "<main>", "<section>", "<article>", "<footer>"],
     css: ["stil på header, meny og bunntekst"],
     teori: ["DOM-treet", "skjermlesere", "universell utforming", "class og id"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "bokser-med-mening", tittel: "Bokser med mening", minutter: 25 },
+      { slug: "section-og-article", tittel: "section og article", minutter: 20 },
+      { slug: "stil-pa-strukturen", tittel: "Stil på topp, meny og bunn", minutter: 25 },
+      { slug: "dom-treet", tittel: "DOM-treet, class og id", minutter: 25 },
+      { slug: "universell-utforming", tittel: "Universell utforming", minutter: 30 },
+    ],
   },
   {
     slug: "typografi",
@@ -150,7 +161,13 @@ export const MODULER: Modul[] = [
     html: ["<blockquote>", "spesialtegn"],
     css: ["webfonter", "rem og em", "line-height", "linjelengde"],
     teori: ["typografisk skala"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "lesbar-tekst", tittel: "Tekst som er god å lese", minutter: 25 },
+      { slug: "rem-og-em", tittel: "rem og em", minutter: 20 },
+      { slug: "typografisk-skala", tittel: "Typografisk skala", minutter: 20 },
+      { slug: "webfonter", tittel: "Webfonter", minutter: 25 },
+      { slug: "sitater-og-tegn", tittel: "Sitater og spesialtegn", minutter: 20 },
+    ],
   },
   {
     slug: "selektorer",
@@ -160,7 +177,12 @@ export const MODULER: Modul[] = [
     html: ["tabeller", "<dl>"],
     css: ["kombinatorer", ":nth-child", ":focus", "arv", "spesifisitet"],
     teori: ["kaskaden"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "tabeller-og-lister", tittel: "Tabeller og definisjonslister", minutter: 30 },
+      { slug: "kombinatorer", tittel: "Kombinatorer", minutter: 25 },
+      { slug: "pseudoklasser", tittel: ":nth-child og :focus", minutter: 25 },
+      { slug: "kaskaden", tittel: "Arv og kaskaden", minutter: 30 },
+    ],
   },
   {
     slug: "sjekkpunkt-2",
@@ -171,7 +193,7 @@ export const MODULER: Modul[] = [
     html: [],
     css: [],
     teori: [],
-    leksjoner: [],
+    leksjoner: [{ slug: "struktur-og-stil", tittel: "Struktur og stil", minutter: 90 }],
   },
   {
     slug: "display",
@@ -181,7 +203,11 @@ export const MODULER: Modul[] = [
     html: [],
     css: ["block og inline", "vannrett meny", "overflow"],
     teori: ["normal flyt"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "normal-flyt", tittel: "Normal flyt", minutter: 25 },
+      { slug: "vannrett-meny", tittel: "Vannrett meny", minutter: 25 },
+      { slug: "skjule-og-overflow", tittel: "Skjule og flyte over", minutter: 25 },
+    ],
   },
   {
     slug: "flexbox",
@@ -190,8 +216,12 @@ export const MODULER: Modul[] = [
     ingress: "Plasser elementer på rad og rekke – endelig enkelt.",
     html: [],
     css: ["display: flex", "justify-content", "align-items", "gap", "flex-wrap"],
-    teori: [],
-    leksjoner: [],
+    teori: ["hovedakse og tverrakse"],
+    leksjoner: [
+      { slug: "bokser-pa-rad", tittel: "Bokser på rad", minutter: 20 },
+      { slug: "justify-og-align", tittel: "justify-content og align-items", minutter: 30 },
+      { slug: "wrap-og-flex", tittel: "flex-wrap og flex: 1", minutter: 25 },
+    ],
   },
   {
     slug: "grid",
@@ -201,7 +231,12 @@ export const MODULER: Modul[] = [
     html: [],
     css: ["grid", "fr", "grid-template-areas", "sticky", "relative / absolute"],
     teori: ["når bruker du hva?"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "rader-og-kolonner", tittel: "Rader og kolonner", minutter: 25 },
+      { slug: "grid-template-areas", tittel: "Sideoppsett med grid-template-areas", minutter: 30 },
+      { slug: "posisjonering", tittel: "relative, absolute og sticky", minutter: 30 },
+      { slug: "nar-bruker-du-hva", tittel: "Når bruker du hva?", minutter: 20 },
+    ],
   },
   {
     slug: "responsivt",
@@ -211,7 +246,11 @@ export const MODULER: Modul[] = [
     html: ["viewport-meta"],
     css: ["media queries", "mobile first", "relative enheter"],
     teori: ["du vet ikke hvilken skjerm brukeren har"],
-    leksjoner: [],
+    leksjoner: [
+      { slug: "ulike-skjermer", tittel: "Du vet ikke hvilken skjerm", minutter: 25 },
+      { slug: "media-queries", tittel: "Media queries", minutter: 30 },
+      { slug: "mobil-forst", tittel: "Mobil først", minutter: 30 },
+    ],
   },
   {
     slug: "publiser",
@@ -221,8 +260,23 @@ export const MODULER: Modul[] = [
     html: ["validering"],
     css: ["kontrastsjekk"],
     teori: ["hosting", "domener og DNS", "nå ligger din side på en tjener"],
-    leksjoner: [],
-    mål: "Ferdig, publisert nettsted.",
+    leksjoner: [
+      { slug: "fra-mappe-til-nettsted", tittel: "Fra mappe til nettsted", minutter: 25 },
+      { slug: "validering", tittel: "Valider koden", minutter: 25 },
+      { slug: "siste-sjekk", tittel: "Siste sjekk", minutter: 25 },
+      { slug: "publiser", tittel: "Publiser!", minutter: 40 },
+    ],
+  },
+  {
+    slug: "sjekkpunkt-3",
+    nr: 3,
+    type: "sjekkpunkt",
+    tittel: "Ferdig nettsted",
+    ingress: "Ditt nettsted – responsivt, gyldig og publisert på nettet.",
+    html: [],
+    css: [],
+    teori: [],
+    leksjoner: [{ slug: "ferdig-nettsted", tittel: "Ferdig nettsted", minutter: 120 }],
   },
 ];
 

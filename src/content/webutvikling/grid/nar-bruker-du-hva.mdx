@@ -1,0 +1,64 @@
+Nå kan du fire måter å plassere ting på: normal flyt, flexbox, grid og posisjonering. Det vanskeligste
+er ikke hvordan de virker – det er å velge riktig.
+
+## En tommelfingerregel
+
+- **Normal flyt** – tekst og innhold som skal stå under hverandre. Det meste av en side. Ikke bruk noe
+  annet hvis du ikke trenger det.
+- **Flexbox** – ting på **én linje**: en meny, en rad med knapper, logo og meny i toppen, et ikon ved siden
+  av en tekst. Innholdet bestemmer størrelsen.
+- **Grid** – ting i **rader og kolonner**: hele sideoppsettet, et galleri, et skjema med ledetekster på
+  linje. Rutenettet bestemmer størrelsen.
+- **Posisjonering** – én ting som skal ligge **oppå** noe annet, eller henge fast: et merke i et hjørne, en
+  sticky topp.
+
+De fleste sider bruker alle fire: grid til hele siden, flexbox i toppen og menyen, normal flyt i
+teksten, og et par `position`-detaljer.
+
+<Quiz
+  sporsmal="Du lager en rad med tre knapper under et skjema: Avbryt, Lagre utkast og Send."
+  alternativer={["Grid", "Flexbox", "position: absolute"]}
+  riktig={1}
+  forklaring="Én rad med ting som kan ha forskjellig bredde – klassisk flexbox, gjerne med gap og justify-content: flex-end."
+/>
+
+<Quiz
+  sporsmal="Du lager en bildeside med tolv bilder som skal stå i pene rader og kolonner, på alle skjermer."
+  alternativer={["Grid", "Flexbox", "Normal flyt"]}
+  riktig={0}
+  forklaring="Rader OG kolonner som skal stå på linje begge veier – det er grid. repeat(auto-fit, minmax(…)) gjør det tilpasset alle skjermer."
+/>
+
+<Quiz
+  sporsmal="En liten rød prikk skal ligge oppå hjørnet av et brukerbilde, for å vise at du har en ny melding."
+  alternativer={["Grid", "Flexbox", "position: absolute"]}
+  riktig={2}
+  forklaring="Noe som skal ligge oppå noe annet, i et bestemt hjørne: position: absolute, med position: relative på bildeboksen."
+/>
+
+## Sett alt sammen
+
+Siden under trenger alle tre: flexbox i toppen, grid til kortene, og et merke med `position`.
+
+<Oppgave id="m12-velg" />
+
+<GjorDetSelv>
+
+1. Se gjennom nettstedet ditt med de nye verktøyene. Hvor passer grid, hvor passer flexbox?
+2. Bytt ut gamle løsninger som `inline-block`-menyen med flexbox, og lag sideoppsettet med grid.
+3. Åpne utviklerverktøyet og slå på grid- og flex-merkene for å se oppsettet ditt tegnet inn.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="m12-ferdig"
+  punkter={[
+    "Jeg vet hva fr betyr, og har brukt repeat()",
+    "Jeg har laget et galleri eller kort med repeat(auto-fit, minmax(…))",
+    "Sideoppsettet mitt er laget med grid-template-areas",
+    "HTML-en min står fortsatt i en logisk rekkefølge",
+    "Jeg har brukt position: relative og absolute til å legge noe i et hjørne",
+    "Toppen av nettstedet mitt er sticky",
+    "Jeg kan forklare når jeg velger flexbox, og når jeg velger grid",
+  ]}
+/>

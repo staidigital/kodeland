@@ -1,0 +1,80 @@
+Flexbox og grid ordner bokser i forhold til hverandre. Men noen ganger vil du løfte noe *ut* av flyten
+og plassere det et bestemt sted: et merke i hjørnet av et kort, eller en topp som blir liggende når
+du ruller. Til det har vi `position`.
+
+## static – standard
+
+Alle elementer har `position: static` til vanlig. Da følger de normal flyt, og `top`, `right`, `bottom`
+og `left` gjør ingenting.
+
+## relative og absolute
+
+- `position: absolute` løfter elementet ut av flyten – de andre oppfører seg som om det ikke var der.
+  Så plasserer du det med `top`, `right`, `bottom` og `left`.
+- Men absolutt i forhold til *hva*? Til den nærmeste forfaren som har en annen `position` enn `static`.
+  Derfor gir vi forelderen `position: relative` – den flytter seg ikke, men blir utgangspunktet.
+
+```css
+.kort {
+  position: relative;
+}
+
+.merke {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+```
+
+<Oppgave id="m12-merke" />
+
+<Quiz
+  sporsmal="Du glemmer position: relative på .kort. Hvor havner merket med top: 8px; right: 8px?"
+  alternativer={[
+    "I hjørnet av kortet, som før",
+    "I hjørnet av hele siden, fordi ingen forfar er posisjonert",
+    "Det forsvinner",
+  ]}
+  riktig={1}
+  forklaring="Uten en posisjonert forfar regnes posisjonen fra hele siden. Merket hopper opp i øvre høyre hjørne av vinduet. Det er en av de vanligste feilene med absolute."
+/>
+
+## sticky – en topp som henger igjen
+
+`position: sticky` er en blanding: elementet følger flyten, men når du ruller forbi det, *setter det
+seg fast* der du har sagt:
+
+```css
+header {
+  position: sticky;
+  top: 0;
+}
+```
+
+Nå blir toppen liggende øverst i vinduet når du ruller nedover. Gi den en bakgrunnsfarge, ellers
+skinner innholdet igjennom.
+
+<Oppgave id="m12-sticky" />
+
+<UnderPanseret tittel="z-index – hva ligger øverst?">
+
+Når elementer ligger oppå hverandre, bestemmer `z-index` hvem som er øverst. Høyere tall ligger
+over lavere. `z-index` virker bare på elementer med en annen `position` enn `static` (og på flex- og
+grid-elementer). Ser du at en sticky topp blir liggende *under* noe, prøv `z-index: 10` på den.
+
+</UnderPanseret>
+
+<Tips>
+
+Bruk `position` sparsomt. Det er fristende å plassere alt med `absolute`, men da må du styre alt selv,
+og siden går i stykker når innholdet eller skjermen endrer seg. La flyten, flexbox og grid gjøre
+mesteparten, og bruk `absolute` bare til små ting som skal ligge *oppå* noe.
+
+</Tips>
+
+<GjorDetSelv>
+
+1. Gjør `<header>` på nettstedet ditt sticky med `top: 0`, og sjekk at den har bakgrunnsfarge.
+2. Lag et lite merke – «Ny!», «Favoritt» eller en pris – i hjørnet av et kort eller et bilde.
+
+</GjorDetSelv>

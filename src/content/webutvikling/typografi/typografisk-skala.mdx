@@ -1,0 +1,44 @@
+Hvor store skal overskriftene være? Det er lett å bare prøve seg fram: 30px, nei 28px, kanskje
+26px… Men det finnes en bedre metode, som designere har brukt i hundrevis av år.
+
+## Én størrelse ganger et fast tall
+
+En **typografisk skala** starter med brødteksten og ganger med det samme tallet for hvert nivå opp:
+
+- Brødtekst: `1rem`
+- `<h3>`: 1 × 1,25 = `1.25rem`
+- `<h2>`: 1,25 × 1,25 = `1.563rem`
+- `<h1>`: 1,563 × 1,25 = `1.953rem`
+
+Fordi alle trinnene har samme forhold, ser størrelsene ut som om de hører sammen – akkurat som
+tonene i en skala i musikk. Mange av navnene kommer faktisk derfra.
+
+<Typeskala />
+
+<Quiz
+  sporsmal="Du lager en side for mobil med lite plass. Hvilket forhold passer best?"
+  alternativer={["1,618 – det gylne snitt", "1,2 – liten ters", "Spiller ingen rolle"]}
+  riktig={1}
+  forklaring="Et stort forhold gir enorme overskrifter som tar hele skjermen på en mobil. Et lite forhold som 1,2 gir tydelige, men moderate trinn. Store forhold passer best for store skjermer og plakater."
+/>
+
+## Rett opp skalaen
+
+Overskriftene i oppgaven er tilfeldig valgt: `<h2>` er like stor som `<h1>`, og `<h3>` er like stor
+som brødteksten. Lag en skala med samme forhold hele veien.
+
+<Oppgave id="m8-skala" />
+
+<Tips>
+
+Du trenger ikke regne selv. Bruk skalaen over: velg forhold, og kopier CSS-en.
+
+</Tips>
+
+<GjorDetSelv>
+
+1. Velg et forhold i skalaen over som passer stemningen på nettstedet ditt.
+2. Gi `<h1>`, `<h2>` og `<h3>` størrelser fra skalaen, i `rem`.
+3. Ser hierarkiet tydelig ut? Er det lett å se hva som er hovedoverskriften?
+
+</GjorDetSelv>

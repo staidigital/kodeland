@@ -1,0 +1,87 @@
+Til nå har du gjettet deg fram til størrelser. Nå skal du lære å regne dem ut – og bruke verktøyet
+alle webutviklere har åpent hele dagen.
+
+## Hvor bred er boksen egentlig?
+
+<Quiz
+  sporsmal="En boks har width: 200px, padding: 20px og border: 5px solid. Hvor bred blir den på skjermen?"
+  alternativer={["200px", "225px", "250px", "245px"]}
+  riktig={2}
+  forklaring="Som standard gjelder width bare innholdet. Padding og border kommer i tillegg, på begge sider: 200 + 20 + 20 + 5 + 5 = 250px."
+/>
+
+Det er lett å bomme på. Og det blir ekstra kluss når du skriver `width: 100%` – da blir boksen 100 %
+*pluss* padding og border, og stikker ut:
+
+<Oppgave id="m6-box-sizing" />
+
+## box-sizing: border-box
+
+Med `box-sizing: border-box` betyr `width` hele boksen – med padding og border. Skriver du
+`width: 200px`, blir boksen 200px på skjermen, og innholdet får den plassen som er igjen.
+
+Det er så mye enklere at nesten alle nettsteder starter stilarket slik:
+
+```css
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+```
+
+`*` betyr *alle elementer*. `::before` og `::after` lærer du om senere – de er bare med for å få med
+absolutt alt.
+
+Prøv bryteren i boksmodellen igjen, og se forskjellen:
+
+<Boksmodell />
+
+## Utviklerverktøyet
+
+Alle nettlesere har et innebygd verktøy der du kan se – og endre – HTML og CSS på hvilken som helst
+side. Du har allerede brukt Network-fanen i modul 5. Nå skal du bruke **Elements** (i Firefox:
+**Inspektør**).
+
+1. Høyreklikk på noe på en nettside, og velg **Inspiser**.
+2. I **Elements** ser du HTML-en. Elementet du klikket på, er markert.
+3. Hold musa over et element i koden: på siden lyser boksen opp, med margin i oransje, padding i
+   grønt og innholdet i blått – de samme fargene som i lekeplassen over.
+4. Til høyre ser du **Styles**: alle CSS-reglene som gjelder for elementet. Klikk på en verdi og
+   endre den – siden oppdaterer seg med en gang. Endringene forsvinner når du laster siden på nytt.
+5. Under **Computed** finner du boksmodell-diagrammet med de nøyaktige tallene.
+
+<UnderPanseret tittel="Prøv deg fram uten å ødelegge noe">
+
+Utviklerverktøyet endrer bare det *din* nettleser viser – aldri fila på tjeneren. Du kan endre fargen
+på nrk.no eller slette hele overskriften på Wikipedia, og ingen andre merker noe. Last siden på nytt,
+så er alt tilbake. Det gjør verktøyet perfekt til å prøve ut CSS før du skriver det inn i fila di.
+
+</UnderPanseret>
+
+<Tips>
+
+Hurtigtasten for utviklerverktøyet er `F12`, eller `Ctrl + Shift + I` (`Cmd + Option + I` på Mac).
+
+</Tips>
+
+<GjorDetSelv>
+
+1. Legg `*, *::before, *::after { box-sizing: border-box; }` øverst i `style.css`.
+2. Åpne nettstedet ditt i Live Server, og åpne utviklerverktøyet med `F12`.
+3. Finn `.innhold`-boksen din i **Elements**, og se på boksmodellen under **Computed**. Stemmer tallene
+   med det du skrev i CSS-en?
+4. Prøv en ny `padding` eller farge rett i **Styles**. Når du er fornøyd, skriver du den inn i
+   `style.css`.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="m6-ferdig"
+  punkter={[
+    "Jeg har brukt <div> til å samle elementer som hører sammen",
+    "Boksene mine har padding, så teksten ikke klistrer seg til kanten",
+    "Jeg har brukt margin til å lage luft mellom boksene",
+    "Innholdet har en max-width og står midt på siden med margin: 0 auto",
+    "box-sizing: border-box står øverst i style.css",
+    "Jeg har åpnet utviklerverktøyet og sett på boksmodellen til et element",
+  ]}
+/>

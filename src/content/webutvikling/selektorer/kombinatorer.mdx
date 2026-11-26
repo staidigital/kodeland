@@ -1,0 +1,50 @@
+Til nå har du brukt selektorer som `p`, `.kort` og `#kontakt`, og i modul 7 smakte du på `nav a`.
+Nå skal du lære å kombinere selektorer, så du kan treffe akkurat de elementene du vil – uten å fylle
+HTML-en med klasser.
+
+## Kombinatorer
+
+En **kombinator** sier noe om hvordan elementene henger sammen i DOM-treet:
+
+- `nav a` – **mellomrom**: en `<a>` som ligger et sted *inni* `<nav>`, hvor dypt som helst.
+- `ul > li` – **større enn**: en `<li>` som er et *direkte barn* av `<ul>`. Barnebarn telles ikke.
+- `h2 + p` – **pluss**: en `<p>` som kommer *rett etter* en `<h2>`, som søsken.
+- `h2 ~ p` – **tilde**: alle `<p>` som kommer *etter* en `<h2>`, som søsken.
+- `h1, h2` – **komma**: begge selektorene. Ikke en kombinator, men en liste.
+
+Prøv dem i laben. Skriv dine egne selektorer, og se hva de treffer:
+
+<Selektorlab />
+
+<Quiz
+  sporsmal="I laben over: hvorfor treffer .meny > li tre elementer, mens .meny li treffer fem?"
+  alternativer={[
+    "Fordi > bare teller lenker",
+    "Fordi .meny > li bare treffer de direkte barna – ikke punktene i undermenyen",
+    "Fordi .meny li er en feil selektor",
+  ]}
+  riktig={1}
+  forklaring="Undermenyen under «Turer» har to <li> til. De ligger inni .meny, men ikke som direkte barn – de er barnebarn. Mellomrom treffer alle, > bare barna."
+/>
+
+## Bruk dem
+
+<Oppgave id="m9-kombinator" />
+
+<Tips>
+
+Hold selektorene korte. `nav a` er bedre enn `body header nav ul li a`: den er lettere å lese, og
+den virker fortsatt om du flytter menyen. Lange selektorer gjør også CSS-en vanskelig å overstyre –
+det får du se i siste leksjon.
+
+</Tips>
+
+<GjorDetSelv>
+
+1. Se gjennom `style.css`. Har du klasser du bare la til for å treffe noe inni noe annet? Kanskje en
+   kombinator kunne gjort jobben.
+2. Prøv `main h2 + p` for å gjøre det første avsnittet etter hver overskrift til en ingress.
+3. Åpne utviklerverktøyet, gå til **Console** og skriv `document.querySelectorAll("nav a")`. Du får
+   en liste over alt selektoren treffer – den samme som CSS bruker.
+
+</GjorDetSelv>

@@ -1,0 +1,68 @@
+To siste ting om flyten: hvordan du fjerner noe fra den, og hva som skjer når innholdet ikke får
+plass i boksen sin.
+
+## display: none
+
+`display: none` fjerner elementet helt fra siden. Det vises ikke, tar ingen plass, og skjermlesere leser
+det ikke opp. Elementene under flytter seg opp, som om det aldri var der.
+
+`visibility: hidden` gjør elementet usynlig, men plassen står igjen – som et tomt hull.
+
+<Oppgave id="m10-skjul" />
+
+<UnderPanseret tittel="Skjult er ikke hemmelig">
+
+Det du skjuler med CSS, står fortsatt i HTML-en. Alle kan se det med **Vis sidekilde** eller i
+utviklerverktøyet. Legg aldri passord, koder eller annet hemmelig på en nettside og «skjul» det med
+CSS – da er det like offentlig som resten.
+
+</UnderPanseret>
+
+## Overflow – når innholdet ikke får plass
+
+Normalt vokser en boks så mye som innholdet trenger. Men gir du den en fast høyde, kan innholdet bli for
+stort. Da **flyter det over** – det tegnes utenfor boksen, oppå det som kommer etter.
+
+Med `overflow` bestemmer du hva som skal skje:
+
+- `overflow: visible` – innholdet stikker ut (standard).
+- `overflow: hidden` – det som stikker ut, klippes bort.
+- `overflow: auto` – boksen får en rullefelt når det trengs.
+- `overflow: scroll` – boksen har alltid rullefelt.
+
+Lange ord og adresser er en egen felle: de kan ikke brytes over to linjer, og stikker ut til siden.
+`overflow-wrap: anywhere` lar nettleseren bryte dem hvor som helst når det trengs.
+
+<Oppgave id="m10-overflow" />
+
+<Quiz
+  sporsmal="Hva er den beste måten å unngå at tekst flyter ut av en boks?"
+  alternativer={[
+    "overflow: hidden, så det ikke synes",
+    "Ikke gi boksen fast høyde – la den vokse med innholdet",
+    "Gjør skriften mindre",
+  ]}
+  riktig={1}
+  forklaring="Fast høyde er som regel problemet. Uten height vokser boksen så mye som innholdet trenger – også når brukeren har større skrift. overflow: hidden skjuler tekst brukeren kanskje trenger å lese."
+/>
+
+<GjorDetSelv>
+
+1. Søk etter `height` i `style.css`. Trenger boksene virkelig en fast høyde? Prøv å fjerne den, eller
+   bytt til `min-height`, som lar boksen vokse.
+2. Lim inn en veldig lang adresse i en tekst på nettstedet ditt, og gjør vinduet smalt. Stikker den ut?
+   Prøv `overflow-wrap: anywhere` på `body`.
+
+</GjorDetSelv>
+
+<Sjekkliste
+  id="m10-ferdig"
+  punkter={[
+    "Jeg vet forskjellen på block, inline og inline-block",
+    "Menyen på nettstedet mitt står vannrett",
+    "Menylenkene har padding, så hele flaten er klikkbar",
+    "Jeg vet forskjellen på display: none og visibility: hidden",
+    "Jeg vet at skjult innhold ikke er hemmelig",
+    "Ingen tekst flyter ut av boksene sine, heller ikke lange adresser",
+  ]}
+/>

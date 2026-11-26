@@ -9,34 +9,35 @@ type Step = {
   tone?: "ok" | "warn" | "info";
 };
 
+/** Veien gjennom webutviklingskurset, fra første linje til publisert nettsted. */
 const SCRIPT: Step[] = [
-  { cmd: true, text: "kodeland deploy --ny-versjon" },
-  { text: "henter nytt innhold", status: "ok", tone: "ok" },
-  { text: "rydder bort gammel kode", status: "ok", tone: "ok" },
-  { text: "kompilerer nye oppgaver", status: "ok", tone: "ok" },
-  { text: "fikser bugs", status: "fant 3 til", tone: "warn" },
-  { text: "fyller på kaffe", status: "ok", tone: "ok" },
+  { cmd: true, text: "kodeland start webutvikling" },
+  { text: "skriver din første nettside", status: "ok", tone: "ok" },
+  { text: "gir den farge med css", status: "ok", tone: "ok" },
+  { text: "legger til bilder og lenker", status: "ok", tone: "ok" },
+  { text: "validerer html", status: "fant 1 feil", tone: "warn" },
+  { text: "retter feilen", status: "ok", tone: "ok" },
+  { text: "lager oppsett med grid", status: "ok", tone: "ok" },
+  { text: "gjør den klar for mobil", status: "ok", tone: "ok" },
 ];
 
-const BAR_WIDTH = 24;
+const BAR_WIDTH = 20;
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 type Line = Step & { typed: string; showStatus: boolean };
 
-export function WipTerminal() {
+export function ForsideTerminal() {
   const [lines, setLines] = useState<Line[]>([]);
   const [progress, setProgress] = useState<number | null>(null);
 
   useEffect(() => {
     let cancelled = false;
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     async function run() {
       if (reduced) {
         setLines(SCRIPT.map((s) => ({ ...s, typed: s.text, showStatus: true })));
-        setProgress(0.87);
+        setProgress(1);
         return;
       }
       while (!cancelled) {
@@ -65,15 +66,15 @@ export function WipTerminal() {
           await sleep(150);
         }
 
-        // Fremdriftslinjen kryper mot mål, men blir aldri helt ferdig.
+        // Publiseringen går helt i mål.
         let p = 0;
         setProgress(0);
-        while (!cancelled && p < 0.87) {
-          p = Math.min(0.87, p + Math.random() * 0.06);
+        while (!cancelled && p < 1) {
+          p = Math.min(1, p + 0.03 + Math.random() * 0.07);
           setProgress(p);
-          await sleep(120 + Math.random() * 260);
+          await sleep(100 + Math.random() * 200);
         }
-        await sleep(4200);
+        await sleep(6000);
       }
     }
 
@@ -85,18 +86,19 @@ export function WipTerminal() {
 
   const filled = progress === null ? 0 : Math.round(progress * BAR_WIDTH);
   const typing = lines.length > 0 && !lines[lines.length - 1].showStatus;
+  const ferdig = progress === 1;
 
   return (
-    <div className="wip-terminal" aria-hidden="true">
-      <div className="wip-terminal__bar">
+    <div className="forside-terminal" aria-hidden="true">
+      <div className="forside-terminal__bar">
         <span className="dot dot--r" />
         <span className="dot dot--y" />
         <span className="dot dot--g" />
-        <span className="wip-terminal__title">kodeland — deploy</span>
+        <span className="forside-terminal__title">~/webkurs</span>
       </div>
-      <div className="wip-terminal__body">
+      <div className="forside-terminal__body">
         {lines.map((l, i) => (
-          <div key={i} className="wip-line">
+          <div key={i} className="forside-line">
             {l.cmd ? (
               <span className="c-prompt">$ </span>
             ) : (
@@ -113,19 +115,25 @@ export function WipTerminal() {
           </div>
         ))}
         {progress !== null && (
-          <div className="wip-line wip-progress">
+          <div className="forside-line">
             <span className="c-arrow">→ </span>
-            <span className="c-text">bygger nettsiden </span>
+            <span className="c-text">publiserer </span>
             <span className="c-bar">
               [<span className="c-bar__fill">{"█".repeat(filled)}</span>
               <span className="c-bar__empty">{"░".repeat(BAR_WIDTH - filled)}</span>]
             </span>
             <span className="c-pct"> {Math.round(progress * 100)}%</span>
-            <span className="spinner" />
+            {!ferdig && <span className="spinner" />}
+          </div>
+        )}
+        {ferdig && (
+          <div className="forside-line">
+            <span className="c-ferdig">✓ ute på nettet: </span>
+            <span className="c-url">deg.github.io/webkurs</span>
           </div>
         )}
         {lines.length === 0 && (
-          <div className="wip-line">
+          <div className="forside-line">
             <span className="c-prompt">$ </span>
             <span className="cursor" />
           </div>

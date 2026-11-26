@@ -15,8 +15,9 @@ export type Sjekk = {
   /**
    * `doc` er siden som vises i forhåndsvisningen (med CSS, så getComputedStyle virker).
    * `sider` er alle HTML-filene i oppgaven, lest inn uten CSS (filnavn → dokument).
+   * `kilde` er koden slik studenten skrev den (filnavn → tekst), før nettleseren har reparert den.
    */
-  test: (doc: Document, sider: Record<string, Document>) => boolean;
+  test: (doc: Document, sider: Record<string, Document>, kilde: Record<string, string>) => boolean;
 };
 
 export type OppgaveDef = {
@@ -38,6 +39,8 @@ export type OppgaveDef = {
   sider?: Record<string, string>;
   /** Bildene som ligger i prosjektet (se kursbilder.ts). Brukes av <img src> og url() i CSS. */
   bilder?: Kursbilde[];
+  /** Vis knapper for skjermbredde (mobil, nettbrett, PC) over forhåndsvisningen. */
+  responsiv?: boolean;
 };
 
 /** Filene lenkene på en side peker på (lenker ut av prosjektet er tatt bort). */
@@ -45,6 +48,35 @@ const lenkerTil = (side: Document | undefined, fra: string) =>
   [...(side?.querySelectorAll("a[href]") ?? [])]
     .map((a) => løsSti(a.getAttribute("href") ?? "", fra))
     .filter((x): x is string => x !== null);
+
+/**
+ * Kjør `fn` mens forhåndsvisningen er `bredde` piksler bred, og sett bredden tilbake etterpå.
+ * Media queries i siden svarer på den nye bredden.
+ */
+function iBredde<T>(d: Document, bredde: number, fn: () => T): T {
+  const ramme = d.defaultView?.frameElement as HTMLElement | null;
+  if (!ramme) return fn();
+  const før = { width: ramme.style.width, transform: ramme.style.transform };
+  ramme.style.width = `${bredde}px`;
+  ramme.style.transform = "none";
+  void d.documentElement.getBoundingClientRect(); // tving ny layout med den nye bredden
+  try {
+    return fn();
+  } finally {
+    ramme.style.width = før.width;
+    ramme.style.transform = før.transform;
+  }
+}
+
+/** Antall kolonner elementene står i (forskjellige venstrekanter). */
+const kolonner = (d: Document, selektor: string) =>
+  new Set([...d.querySelectorAll(selektor)].map((x) => Math.round(x.getBoundingClientRect().left))).size;
+
+/** Alle @media-regler i stilarkene. */
+const mediaRegler = (d: Document) =>
+  [...d.styleSheets].flatMap((ark) =>
+    [...ark.cssRules].filter((r): r is CSSMediaRule => r instanceof d.defaultView!.CSSMediaRule),
+  );
 
 /** Vises bildet i forhåndsvisningen (ikke ødelagt)? */
 const vises = (img: Element) => (img as HTMLImageElement).complete && (img as HTMLImageElement).naturalWidth > 0;
@@ -1452,5 +1484,2255 @@ img {
       },
     ],
     hint: "Se på listen over bilder i prosjektet. Bytt logo.jpg med logo.svg (eller logo.png), og fjell-original.jpg med fjell.webp (eller fjell.jpg).",
+  },
+
+  // ── Modul 6: Boksmodellen ───────────────────────────────────────────
+
+  "m6-se-boksene": {
+    html: `<h1>Alt er bokser</h1>
+<p>Hvert element på siden er en firkant – også de du ikke ser.</p>
+<ul>
+  <li>Overskrifter</li>
+  <li>Avsnitt</li>
+  <li>Lister og punkter</li>
+</ul>
+<p>Selv <strong>ord inni tekst</strong> og <a href="#">lenker</a> har en boks.</p>
+`,
+    css: `* {
+  outline: 2px solid tomato;
+}
+`,
+  },
+
+  "m6-div": {
+    html: `<h1>Ukas turer</h1>
+<h2>Lørdag: Fløyen</h2>
+<p>En rolig tur for hele familien. Vi møtes ved Fløibanen klokka 11.</p>
+<h2>Søndag: Ulriken</h2>
+<p>En brattere tur med flott utsikt. Ta med gode sko!</p>
+`,
+    css: `.kort {
+  background-color: #f1faee;
+  border: 2px solid #a8dadc;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Det er to <div class=\"kort\">",
+        test: (d) => d.querySelectorAll("div.kort").length === 2,
+      },
+      {
+        tekst: "Hvert kort har én turbeskrivelse: en <h2> og et avsnitt",
+        test: (d) => {
+          const k = [...d.querySelectorAll("div.kort")];
+          return k.length === 2 && k.every((x) => x.querySelectorAll("h2").length === 1 && x.querySelector("p") !== null);
+        },
+      },
+      {
+        tekst: "Hovedoverskriften står utenfor kortene",
+        test: (d) => {
+          const h1 = d.querySelector("h1");
+          return h1 !== null && h1.closest(".kort") === null;
+        },
+      },
+    ],
+    hint: `<div class="kort"> rett før <h2>Lørdag …, og </div> rett etter avsnittet. Det samme for søndag.`,
+  },
+
+  "m6-padding": {
+    html: `<h1>Ukas turer</h1>
+<div class="kort">
+  <h2>Lørdag: Fløyen</h2>
+  <p>En rolig tur for hele familien. Vi møtes ved Fløibanen klokka 11.</p>
+</div>
+<div class="kort">
+  <h2>Søndag: Ulriken</h2>
+  <p>En brattere tur med flott utsikt. Ta med gode sko!</p>
+</div>
+`,
+    css: `.kort {
+  background-color: #f1faee;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Kortene har minst 12px padding på alle sider",
+        test: (d) => {
+          const k = d.querySelector(".kort");
+          if (!k) return false;
+          const s = stil(k);
+          return [s.paddingTop, s.paddingRight, s.paddingBottom, s.paddingLeft].every((p) => parseFloat(p) >= 12);
+        },
+      },
+      {
+        tekst: "Kortene har en kant (border)",
+        test: (d) => {
+          const k = d.querySelector(".kort");
+          return k !== null && parseFloat(stil(k).borderTopWidth) >= 1 && stil(k).borderTopStyle !== "none";
+        },
+      },
+      {
+        tekst: "Kortene har runde hjørner",
+        test: (d) => {
+          const k = d.querySelector(".kort");
+          return k !== null && parseFloat(stil(k).borderTopLeftRadius) > 0;
+        },
+      },
+    ],
+    hint: ".kort { padding: 16px; border: 2px solid #a8dadc; border-radius: 10px; }",
+  },
+
+  "m6-margin": {
+    html: `<div class="innhold">
+  <h1>Ukas turer</h1>
+  <div class="kort">
+    <h2>Lørdag: Fløyen</h2>
+    <p>En rolig tur for hele familien.</p>
+  </div>
+  <div class="kort">
+    <h2>Søndag: Ulriken</h2>
+    <p>En brattere tur med flott utsikt.</p>
+  </div>
+</div>
+`,
+    css: `body {
+  background-color: #a8dadc;
+  font-family: Verdana, sans-serif;
+}
+
+.innhold {
+  background-color: white;
+  padding: 16px;
+}
+
+.kort {
+  background-color: #f1faee;
+  padding: 16px;
+  border: 2px solid #1d3557;
+  border-radius: 8px;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Det er minst 16px luft mellom de to kortene",
+        test: (d) => {
+          const [a, b] = [...d.querySelectorAll(".kort")].map((k) => k.getBoundingClientRect());
+          return a !== undefined && b !== undefined && b.top - a.bottom >= 16;
+        },
+      },
+      {
+        tekst: ".innhold har en max-width, så den ikke fyller hele bredden",
+        test: (d) => {
+          const el = d.querySelector(".innhold");
+          return el !== null && stil(el).maxWidth !== "none" && el.getBoundingClientRect().width < d.documentElement.clientWidth - 40;
+        },
+      },
+      {
+        tekst: ".innhold står midt på siden",
+        test: (d) => {
+          const r = d.querySelector(".innhold")?.getBoundingClientRect();
+          if (!r) return false;
+          const venstre = r.left;
+          const høyre = d.documentElement.clientWidth - r.right;
+          return venstre > 10 && Math.abs(venstre - høyre) <= 2;
+        },
+      },
+    ],
+    hint: ".kort { margin-bottom: 20px; } og .innhold { max-width: 240px; margin: 0 auto; }",
+  },
+
+  "m6-box-sizing": {
+    html: `<h1>Hvorfor stikker den ut?</h1>
+<div class="ramme">
+  <div class="boks">Jeg skal være akkurat like bred som rammen.</div>
+</div>
+`,
+    css: `.ramme {
+  border: 3px dashed #1d3557;
+  padding: 10px;
+}
+
+.boks {
+  width: 100%;
+  padding: 20px;
+  border: 5px solid #e63946;
+  background-color: #f1faee;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Boksen holder seg innenfor rammen",
+        test: (d) => {
+          const ramme = d.querySelector(".ramme");
+          const boks = d.querySelector(".boks");
+          if (!ramme || !boks) return false;
+          const r = ramme.getBoundingClientRect();
+          const s = stil(ramme);
+          const innerHøyre = r.right - parseFloat(s.borderRightWidth) - parseFloat(s.paddingRight);
+          return boks.getBoundingClientRect().right <= innerHøyre + 0.5;
+        },
+      },
+      {
+        tekst: "Boksen har fortsatt width: 100%, 20px padding og 5px kant",
+        test: (d) => {
+          const b = d.querySelector(".boks");
+          if (!b) return false;
+          const s = stil(b);
+          const regel = regler(d).some((r) => b.matches(r.selectorText) && r.style.width === "100%");
+          return regel && parseFloat(s.paddingLeft) >= 20 && parseFloat(s.borderLeftWidth) >= 5;
+        },
+      },
+      {
+        tekst: "Boksen bruker box-sizing: border-box",
+        test: (d) => {
+          const b = d.querySelector(".boks");
+          return b !== null && stil(b).boxSizing === "border-box";
+        },
+      },
+    ],
+    hint: "Legg til box-sizing: border-box; – på .boks, eller enda bedre på alle elementer med * { box-sizing: border-box; }",
+  },
+
+  // ── Modul 7: Semantisk struktur ─────────────────────────────────────
+
+  "m7-skjelett": {
+    html: `<div class="topp">
+  <h1>Fjellklubben</h1>
+  <div class="meny">
+    <ul>
+      <li><a href="#">Turer</a></li>
+      <li><a href="#">Om oss</a></li>
+    </ul>
+  </div>
+</div>
+<div class="innhold">
+  <h2>Neste tur</h2>
+  <p>Vi går til Fløyen på lørdag. Bli med!</p>
+</div>
+<div class="bunn">
+  <p>Fjellklubben 2026</p>
+</div>
+`,
+    sjekker: [
+      {
+        tekst: "Toppen er en <header> med <h1> inni",
+        test: (d) => d.querySelector("header h1") !== null,
+      },
+      {
+        tekst: "Menyen er en <nav> med lista inni",
+        test: (d) => d.querySelector("nav ul a") !== null,
+      },
+      {
+        tekst: "Hovedinnholdet står i én <main>",
+        test: (d) => d.querySelectorAll("main").length === 1 && d.querySelector("main h2") !== null,
+      },
+      {
+        tekst: "Bunnteksten står i en <footer>, utenfor <main>",
+        test: (d) => {
+          const f = d.querySelector("footer");
+          return f !== null && f.closest("main") === null && tekst(f).length > 0;
+        },
+      },
+      {
+        tekst: "Det er ingen <div> igjen",
+        test: (d) => d.querySelectorAll("div").length === 0,
+      },
+    ],
+    hint: "Bytt <div class=\"topp\"> med <header>, <div class=\"meny\"> med <nav>, <div class=\"innhold\"> med <main> og <div class=\"bunn\"> med <footer>. Husk sluttaggene også!",
+  },
+
+  "m7-artikler": {
+    html: `<header>
+  <h1>Kims turblogg</h1>
+</header>
+<main>
+  <h2>Siste innlegg</h2>
+  <div class="innlegg">
+    <h3>Første tur med ny sekk</h3>
+    <p>I helga testet jeg den nye sekken på Ulriken.</p>
+  </div>
+  <div class="innlegg">
+    <h3>Slik pakker du til fjellet</h3>
+    <p>Ullundertøy, niste og ekstra sokker. Alltid.</p>
+  </div>
+  <div class="innlegg">
+    <h3>Fem flotte utsiktspunkter</h3>
+    <p>Her er favorittene mine rundt Bergen.</p>
+  </div>
+  <h2>Om bloggen</h2>
+  <p>Jeg skriver om tur og friluftsliv.</p>
+</main>
+`,
+    sjekker: [
+      {
+        tekst: "De tre innleggene er hver sin <article> med overskrift",
+        test: (d) => {
+          const a = [...d.querySelectorAll("article")];
+          return a.length === 3 && a.every((x) => x.querySelector("h3") !== null);
+        },
+      },
+      {
+        tekst: "«Siste innlegg» og de tre innleggene står i en <section>",
+        test: (d) =>
+          [...d.querySelectorAll("section")].some(
+            (s) => /siste/i.test(tekst(s.querySelector("h2"))) && s.querySelectorAll("article").length === 3,
+          ),
+      },
+      {
+        tekst: "«Om bloggen» er en egen <section>",
+        test: (d) =>
+          [...d.querySelectorAll("section")].some(
+            (s) => /om bloggen/i.test(tekst(s.querySelector("h2"))) && s.querySelector("article") === null,
+          ),
+      },
+      {
+        tekst: "Det er ingen <div> igjen",
+        test: (d) => d.querySelectorAll("div").length === 0,
+      },
+    ],
+    hint: "Hvert <div class=\"innlegg\"> blir <article>. Pakk så «Siste innlegg» og de tre artiklene inn i én <section>, og «Om bloggen» med avsnittet i en annen.",
+  },
+
+  "m7-stil": {
+    html: `<header>
+  <h1>Fjellklubben</h1>
+  <nav>
+    <ul>
+      <li><a href="#">Turer</a></li>
+      <li><a href="#">Om oss</a></li>
+      <li><a href="#">Kontakt</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <h2>Neste tur</h2>
+  <p>Vi går til Fløyen på lørdag. Bli med!</p>
+</main>
+<footer>
+  <p>Fjellklubben 2026 · Laget av Kim</p>
+</footer>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+  color: #1d3557;
+}
+
+main {
+  padding: 16px;
+}
+`,
+    sjekker: [
+      {
+        tekst: "<header> har bakgrunnsfarge og padding",
+        test: (d) => {
+          const h = d.querySelector("header");
+          return h !== null && harBakgrunn(h) && parseFloat(stil(h).paddingLeft) >= 8;
+        },
+      },
+      {
+        tekst: "Menyen har ingen kulepunkter",
+        test: (d) => {
+          const ul = d.querySelector("nav ul");
+          return ul !== null && stil(ul).listStyleType === "none";
+        },
+      },
+      {
+        tekst: "Menylenkene er ikke understreket, og er lette å lese mot bakgrunnen",
+        test: (d) => {
+          const a = [...d.querySelectorAll("nav a")];
+          return a.length > 0 && a.every((x) => stil(x).textDecorationLine === "none" && lesbar(x));
+        },
+      },
+      {
+        tekst: "<footer> har bakgrunnsfarge, lesbar tekst og mindre skrift enn resten",
+        test: (d) => {
+          const f = d.querySelector("footer");
+          const p = d.querySelector("footer p");
+          return f !== null && p !== null && harBakgrunn(f) && lesbar(p) && px(p) < px(d.querySelector("main p"));
+        },
+      },
+    ],
+    hint: "header { background-color: #1d3557; color: white; padding: 16px; } nav ul { list-style: none; padding: 0; } nav a { color: white; text-decoration: none; } footer { background-color: #f1faee; padding: 16px; font-size: 14px; }",
+  },
+
+  "m7-id": {
+    html: `<header>
+  <h1>Fjellklubben</h1>
+  <nav>
+    <ul>
+      <li><a href="#">Turer</a></li>
+      <li><a href="#">Kontakt</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <section>
+    <h2>Turer</h2>
+    <p>Lørdag: Fløyen. Vi møtes ved Fløibanen klokka 11.</p>
+    <p>Søndag: Ulriken. Ta med gode sko, det er bratt.</p>
+    <p>Neste helg: Sandviksfjellet. Mer informasjon kommer.</p>
+    <p>I høstferien: tre dager i Jotunheimen, med overnatting på hytte.</p>
+  </section>
+  <section>
+    <h2>Kontakt</h2>
+    <p>Lurer du på noe? Spør en av turlederne.</p>
+  </section>
+</main>
+`,
+    css: `section {
+  padding: 12px;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Seksjonene har id-ene turer og kontakt",
+        test: (d) => d.getElementById("turer")?.tagName === "SECTION" && d.getElementById("kontakt")?.tagName === "SECTION",
+      },
+      {
+        tekst: "Menylenkene peker på #turer og #kontakt",
+        test: (d) => {
+          const h = [...d.querySelectorAll("nav a")].map((a) => a.getAttribute("href"));
+          return h.includes("#turer") && h.includes("#kontakt");
+        },
+      },
+      {
+        tekst: "Ingen id er brukt to ganger",
+        test: (d) => {
+          const ider = [...d.querySelectorAll("[id]")].map((e) => e.id);
+          return new Set(ider).size === ider.length;
+        },
+      },
+      {
+        tekst: "Kontakt-seksjonen er stylet med #kontakt i CSS",
+        test: (d) => {
+          const k = d.getElementById("kontakt");
+          return k !== null && regler(d).some((r) => /#kontakt\b/.test(r.selectorText) && r.style.length > 0) && harBakgrunn(k);
+        },
+      },
+    ],
+    hint: `<section id="kontakt"> og <a href="#kontakt">Kontakt</a>. I CSS: #kontakt { background-color: #f1faee; }`,
+  },
+
+  "m7-uu": {
+    html: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Fjellklubben</title>
+  </head>
+  <body>
+    <div class="topp">
+      <h1>Fjellklubben</h1>
+    </div>
+    <div class="innhold">
+      <h3>Neste tur</h3>
+      <img src="bilder/fjell.jpg">
+      <p>Vi går til Fløyen på lørdag. Påmelding <a href="#">her</a>.</p>
+    </div>
+  </body>
+</html>
+`,
+    css: `body {
+  font-family: Verdana, sans-serif;
+  color: #aaaaaa;
+}
+
+img {
+  max-width: 100%;
+}
+`,
+    bilder: ["bilder/fjell.jpg"],
+    sjekker: [
+      {
+        tekst: "<html> forteller at siden er på norsk",
+        test: (d) => /^(no|nb|nn)\b/i.test(d.documentElement.lang),
+      },
+      {
+        tekst: "Siden har <header> og <main> i stedet for div-er",
+        test: (d) => d.querySelector("header") !== null && d.querySelector("main") !== null,
+      },
+      {
+        tekst: "Overskriftene hopper ikke over nivåer",
+        test: (d) => {
+          const nivå = [...d.querySelectorAll("h1, h2, h3, h4, h5, h6")].map((h) => Number(h.tagName[1]));
+          return nivå[0] === 1 && nivå.every((n, i) => i === 0 || n <= nivå[i - 1] + 1);
+        },
+      },
+      {
+        tekst: "Bildet har en alt-tekst som beskriver det",
+        test: (d) => {
+          const img = [...d.querySelectorAll("img")];
+          return img.length > 0 && img.every(godAlt);
+        },
+      },
+      {
+        tekst: "Lenketeksten sier hvor lenken går",
+        test: (d) => {
+          const a = [...d.querySelectorAll("a")];
+          return a.length > 0 && a.every((x) => tekst(x).length > 3 && !/^(her|klikk her|les mer|link|lenke)$/i.test(tekst(x)));
+        },
+      },
+      {
+        tekst: "Teksten er lett å lese (kontrast minst 4,5:1)",
+        test: (d) => [...d.querySelectorAll("p")].every((p) => lesbar(p)),
+      },
+    ],
+    hint: "Seks feil: lang på <html>, header/main, <h3> som skulle vært <h2>, alt på bildet, lenketeksten «her», og den lysegrå tekstfargen.",
+  },
+
+  // ── Modul 8: Typografi ──────────────────────────────────────────────
+
+  "m8-lesbar": {
+    html: `<main>
+  <h1>Turen til Trolltunga – en lang og fin dag i fjellet</h1>
+  <p>Vi startet fra Skjeggedal før sola var oppe. Første del av turen er bratt, og vi tok mange pauser for å se utover Ringedalsvatnet. Etter et par timer flatet det ut, og vi gikk over store svaberg med snøflekker her og der.</p>
+  <p>Da vi endelig kom fram til Trolltunga, var det kø for å ta bilde. Men det var verdt ventetiden. Utsikten over vannet sju hundre meter under er noe av det fineste jeg har sett.</p>
+</main>
+`,
+    css: `body {
+  font-family: Georgia, serif;
+  line-height: 1.1;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Avsnittene har en linjeavstand mellom 1,4 og 1,8",
+        test: (d) => {
+          const p = d.querySelector("p");
+          if (!p) return false;
+          const forhold = parseFloat(stil(p).lineHeight) / px(p);
+          return forhold >= 1.4 && forhold <= 1.8;
+        },
+      },
+      {
+        tekst: "Overskriften har tettere linjeavstand enn avsnittene",
+        test: (d) => {
+          const h1 = d.querySelector("h1");
+          const p = d.querySelector("p");
+          if (!h1 || !p) return false;
+          return parseFloat(stil(h1).lineHeight) / px(h1) < parseFloat(stil(p).lineHeight) / px(p) - 0.15;
+        },
+      },
+      {
+        tekst: "<main> har en max-width mellom 45ch og 75ch",
+        test: (d) => {
+          const main = d.querySelector("main");
+          return (
+            main !== null &&
+            regler(d).some((r) => {
+              const m = /^([\d.]+)ch$/.exec(r.style.maxWidth);
+              return m !== null && main.matches(r.selectorText) && Number(m[1]) >= 45 && Number(m[1]) <= 75;
+            })
+          );
+        },
+      },
+    ],
+    hint: "body { line-height: 1.6; } h1 { line-height: 1.2; } main { max-width: 65ch; margin: 0 auto; }",
+  },
+
+  "m8-rem": {
+    html: `<h1>Klubbavisa</h1>
+<h2>Høstens turer</h2>
+<p>Vi har planlagt seks turer denne høsten, fra korte ettermiddagsturer til en helgetur med telt.</p>
+<p class="liten">Sist oppdatert 1. september</p>
+`,
+    css: `h1 {
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+p {
+  font-size: 18px;
+}
+
+.liten {
+  font-size: 14px;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Skriftstørrelsene står i rem – ikke i px",
+        test: (d) =>
+          !/font-size\s*:\s*[\d.]+px/i.test(stilarkTekst(d)) &&
+          regler(d).filter((r) => r.style.fontSize).every((r) => r.style.fontSize.endsWith("rem")),
+      },
+      {
+        tekst: "Størrelsene er de samme som før: 32, 24, 18 og 14 piksler",
+        test: (d) =>
+          px(d.querySelector("h1")) === 32 &&
+          px(d.querySelector("h2")) === 24 &&
+          px(d.querySelector("p:not(.liten)")) === 18 &&
+          px(d.querySelector(".liten")) === 14,
+      },
+      {
+        tekst: "Når brukeren gjør teksten større i nettleseren, blir alt større",
+        test: (d) => {
+          const rot = d.documentElement;
+          const før = rot.style.fontSize;
+          rot.style.fontSize = "20px";
+          const ok = px(d.querySelector("h1")) === 40 && px(d.querySelector(".liten")) === 17.5;
+          rot.style.fontSize = før;
+          return ok;
+        },
+      },
+    ],
+    hint: "Del på 16: 32px = 2rem, 24px = 1.5rem, 18px = 1.125rem og 14px = 0.875rem.",
+  },
+
+  "m8-skala": {
+    html: `<h1>Fjellturer i Vestland</h1>
+<h2>Ulriken fra sør</h2>
+<h3>Hva du trenger</h3>
+<p>Gode sko, niste og vann. Turen tar rundt tre timer.</p>
+`,
+    css: `p {
+  font-size: 1rem;
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h1 {
+  font-size: 2rem;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Hvert nivå er større enn nivået under: p < h3 < h2 < h1",
+        test: (d) => {
+          const s = ["p", "h3", "h2", "h1"].map((t) => px(d.querySelector(t)));
+          return s.every((x, i) => i === 0 || x > s[i - 1]);
+        },
+      },
+      {
+        tekst: "Hvert trinn er mellom 1,1 og 1,65 ganger større enn trinnet under",
+        test: (d) => {
+          const s = ["p", "h3", "h2", "h1"].map((t) => px(d.querySelector(t)));
+          return s.slice(1).every((x, i) => x / s[i] >= 1.1 && x / s[i] <= 1.65);
+        },
+      },
+      {
+        tekst: "Forholdet er omtrent det samme hele veien",
+        test: (d) => {
+          const s = ["p", "h3", "h2", "h1"].map((t) => px(d.querySelector(t)));
+          const f = s.slice(1).map((x, i) => x / s[i]);
+          return Math.max(...f) - Math.min(...f) <= 0.08;
+        },
+      },
+    ],
+    hint: "Med forholdet 1,25: h3 { font-size: 1.25rem; } h2 { font-size: 1.563rem; } h1 { font-size: 1.953rem; }",
+  },
+
+  "m8-webfont": {
+    html: `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Fjellklubben</title>
+  </head>
+  <body>
+    <h1>Fjellklubben</h1>
+    <p>Vi går på tur hver helg, hele året. Alle er velkomne – du trenger bare gode sko.</p>
+  </body>
+</html>
+`,
+    css: `body {
+  font-family: Georgia, serif;
+  line-height: 1.6;
+}
+`,
+    sjekker: [
+      {
+        tekst: "En <link> i <head> henter en font fra Google Fonts",
+        test: (d) => d.querySelector('head link[href*="fonts.googleapis.com"]') !== null,
+      },
+      {
+        tekst: "Overskriften bruker fonten fra lenken, med en reserve til slutt",
+        test: (d) => {
+          const href = d.querySelector('link[href*="fonts.googleapis.com"]')?.getAttribute("href") ?? "";
+          const fonter = [...href.matchAll(/family=([^:&]+)/g)].map((m) => decodeURIComponent(m[1]).replace(/\+/g, " ").toLowerCase());
+          const h1 = d.querySelector("h1");
+          if (!h1) return false;
+          const liste = stil(h1).fontFamily.split(",").map((f) => f.trim().replace(/["']/g, "").toLowerCase());
+          return fonter.includes(liste[0]) && /^(serif|sans-serif|monospace|cursive|system-ui)$/.test(liste.at(-1) ?? "");
+        },
+      },
+      {
+        tekst: "Brødteksten bruker en annen skrift enn overskriften",
+        test: (d) => {
+          const h1 = d.querySelector("h1");
+          const p = d.querySelector("p");
+          return h1 !== null && p !== null && stil(h1).fontFamily !== stil(p).fontFamily;
+        },
+      },
+    ],
+    hint: `I <head>: <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@700&display=swap">. I CSS: h1 { font-family: "Lora", serif; }`,
+  },
+
+  "m8-sitat": {
+    html: `<h1>Ukas ordtak</h1>
+<p>Før du pakker sekken, er det lurt å huske hva de gamle sa:</p>
+<p>Det finnes ikke dårlig vær, bare dårlige klær. – Norsk ordtak</p>
+`,
+    css: `body {
+  font-family: Georgia, serif;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Sitatet står i en <blockquote>",
+        test: (d) => /dårlig vær/i.test(tekst(d.querySelector("blockquote"))),
+      },
+      {
+        tekst: "Hvem som har sagt det, står i en <footer> eller <cite> inni sitatet",
+        test: (d) => /ordtak/i.test(tekst(d.querySelector("blockquote footer, blockquote cite"))),
+      },
+      {
+        tekst: "Sitatet har en strek på venstre side, og luft mellom streken og teksten",
+        test: (d) => {
+          const b = d.querySelector("blockquote");
+          if (!b) return false;
+          const s = stil(b);
+          return parseFloat(s.borderLeftWidth) >= 3 && s.borderLeftStyle !== "none" && parseFloat(s.paddingLeft) >= 8;
+        },
+      },
+    ],
+    hint: `<blockquote><p>Det finnes ikke dårlig vær, bare dårlige klær.</p><footer>– Norsk ordtak</footer></blockquote>, og blockquote { border-left: 4px solid #a8dadc; padding-left: 16px; }`,
+  },
+
+  "m8-tegn": {
+    html: `<h1>HTML-tips</h1>
+<p>Et avsnitt starter med <p> og slutter med </p>.</p>
+<p>Mindre enn skrives som <, og større enn som >.</p>
+<footer>
+  <p>(c) 2026 Kim</p>
+</footer>
+`,
+    css: `footer {
+  font-size: 0.875rem;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Teksten viser <p> og </p> som tekst",
+        test: (d) => [...d.querySelectorAll("p")].some((p) => tekst(p).includes("<p>") && tekst(p).includes("</p>")),
+      },
+      {
+        tekst: "Det er bare tre avsnitt: to tips og bunnteksten",
+        test: (d) => d.querySelectorAll("p").length === 3 && [...d.querySelectorAll("p")].every((p) => tekst(p).length > 2),
+      },
+      {
+        tekst: "Bunnteksten har et ekte ©-tegn",
+        test: (d) => tekst(d.querySelector("footer")).includes("©") && !/\(c\)/i.test(tekst(d.querySelector("footer"))),
+      },
+    ],
+    hint: "Skriv &lt; for < og &gt; for >. &copy; blir ©.",
+  },
+
+  // ── Modul 9: Selektorer og kaskaden ─────────────────────────────────
+
+  "m9-tabell": {
+    html: `<h1>Høstens turer</h1>
+<p>5. oktober: Fløyen, 1 time, lett</p>
+<p>12. oktober: Ulriken, 3 timer, middels</p>
+<p>19. oktober: Stoltzekleiven, 1 time, krevende</p>
+`,
+    css: `table {
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #a8dadc;
+  padding: 4px 10px;
+  text-align: left;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Turene står i en <table> med en <caption>",
+        test: (d) => tekst(d.querySelector("table > caption")).length > 0,
+      },
+      {
+        tekst: "<thead> har overskrifter (<th>) for dato, tur, tid og vanskelighet",
+        test: (d) => d.querySelectorAll("thead th").length >= 4,
+      },
+      {
+        tekst: "<tbody> har én rad per tur, med en celle under hver overskrift",
+        test: (d) => {
+          const th = d.querySelectorAll("thead th").length;
+          const rader = [...d.querySelectorAll("tbody tr")];
+          return rader.length === 3 && rader.every((r) => r.querySelectorAll("td").length === th);
+        },
+      },
+      {
+        tekst: "Turene står ikke lenger i avsnitt",
+        test: (d) => [...d.querySelectorAll("p")].every((p) => !/oktober/i.test(tekst(p))),
+      },
+    ],
+    hint: "<table><caption>…</caption><thead><tr><th>Dato</th><th>Tur</th><th>Tid</th><th>Vanskelighet</th></tr></thead><tbody><tr><td>5. oktober</td>…</tr></tbody></table>",
+  },
+
+  "m9-dl": {
+    html: `<h1>Ordliste for fjellet</h1>
+<p>Varde: En steinhaug som viser hvor stien går.</p>
+<p>Tregrense: Høyden der skogen slutter.</p>
+<p>Dagstur: En tur uten overnatting.</p>
+`,
+    css: `dt {
+  font-weight: bold;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Ordene står i en <dl> som <dt>",
+        test: (d) => {
+          const dt = [...d.querySelectorAll("dl > dt")].map((x) => tekst(x).toLowerCase());
+          return ["varde", "tregrense", "dagstur"].every((o) => dt.some((x) => x.startsWith(o)));
+        },
+      },
+      {
+        tekst: "Hvert ord følges av forklaringen sin i en <dd>",
+        test: (d) => {
+          const dt = [...d.querySelectorAll("dl > dt")];
+          return dt.length === 3 && dt.every((x) => x.nextElementSibling?.tagName === "DD" && tekst(x.nextElementSibling).length > 5);
+        },
+      },
+      {
+        tekst: "Ingen kolon eller avsnitt igjen",
+        test: (d) => d.querySelectorAll("p").length === 0 && ![...d.querySelectorAll("dt")].some((x) => tekst(x).includes(":")),
+      },
+    ],
+    hint: "<dl><dt>Varde</dt><dd>En steinhaug som viser hvor stien går.</dd> … </dl>",
+  },
+
+  "m9-kombinator": {
+    html: `<nav>
+  <ul class="meny">
+    <li><a href="#">Forside</a></li>
+    <li><a href="#">Turer</a>
+      <ul>
+        <li><a href="#">Fjell</a></li>
+        <li><a href="#">Skog</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<article>
+  <h2>Ulriken</h2>
+  <p>Bergens høyeste fjell, 643 meter over havet.</p>
+  <p>Ta <a href="#">Ulriksbanen</a> opp, og gå ned.</p>
+</article>
+`,
+    css: ``,
+    sjekker: [
+      {
+        tekst: "Lenker inni artikkelen er fete – menylenkene er det ikke",
+        test: (d) => {
+          const vekt = (a: Element) => Number(stil(a).fontWeight);
+          return (
+            [...d.querySelectorAll("article a")].every((a) => vekt(a) >= 600) &&
+            [...d.querySelectorAll("nav a")].every((a) => vekt(a) < 600)
+          );
+        },
+      },
+      {
+        tekst: "Bare de øverste menypunktene har bakgrunnsfarge – ikke de i undermenyen",
+        test: (d) =>
+          [...d.querySelectorAll(".meny > li")].every(harBakgrunn) &&
+          [...d.querySelectorAll(".meny li li")].every((li) => !harBakgrunn(li)),
+      },
+      {
+        tekst: "Avsnittet rett etter overskriften er større enn de andre avsnittene",
+        test: (d) => {
+          const første = d.querySelector("h2 + p");
+          const andre = d.querySelector("h2 + p ~ p");
+          return første !== null && andre !== null && px(første) > px(andre);
+        },
+      },
+    ],
+    hint: "article a { font-weight: bold; } .meny > li { background-color: #f1faee; } h2 + p { font-size: 1.25rem; }",
+  },
+
+  "m9-stripete": {
+    html: `<table>
+  <caption>Turer i høst</caption>
+  <thead>
+    <tr><th>Tur</th><th>Timer</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Fløyen</td><td>1</td></tr>
+    <tr><td>Ulriken</td><td>3</td></tr>
+    <tr><td>Stoltzekleiven</td><td>1</td></tr>
+    <tr><td>Rundemanen</td><td>4</td></tr>
+    <tr><td>Lyderhorn</td><td>2</td></tr>
+  </tbody>
+</table>
+`,
+    css: `table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 6px 10px;
+  text-align: left;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Annenhver rad i <tbody> har en annen bakgrunnsfarge",
+        test: (d) => {
+          const bg = [...d.querySelectorAll("tbody tr")].map((r) => synligBakgrunn(r.querySelector("td")).join());
+          return bg.length === 5 && bg[0] !== bg[1] && bg[0] === bg[2] && bg[2] === bg[4] && bg[1] === bg[3];
+        },
+      },
+      {
+        tekst: "Overskriftsraden skiller seg ut fra radene under",
+        test: (d) => {
+          const th = synligBakgrunn(d.querySelector("th")).join();
+          return [...d.querySelectorAll("tbody td")].every((td) => synligBakgrunn(td).join() !== th);
+        },
+      },
+      {
+        tekst: "All tekst i tabellen er lett å lese",
+        test: (d) => [...d.querySelectorAll("th, td")].every((c) => lesbar(c)),
+      },
+    ],
+    hint: "tbody tr:nth-child(even) { background-color: #f1faee; } th { background-color: #1d3557; color: white; }",
+  },
+
+  "m9-focus": {
+    html: `<nav>
+  <a href="#">Turer</a>
+  <a href="#">Om oss</a>
+  <a href="#">Kontakt</a>
+</nav>
+<p>Prøv å klikke i forhåndsvisningen og trykke Tab – ser du hvilken lenke du står på?</p>
+`,
+    css: `nav a {
+  color: #1d3557;
+  text-decoration: none;
+  margin-right: 12px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: none;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Ingen regel fjerner fokusmarkeringen",
+        test: (d) =>
+          !regler(d).some(
+            (r) => /:focus/.test(r.selectorText) && (r.style.outlineStyle === "none" || r.style.outlineWidth === "0px"),
+          ),
+      },
+      {
+        tekst: "Lenkene har en tydelig egen stil når de har fokus",
+        test: (d) =>
+          regler(d).some(
+            (r) =>
+              /\ba:focus(-visible)?\b/.test(r.selectorText) &&
+              ["outline-style", "outline", "background-color", "box-shadow", "text-decoration-line"].some(
+                (e) => r.style.getPropertyValue(e) !== "" && r.style.getPropertyValue(e) !== "none",
+              ),
+          ),
+      },
+    ],
+    hint: "Slett a:focus { outline: none; }. Lag heller: a:focus-visible { outline: 3px solid #e63946; outline-offset: 2px; }",
+  },
+
+  "m9-kaskade": {
+    html: `<nav id="meny">
+  <a href="#">Turer</a>
+  <a href="#">Om oss</a>
+  <a href="#" class="knapp">Bli medlem</a>
+</nav>
+`,
+    css: `#meny a {
+  color: #1d3557;
+  background-color: transparent;
+  padding: 6px 10px;
+  text-decoration: none;
+}
+
+.knapp {
+  color: white;
+  background-color: #e63946;
+  border-radius: 6px;
+}
+`,
+    sjekker: [
+      {
+        tekst: "«Bli medlem» er en rød knapp med hvit tekst",
+        test: (d) => {
+          const k = d.querySelector(".knapp");
+          return k !== null && stil(k).backgroundColor === "rgb(230, 57, 70)" && farge(k) === "rgb(255, 255, 255)";
+        },
+      },
+      {
+        tekst: "De andre lenkene er som før",
+        test: (d) =>
+          [...d.querySelectorAll("#meny a:not(.knapp)")].every(
+            (a) => farge(a) === "rgb(29, 53, 87)" && !harBakgrunn(a),
+          ),
+      },
+      {
+        tekst: "Uten !important",
+        test: (d) => !/!\s*important/i.test(stilarkTekst(d)),
+      },
+    ],
+    hint: "#meny a har spesifisiteten (1, 0, 1), og .knapp bare (0, 1, 0). Gjør knapp-regelen sterkere: #meny .knapp har (1, 1, 0).",
+  },
+
+  // ── Modul 10: Display og flyt ───────────────────────────────────────
+
+  "m10-merkelapper": {
+    html: `<h1>Ulriken</h1>
+<p>
+  <span class="merke">Bratt</span>
+  <span class="merke">3 timer</span>
+  <span class="merke">Utsikt</span>
+</p>
+<p>Bergens høyeste fjell, med utsikt over hele byen.</p>
+`,
+    css: `p {
+  margin: 4px 0;
+}
+
+.merke {
+  background-color: #a8dadc;
+  color: #1d3557;
+  padding: 10px 14px;
+  margin: 12px 4px;
+  border-radius: 999px;
+}
+`,
+    sjekker: [
+      {
+        tekst: ".merke er inline-block",
+        test: (d) => {
+          const m = [...d.querySelectorAll(".merke")];
+          return m.length === 3 && m.every((x) => stil(x).display === "inline-block");
+        },
+      },
+      {
+        tekst: "Merkelappene står fortsatt ved siden av hverandre",
+        test: (d) => {
+          const t = [...d.querySelectorAll(".merke")].map((x) => x.getBoundingClientRect().top);
+          return t.length === 3 && t.every((x) => Math.abs(x - t[0]) < 1);
+        },
+      },
+      {
+        tekst: "Avsnittet under blir ikke dekket av merkelappene",
+        test: (d) => {
+          const bunn = Math.max(...[...d.querySelectorAll(".merke")].map((x) => x.getBoundingClientRect().bottom));
+          const p = d.querySelectorAll("p")[1];
+          return p !== undefined && p.getBoundingClientRect().top >= bunn;
+        },
+      },
+    ],
+    hint: "Legg til display: inline-block; i .merke-regelen.",
+  },
+
+  "m10-meny": {
+    html: `<header>
+  <nav>
+    <ul>
+      <li><a href="#">Forside</a></li>
+      <li><a href="#">Turer</a></li>
+      <li><a href="#">Om oss</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <h1>Fjellklubben</h1>
+</main>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: #1d3557;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Menypunktene står ved siden av hverandre",
+        test: (d) => {
+          const r = [...d.querySelectorAll("nav li")].map((x) => x.getBoundingClientRect());
+          return r.length === 3 && r.every((x) => Math.abs(x.top - r[0].top) < 1) && r[0].left < r[1].left && r[1].left < r[2].left;
+        },
+      },
+      {
+        tekst: "Hver lenke er en boks med padding, minst 40 piksler høy",
+        test: (d) => {
+          const a = [...d.querySelectorAll("nav a")];
+          return a.length === 3 && a.every((x) => stil(x).display !== "inline" && x.getBoundingClientRect().height >= 40);
+        },
+      },
+      {
+        tekst: "Den blå menylinja er like høy som lenkene",
+        test: (d) => {
+          const ul = d.querySelector("nav ul")?.getBoundingClientRect();
+          const a = d.querySelector("nav a")?.getBoundingClientRect();
+          return ul !== undefined && a !== undefined && ul.height >= a.height - 1;
+        },
+      },
+      {
+        tekst: "Lenkene endrer seg når musa er over",
+        test: (d) =>
+          regler(d).some(
+            (r) => /\ba:hover\b/.test(r.selectorText) && (r.style.backgroundColor !== "" || r.style.color !== "" || r.style.textDecorationLine !== ""),
+          ),
+      },
+    ],
+    hint: "nav li { display: inline-block; } nav a { display: inline-block; padding: 12px 16px; } nav a:hover { background-color: #457b9d; }",
+  },
+
+  "m10-overflow": {
+    html: `<h1>Gjestebok</h1>
+<div class="boks">
+  <p>Takk for en fin tur! Vi kommer gjerne igjen.</p>
+  <p>Se bildene mine: https://www.eksempel.no/bilder/2026/fjellturmedfjellklubbentilulrikenioktober.html</p>
+  <p>Fantastisk utsikt fra toppen. Litt bratt i starten, men verdt det.</p>
+  <p>Neste gang tar vi med kakao til alle!</p>
+</div>
+<p>Skriv gjerne en hilsen du også.</p>
+`,
+    css: `.boks {
+  height: 120px;
+  padding: 10px;
+  border: 2px solid #1d3557;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Boksen er fortsatt 120 piksler høy",
+        test: (d) => {
+          const b = d.querySelector(".boks");
+          return b !== null && Math.abs(parseFloat(stil(b).height) - 120) < 1;
+        },
+      },
+      {
+        tekst: "Teksten flyter ikke ut av boksen – man kan rulle i den i stedet",
+        test: (d) => {
+          const b = d.querySelector(".boks");
+          return b !== null && ["auto", "scroll"].includes(stil(b).overflowY);
+        },
+      },
+      {
+        tekst: "Den lange adressen bryter over flere linjer i stedet for å stikke ut til siden",
+        test: (d) => {
+          const b = d.querySelector(".boks");
+          return b !== null && b.scrollWidth <= b.clientWidth + 1;
+        },
+      },
+    ],
+    hint: ".boks { overflow: auto; overflow-wrap: anywhere; }",
+  },
+
+  "m10-skjul": {
+    html: `<h1>Turer i høst</h1>
+<p class="melding">Påmeldingen åpner 1. september.</p>
+<p>Lørdag: Fløyen. Vi møtes ved Fløibanen klokka 11.</p>
+<p>Søndag: Ulriken. Ta med gode sko!</p>
+`,
+    css: `.melding {
+  background-color: #fdf3d0;
+  padding: 10px;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Meldingen om påmelding vises ikke lenger",
+        test: (d) => {
+          const m = d.querySelector(".melding");
+          return m !== null && (stil(m).display === "none" || stil(m).visibility === "hidden");
+        },
+      },
+      {
+        tekst: "Det står ikke igjen noe tomt hull der meldingen var",
+        test: (d) => {
+          const m = d.querySelector(".melding");
+          return m !== null && stil(m).display === "none";
+        },
+      },
+      {
+        tekst: "Meldingen er fortsatt i HTML-en – den er bare skjult med CSS",
+        test: (d) => tekst(d.querySelector(".melding")).includes("Påmeldingen"),
+      },
+    ],
+    hint: ".melding { display: none; } – ikke visibility: hidden, som lar plassen stå tom.",
+  },
+
+  // ── Modul 11: Flexbox ───────────────────────────────────────────────
+
+  "m11-rad": {
+    html: `<h1>Ukas turer</h1>
+<div class="kort-rad">
+  <article class="kort">
+    <h2>Fløyen</h2>
+    <p>Lett, 1 time.</p>
+  </article>
+  <article class="kort">
+    <h2>Ulriken</h2>
+    <p>Middels, 3 timer.</p>
+  </article>
+  <article class="kort">
+    <h2>Stoltzen</h2>
+    <p>Krevende, 1 time.</p>
+  </article>
+</div>
+`,
+    css: `.kort {
+  padding: 10px;
+  background-color: #f1faee;
+  border: 2px solid #a8dadc;
+  border-radius: 8px;
+}
+
+.kort h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+`,
+    sjekker: [
+      {
+        tekst: ".kort-rad er en flex-container",
+        test: (d) => {
+          const r = d.querySelector(".kort-rad");
+          return r !== null && stil(r).display === "flex";
+        },
+      },
+      {
+        tekst: "Kortene står ved siden av hverandre",
+        test: (d) => {
+          const r = [...d.querySelectorAll(".kort")].map((k) => k.getBoundingClientRect());
+          return r.length === 3 && r.every((x) => Math.abs(x.top - r[0].top) < 1) && r[0].left < r[1].left && r[1].left < r[2].left;
+        },
+      },
+      {
+        tekst: "Det er minst 12px mellomrom mellom kortene",
+        test: (d) => {
+          const r = [...d.querySelectorAll(".kort")].map((k) => k.getBoundingClientRect());
+          return r.length === 3 && r[1].left - r[0].right >= 12 && r[2].left - r[1].right >= 12;
+        },
+      },
+    ],
+    hint: ".kort-rad { display: flex; gap: 16px; }",
+  },
+
+  "m11-sentrer": {
+    html: `<div class="scene">
+  <div class="boks">Midt i!</div>
+</div>
+`,
+    css: `.scene {
+  height: 200px;
+  background-color: #1d3557;
+}
+
+.boks {
+  width: 100px;
+  padding: 10px;
+  background-color: #f4a261;
+  text-align: center;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Boksen står midt på – vannrett",
+        test: (d) => {
+          const s = d.querySelector(".scene")?.getBoundingClientRect();
+          const b = d.querySelector(".boks")?.getBoundingClientRect();
+          return s !== undefined && b !== undefined && Math.abs(s.left + s.width / 2 - (b.left + b.width / 2)) <= 1;
+        },
+      },
+      {
+        tekst: "Boksen står midt på – loddrett",
+        test: (d) => {
+          const s = d.querySelector(".scene")?.getBoundingClientRect();
+          const b = d.querySelector(".boks")?.getBoundingClientRect();
+          return (
+            s !== undefined && b !== undefined &&
+            b.height < s.height - 20 &&
+            Math.abs(s.top + s.height / 2 - (b.top + b.height / 2)) <= 1
+          );
+        },
+      },
+      {
+        tekst: "Scenen er fortsatt 200 piksler høy, og boksen 100 piksler bred",
+        test: (d) => {
+          const s = d.querySelector(".scene")?.getBoundingClientRect();
+          const b = d.querySelector(".boks");
+          return s !== undefined && b !== null && Math.abs(s.height - 200) < 1 && parseFloat(stil(b).width) === 100;
+        },
+      },
+    ],
+    hint: ".scene { display: flex; justify-content: center; align-items: center; }",
+  },
+
+  "m11-topp": {
+    html: `<header>
+  <a href="#" class="logo">Fjellklubben</a>
+  <nav>
+    <a href="#">Turer</a>
+    <a href="#">Om oss</a>
+  </nav>
+</header>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+}
+
+header {
+  background-color: #1d3557;
+  padding: 12px 16px;
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+}
+
+.logo {
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Logoen står helt til venstre, og menyen helt til høyre",
+        test: (d) => {
+          const h = d.querySelector("header");
+          const l = d.querySelector(".logo")?.getBoundingClientRect();
+          const n = d.querySelector("nav")?.getBoundingClientRect();
+          if (!h || !l || !n) return false;
+          const r = h.getBoundingClientRect();
+          const p = parseFloat(stil(h).paddingLeft);
+          return Math.abs(l.left - (r.left + p)) <= 2 && Math.abs(r.right - p - n.right) <= 2 && n.left - l.right >= 8;
+        },
+      },
+      {
+        tekst: "Logoen og menyen er midtstilt i høyden (align-items: center)",
+        test: (d) => {
+          const h = d.querySelector("header");
+          const l = d.querySelector(".logo")?.getBoundingClientRect();
+          const n = d.querySelector("nav")?.getBoundingClientRect();
+          return (
+            h !== null && l !== undefined && n !== undefined &&
+            stil(h).alignItems === "center" &&
+            Math.abs(l.top + l.height / 2 - (n.top + n.height / 2)) <= 2
+          );
+        },
+      },
+      {
+        tekst: "Menylenkene har minst 10px mellomrom",
+        test: (d) => {
+          const a = [...d.querySelectorAll("nav a")].map((x) => x.getBoundingClientRect());
+          return a.length >= 2 && a.slice(1).every((x, i) => x.left - a[i].right >= 10);
+        },
+      },
+    ],
+    hint: "header { display: flex; justify-content: space-between; align-items: center; } nav { display: flex; gap: 16px; }",
+  },
+
+  "m11-wrap": {
+    html: `<h1>Bilder fra turene</h1>
+<div class="galleri">
+  <div class="kort">Fløyen</div>
+  <div class="kort">Ulriken</div>
+  <div class="kort">Stoltzen</div>
+  <div class="kort">Lyderhorn</div>
+  <div class="kort">Rundemanen</div>
+  <div class="kort">Sandviken</div>
+</div>
+`,
+    css: `.galleri {
+  display: flex;
+  gap: 10px;
+}
+
+.kort {
+  width: 140px;
+  height: 80px;
+  flex-shrink: 0;
+  padding: 8px;
+  background-color: #a8dadc;
+  color: #1d3557;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Ingen kort stikker ut av galleriet",
+        test: (d) => {
+          const g = d.querySelector(".galleri")?.getBoundingClientRect();
+          return g !== undefined && [...d.querySelectorAll(".kort")].every((k) => k.getBoundingClientRect().right <= g.right + 0.5);
+        },
+      },
+      {
+        tekst: "Kortene fordeler seg på flere rader",
+        test: (d) => new Set([...d.querySelectorAll(".kort")].map((k) => Math.round(k.getBoundingClientRect().top))).size >= 2,
+      },
+      {
+        tekst: "Det er mellomrom mellom radene også",
+        test: (d) => {
+          const k = [...d.querySelectorAll(".kort")].map((x) => x.getBoundingClientRect());
+          const andreRad = k.find((x) => x.top > k[0].bottom - 1);
+          return andreRad !== undefined && andreRad.top - k[0].bottom >= 8;
+        },
+      },
+      {
+        tekst: "Kortene er fortsatt 140 piksler brede",
+        test: (d) => [...d.querySelectorAll(".kort")].every((k) => parseFloat(stil(k).width) === 140),
+      },
+    ],
+    hint: ".galleri { flex-wrap: wrap; }",
+  },
+
+  "m11-meny": {
+    html: `<nav>
+  <ul>
+    <li><a href="#">Forside</a></li>
+    <li><a href="#">Turer</a></li>
+    <li class="logg-inn"><a href="#">Logg inn</a></li>
+  </ul>
+</nav>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: #1d3557;
+}
+
+nav a {
+  display: block;
+  padding: 12px 16px;
+  color: white;
+  text-decoration: none;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Lista i menyen er en flex-container",
+        test: (d) => {
+          const ul = d.querySelector("nav ul");
+          return ul !== null && stil(ul).display === "flex";
+        },
+      },
+      {
+        tekst: "Menypunktene står på rad",
+        test: (d) => {
+          const t = [...d.querySelectorAll("nav li")].map((x) => x.getBoundingClientRect().top);
+          return t.length === 3 && t.every((x) => Math.abs(x - t[0]) < 1);
+        },
+      },
+      {
+        tekst: "«Logg inn» står helt til høyre, med de andre til venstre",
+        test: (d) => {
+          const ul = d.querySelector("nav ul")?.getBoundingClientRect();
+          const li = [...d.querySelectorAll("nav li")].map((x) => x.getBoundingClientRect());
+          if (!ul || li.length !== 3) return false;
+          const [første, nestSiste, siste] = li;
+          return (
+            Math.abs(ul.right - siste.right) <= 1 && Math.abs(ul.left - første.left) <= 1 && siste.left - nestSiste.right > 30
+          );
+        },
+      },
+    ],
+    hint: "nav ul { display: flex; } .logg-inn { margin-left: auto; }",
+  },
+
+  // ── Modul 12: Grid og posisjonering ─────────────────────────────────
+
+  "m12-kolonner": {
+    html: `<div class="rutenett">
+  <div class="boks">Meny</div>
+  <div class="boks">Innhold</div>
+  <div class="boks">Fakta</div>
+</div>
+`,
+    css: `.boks {
+  padding: 12px;
+  background-color: #a8dadc;
+}
+`,
+    sjekker: [
+      {
+        tekst: ".rutenett er et grid",
+        test: (d) => {
+          const r = d.querySelector(".rutenett");
+          return r !== null && stil(r).display === "grid";
+        },
+      },
+      {
+        tekst: "De tre boksene står i tre kolonner ved siden av hverandre",
+        test: (d) => {
+          const b = [...d.querySelectorAll(".boks")].map((x) => x.getBoundingClientRect());
+          return b.length === 3 && b.every((x) => Math.abs(x.top - b[0].top) < 1) && b[0].left < b[1].left && b[1].left < b[2].left;
+        },
+      },
+      {
+        tekst: "Den midterste kolonnen er dobbelt så bred som de andre",
+        test: (d) => {
+          const b = [...d.querySelectorAll(".boks")].map((x) => x.getBoundingClientRect().width);
+          return b.length === 3 && Math.abs(b[1] / b[0] - 2) < 0.05 && Math.abs(b[1] / b[2] - 2) < 0.05;
+        },
+      },
+      {
+        tekst: "Det er minst 10px mellomrom mellom kolonnene",
+        test: (d) => {
+          const b = [...d.querySelectorAll(".boks")].map((x) => x.getBoundingClientRect());
+          return b.length === 3 && b[1].left - b[0].right >= 10 && b[2].left - b[1].right >= 10;
+        },
+      },
+    ],
+    hint: ".rutenett { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: 12px; }",
+  },
+
+  "m12-autofit": {
+    html: `<div class="galleri">
+  <div class="kort">Fløyen</div>
+  <div class="kort">Ulriken</div>
+  <div class="kort">Stoltzen</div>
+  <div class="kort">Lyderhorn</div>
+  <div class="kort">Rundemanen</div>
+  <div class="kort">Sandviken</div>
+</div>
+`,
+    css: `.kort {
+  height: 70px;
+  padding: 8px;
+  background-color: #f4a261;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Galleriet er et grid med repeat(auto-fit, minmax(…))",
+        test: (d) =>
+          regler(d).some((r) => /repeat\(\s*auto-(fit|fill)\s*,\s*minmax\(/.test(r.style.gridTemplateColumns)) &&
+          stil(d.querySelector(".galleri")!).display === "grid",
+      },
+      {
+        tekst: "Ingen kort stikker ut, og de er minst 100 piksler brede",
+        test: (d) => {
+          const g = d.querySelector(".galleri")?.getBoundingClientRect();
+          const k = [...d.querySelectorAll(".kort")].map((x) => x.getBoundingClientRect());
+          return g !== undefined && k.length === 6 && k.every((x) => x.right <= g.right + 0.5 && x.width >= 100);
+        },
+      },
+      {
+        tekst: "Antallet kolonner tilpasser seg bredden – flere når det er plass, færre når det er trangt",
+        test: (d) => {
+          const g = d.querySelector<HTMLElement>(".galleri");
+          if (!g) return false;
+          const kolonner = (bredde: string) => {
+            g.style.width = bredde;
+            return new Set([...d.querySelectorAll(".kort")].map((x) => Math.round(x.getBoundingClientRect().left))).size;
+          };
+          const før = g.style.width;
+          const smal = kolonner("220px");
+          const bred = kolonner("700px");
+          g.style.width = før;
+          return bred > smal && smal >= 1;
+        },
+      },
+    ],
+    hint: ".galleri { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }",
+  },
+
+  "m12-oppsett": {
+    html: `<div class="side">
+  <header class="topp">Fjellklubben</header>
+  <nav class="meny">Meny</nav>
+  <main class="innhold">Her kommer innholdet.</main>
+  <footer class="bunn">© 2026 Fjellklubben</footer>
+</div>
+`,
+    css: `.side {
+  min-height: 300px;
+  gap: 8px;
+}
+
+.topp { background-color: #1d3557; color: white; padding: 12px; }
+.meny { background-color: #457b9d; color: white; padding: 12px; }
+.innhold { background-color: #f1faee; padding: 12px; }
+.bunn { background-color: #264653; color: white; padding: 12px; }
+`,
+    sjekker: [
+      {
+        tekst: ".side er et grid med grid-template-areas",
+        test: (d) => {
+          const s = d.querySelector(".side");
+          return s !== null && stil(s).display === "grid" && stil(s).gridTemplateAreas !== "none";
+        },
+      },
+      {
+        tekst: "Toppen og bunnen går over hele bredden",
+        test: (d) => {
+          const s = d.querySelector(".side")?.getBoundingClientRect();
+          return (
+            s !== undefined &&
+            [".topp", ".bunn"].every((k) => {
+              const r = d.querySelector(k)?.getBoundingClientRect();
+              return r !== undefined && Math.abs(r.left - s.left) < 1 && Math.abs(r.right - s.right) < 1;
+            })
+          );
+        },
+      },
+      {
+        tekst: "Menyen står til venstre for innholdet, på samme rad – og innholdet er bredest",
+        test: (d) => {
+          const m = d.querySelector(".meny")?.getBoundingClientRect();
+          const i = d.querySelector(".innhold")?.getBoundingClientRect();
+          return m !== undefined && i !== undefined && Math.abs(m.top - i.top) < 1 && m.right <= i.left && i.width > m.width;
+        },
+      },
+      {
+        tekst: "Rekkefølgen er topp, så meny og innhold, så bunn",
+        test: (d) => {
+          const [t, m, b] = [".topp", ".meny", ".bunn"].map((k) => d.querySelector(k)?.getBoundingClientRect());
+          return t !== undefined && m !== undefined && b !== undefined && t.bottom <= m.top && m.bottom <= b.top;
+        },
+      },
+    ],
+    hint: `.side { display: grid; grid-template-columns: 100px 1fr; grid-template-areas: "topp topp" "meny innhold" "bunn bunn"; } og .topp { grid-area: topp; } osv.`,
+  },
+
+  "m12-merke": {
+    html: `<article class="kort">
+  <span class="merke">Ny!</span>
+  <h2>Rundemanen</h2>
+  <p>En ny tur i programmet, med flott utsikt over hele byen.</p>
+</article>
+`,
+    css: `.kort {
+  max-width: 260px;
+  padding: 16px;
+  background-color: #f1faee;
+  border: 2px solid #a8dadc;
+  border-radius: 10px;
+}
+
+.kort h2 {
+  margin-top: 0;
+}
+
+.merke {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: #e63946;
+  color: white;
+  font-weight: bold;
+}
+`,
+    sjekker: [
+      {
+        tekst: ".merke er absolute, og .kort er utgangspunktet (position: relative)",
+        test: (d) => {
+          const m = d.querySelector(".merke");
+          const k = d.querySelector(".kort");
+          return m !== null && k !== null && stil(m).position === "absolute" && stil(k).position !== "static";
+        },
+      },
+      {
+        tekst: "Merket sitter i øvre høyre hjørne av kortet",
+        test: (d) => {
+          const m = d.querySelector(".merke")?.getBoundingClientRect();
+          const k = d.querySelector(".kort")?.getBoundingClientRect();
+          return (
+            m !== undefined && k !== undefined &&
+            m.right <= k.right + 12 && k.right - m.right <= 16 &&
+            m.top >= k.top - 12 && m.top - k.top <= 16
+          );
+        },
+      },
+      {
+        tekst: "Overskriften er ikke dyttet ned av merket",
+        test: (d) => {
+          const h = d.querySelector(".kort h2")?.getBoundingClientRect();
+          const k = d.querySelector(".kort")?.getBoundingClientRect();
+          return h !== undefined && k !== undefined && h.top - k.top <= 22;
+        },
+      },
+    ],
+    hint: ".kort { position: relative; } .merke { position: absolute; top: 8px; right: 8px; }",
+  },
+
+  "m12-sticky": {
+    html: `<header>Fjellklubben</header>
+<main>
+  <h1>Alle turene våre</h1>
+  <p>Fløyen – en rolig tur for hele familien.</p>
+  <p>Ulriken – Bergens høyeste fjell.</p>
+  <p>Stoltzekleiven – over 800 trappetrinn.</p>
+  <p>Lyderhorn – fin utsikt mot havet.</p>
+  <p>Rundemanen – med de gamle radiomastene.</p>
+  <p>Sandviksfjellet – bratt og kort.</p>
+  <p>Løvstakken – utsikt over sentrum.</p>
+  <p>Damsgårdsfjellet – en skjult perle.</p>
+  <p>Vidden – fra Fløyen til Ulriken.</p>
+  <p>Gullfjellet – det høyeste av de sju fjellene.</p>
+</main>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+}
+
+header {
+  padding: 12px 16px;
+  background-color: #1d3557;
+  color: white;
+  font-weight: bold;
+}
+
+main {
+  padding: 0 16px;
+}
+
+p {
+  margin: 0 0 40px;
+}
+`,
+    sjekker: [
+      {
+        tekst: "<header> er sticky, med top: 0",
+        test: (d) => {
+          const h = d.querySelector("header");
+          return h !== null && stil(h).position === "sticky" && stil(h).top === "0px";
+        },
+      },
+      {
+        tekst: "Toppen blir liggende øverst når du ruller nedover",
+        test: (d) => {
+          const h = d.querySelector("header");
+          const rull = d.scrollingElement;
+          if (!h || !rull) return false;
+          const før = rull.scrollTop;
+          rull.scrollTop = 300;
+          const ok = rull.scrollTop > 100 && Math.abs(h.getBoundingClientRect().top) < 1;
+          rull.scrollTop = før;
+          return ok;
+        },
+      },
+    ],
+    hint: "header { position: sticky; top: 0; }",
+  },
+
+  "m12-velg": {
+    html: `<header>
+  <a class="logo" href="#">Fjellklubben</a>
+  <nav>
+    <a href="#">Turer</a>
+    <a href="#">Om oss</a>
+  </nav>
+</header>
+<main>
+  <div class="turer">
+    <article class="kort"><span class="merke">Ny!</span><h2>Fløyen</h2></article>
+    <article class="kort"><h2>Ulriken</h2></article>
+    <article class="kort"><h2>Stoltzen</h2></article>
+    <article class="kort"><h2>Lyderhorn</h2></article>
+  </div>
+</main>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+}
+
+header {
+  padding: 12px 16px;
+  background-color: #1d3557;
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+}
+
+main {
+  padding: 16px;
+}
+
+.kort {
+  padding: 12px;
+  background-color: #f1faee;
+  border-radius: 8px;
+}
+
+.kort h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.merke {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-color: #e63946;
+  color: white;
+  font-size: 0.75rem;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Toppen: logoen til venstre og menyen til høyre",
+        test: (d) => {
+          const h = d.querySelector("header");
+          const l = d.querySelector(".logo")?.getBoundingClientRect();
+          const n = d.querySelector("header nav")?.getBoundingClientRect();
+          if (!h || !l || !n) return false;
+          const r = h.getBoundingClientRect();
+          return Math.abs(l.top - n.top) < 12 && Math.abs(r.right - parseFloat(stil(h).paddingRight) - n.right) <= 2 && n.left > l.right;
+        },
+      },
+      {
+        tekst: "Turkortene står i et grid med to kolonner",
+        test: (d) => {
+          const t = d.querySelector(".turer");
+          const venstre = new Set([...d.querySelectorAll(".kort")].map((k) => Math.round(k.getBoundingClientRect().left)));
+          return t !== null && stil(t).display === "grid" && venstre.size === 2;
+        },
+      },
+      {
+        tekst: "«Ny!»-merket sitter i øvre høyre hjørne av sitt kort",
+        test: (d) => {
+          const m = d.querySelector(".merke");
+          const k = m?.closest(".kort")?.getBoundingClientRect();
+          const r = m?.getBoundingClientRect();
+          return (
+            m !== null && m !== undefined && k !== undefined && r !== undefined &&
+            stil(m).position === "absolute" && k.right - r.right <= 16 && r.right <= k.right + 12 && r.top - k.top <= 16
+          );
+        },
+      },
+    ],
+    hint: "header { display: flex; justify-content: space-between; } .turer { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; } .kort { position: relative; } .merke { position: absolute; top: 8px; right: 8px; }",
+  },
+
+  // ── Modul 13: Responsivt design ─────────────────────────────────────
+
+  "m13-viewport": {
+    html: `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Fjellklubben</title>
+  </head>
+  <body>
+    <div class="innhold">
+      <h1>Fjellklubben</h1>
+      <p>Vi går på tur hver helg, hele året. Alle er velkomne – du trenger bare gode sko og litt niste.</p>
+      <img src="bilder/fjell.jpg" alt="Solnedgang over fjell og fjord">
+    </div>
+  </body>
+</html>
+`,
+    css: `body {
+  font-family: Verdana, sans-serif;
+}
+
+.innhold {
+  width: 800px;
+  margin: 0 auto;
+}
+`,
+    bilder: ["bilder/fjell.jpg"],
+    responsiv: true,
+    sjekker: [
+      {
+        tekst: "<head> har viewport-taggen med width=device-width og initial-scale=1",
+        test: (d) => {
+          const m = d.querySelector('head meta[name="viewport"]')?.getAttribute("content")?.replace(/\s/g, "") ?? "";
+          return m.includes("width=device-width") && m.includes("initial-scale=1");
+        },
+      },
+      {
+        tekst: "På en mobil (360px) må man ikke rulle sidelengs",
+        test: (d) => iBredde(d, 360, () => d.documentElement.scrollWidth <= 361),
+      },
+      {
+        tekst: "På en stor skjerm er innholdet fortsatt høyst 800px bredt, og midt på",
+        test: (d) =>
+          iBredde(d, 1200, () => {
+            const r = d.querySelector(".innhold")?.getBoundingClientRect();
+            return r !== undefined && r.width <= 801 && Math.abs(r.left - (1200 - r.right)) <= 2;
+          }),
+      },
+    ],
+    hint: `<meta name="viewport" content="width=device-width, initial-scale=1"> i <head>. I CSS: bytt width med max-width, og legg til img { max-width: 100%; }.`,
+  },
+
+  "m13-media": {
+    html: `<h1>Turer i høst</h1>
+<div class="kort-rad">
+  <article class="kort">Fløyen</article>
+  <article class="kort">Ulriken</article>
+  <article class="kort">Stoltzen</article>
+  <article class="kort">Lyderhorn</article>
+</div>
+`,
+    css: `.kort-rad {
+  display: grid;
+  gap: 12px;
+}
+
+.kort {
+  padding: 12px;
+  background-color: #a8dadc;
+}
+`,
+    responsiv: true,
+    sjekker: [
+      {
+        tekst: "På mobil (360px) står kortene under hverandre",
+        test: (d) => iBredde(d, 360, () => kolonner(d, ".kort") === 1),
+      },
+      {
+        tekst: "Fra 700px står de i to kolonner",
+        test: (d) => iBredde(d, 768, () => kolonner(d, ".kort") === 2) && iBredde(d, 690, () => kolonner(d, ".kort") === 1),
+      },
+      {
+        tekst: "Fra 1000px står alle fire på én rad",
+        test: (d) => iBredde(d, 1100, () => kolonner(d, ".kort") === 4) && iBredde(d, 990, () => kolonner(d, ".kort") === 2),
+      },
+      {
+        tekst: "Stilarket bruker media queries med min-width",
+        test: (d) => mediaRegler(d).filter((r) => /min-width/.test(r.conditionText)).length >= 2,
+      },
+    ],
+    hint: "@media (min-width: 700px) { .kort-rad { grid-template-columns: 1fr 1fr; } } og @media (min-width: 1000px) { .kort-rad { grid-template-columns: repeat(4, 1fr); } }",
+  },
+
+  "m13-mobil-forst": {
+    html: `<header>
+  <a class="logo" href="#">Fjellklubben</a>
+  <nav>
+    <a href="#">Turer</a>
+    <a href="#">Om oss</a>
+    <a href="#">Kontakt</a>
+  </nav>
+</header>
+<main>
+  <h1>Velkommen på tur!</h1>
+  <p>Vi går på tur hver helg, hele året.</p>
+</main>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #1d3557;
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+nav {
+  display: flex;
+  gap: 24px;
+}
+
+main {
+  padding: 0 16px;
+}
+
+h1 {
+  font-size: 3.5rem;
+}
+`,
+    responsiv: true,
+    sjekker: [
+      {
+        tekst: "På mobil (360px) står logoen over menyen, og ingenting stikker ut",
+        test: (d) =>
+          iBredde(d, 360, () => {
+            const l = d.querySelector(".logo")?.getBoundingClientRect();
+            const n = d.querySelector("header nav")?.getBoundingClientRect();
+            return l !== undefined && n !== undefined && l.bottom <= n.top + 1 && d.documentElement.scrollWidth <= 361;
+          }),
+      },
+      {
+        tekst: "På mobil er overskriften høyst 2,25rem (36px)",
+        test: (d) => iBredde(d, 360, () => px(d.querySelector("h1")) <= 36),
+      },
+      {
+        tekst: "På PC (1100px) står logoen og menyen på én linje, med menyen til høyre",
+        test: (d) =>
+          iBredde(d, 1100, () => {
+            const h = d.querySelector("header");
+            const l = d.querySelector(".logo")?.getBoundingClientRect();
+            const n = d.querySelector("header nav")?.getBoundingClientRect();
+            if (!h || !l || !n) return false;
+            return Math.abs(l.top + l.height / 2 - (n.top + n.height / 2)) <= 3 && 1100 - parseFloat(stil(h).paddingRight) - n.right <= 2;
+          }),
+      },
+      {
+        tekst: "På PC er overskriften større enn på mobil",
+        test: (d) => iBredde(d, 1100, () => px(d.querySelector("h1"))) > iBredde(d, 360, () => px(d.querySelector("h1"))),
+      },
+      {
+        tekst: "Mobil først: grunnreglene er for mobil, og media queriene bruker min-width",
+        test: (d) => {
+          const m = mediaRegler(d);
+          return m.length > 0 && m.every((r) => /min-width/.test(r.conditionText) && !/max-width/.test(r.conditionText));
+        },
+      },
+    ],
+    hint: "Skriv mobiloppsettet først: header { flex-direction: column; align-items: flex-start; } h1 { font-size: 2rem; }. Legg så PC-oppsettet i @media (min-width: 700px) { header { flex-direction: row; align-items: center; } h1 { font-size: 3.5rem; } }.",
+  },
+
+  // ── Modul 14: Publiser! ─────────────────────────────────────────────
+
+  "m14-stier": {
+    html: `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Fjellklubben</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <h1>Fjellklubben</h1>
+    <p><a href="/om-meg.html">Om klubben</a></p>
+    <img src="C:/Users/kim/Dokumenter/webkurs/bilder/fjell.jpg" alt="Solnedgang over fjell og fjord">
+  </body>
+</html>
+`,
+    sider: {
+      "om-meg.html": `<!DOCTYPE html>
+<html lang="no">
+  <head>
+    <meta charset="utf-8">
+    <title>Om klubben</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>Om klubben</h1>
+    <p><a href="file:///C:/Users/kim/Dokumenter/webkurs/index.html">Tilbake til forsiden</a></p>
+  </body>
+</html>
+`,
+    },
+    css: `body {
+  font-family: Verdana, sans-serif;
+  color: #1d3557;
+  background-color: #f1faee;
+}
+
+img {
+  max-width: 100%;
+}
+`,
+    lenketCss: true,
+    bilder: ["bilder/fjell.jpg"],
+    sjekker: [
+      {
+        tekst: "Ingen stier starter med /",
+        test: (_, s) =>
+          Object.values(s).every((side) =>
+            [...side.querySelectorAll("a[href], link[href], img[src]")].every(
+              (e) => !(e.getAttribute("href") ?? e.getAttribute("src") ?? "").trim().startsWith("/"),
+            ),
+          ),
+      },
+      {
+        tekst: "Ingen stier peker på din egen maskin (C:/ eller file:)",
+        test: (_, s) =>
+          Object.values(s).every((side) =>
+            [...side.querySelectorAll("a[href], link[href], img[src]")].every(
+              (e) => !/^(file:|[a-z]:[\\/])/i.test((e.getAttribute("href") ?? e.getAttribute("src") ?? "").trim()),
+            ),
+          ),
+      },
+      {
+        tekst: "Lenkene, stilarket og bildet virker fortsatt",
+        test: (_, s) =>
+          lenkerTil(s["index.html"], "index.html").includes("om-meg.html") &&
+          lenkerTil(s["om-meg.html"], "om-meg.html").includes("index.html") &&
+          harStilark(s["index.html"], "index.html") &&
+          bilderFinnes(s["index.html"], "index.html", ["bilder/fjell.jpg"]),
+      },
+    ],
+    hint: `Bruk relative stier: href="style.css", href="om-meg.html", src="bilder/fjell.jpg" og href="index.html".`,
+  },
+
+  "m14-valider": {
+    html: `<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <header id="topp">
+      <h1>Fjellklubben</h1>
+    </header>
+    <main id="topp">
+      <img src="bilder/fjell.jpg">
+      <p>Vi går på tur hver helg.
+      <p>Bli med du også!</p>
+      <li>Turer hver lørdag</li>
+    </main>
+  </body>
+</html>
+`,
+    css: `img {
+  max-width: 100%;
+}
+`,
+    bilder: ["bilder/fjell.jpg"],
+    sjekker: [
+      {
+        tekst: "Første linje er <!DOCTYPE html>",
+        test: (_, __, k) => /^\s*<!doctype html>/i.test(k["index.html"] ?? ""),
+      },
+      {
+        tekst: "<html> har lang, og <title> har innhold",
+        test: (d) => d.documentElement.lang.trim() !== "" && d.title.trim() !== "",
+      },
+      {
+        tekst: "Ingen id er brukt to ganger",
+        test: (d) => {
+          const ider = [...d.querySelectorAll("[id]")].map((e) => e.id);
+          return new Set(ider).size === ider.length;
+        },
+      },
+      {
+        tekst: "Bildet har alt-tekst",
+        test: (d) => [...d.querySelectorAll("img")].every(godAlt),
+      },
+      {
+        tekst: "Alle avsnitt er lukket med </p>",
+        test: (_, __, k) => {
+          const kode = k["index.html"] ?? "";
+          return (kode.match(/<p[\s>]/gi) ?? []).length === (kode.match(/<\/p>/gi) ?? []).length;
+        },
+      },
+      {
+        tekst: "<li> står bare inni en <ul> eller <ol>",
+        test: (d) => [...d.querySelectorAll("li")].every((li) => li.parentElement?.matches("ul, ol")),
+      },
+    ],
+    hint: "Seks feil: mangler <!DOCTYPE html>, lang på <html>, tom <title>, id=\"topp\" to ganger, ingen alt på bildet, et avsnitt uten </p> – og en <li> uten liste rundt.",
+  },
+
+  "m14-kontrast": {
+    html: `<header>
+  <h1>Fjellklubben</h1>
+</header>
+<main>
+  <p class="ingress">Bli med på tur hver helg!</p>
+  <p>Vi går i alle slags vær, og alle er velkomne.</p>
+  <a class="knapp" href="#">Meld deg på</a>
+</main>
+<footer>
+  <p>© 2026 Fjellklubben</p>
+</footer>
+`,
+    css: `body {
+  margin: 0;
+  font-family: Verdana, sans-serif;
+  color: #888888;
+  background-color: #ffffff;
+}
+
+header {
+  padding: 8px 16px;
+  background-color: #a8dadc;
+  color: #ffffff;
+}
+
+main {
+  padding: 8px 16px 16px;
+}
+
+.ingress {
+  font-size: 1.25rem;
+  color: #f4a261;
+}
+
+.knapp {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background-color: #e9c46a;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+footer {
+  padding: 8px 16px;
+  background-color: #1d3557;
+  color: #457b9d;
+}
+`,
+    sjekker: [
+      {
+        tekst: "Overskriften i toppen har minst 3:1 (stor tekst)",
+        test: (d) => lesbar(d.querySelector("header h1"), 3),
+      },
+      {
+        tekst: "Ingressen har minst 4,5:1",
+        test: (d) => lesbar(d.querySelector(".ingress")),
+      },
+      {
+        tekst: "Brødteksten har minst 4,5:1",
+        test: (d) => lesbar(d.querySelector("main p:not(.ingress)")),
+      },
+      {
+        tekst: "Knappen har minst 4,5:1",
+        test: (d) => lesbar(d.querySelector(".knapp")),
+      },
+      {
+        tekst: "Bunnteksten har minst 4,5:1",
+        test: (d) => lesbar(d.querySelector("footer p")),
+      },
+    ],
+    hint: "Gjør teksten mørkere på lyse bakgrunner (for eksempel #1d3557), og lysere på mørke (for eksempel #f1faee). Fargevelgeren fra modul 3 viser kontrasten.",
   },
 };

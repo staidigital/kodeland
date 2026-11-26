@@ -75,8 +75,8 @@
 /* Topplinje */
 .kurs-topp {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
+  align-items: center;
+  gap: 10px 12px;
   padding: 14px 24px;
   border-bottom: 1px solid var(--linje);
   background: var(--kort);
@@ -94,6 +94,31 @@
   color: var(--dempet);
   font-size: 14px;
 }
+.kurs-topp__skille { color: var(--linje-sterk); font-size: 18px; }
+.kurs-topp__logo, .kurs-topp__hoyre { white-space: nowrap; }
+@media (max-width: 560px) {
+  .kurs-topp { padding: 12px 16px; gap: 8px; }
+  .kurs-topp__undertittel, .kurs-topp__klamme { display: none; }
+}
+@media (max-width: 370px) {
+  .kodeland-logo__navn { display: none; }
+}
+
+/* Kodeland-logoen (src/components/kodeland-logo.tsx) */
+.kodeland-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--tekst);
+  font-weight: 750;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  --kodeland-logo-tegn: var(--kort);
+}
+.kodeland-logo__merke { flex: none; transition: transform 0.15s; }
+.kodeland-logo:hover .kodeland-logo__merke { transform: rotate(-6deg); }
+@media (prefers-reduced-motion: reduce) { .kodeland-logo:hover .kodeland-logo__merke { transform: none; } }
+.innlogging__topp { display: flex; align-items: center; gap: 10px; margin: 0; }
 
 /* Knapper */
 .knapp {
@@ -437,7 +462,8 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 }
 .leksjon-tekst pre,
 .quiz__kode,
-.fv-kode {
+.fv-kode,
+.bm-kode {
   overflow-x: auto;
   padding: 16px 18px;
   border-radius: 12px;
@@ -479,6 +505,18 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 .leksjon-tekst > * + .stifinner,
 .leksjon-tekst > * + .nettverksfane,
 .leksjon-tekst > * + .nettstedsjekker,
+.leksjon-tekst > * + .boksmodell,
+.leksjon-tekst > * + .dom-tre,
+.leksjon-tekst > * + .skjermleser,
+.leksjon-tekst > * + .typografilab,
+.leksjon-tekst > * + .typeskala,
+.leksjon-tekst > * + .selektorlab,
+.leksjon-tekst > * + .spesifisitetsspill,
+.leksjon-tekst > * + .flytlab,
+.leksjon-tekst > * + .flekslab,
+.leksjon-tekst > * + .gridlab,
+.leksjon-tekst > * + .skjermbredde,
+.leksjon-tekst > * + blockquote,
 .leksjon-tekst > * + figure,
 .leksjon-tekst > * + .sjekkliste { margin-top: 1.6em; }
 .leksjon-tekst > .oppgave + *,
@@ -491,6 +529,17 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 .leksjon-tekst > .stifinner + *,
 .leksjon-tekst > .nettverksfane + *,
 .leksjon-tekst > .nettstedsjekker + *,
+.leksjon-tekst > .boksmodell + *,
+.leksjon-tekst > .dom-tre + *,
+.leksjon-tekst > .skjermleser + *,
+.leksjon-tekst > .typografilab + *,
+.leksjon-tekst > .typeskala + *,
+.leksjon-tekst > .selektorlab + *,
+.leksjon-tekst > .spesifisitetsspill + *,
+.leksjon-tekst > .flytlab + *,
+.leksjon-tekst > .flekslab + *,
+.leksjon-tekst > .gridlab + *,
+.leksjon-tekst > .skjermbredde + *,
 .leksjon-tekst > figure + * { margin-top: 1.6em; }
 
 /* Bokser */
@@ -631,7 +680,33 @@ a.modul--sjekkpunkt:hover { border-color: var(--gul); border-style: solid; }
 .oppgave__tilbake:hover:not(:disabled) { background: var(--linje); }
 .oppgave__tilbake:disabled { opacity: 0.35; cursor: default; }
 .oppgave__adresse--feil { color: var(--rod); }
+.oppgave__flate { position: relative; flex: 1; display: flex; min-height: 220px; overflow: hidden; background: var(--bg); }
 .oppgave__iframe { flex: 1; width: 100%; min-height: 220px; border: 0; background: #fff; }
+.oppgave__flate .oppgave__iframe[style] { flex: none; }
+.oppgave__bredder {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--linje);
+  background: var(--bg);
+  font-size: 12px;
+}
+.oppgave__bredder button {
+  display: inline-flex;
+  gap: 4px;
+  padding: 3px 8px;
+  border: 1px solid var(--linje-sterk);
+  border-radius: 6px;
+  background: var(--kort);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.oppgave__bredder button span { color: var(--dempet); font-family: var(--font-geist-mono), monospace; }
+.oppgave__bredder button[aria-pressed="true"] { border-color: var(--tekst); font-weight: 600; }
+.oppgave__skala { margin-left: auto; color: var(--dempet); }
 
 .oppgave__sjekker {
   padding: 14px 18px;
@@ -665,7 +740,7 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
 .fil-ikon--bilde { background: var(--gronn); }
 
 /* Quiz, filnavn, sjekkliste: felles kort */
-.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner, .nettverksfane, .nettstedsjekker {
+.quiz, .filnavn, .mappebygger, .sjekkliste, .fargevelger, .klient-tjener, .stifinner, .nettverksfane, .nettstedsjekker, .boksmodell, .dom-tre, .skjermleser, .typografilab, .typeskala, .selektorlab, .spesifisitetsspill, .flytlab, .flekslab, .gridlab, .skjermbredde {
   padding: 18px 20px;
   border: 1px solid var(--linje);
   border-radius: 14px;
@@ -934,6 +1009,8 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
   overflow-wrap: anywhere;
   transition: background-color 0.3s;
 }
+.kt-boks--dns { border-color: var(--teori); }
+.kt-boks--dns .kt-boks__tittel { color: var(--teori); }
 .kt-mappe li.funnet { background: var(--gronn-myk); color: var(--gronn); font-weight: 600; }
 .kt-mappe li.mangler { background: var(--rod-myk); color: var(--rod); font-weight: 600; }
 .kt-bane { position: relative; display: flex; align-items: center; min-height: 60px; }
@@ -1164,6 +1241,301 @@ li.ok .sjekk-ikon { background: var(--gronn); border-color: var(--gronn); animat
 .ns-detaljer { margin: 4px 0 0 !important; padding-left: 1.1em !important; font-size: 14px; overflow-wrap: anywhere; }
 .ns-detaljer li + li { margin-top: 2px !important; }
 .ns-leksjon { display: inline-block; margin-top: 4px; font-size: 14px; }
+
+/* Boksmodellen. Farger som i utviklerverktøyet: margin oransje, border gul, padding grønn, innhold blå. */
+.boksmodell {
+  --bm-margin: #f9cc9d;
+  --bm-border: #fddd9b;
+  --bm-padding: #c3d08b;
+  --bm-innhold: #8cb6c0;
+}
+.bm-flate { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 16px; margin-top: 8px; }
+@media (max-width: 640px) { .bm-flate { grid-template-columns: 1fr; } }
+.bm-glidere { display: flex; flex-direction: column; gap: 12px; }
+.bm-glider { display: grid; grid-template-columns: 1fr 48px; gap: 4px 10px; align-items: center; font-size: 15px; }
+.bm-glider__navn { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; }
+.bm-glider__navn::before { content: ""; width: 12px; height: 12px; border-radius: 3px; background: var(--bm-farge); }
+.bm-glider--padding { --bm-farge: var(--bm-padding); }
+.bm-glider--border { --bm-farge: var(--bm-border); }
+.bm-glider--margin { --bm-farge: var(--bm-margin); }
+.bm-glider input { width: 100%; accent-color: var(--tekst); }
+.bm-glider__verdi { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--font-geist-mono), monospace; font-size: 13px; }
+.bm-bryter { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; }
+.bm-bryter input { width: 17px; height: 17px; accent-color: var(--tekst); }
+.bm-diagram { font-family: var(--font-geist-mono), monospace; font-size: 11px; color: #222; }
+.bm-lag { position: relative; padding: 20px 16px 12px; border: 1px dashed rgb(0 0 0 / 0.35); text-align: center; }
+.bm-lag--margin { background: var(--bm-margin); border-style: dashed; }
+.bm-lag--border { background: var(--bm-border); border-style: solid; border-color: #222; }
+.bm-lag--padding { background: var(--bm-padding); }
+.bm-lag--innhold { padding: 12px 6px; background: var(--bm-innhold); border-style: solid; font-weight: 700; }
+.bm-etikett { position: absolute; top: 3px; left: 6px; }
+.bm-tall { position: absolute; top: 3px; left: 50%; transform: translateX(-50%); font-weight: 700; }
+.bm-scene {
+  overflow: hidden;
+  margin-top: 16px;
+  border: 1px solid var(--linje);
+  border-radius: 10px;
+  background: repeating-linear-gradient(45deg, var(--bg), var(--bg) 8px, var(--kort) 8px, var(--kort) 16px);
+}
+.bm-boks {
+  border: 0 solid #1d3557;
+  background: #a8dadc;
+  color: #1d3557;
+  font-size: 15px;
+  transition: all 0.15s;
+}
+.bm-nabo { padding: 6px 10px; background: var(--linje); color: var(--dempet); font-size: 13px; }
+.bm-regnestykke { margin: 12px 0 0; font-size: 15px; }
+.bm-forklaring { color: var(--dempet); font-size: 14px; }
+.bm-kode { margin-top: 10px; }
+
+/* DOM-treet */
+.leksjon-tekst > .dom-tre { max-width: 1000px; width: min(1000px, calc(100vw - 260px - 64px)); }
+@media (max-width: 900px) { .leksjon-tekst > .dom-tre { width: 100%; } }
+.dt-flate { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; margin-top: 8px; }
+@media (max-width: 700px) { .dt-flate { grid-template-columns: 1fr; } }
+.dt-kode { display: flex; flex-direction: column; gap: 4px; }
+.dt-kode textarea {
+  flex: 1;
+  min-height: 300px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--kode-bg);
+  color: var(--kode-tekst);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  resize: vertical;
+  tab-size: 2;
+}
+.dt-hoyre { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.dt-tre {
+  overflow: auto;
+  max-height: 300px;
+  padding: 8px 10px;
+  border: 1px solid var(--linje);
+  border-radius: 10px;
+  background: var(--bg);
+}
+.dt-tre ul { list-style: none !important; margin: 0 !important; padding: 0 0 0 16px !important; }
+.dt-tre ul.dt-rot { padding-left: 0 !important; }
+.dt-tre li { position: relative; margin: 0 !important; }
+.dt-tre ul ul li::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -10px;
+  width: 8px;
+  height: 0.95em;
+  border-left: 1px solid var(--linje-sterk);
+  border-bottom: 1px solid var(--linje-sterk);
+}
+.dt-node {
+  display: inline-flex;
+  gap: 2px;
+  margin: 1px 0;
+  padding: 0 6px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: var(--html-myk);
+  color: var(--html);
+  font: 600 12.5px/1.6 var(--font-geist-mono), monospace;
+  cursor: pointer;
+}
+.dt-node--rot { cursor: default; background: var(--linje); color: var(--tekst); }
+.dt-node--valgt { border-color: var(--rod); background: var(--rod-myk); color: var(--rod); }
+.dt-id { color: var(--teori); }
+.dt-klasse { color: var(--css); }
+.dt-tekst { color: var(--dempet); font-size: 12.5px; }
+.dt-info { min-height: 2.8em; margin: 0; font-size: 14px; }
+.dt-visning { width: 100%; height: 190px; border: 1px solid var(--linje); border-radius: 10px; background: #fff; }
+
+/* Skjermleser */
+.sl-forklaring { margin: 12px 0 0; font-size: 15px; }
+.sl-paneler { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-top: 12px; }
+.sl-panel { padding: 10px 12px; border: 1px solid var(--linje); border-radius: 10px; background: var(--bg); font-size: 14px; }
+.sl-panel h3 {
+  margin: 0 0 6px !important;
+  color: var(--dempet);
+  font-size: 12px !important;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.sl-panel ol { margin: 0 !important; padding-left: 1.3em !important; }
+.sl-panel li + li { margin-top: 2px !important; }
+.sl-niva { color: var(--dempet); font-size: 12px; }
+.sl-tom { margin: 0; color: var(--rod); }
+.sl-darlig { color: var(--rod); font-weight: 600; }
+.sl-ekstra { margin: 6px 0 0; color: var(--dempet); font-size: 13px; }
+.sl-kode { margin-top: 10px; font-size: 14px; }
+.sl-kode summary { cursor: pointer; color: var(--dempet); }
+.sl-kode pre { margin-top: 6px; padding: 10px 12px; border-radius: 8px; background: var(--kode-bg); color: var(--kode-tekst); font-size: 12.5px; overflow-x: auto; }
+
+/* Typografilab og typografisk skala */
+.tl-kontroller, .ts-kontroller { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px 20px; margin-top: 8px; }
+.tl-skrifter { display: flex; flex-wrap: wrap; gap: 6px; align-self: end; }
+.tl-ark, .ts-ark {
+  position: relative;
+  overflow: hidden;
+  margin-top: 14px;
+  padding: 18px 20px;
+  border-radius: 10px;
+  background: #fdfcf8;
+  color: #222;
+}
+.tl-ark p { margin: 0; }
+.tl-maal { position: absolute; visibility: hidden; white-space: nowrap; }
+.tl-dom { list-style: none !important; margin: 12px 0 0 !important; padding: 0 !important; display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+.tl-dom li { margin: 0 !important; padding-left: 22px; position: relative; }
+.tl-dom li::before { position: absolute; left: 0; font-weight: 800; }
+.tl-dom li.ok::before { content: "✓"; color: var(--gronn); }
+.tl-dom li.feil::before { content: "!"; color: var(--rod); left: 4px; }
+.ts-forhold { display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+.ts-forhold select { padding: 6px 10px; border: 1px solid var(--linje-sterk); border-radius: 8px; background: var(--bg); color: inherit; font: inherit; }
+.ts-rad { display: grid; grid-template-columns: 110px minmax(0, 1fr); align-items: baseline; gap: 12px; padding: 6px 0; border-bottom: 1px solid #ece8de; }
+.ts-rad:last-child { border-bottom: 0; }
+.ts-merke { display: flex; flex-direction: column; color: #777; font-size: 12px; font-family: var(--font-geist-mono), monospace; }
+.ts-merke code { color: #c0392b; font-weight: 700; font-size: 13px; }
+.ts-tekst { font-family: Georgia, serif; line-height: 1.2; overflow-wrap: anywhere; }
+.ts-forklaring { margin: 10px 0 0; font-size: 15px; color: var(--dempet); }
+@media (max-width: 520px) { .ts-rad { grid-template-columns: 1fr; gap: 2px; } .ts-merke { flex-direction: row; gap: 8px; } }
+
+/* Selektorlab */
+.sv-felt { display: flex; flex-direction: column; gap: 4px; margin-top: 8px; }
+.sv-felt input {
+  padding: 8px 12px;
+  border: 1px solid var(--linje-sterk);
+  border-radius: 8px;
+  background: var(--kode-bg);
+  color: #d7ba7d;
+  font: 600 16px var(--font-geist-mono), monospace;
+}
+.sv-eksempler { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.sv-eksempler .fv-fane { padding: 3px 9px; font-size: 13px; }
+.sv-eksempler .fv-fane[aria-pressed="true"] { border-color: var(--tekst); }
+.sv-resultat { margin: 10px 0 0; font-weight: 600; font-size: 15px; }
+.sv-resultat--feil { color: var(--rod); }
+.sv-flate { margin-top: 8px; }
+.sv-visning { width: 100%; height: 330px; border: 1px solid var(--linje); border-radius: 10px; background: #fff; }
+
+/* Spesifisitetsspill */
+.ss-teller { float: right; color: var(--dempet); font-weight: 400; letter-spacing: 0; text-transform: none; }
+.ss-flate { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 8px; }
+@media (max-width: 640px) { .ss-flate { grid-template-columns: 1fr; } }
+.ss-flate .bm-kode { margin: 4px 0 10px; }
+.ss-valg { display: flex; flex-direction: column; gap: 8px; }
+.ss-valg .sf-etikett { margin-bottom: 2px; }
+.ss-prikk { flex: none; width: 18px; height: 18px; border-radius: 50%; }
+.ss-valg code { margin-left: 4px; font-size: 13px; }
+.ss-ferdig { margin: 10px 0 12px; font-size: 17px; }
+
+/* Flytlab */
+.fl-kontroller { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px 16px; margin-top: 8px; }
+.fl-velg { min-width: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 6px 8px; font-size: 14px; }
+.fl-merke { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 6px; color: #fff; font-weight: 800; }
+.fl-velg select { width: 100%; min-width: 0; padding: 5px 8px; border: 1px solid var(--linje-sterk); border-radius: 8px; background: var(--bg); color: inherit; font: 13px var(--font-geist-mono), monospace; }
+.fl-forklaring { grid-column: 1 / -1; color: var(--dempet); font-size: 13px; line-height: 1.4; }
+.fl-ark {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: #fdfcf8;
+  color: #222;
+  font: 16px/1.7 Georgia, serif;
+}
+.fl-boks { color: #fff; font: 700 14px/1.4 var(--font-geist-sans), sans-serif; outline: 2px dashed rgb(0 0 0 / 0.35); outline-offset: 0; }
+
+/* Fleks-lab */
+.fx-kontroller { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px 16px; margin-top: 8px; }
+.fx-valg { display: flex; flex-direction: column; gap: 4px; min-width: 0; font-size: 13px; }
+.fx-valg select { width: 100%; padding: 5px 8px; border: 1px solid var(--linje-sterk); border-radius: 8px; background: var(--bg); color: inherit; font: 13px var(--font-geist-mono), monospace; }
+.fx-scene { position: relative; margin-top: 14px; padding: 26px 10px 10px 26px; border-radius: 10px; background: var(--bg); }
+.fx-container {
+  height: 240px;
+  overflow: auto;
+  padding: 6px;
+  border: 2px dashed var(--linje-sterk);
+  border-radius: 8px;
+  background: repeating-linear-gradient(45deg, transparent, transparent 8px, rgb(127 127 127 / 0.06) 8px, rgb(127 127 127 / 0.06) 16px);
+}
+.fx-boks {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 15px;
+}
+.fx-akse { position: absolute; color: var(--dempet); font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.fx-akse.vannrett { top: 6px; left: 26px; }
+.fx-akse.vannrett::after { content: " →"; }
+.fx-akse.vannrett.omvendt::after { content: ""; }
+.fx-akse.vannrett.omvendt::before { content: "← "; }
+.fx-akse.loddrett { left: 4px; top: 30px; writing-mode: vertical-rl; }
+.fx-akse.loddrett::after { content: " →"; }
+.fx-akse.loddrett.omvendt::after { content: ""; }
+.fx-akse.loddrett.omvendt::before { content: "← "; }
+.fx-akse--hoved { color: var(--html); }
+.fx-akse--tverr { color: var(--css); }
+
+/* Grid-lab */
+.gl-kontroller { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.gl-felt { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.gl-felt input, .gl-felt textarea {
+  padding: 8px 10px;
+  border: 1px solid var(--linje-sterk);
+  border-radius: 8px;
+  background: var(--kode-bg);
+  color: #ce9178;
+  font: 14px/1.5 var(--font-geist-mono), monospace;
+  resize: vertical;
+}
+.gl-feil { color: var(--rod); font-size: 13px; }
+.gl-hjelp { margin: 0; color: var(--dempet); font-size: 13px; }
+.gl-hjelp code { margin: 0 2px; }
+.gl-gap { margin-top: 10px; }
+.gl-scene { margin-top: 12px; padding: 10px; border-radius: 10px; background: var(--bg); }
+.gl-rutenett {
+  min-height: 120px;
+  padding: 6px;
+  border: 2px dashed var(--linje-sterk);
+  border-radius: 8px;
+  transition: width 0.15s;
+}
+.gl-rutenett--side { min-height: 220px; grid-auto-rows: minmax(40px, auto); }
+.gl-boks {
+  display: grid;
+  place-items: center;
+  min-height: 48px;
+  min-width: 0;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+/* Skjermbredde */
+.sb-px { color: var(--dempet); font-family: var(--font-geist-mono), monospace; font-size: 12px; }
+.sb-flate { position: relative; overflow: hidden; margin-top: 12px; border-radius: 10px; background: var(--bg); }
+.sb-ramme { position: absolute; top: 2px; left: 0; border: 1px solid var(--linje-sterk); background: #fff; transform-origin: 0 0; }
+.sb-skala { margin: 6px 0 0; color: var(--dempet); font-size: 13px; }
+.sb-sporringer { list-style: none !important; margin: 12px 0 0 !important; padding: 0 !important; display: flex; flex-direction: column; gap: 6px; font-size: 15px; }
+.sb-sporringer li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 0 !important; padding: 6px 10px; border-radius: 8px; color: var(--dempet); background: var(--bg); }
+.sb-sporringer li.aktiv { color: var(--tekst); background: var(--gronn-myk); }
+.sb-merke { min-width: 150px; font-size: 13px; font-weight: 700; }
+.sb-sporringer li.aktiv .sb-merke::before { content: "✓ "; color: var(--gronn); }
+
+/* Tabeller og definisjonslister i leksjonsteksten */
+.leksjon-tekst table { border-collapse: collapse; font-size: 15px; }
+.leksjon-tekst th, .leksjon-tekst td { padding: 6px 12px; border: 1px solid var(--linje-sterk); text-align: left; }
+.leksjon-tekst th { background: var(--kort); }
+
+/* Sitater i leksjonsteksten */
+.leksjon-tekst blockquote { margin: 0; padding: 4px 0 4px 18px; border-left: 4px solid var(--linje-sterk); color: var(--dempet); font-style: italic; }
 
 /* Figurer i leksjonsteksten */
 .leksjon-tekst figure { margin: 0; }

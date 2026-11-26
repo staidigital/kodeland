@@ -1,0 +1,67 @@
+Her er en hemmelighet om nettsider: alt er firkanter. Hver overskrift, hvert avsnitt, hvert bilde
+og hver lenke er en usynlig **boks**. Når du forstår boksene, kan du plassere alt akkurat der du vil.
+
+## Gjør boksene synlige
+
+I oppgaven under har vi gitt *alle* elementer en rød strek rundt seg. Se på forhåndsvisningen:
+
+<Oppgave id="m6-se-boksene" />
+
+Legg merke til to ting:
+
+- **Overskriftene, avsnittene og lista** går over hele bredden, selv om teksten er kort. De legger
+  seg under hverandre. Slike elementer kalles **blokkelementer**.
+- **`<strong>` og `<a>`** er bare så brede som teksten sin, og ligger inni linja. De kalles
+  **linjeelementer** (*inline*).
+
+Prøv å endre `outline` til `background-color: rgb(255 99 71 / 0.15);`. Ser du hvor stor plass hver
+boks tar?
+
+<Tips>
+
+Streken rundt alle elementer er et triks utviklere bruker når de lurer på hvorfor noe ligger der det
+ligger. Bruk det gjerne i ditt eget prosjekt – men husk å fjerne det igjen.
+
+</Tips>
+
+## div – en boks til å samle ting i
+
+Noen ganger vil du samle flere elementer i én boks – for eksempel en overskrift og et avsnitt som
+hører sammen, så du kan gi dem en felles bakgrunn. Til det bruker du `<div>`:
+
+```html
+<div class="kort">
+  <h2>Lørdag: Fløyen</h2>
+  <p>En rolig tur for hele familien.</p>
+</div>
+```
+
+`<div>` betyr ingenting i seg selv – akkurat som `<span>`. Forskjellen er at `<div>` er et
+blokkelement som kan inneholde andre blokker, mens `<span>` er for noen ord inni en tekst.
+
+<Oppgave id="m6-div" />
+
+<Quiz
+  sporsmal="Du vil gi tre avsnitt og et bilde en felles bakgrunnsfarge. Hva pakker du dem inn i?"
+  alternativer={["<span>", "<div>", "<p>"]}
+  riktig={1}
+  forklaring="<div> er en boks som kan samle andre blokker. <span> er bare for noen ord inni en linje, og <p> kan ikke inneholde andre avsnitt."
+/>
+
+<UnderPanseret tittel="Ikke div overalt">
+
+Det er fristende å pakke alt inn i `<div>`. Men en `<div>` sier ingenting om hva innholdet *er*.
+Finnes det en tagg som beskriver innholdet – en liste, et avsnitt, en figur – så bruk den. I modul 7
+lærer du tagger som `<header>`, `<nav>` og `<article>`, som er bokser *med* mening.
+
+</UnderPanseret>
+
+<GjorDetSelv>
+
+1. Legg `* { outline: 2px solid tomato; }` nederst i `style.css`, og se på sidene dine. Overrasker
+   noen av boksene deg?
+2. Fjern regelen igjen.
+3. Finn to eller flere elementer på en side som hører sammen, og pakk dem inn i en
+   `<div class="…">` med en bakgrunnsfarge.
+
+</GjorDetSelv>
